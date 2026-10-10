@@ -53,7 +53,7 @@ class Engine:
         return {
             "exit_cost_full": full, "p_star": pstar, "p_default": p,
             "verdict": v, "exit_fraction": round(f, 2),
-            "sentence": decide.sentence(v, f, pstar, p, loss_usd, exit_usd, title),
+            "sentence": decide.sentence(v, f, pstar, p, loss_usd, exit_usd, title, self.horizon_days),
             "table": decide.decision_table(self.exit_model, loss_usd, pool_factor),
         }
 

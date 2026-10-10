@@ -85,7 +85,7 @@
  "decision": {
   "verdict": "STAY",
   "exit_fraction": 0.0,
-  "sentence": "STAY — sortir (seuls 22 % sont sortables maintenant) éviterait 153 $ de perte attendue sur l'horizon, mais coûterait 643 $. Sortez si vous estimez à plus de 0,6 % le risque « Chute du collatéral mGLOeuro » (notre estimation : 0,10 %)."
+  "sentence": "STAY — sortir (seuls 22 % sont sortables maintenant) éviterait 153 $ de perte attendue sur l'horizon, mais coûterait 643 $. Sortez si vous estimez à plus de 0,6 % (≈ une fois tous les 3 ans) le risque « Chute du collatéral mGLOeuro » (notre estimation : 0,10 %, soit ≈ une fois tous les 20 ans)."
  },
  "incidents": [
   {

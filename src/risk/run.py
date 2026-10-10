@@ -28,7 +28,7 @@ from .params import load_params
 from .position import Baseline, lif
 from .replay import run_replays
 from .scenarios import Engine, evaluate_scenario, evaluate_usde_grid, load_scenarios
-from .fmt import pct, usd
+from .fmt import pct, prob, usd
 
 GRAPH = REPO_ROOT / "output" / "graph.json"
 INPUTS = REPO_ROOT / "output" / "risk_inputs.json"
@@ -133,7 +133,7 @@ def build_report(engine: Engine, mc_samples: int | None = None, sens_samples: in
             "lender_loss_usd": headline["outcome"]["lender_loss_usd"],
             "exit_cost_usd": exit_full["total_usd"], "exit_cost_pct_equity": (exit_full["total_usd"] or 0) / eq,
             "sentence": headline["decision"]["sentence"],
-            "three_am_question": (f"Est-ce que je crois à plus de {pct(headline['decision']['p_star'], 1)} de chances que "
+            "three_am_question": (f"Est-ce que je crois à plus de {prob(headline['decision']['p_star'], 1, engine.horizon_days)} de chances que "
                                   f"« {headline['title']} » se produise d'ici {engine.horizon_days:g} jours ?"
                                   if headline["decision"]["p_star"] is not None else None),
         },
@@ -178,7 +178,8 @@ def print_summary(report: dict, elapsed: float) -> None:
     print(f"position : HF {pos['health_factor']:.3f} · capital net {usd(pos['equity_usd'])} · "
           f"liquidable si l'oracle baisse de {pct(pos['oracle_drop_to_liquidation'], 2)}")
     print(f"sortie   : {usd(h['exit_cost_usd'])} ({pct(h['exit_cost_pct_equity'], 2)} du capital)")
-    print(f"alerte   : {h['title']} → perte {usd(h['loss_if_incident_usd'])} ; p* = {_fmt_pct(h['p_star'])}")
+    print(f"alerte   : {h['title']} → perte {usd(h['loss_if_incident_usd'])} ; "
+          f"p* = {prob(h['p_star'], 1, report['monte_carlo']['horizon_days'])}")
     print(f"verdict  : {h['sentence']}")
     print(f"sans alerte ({mc['horizon_days']:g} j, {mc['samples']:,} tirages) : perte attendue {usd(mc['expected_loss_usd'])} · "
           f"VaR95 {usd(mc['var95_usd'])} · VaR99 {usd(mc['var99_usd'])} → {report['baseline']['verdict']}")

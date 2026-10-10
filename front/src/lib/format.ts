@@ -41,6 +41,29 @@ export function pctAuto(fraction: number | null | undefined): string {
   return `${int.format(v)}${NBSP}%`
 }
 
+/** Horizon de décision du backend (risk/params_v2.yaml, horizon_days) quand la réponse ne le donne pas. */
+export const DEFAULT_HORIZON_DAYS = 7
+
+/**
+ * Small probability over the horizon -> intuitive frequency, same formula as src/risk/fmt.py::every:
+ * p over h days ~ an event that happens once every h / -ln(1 - p) days. 0,10 % over 7 days -> "≈ une fois
+ * tous les 20 ans". Empty above 20 % ("1 chance sur 5" speaks for itself).
+ */
+export function every(fraction: number | null | undefined, days: number = DEFAULT_HORIZON_DAYS): string {
+  if (fraction === null || fraction === undefined || !(fraction > 0 && fraction < 0.2) || !(days > 0)) return ''
+  const d = days / -Math.log1p(-fraction)
+  if (d < 21) return `≈ une fois tous les ${Math.round(d)} jours`
+  if (d < 90) return `≈ une fois toutes les ${Math.round(d / 7)} semaines`
+  if (d < 730) return `≈ une fois tous les ${Math.round(d / 30.44)} mois`
+  return `≈ une fois tous les ${int.format(d / 365.25)} ans`
+}
+
+/** Probability plus its frequency: "0,10 % (≈ une fois tous les 20 ans)". */
+export function pctFreq(fraction: number | null | undefined, days: number = DEFAULT_HORIZON_DAYS): string {
+  const f = every(fraction, days)
+  return `${pctAuto(fraction)}${f ? ` (${f})` : ''}`
+}
+
 export function shortAddress(address: string): string {
   return address.length > 12 ? `${address.slice(0, 6)}…${address.slice(-4)}` : address
 }

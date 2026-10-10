@@ -17,7 +17,7 @@ croît plus vite que la taille : on cherche le f qui minimise  C_exit(f) + p × 
 from __future__ import annotations
 
 from .exit_cost import ExitModel
-from .fmt import pct, usd
+from .fmt import pct, prob, usd
 
 P_GRID = [round(i / 100, 2) for i in range(0, 101)]
 F_STEP = 0.05
@@ -63,18 +63,18 @@ def decision_table(exit_model: ExitModel, loss_usd: float, pool_factor: float = 
 
 
 def sentence(verdict: str, f: float, pstar: float | None, p: float, loss_usd: float, exit_usd: float | None,
-             title: str) -> str:
+             title: str, horizon_days: float = 7.0) -> str:
     if loss_usd <= 0:
         return f"STAY — « {title} » ne coûte rien à la position sur l'horizon : aucune raison de payer pour sortir."
     if exit_usd is None:
         return (f"Sortie IMPOSSIBLE en entier — le pool ne peut pas absorber la vente ; « {title} » coûterait "
                 f"{usd(loss_usd)}. Réduire la taille au maximum absorbable.")
-    ps = f"{pct(pstar, 1)}" if pstar is not None else "—"
+    ps = prob(pstar, 1, horizon_days) if pstar is not None else "—"
     if verdict == "STAY":
         return (f"STAY — sortir coûte {usd(exit_usd)} ; « {title} » coûterait {usd(loss_usd)}. "
-                f"Sortez seulement si vous croyez à plus de {ps} de chances que ça arrive (vous estimez {pct(p, 0)}).")
+                f"Sortez seulement si vous croyez à plus de {ps} de chances que ça arrive (vous estimez {prob(p, 0, horizon_days)}).")
     if verdict == "EXIT":
-        return (f"EXIT — vous estimez {pct(p, 0)} de chances, au-dessus du seuil p* = {ps} : la perte attendue "
+        return (f"EXIT — vous estimez {prob(p, 0, horizon_days)} de chances, au-dessus du seuil p* = {ps} : la perte attendue "
                 f"({usd(p * loss_usd)}) dépasse le coût certain de sortie ({usd(exit_usd)}).")
     return (f"PARTIAL {pct(f, 0)} — au-delà de {pct(f, 0)}, le glissement marginal coûte plus que la perte évitée ; "
-            f"seuil p* (sortie totale) = {ps}, vous estimez {pct(p, 0)}.")
+            f"seuil p* (sortie totale) = {ps}, vous estimez {prob(p, 0, horizon_days)}.")

@@ -4,7 +4,7 @@ import type { Incident } from '../api/types'
 import Slide from '../components/Slide'
 import { Failure, Pending, Unrecorded } from '../components/States'
 import { C } from '../lib/colors'
-import { integer, pctAuto, usd } from '../lib/format'
+import { every, integer, pctAuto, usd } from '../lib/format'
 import { usePocketView, useSelection } from '../state/selection'
 
 const FAMILY_LABEL: Record<string, string> = {
@@ -67,12 +67,14 @@ function IncidentRow({
         <span className="text-caption font-normal tabular text-neutral1 md:text-right">
           <span className="block text-body font-semibold text-chalk">{pctAuto(incident.p_horizon)}</span>
           notre estimation
+          {every(incident.p_horizon) && <span className="block">{every(incident.p_horizon)}</span>}
         </span>
         <span className="text-caption font-normal tabular text-neutral1 md:text-right">
           <span className="block text-body font-semibold text-chalk">
             {incident.p_star === null ? '—' : incident.p_star >= 1 ? 'jamais' : pctAuto(incident.p_star)}
           </span>
           seuil p*
+          {incident.p_star !== null && every(incident.p_star) && <span className="block">{every(incident.p_star)}</span>}
         </span>
       </button>
       <AnimatePresence initial={false}>
@@ -137,7 +139,11 @@ export default function LossSlide() {
               </p>
             </div>
             <Stat label="VaR 99,9 %" value={usd(mc.var999_usd)} note={`VaR 99 % : ${usd(mc.var99_usd)}`} />
-            <Stat label="Probabilité d'une perte" value={pctAuto(mc.p_any_loss)} note="sur l'horizon" />
+            <Stat
+              label="Probabilité d'une perte"
+              value={pctAuto(mc.p_any_loss)}
+              note={[every(mc.p_any_loss, mc.horizon_days), `sur ${mc.horizon_days} jours`].filter(Boolean).join(' · ')}
+            />
             <Stat label="Tirages Monte Carlo" value={integer(mc.samples)} note="incidents tirés indépendamment" />
           </div>
 

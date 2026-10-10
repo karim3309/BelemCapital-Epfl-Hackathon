@@ -1,7 +1,7 @@
 // Parcours guidé « Explique-moi » : l'histoire d'Alice (docs/GUIDE_DEBUTANT.md §9), couche par couche.
 // C'est ce qu'on montre au jury. Chaque étape met en lumière une partie du squelette.
 
-import { esc, pct, usd } from "./data.js";
+import { esc, horizonOf, prob, usd } from "./data.js";
 
 export function tourSteps(data) {
   const r = data.report, pos = r.position;
@@ -40,7 +40,7 @@ export function tourSteps(data) {
         Le délai de 16 h est le réglage de risque le plus important de la position.` },
     { title: "La décision, à 3 h du matin", sheet: true,
       text: `Alerte « ${esc(h.title)} ». Sortir coûte ${usd(h.exit_cost_usd)}, certain ; rester coûte ${usd(h.loss_if_incident_usd)}
-        si l'incident arrive. Une seule question : « est-ce que je crois à plus de ${pct(h.p_star)} de chances que ça arrive ? »` },
+        si l'incident arrive. Une seule question : « est-ce que je crois à plus de ${prob(h.p_star, 1, horizonOf(data))} de chances que ça arrive ? »` },
   ];
 }
 

@@ -56,7 +56,7 @@ oracle branché sur le prix de Binance nous aurait liquidés. **La source de l'o
 **Action :** bouton **Squelette**, puis lien **Fiche de risque**.
 **À dire :** « Alerte : l'USDe perd 30 % durablement. Sortir maintenant coûte 854 $ : c'est certain, mesuré en simulant la vente
 sur le vrai pool Pendle. Rester coûte 53 000 $ si l'incident arrive, toute la poche, et les prêteurs perdent 78 000 $ de plus.
-Le seuil vaut **p\* = 1,6 %**. »
+Le seuil vaut **p\* = 1,6 %** sur la semaine : c'est le risque d'un événement qui arrive à peu près une fois tous les 14 mois. »
 **Action :** cliquez sur un des **3 chemins les plus coûteux** : la fracture se dessine.
 **Action :** mode **Scénario**, curseur « votre probabilité » de 1 % à 5 % : le verdict passe de STAY à PARTIAL puis EXIT.
 **À dire :** « On ne demande pas à Léa d'estimer une perte : on lui demande si elle croit à plus de 1,6 %. Et la réponse n'est

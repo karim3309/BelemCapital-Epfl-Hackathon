@@ -70,7 +70,7 @@
  "decision": {
   "verdict": "STAY",
   "exit_fraction": 0.0,
-  "sentence": "STAY — sortir (seuls 25 % sont sortables maintenant) éviterait 484 $ de perte attendue sur l'horizon, mais coûterait 274 940 $. Sortez si vous estimez à plus de 58,7 % le risque « Chute du collatéral PST » (notre estimation : 0,10 %)."
+  "sentence": "STAY — sortir (seuls 25 % sont sortables maintenant) éviterait 484 $ de perte attendue sur l'horizon, mais coûterait 274 940 $. Sortez si vous estimez à plus de 58,7 % le risque « Chute du collatéral PST » (notre estimation : 0,10 %, soit ≈ une fois tous les 20 ans)."
  },
  "incidents": [
   {

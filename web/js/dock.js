@@ -1,7 +1,7 @@
 // Le dock du bas : cartes de scénarios (mode squelette) ou curseurs (mode scénario).
 // Les curseurs ne font que CHOISIR une case de risk_grid.json (pré-calculée par Python).
 
-import { esc, hours, num, pct, usd } from "./data.js";
+import { esc, every, horizonOf, hours, num, pct, usd } from "./data.js";
 import { verdictTag } from "./panels.js";
 
 export function renderCards(box, data, activeId) {
@@ -11,7 +11,7 @@ export function renderCards(box, data, activeId) {
       <div class="ct">${esc(s.title)}</div>
       <div class="cm"><span>${s.outcome.liquidated ? "LIQUIDÉ" : s.outcome.lender_loss_usd > 1 ? "prêteurs −" + usd(s.outcome.lender_loss_usd) : "HF " + s.outcome.hf_after.toFixed(3)}</span>
         <span>${verdictTag(s.decision.verdict)}</span></div>
-      <div class="cm"><span>perte ${usd(s.outcome.borrower_loss_usd)}</span><span>p* ${pct(s.decision.p_star)}</span></div>
+      <div class="cm"><span>perte ${usd(s.outcome.borrower_loss_usd)}</span><span title="${esc(every(s.decision.p_star, horizonOf(data)))}">p* ${pct(s.decision.p_star)}</span></div>
     </button>`).join("");
   box.innerHTML = `
     <div class="dock-hint">Scénarios de stress calculés par le moteur — cliquez pour voir la fracture se propager.

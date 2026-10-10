@@ -46,8 +46,8 @@
   "lender_loss_usd": 77722.69544860322,
   "exit_cost_usd": 853.6446875513062,
   "exit_cost_pct_equity": 0.016066184784276964,
-  "sentence": "EXIT — vous estimez 10 % de chances, au-dessus du seuil p* = 1,6 % : la perte attendue (5 313 $) dépasse le coût certain de sortie (854 $).",
-  "three_am_question": "Est-ce que je crois à plus de 1,6 % de chances que « Depeg USDe −30 % durable » se produise d'ici 7 jours ?"
+  "sentence": "EXIT — vous estimez 10 % (≈ une fois toutes les 9 semaines) de chances, au-dessus du seuil p* = 1,6 % (≈ une fois tous les 14 mois) : la perte attendue (5 313 $) dépasse le coût certain de sortie (854 $).",
+  "three_am_question": "Est-ce que je crois à plus de 1,6 % (≈ une fois tous les 14 mois) de chances que « Depeg USDe −30 % durable » se produise d'ici 7 jours ?"
  },
  "baseline": {
   "verdict": "STAY",
@@ -1588,7 +1588,7 @@
     "p_default": 0.1,
     "verdict": "EXIT",
     "exit_fraction": 1.0,
-    "sentence": "EXIT — vous estimez 10 % de chances, au-dessus du seuil p* = 1,6 % : la perte attendue (5 313 $) dépasse le coût certain de sortie (854 $).",
+    "sentence": "EXIT — vous estimez 10 % (≈ une fois toutes les 9 semaines) de chances, au-dessus du seuil p* = 1,6 % (≈ une fois tous les 14 mois) : la perte attendue (5 313 $) dépasse le coût certain de sortie (854 $).",
     "table": [
      {
       "p": 0.0,
@@ -2516,7 +2516,7 @@
     "p_default": 0.1,
     "verdict": "EXIT",
     "exit_fraction": 1.0,
-    "sentence": "EXIT — vous estimez 10 % de chances, au-dessus du seuil p* = 2,3 % : la perte attendue (3 756 $) dépasse le coût certain de sortie (854 $).",
+    "sentence": "EXIT — vous estimez 10 % (≈ une fois toutes les 9 semaines) de chances, au-dessus du seuil p* = 2,3 % (≈ une fois tous les 10 mois) : la perte attendue (3 756 $) dépasse le coût certain de sortie (854 $).",
     "table": [
      {
       "p": 0.0,
@@ -4358,7 +4358,7 @@
     "p_default": 0.05,
     "verdict": "EXIT",
     "exit_fraction": 1.0,
-    "sentence": "EXIT — vous estimez 5 % de chances, au-dessus du seuil p* = 2,9 % : la perte attendue (1 450 $) dépasse le coût certain de sortie (854 $).",
+    "sentence": "EXIT — vous estimez 5 % (≈ une fois tous les 4 mois) de chances, au-dessus du seuil p* = 2,9 % (≈ une fois tous les 8 mois) : la perte attendue (1 450 $) dépasse le coût certain de sortie (854 $).",
     "table": [
      {
       "p": 0.0,
@@ -5392,7 +5392,7 @@
     "p_default": 0.02,
     "verdict": "PARTIAL",
     "exit_fraction": 0.75,
-    "sentence": "PARTIAL 75 % — au-delà de 75 %, le glissement marginal coûte plus que la perte évitée ; seuil p* (sortie totale) = 1,6 %, vous estimez 2 %.",
+    "sentence": "PARTIAL 75 % — au-delà de 75 %, le glissement marginal coûte plus que la perte évitée ; seuil p* (sortie totale) = 1,6 % (≈ une fois tous les 14 mois), vous estimez 2 % (≈ une fois tous les 11 mois).",
     "table": [
      {
       "p": 0.0,
@@ -6697,7 +6697,7 @@
     "p_default": 0.02,
     "verdict": "PARTIAL",
     "exit_fraction": 0.75,
-    "sentence": "PARTIAL 75 % — au-delà de 75 %, le glissement marginal coûte plus que la perte évitée ; seuil p* (sortie totale) = 1,6 %, vous estimez 2 %.",
+    "sentence": "PARTIAL 75 % — au-delà de 75 %, le glissement marginal coûte plus que la perte évitée ; seuil p* (sortie totale) = 1,6 % (≈ une fois tous les 14 mois), vous estimez 2 % (≈ une fois tous les 11 mois).",
     "table": [
      {
       "p": 0.0,
@@ -7712,7 +7712,7 @@
     "p_default": 0.02,
     "verdict": "PARTIAL",
     "exit_fraction": 0.7,
-    "sentence": "PARTIAL 70 % — au-delà de 70 %, le glissement marginal coûte plus que la perte évitée ; seuil p* (sortie totale) = 1,7 %, vous estimez 2 %.",
+    "sentence": "PARTIAL 70 % — au-delà de 70 %, le glissement marginal coûte plus que la perte évitée ; seuil p* (sortie totale) = 1,7 % (≈ une fois tous les 14 mois), vous estimez 2 % (≈ une fois tous les 11 mois).",
     "table": [
      {
       "p": 0.0,
@@ -8615,7 +8615,7 @@
     "p_default": 0.02,
     "verdict": "PARTIAL",
     "exit_fraction": 0.45,
-    "sentence": "PARTIAL 45 % — au-delà de 45 %, le glissement marginal coûte plus que la perte évitée ; seuil p* (sortie totale) = 2,1 %, vous estimez 2 %.",
+    "sentence": "PARTIAL 45 % — au-delà de 45 %, le glissement marginal coûte plus que la perte évitée ; seuil p* (sortie totale) = 2,1 % (≈ une fois tous les 11 mois), vous estimez 2 % (≈ une fois tous les 11 mois).",
     "table": [
      {
       "p": 0.0,
@@ -12172,7 +12172,7 @@
     "p_default": 0.01,
     "verdict": "PARTIAL",
     "exit_fraction": 0.15,
-    "sentence": "PARTIAL 15 % — au-delà de 15 %, le glissement marginal coûte plus que la perte évitée ; seuil p* (sortie totale) = 1,6 %, vous estimez 1 %.",
+    "sentence": "PARTIAL 15 % — au-delà de 15 %, le glissement marginal coûte plus que la perte évitée ; seuil p* (sortie totale) = 1,6 % (≈ une fois tous les 14 mois), vous estimez 1 % (≈ une fois tous les 23 mois).",
     "table": [
      {
       "p": 0.0,
@@ -13097,7 +13097,7 @@
     "p_default": 0.005,
     "verdict": "STAY",
     "exit_fraction": 0.0,
-    "sentence": "STAY — sortir coûte 854 $ ; « Exploit Morpho : collatéral volé » coûterait 53 133 $. Sortez seulement si vous croyez à plus de 1,6 % de chances que ça arrive (vous estimez 0 %).",
+    "sentence": "STAY — sortir coûte 854 $ ; « Exploit Morpho : collatéral volé » coûterait 53 133 $. Sortez seulement si vous croyez à plus de 1,6 % (≈ une fois tous les 14 mois) de chances que ça arrive (vous estimez 0 % (≈ une fois tous les 4 ans)).",
     "table": [
      {
       "p": 0.0,

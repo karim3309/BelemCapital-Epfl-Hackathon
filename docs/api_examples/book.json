@@ -50,7 +50,7 @@
    "expected_loss_usd": 695.5757544743858,
    "exit_cost_usd": 642.8930154738864,
    "exit_fraction_now": 0.22021,
-   "sentence": "STAY — sortir (seuls 22 % sont sortables maintenant) éviterait 153 $ de perte attendue sur l'horizon, mais coûterait 643 $. Sortez si vous estimez à plus de 0,6 % le risque « Chute du collatéral mGLOeuro » (notre estimation : 0,10 %).",
+   "sentence": "STAY — sortir (seuls 22 % sont sortables maintenant) éviterait 153 $ de perte attendue sur l'horizon, mais coûterait 643 $. Sortez si vous estimez à plus de 0,6 % (≈ une fois tous les 3 ans) le risque « Chute du collatéral mGLOeuro » (notre estimation : 0,10 %, soit ≈ une fois tous les 20 ans).",
    "top_risk": {
     "id": "rwa_credit_event:mgloeuro",
     "title": "Chute du collatéral mGLOeuro",
@@ -114,7 +114,7 @@
    "expected_loss_usd": 1336.0624122960871,
    "exit_cost_usd": 4455.225190078013,
    "exit_fraction_now": 1.0,
-   "sentence": "STAY — sortir éviterait 1 336 $ de perte attendue sur l'horizon, mais coûterait 4 455 $. Sortez si vous estimez à plus de 0,3 % le risque « Chute du collatéral weETH » (notre estimation : 0,10 %).",
+   "sentence": "STAY — sortir éviterait 1 336 $ de perte attendue sur l'horizon, mais coûterait 4 455 $. Sortez si vous estimez à plus de 0,3 % (≈ une fois tous les 6 ans) le risque « Chute du collatéral weETH » (notre estimation : 0,10 %, soit ≈ une fois tous les 20 ans).",
    "top_risk": {
     "id": "rwa_credit_event:weeth",
     "title": "Chute du collatéral weETH",
@@ -146,7 +146,7 @@
    "expected_loss_usd": 545.183727113517,
    "exit_cost_usd": 1599.422569586016,
    "exit_fraction_now": 1.0,
-   "sentence": "STAY — sortir éviterait 545 $ de perte attendue sur l'horizon, mais coûterait 1 599 $. Sortez si vous estimez à plus de 0,5 % le risque « Chute du collatéral fxSAVE » (notre estimation : 0,10 %).",
+   "sentence": "STAY — sortir éviterait 545 $ de perte attendue sur l'horizon, mais coûterait 1 599 $. Sortez si vous estimez à plus de 0,5 % (≈ une fois tous les 4 ans) le risque « Chute du collatéral fxSAVE » (notre estimation : 0,10 %, soit ≈ une fois tous les 20 ans).",
    "top_risk": {
     "id": "rwa_credit_event:fxsave",
     "title": "Chute du collatéral fxSAVE",
@@ -178,7 +178,7 @@
    "expected_loss_usd": 1936.6599740805962,
    "exit_cost_usd": 274939.750648308,
    "exit_fraction_now": 0.25,
-   "sentence": "STAY — sortir (seuls 25 % sont sortables maintenant) éviterait 484 $ de perte attendue sur l'horizon, mais coûterait 274 940 $. Sortez si vous estimez à plus de 58,7 % le risque « Chute du collatéral PST » (notre estimation : 0,10 %).",
+   "sentence": "STAY — sortir (seuls 25 % sont sortables maintenant) éviterait 484 $ de perte attendue sur l'horizon, mais coûterait 274 940 $. Sortez si vous estimez à plus de 58,7 % le risque « Chute du collatéral PST » (notre estimation : 0,10 %, soit ≈ une fois tous les 20 ans).",
    "top_risk": {
     "id": "rwa_credit_event:pst",
     "title": "Chute du collatéral PST",
@@ -210,7 +210,7 @@
    "expected_loss_usd": 391.7066209609711,
    "exit_cost_usd": 12985.941574165832,
    "exit_fraction_now": 1.0,
-   "sentence": "STAY — sortir éviterait 392 $ de perte attendue sur l'horizon, mais coûterait 12 986 $. Sortez si vous estimez à plus de 9,6 % le risque « Chute du collatéral sUSDai » (notre estimation : 0,10 %).",
+   "sentence": "STAY — sortir éviterait 392 $ de perte attendue sur l'horizon, mais coûterait 12 986 $. Sortez si vous estimez à plus de 9,6 % (≈ une fois toutes les 10 semaines) le risque « Chute du collatéral sUSDai » (notre estimation : 0,10 %, soit ≈ une fois tous les 20 ans).",
    "top_risk": {
     "id": "rwa_credit_event:susdai",
     "title": "Chute du collatéral sUSDai",
@@ -242,7 +242,7 @@
    "expected_loss_usd": 498.5593753608793,
    "exit_cost_usd": 9705.051852481747,
    "exit_fraction_now": 1.0,
-   "sentence": "STAY — sortir éviterait 499 $ de perte attendue sur l'horizon, mais coûterait 9 705 $. Sortez si vous estimez à plus de 7,0 % le risque « Chute du collatéral PT-reUSD-10DEC2026 » (notre estimation : 0,10 %).",
+   "sentence": "STAY — sortir éviterait 499 $ de perte attendue sur l'horizon, mais coûterait 9 705 $. Sortez si vous estimez à plus de 7,0 % (≈ une fois tous les 3 mois) le risque « Chute du collatéral PT-reUSD-10DEC2026 » (notre estimation : 0,10 %, soit ≈ une fois tous les 20 ans).",
    "top_risk": {
     "id": "rwa_credit_event:pt_reusd_10dec2026",
     "title": "Chute du collatéral PT-reUSD-10DEC2026",
@@ -306,7 +306,7 @@
    "expected_loss_usd": 0.00023372114074873493,
    "exit_cost_usd": 0.4779617399789892,
    "exit_fraction_now": 1.0,
-   "sentence": "STAY — sortir éviterait 0 $ de perte attendue sur l'horizon, mais coûterait 0 $. Sortez si vous estimez à plus de 12,4 % le risque « Faille du protocole Morpho Blue » (notre estimation : 0,01 %).",
+   "sentence": "STAY — sortir éviterait 0 $ de perte attendue sur l'horizon, mais coûterait 0 $. Sortez si vous estimez à plus de 12,4 % (≈ une fois toutes les 8 semaines) le risque « Faille du protocole Morpho Blue » (notre estimation : 0,01 %, soit ≈ une fois tous les 333 ans).",
    "top_risk": {
     "id": "protocol_exploit:morpho",
     "title": "Faille du protocole Morpho Blue",
@@ -338,7 +338,7 @@
    "expected_loss_usd": 0.0003953007271168327,
    "exit_cost_usd": 0.13013450274274713,
    "exit_fraction_now": 1.0,
-   "sentence": "STAY — sortir éviterait 0 $ de perte attendue sur l'horizon, mais coûterait 0 $. Sortez si vous estimez à plus de 37,6 % le risque « Chute du collatéral ETH+ » (notre estimation : 0,10 %).",
+   "sentence": "STAY — sortir éviterait 0 $ de perte attendue sur l'horizon, mais coûterait 0 $. Sortez si vous estimez à plus de 37,6 % le risque « Chute du collatéral ETH+ » (notre estimation : 0,10 %, soit ≈ une fois tous les 20 ans).",
    "top_risk": {
     "id": "rwa_credit_event:eth",
     "title": "Chute du collatéral ETH+",

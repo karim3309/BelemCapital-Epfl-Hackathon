@@ -1,7 +1,7 @@
 // Panneaux : constantes vitales, fiche de risque, fiche de l'os (nœud), scénario, impact, replay.
 // Tout le texte chiffré vient de risk_report.json / risk_grid.json / graph.json (aucun calcul ici).
 
-import { esc, hours, linkify, num, pct, usd } from "./data.js";
+import { esc, every, horizonOf, hours, linkify, num, pct, prob, usd } from "./data.js";
 
 const STATUS_LABEL = { source: "sourcé", onchain: "on-chain", hypothesis: "hypothèse" };
 const SRC_LABEL = { onchain: "on-chain", api: "API", curated: "curé" };
@@ -69,7 +69,7 @@ export function riskSheet(data) {
     <div class="title">Alerte : ${esc(h.title)}</div>
     <p class="sentence">${verdictTag(h.verdict)} ${esc(h.sentence.replace(/^(STAY|EXIT|PARTIAL)[^—]*—\s*/, ""))}</p>
     <p class="explain"><b>La question de 3 h du matin :</b> ${esc(h.three_am_question || "")}</p>
-    <div class="big">p* = ${pct(h.p_star)}</div>
+    <div class="big">p* = ${pct(h.p_star)}</div>${h.p_star != null && every(h.p_star, horizonOf(data)) ? `<p class="explain">${every(h.p_star, horizonOf(data))} : c'est la fréquence d'un événement qui a ${pct(h.p_star)} de chances d'arriver en ${horizonOf(data)} jours.</p>` : ""}
     <p>Sortir coûte <b>${usd(h.exit_cost_usd)}</b> (certain) ; si l'incident arrive, la poche perd <b>${usd(h.loss_if_incident_usd)}</b>
       (${pct(h.loss_if_incident_pct_equity, 0)} du capital) et les prêteurs <b>${usd(h.lender_loss_usd)}</b>.
       Au-dessus de p*, sortir coûte moins cher que rester.</p>
@@ -77,7 +77,7 @@ export function riskSheet(data) {
 
     <h3>Sans alerte, sur ${mc.horizon_days} jours (Monte Carlo, ${num(mc.samples, 0)} tirages)</h3>
     ${kv([["perte attendue", usd(mc.expected_loss_usd)], ["VaR 95 %", usd(mc.var95_usd)], ["VaR 99 %", usd(mc.var99_usd)],
-          ["ES 99 % (1 % pires)", usd(mc.es99_usd)], ["P(perte)", pct(mc.p_loss, 2)], ["P(liquidation)", pct(mc.p_liquidation, 2)],
+          ["ES 99 % (1 % pires)", usd(mc.es99_usd)], ["P(perte)", prob(mc.p_loss, 2, mc.horizon_days)], ["P(liquidation)", prob(mc.p_liquidation, 2, mc.horizon_days)],
           ["prêteurs (attendu)", usd(mc.expected_lender_loss_usd)], ["verdict", verdictTag(b.verdict)]])}
     <p>${esc(b.sentence)}</p>
 
@@ -94,7 +94,7 @@ export function riskSheet(data) {
     <table class="params-table">${hyp.map(p => `<tr><td>${esc(p.name)}</td><td>${statusBadge(p.status)} ${esc(JSON.stringify(p.value))}<br>${esc(p.why || "")}</td></tr>`).join("")}</table>
     <h3>Sensibilité (les 5 hypothèses qui font le plus bouger la perte attendue)</h3>
     <table class="params-table">${r.sensitivity.slice(0, 5).map(s => `<tr><td>${esc(s.param)}</td>
-      <td>${esc(String(s.low))} → ${usd(s.el_low)} · ${esc(String(s.high))} → ${usd(s.el_high)}<br>p* : ${pct(s.headline_p_star_low)} ↔ ${pct(s.headline_p_star_high)}</td></tr>`).join("")}</table>
+      <td>${esc(String(s.low))} → ${usd(s.el_low)} · ${esc(String(s.high))} → ${usd(s.el_high)}<br>p* : ${prob(s.headline_p_star_low, 1, horizonOf(data))} ↔ ${prob(s.headline_p_star_high, 1, horizonOf(data))}</td></tr>`).join("")}</table>
     <p><button class="btn-link" data-action="all-params">voir les ${r.params.length} paramètres et leur source</button></p>`;
 }
 
@@ -187,7 +187,7 @@ export function scenarioSheet(data, sc) {
           ["qui perd", esc(o.who_loses.join(", "))]])}
     <h3>Décision</h3>
     <p class="sentence">${verdictTag(d.verdict)} ${esc(d.sentence.replace(/^(STAY|EXIT|PARTIAL)[^—]*—\s*/, ""))}</p>
-    ${kv([["seuil p*", pct(d.p_star)], ["p (illustration)", pct(d.p_default, 0)],
+    ${kv([["seuil p*", prob(d.p_star, 1, horizonOf(data))], ["p (illustration)", prob(d.p_default, 0, horizonOf(data))],
           ["coût de sortie", d.exit_cost_full.feasible ? usd(d.exit_cost_full.total_usd) : badge("danger", "sortie impossible")]])}
     ${tl ? `<h3>Chronologie de l'oracle</h3><ul class="timeline">${tl}</ul>` : ""}
     <h3>Comment le choc se propage (règles appliquées)</h3>
@@ -214,10 +214,10 @@ export function cellSheet(data, cell, pIndex) {
     <p style="margin-top:12px"><span class="status-pill ${status}">${esc(cell.status.toUpperCase())}</span></p>
     ${kv([["health factor", `<b>${num(cell.hf, 3)}</b>`], ["écart primaire/secours", pct(cell.deviation, 2)],
           ["perte emprunteur", usd(cell.borrower_loss_usd)], ["perte prêteurs", usd(cell.lender_loss_usd)],
-          ["seuil p*", pct(cell.p_star)], ["votre probabilité", pct(p, 0)]])}
+          ["seuil p*", prob(cell.p_star, 1, horizonOf(data))], ["votre probabilité", prob(p, 0, horizonOf(data))]])}
     <p class="sentence">${verdictTag(v)} ${v === "PARTIAL" ? `sortir ${pct(f, 0)} de la position` :
       v === "EXIT" ? "sortir entièrement" : "rester"} — ${cell.p_star == null ? "rien à perdre dans ce scénario." :
-      p > cell.p_star ? `vous croyez à plus que p* = ${pct(cell.p_star)}.` : `vous croyez à moins que p* = ${pct(cell.p_star)}.`}</p>
+      p > cell.p_star ? `vous croyez à plus que p* = ${prob(cell.p_star, 1, horizonOf(data))}.` : `vous croyez à moins que p* = ${prob(cell.p_star, 1, horizonOf(data))}.`}</p>
     <p class="explain">Le méta-oracle n'écoute le marché que si l'écart dépasse 0,75 % <b>pendant 16 h</b>.
       Faites glisser la durée de part et d'autre de 16 h : à prix égal, le verdict change.</p>
     <p>Tous ces chiffres viennent de <code>risk_grid.json</code>, calculé par le moteur Python (aucun calcul dans la page).</p>`;
@@ -236,7 +236,7 @@ export function impactSheet(data, id, anc, path) {
       : "La position ne dépend pas de ce nœud."} ${list.length} élément(s) en dépendent au total.</p>
     ${scenarios.length ? `<h3>Combien ? (scénarios chiffrés par le moteur)</h3>${scenarios.map(s =>
       `<div class="proof"><div class="head">${verdictTag(s.decision.verdict)} <b>${esc(s.title)}</b></div>
-      perte ${usd(s.outcome.borrower_loss_usd)} · prêteurs ${usd(s.outcome.lender_loss_usd)} · p* ${pct(s.decision.p_star)}
+      perte ${usd(s.outcome.borrower_loss_usd)} · prêteurs ${usd(s.outcome.lender_loss_usd)} · p* ${prob(s.decision.p_star, 1, horizonOf(data))}
       <br><button class="btn-link" data-action="scenario" data-id="${esc(s.id)}">détail →</button></div>`).join("")}`
       : `<p>Pas de scénario chiffré sur ce nœud : le chemin montre l'exposition, pas encore le montant.</p>`}
     <h3>Chemin vers la position (preuves)</h3>

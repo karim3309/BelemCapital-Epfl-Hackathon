@@ -77,6 +77,19 @@ const nf = d => (NF[d] ||= new Intl.NumberFormat("fr-FR", { maximumFractionDigit
 export const usd = x => (x === null || x === undefined) ? "—" : `${nf(0).format(x)} $`;
 export const num = (x, d = 2) => (x === null || x === undefined) ? "—" : nf(d).format(x);
 export const pct = (x, d = 1) => (x === null || x === undefined) ? "—" : `${(x * 100).toFixed(d).replace(".", ",")} %`;
+// Petite probabilité sur l'horizon → fréquence parlante (même formule que src/risk/fmt.py::every) :
+// p sur h jours ≈ un événement qui arrive une fois tous les h / −ln(1 − p) jours. Rien au-delà de 20 %.
+export function every(p, days) {
+  if (p === null || p === undefined || !(p > 0 && p < 0.2) || !(days > 0)) return "";
+  const d = days / -Math.log1p(-p);
+  if (d < 21) return `≈ une fois tous les ${Math.round(d)} jours`;
+  if (d < 90) return `≈ une fois toutes les ${Math.round(d / 7)} semaines`;
+  if (d < 730) return `≈ une fois tous les ${Math.round(d / 30.44)} mois`;
+  return `≈ une fois tous les ${nf(0).format(d / 365.25)} ans`;
+}
+export const prob = (x, d, days) => { const f = every(x, days); return pct(x, d) + (f ? ` (${f})` : ""); };
+// Horizon de décision du rapport (jours), pour traduire les probabilités en fréquences.
+export const horizonOf = data => data.report.monte_carlo.horizon_days;
 export const hours = h => (h === null || h === undefined) ? "durable" : (h < 1 ? `${Math.round(h * 60)} min` : `${num(h, 2)} h`);
 
 export function esc(s) {
