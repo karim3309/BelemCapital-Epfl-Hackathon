@@ -16,7 +16,7 @@ chain:
 # Bloc figé : TOUS les appels sont faits à ce bloc → résultat reproductible et cacheable.
 # "latest" = résolu au lancement (puis recopiez le numéro affiché ici pour figer).
 # Un bloc ancien (> ~128 blocs) exige un RPC "archive" s'il n'est pas déjà dans data/cache/.
-snapshot_block: 26161750
+snapshot_block: 26162087
 
 rpc:
   url_env: ETH_RPC_URL          # nom de la variable d'environnement (fichier .env)
@@ -48,6 +48,13 @@ contracts:
     address: "0x3A7bB36Ee3f3eE32A60e9f2b33c1e5f2E83ad766"
     source: "https://docs.morpho.org/developers/contracts/addresses/"
     verified_by: "claude (doc officielle) — À RE-VÉRIFIER"
+  pendle_router_static:
+    # Utilisé par le MOTEUR DE RISQUE (src/risk/collect.py) pour simuler une vente de PT on-chain.
+    # Fonction : swapExactPtForSyStatic(address,uint256) → interface officielle IPActionMarketCoreStatic
+    # (paquet npm @pendle/core-v2@6.6.1, contracts/interfaces/IPActionMarketCoreStatic.sol)
+    address: "0x263833d47eA3fA4a30f269323aba6a107f9eB14C"
+    source: "https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/1-core.json"
+    verified_by: "claude (déploiements officiels Pendle, clé routerStatic) — À RE-VÉRIFIER"
   ens_registry:
     address: "0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e"
     source: "https://docs.ens.domains/learn/deployments"
@@ -56,6 +63,7 @@ contracts:
 # Feed USD de référence pour convertir le prix de l'actif prêté en USD (résolu on-chain via ENS).
 usd_reference:
   loan_token_usd_feed_ens: "usdc-usd.data.eth"
+  gas_token_usd_feed_ens: "eth-usd.data.eth"   # moteur de risque : coût du gas en USD
   source: "https://docs.chain.link/data-feeds/ens"
 
 # ----- APIs (utilisées uniquement quand l'info n'est pas lisible on-chain) -----

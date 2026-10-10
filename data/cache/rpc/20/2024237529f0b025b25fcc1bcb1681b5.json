@@ -1,0 +1,14 @@
+{
+ "fetched_at": "2026-10-10T12:39:46+00:00",
+ "request": {
+  "method": "eth_getStorageAt",
+  "params": [
+   "0xA572Dad7DB3d975E9ce780db1Cf3Bf959401cD35",
+   "0xa3f0ad74e5423aebfd80d3ef4346578335a9a72aeaee59ff6cb3582b35133d50",
+   "0x18f33a7"
+  ]
+ },
+ "response": {
+  "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+ }
+}

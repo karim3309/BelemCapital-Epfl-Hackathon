@@ -1,7 +1,7 @@
 {
   "position": {
     "id": "morpho:0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05:0x03BAbEB24619902253FDB0D5675A816879115d98",
-    "value_usd": 409816.56
+    "value_usd": 409819.73
   },
   "nodes": [
     {
@@ -20,18 +20,18 @@
         "irm": "0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC",
         "irm_is_official_adaptive_curve": true,
         "lltv": 0.915,
-        "total_supply_assets": 7758492103265,
-        "total_borrow_assets": 6993975680172,
-        "total_supply_human": 7758492.103265,
-        "total_borrow_human": 6993975.680172,
+        "total_supply_assets": 7758525136074,
+        "total_borrow_assets": 6994008712981,
+        "total_supply_human": 7758525.136074,
+        "total_borrow_human": 6994008.712981,
         "available_liquidity_human": 764516.423093,
         "utilization": 0.901461,
         "totals_include_accrued_interest": true,
-        "accrued_interest_human": 1321.608646,
-        "seconds_since_last_update": 162120,
-        "borrow_rate_per_second": 1165690332,
-        "borrow_apy": 0.037445,
-        "borrow_rate_evidence": "Contract.borrowRateView() = 1165690332 @ 0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC #26161750",
+        "accrued_interest_human": 1354.641455,
+        "seconds_since_last_update": 166164,
+        "borrow_rate_per_second": 1165744343,
+        "borrow_apy": 0.037447,
+        "borrow_rate_evidence": "Contract.borrowRateView() = 1165744343 @ 0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC #26162087",
         "fee": 0.0,
         "last_update": 1791469775,
         "oracle_price_scale_decimals": 24,
@@ -40,21 +40,21 @@
           "collateral": "413030323985266824510019",
           "collateral_human": 413030.32398526685,
           "borrow_shares": "355505047827188788",
-          "borrow_assets": 357215015975,
-          "borrow_human": 357215.015975,
+          "borrow_assets": 357216703115,
+          "borrow_human": 357216.703115,
           "supply_shares": 0,
-          "oracle_price_raw": "992352920471841705000000",
-          "collateral_value_in_loan_token": 409871.84825,
-          "ltv": 0.871529,
+          "oracle_price_raw": "992360614535768646000000",
+          "collateral_value_in_loan_token": 409875.026131,
+          "ltv": 0.871526,
           "lltv": 0.915,
-          "health_factor": 1.04988,
-          "oracle_drop_to_liquidation": 0.04751,
+          "health_factor": 1.049883,
+          "oracle_drop_to_liquidation": 0.047513,
           "loan_token_usd": 0.9998651,
-          "loan_token_usd_evidence": "ENS usdc-usd.data.eth → 0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26161750 ; latestRoundData().answer = 99986510 (déc. 8)",
+          "loan_token_usd_evidence": "ENS usdc-usd.data.eth → 0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26162087 ; latestRoundData().answer = 99986510 (déc. 8)",
           "value_usd_definition": "valeur du collatéral au prix de l'oracle Morpho × prix USD de l'actif prêté",
-          "net_value_usd": 52649.73
+          "net_value_usd": 52651.22
         },
-        "tvl_usd": 7757445.48,
+        "tvl_usd": 7757478.51,
         "tvl_usd_definition": "total fourni (intérêts inclus) × prix USD de l'actif prêté",
         "proxy": {
           "detected": false,
@@ -75,9 +75,9 @@
         "asset": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
         "curator": "0x4687E45bB5518a995913a24BB2816fe2031d74D8",
         "owner": "0xB83A77677c51aAf6c45b0b64199eAe6938559E5e",
-        "total_assets": "61588159617790",
-        "discovered_via": "https://api.morpho.org/graphql (fetched 2026-10-10T11:32:14+00:00)",
-        "tvl_usd": 61579851.38,
+        "total_assets": "61586620277169",
+        "discovered_via": "https://api.morpho.org/graphql (fetched 2026-10-10T12:39:37+00:00)",
+        "tvl_usd": 61578312.24,
         "tvl_usd_definition": "totalAssets × prix USD de l'actif du vault",
         "proxy": {
           "detected": false,
@@ -100,9 +100,9 @@
         "decimals": 12,
         "answer": 1.0,
         "round_id": 1,
-        "updated_at": 1791631895,
+        "updated_at": 1791635939,
         "age_seconds": 0,
-        "why_constant": "latestRoundData() renvoie roundId=1 et updatedAt = horodatage du bloc #26161750 : la valeur est calculée à la volée, aucun opérateur ne la met à jour",
+        "why_constant": "latestRoundData() renvoie roundId=1 et updatedAt = horodatage du bloc #26162087 : la valeur est calculée à la volée, aucun opérateur ne la met à jour",
         "proxy": {
           "detected": false,
           "upgradeable": null,
@@ -123,11 +123,11 @@
         "maturity": 1795651200,
         "base_discount_per_year": 0.06,
         "formula": "prix_PT = 1 − baseDiscountPerYear × (maturity − now) / 1 an  (ne regarde AUCUN marché)",
-        "formula_expected": 0.992352920472,
+        "formula_expected": 0.992360614536,
         "formula_matches": true,
-        "answer_raw": "992352920471841705",
+        "answer_raw": "992360614535768646",
         "decimals": 18,
-        "answer": 0.9923529204718418,
+        "answer": 0.9923606145357686,
         "round_id": 0,
         "updated_at": 0,
         "age_seconds": null,
@@ -157,7 +157,7 @@
         "answer": 0.99959682,
         "round_id": "36893488147419104081",
         "updated_at": 1791604751,
-        "age_seconds": 27144,
+        "age_seconds": 31188,
         "ens_name": "usde-usd.data.eth",
         "ens_resolves_to_this_feed": true,
         "priced_asset": "0x4c9EDD5852cd905f086C759E8383e09bff1E68B3",
@@ -193,17 +193,17 @@
         "switch_rule": "Écart = |primaire − secours| / moyenne. S'il dépasse deviation_threshold, n'importe qui peut appeler challenge() ; si l'écart tient encore après challenge_timelock_seconds, acceptChallenge() bascule sur le SECOURS. Retour au primaire via heal() puis acceptHealing() après healing_timelock_seconds de reconvergence. Fonctions sans permission.",
         "switch_rule_source": "https://steakhouse.financial/docs/products/infrastructure/metaoracle",
         "design_note": "Contrat MetaOracleDeviationTimelock conçu par Steakhouse Financial (doc ci-dessus), déployé en clones EIP-1167 par une factory. Lien entre CETTE adresse et la factory officielle : non prouvé on-chain (adresse de la factory non publiée dans la doc) → pas d'arête issued_by.",
-        "price_raw": "992352920471841705000000",
-        "price": 0.9923529204718418,
+        "price_raw": "992360614535768646000000",
+        "price": 0.9923606145357686,
         "price_scale": "1e24",
-        "primary_price": 0.9923529204718418,
-        "backup_price": 0.9919528236213658,
+        "primary_price": 0.9923606145357686,
+        "backup_price": 0.9919605145832001,
         "proxy": {
           "detected": true,
           "standard": "EIP-1167 (clone minimal, non upgradeable)",
           "implementation": "0x9B4655239E91dc9E1f7599bB88FBA41B4542de5B",
           "upgradeable": false,
-          "evidence": "eth_getCode(0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08) = clone EIP-1167 → 0x9B4655239E91dc9E1f7599bB88FBA41B4542de5B #26161750"
+          "evidence": "eth_getCode(0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08) = clone EIP-1167 → 0x9B4655239E91dc9E1f7599bB88FBA41B4542de5B #26162087"
         }
       }
     },
@@ -217,11 +217,11 @@
         "oracle_kind": "morpho_chainlink_oracle_v2",
         "pricing_mode": "fixed",
         "scale_factor": 1000000,
-        "price_raw": "992352920471841705000000",
-        "price": 0.9923529204718418,
+        "price_raw": "992360614535768646000000",
+        "price": 0.9923606145357686,
         "price_scale": "1e24",
         "formula": "SCALE_FACTOR × BASE_VAULT × BASE_FEED_1 × BASE_FEED_2 / (QUOTE_VAULT × QUOTE_FEED_1 × QUOTE_FEED_2), slot vide = 1",
-        "price_recomputed_raw": "992352920471841705000000",
+        "price_recomputed_raw": "992360614535768646000000",
         "price_recomputed_matches": true,
         "components": {
           "BASE_VAULT": {
@@ -238,7 +238,7 @@
             "address": "0xA572Dad7DB3d975E9ce780db1Cf3Bf959401cD35",
             "role": "base",
             "pricing_mode": "fixed",
-            "value": "992352920471841705"
+            "value": "992360614535768646"
           },
           "BASE_FEED_2": {
             "address": null,
@@ -262,7 +262,7 @@
         ],
         "implicit_unit_note": "Chaque slot listé ici vaut 1 dans la formule : la conversion correspondante est FIXÉE (ex. aucun QUOTE_FEED = l'actif prêté est supposé valoir 1 unité de la devise des feeds de base).",
         "created_by_official_factory": true,
-        "factory_evidence": "MorphoChainlinkOracleV2Factory.isMorphoChainlinkOracleV2(0x8fCa98C9abeE4Dcb33ba9f3d17db4AD57f72706D) = True @ 0x3A7bB36Ee3f3eE32A60e9f2b33c1e5f2E83ad766 #26161750",
+        "factory_evidence": "MorphoChainlinkOracleV2Factory.isMorphoChainlinkOracleV2(0x8fCa98C9abeE4Dcb33ba9f3d17db4AD57f72706D) = True @ 0x3A7bB36Ee3f3eE32A60e9f2b33c1e5f2E83ad766 #26162087",
         "proxy": {
           "detected": false,
           "upgradeable": null,
@@ -280,11 +280,11 @@
         "oracle_kind": "morpho_chainlink_oracle_v2",
         "pricing_mode": "market",
         "scale_factor": 10000000000,
-        "price_raw": "991952823621365867861378",
-        "price": 0.9919528236213658,
+        "price_raw": "991960514583200114797305",
+        "price": 0.9919605145832001,
         "price_scale": "1e24",
         "formula": "SCALE_FACTOR × BASE_VAULT × BASE_FEED_1 × BASE_FEED_2 / (QUOTE_VAULT × QUOTE_FEED_1 × QUOTE_FEED_2), slot vide = 1",
-        "price_recomputed_raw": "991952823621365867861378",
+        "price_recomputed_raw": "991960514583200114797305",
         "price_recomputed_matches": true,
         "components": {
           "BASE_VAULT": {
@@ -301,7 +301,7 @@
             "address": "0xA572Dad7DB3d975E9ce780db1Cf3Bf959401cD35",
             "role": "base",
             "pricing_mode": "fixed",
-            "value": "992352920471841705"
+            "value": "992360614535768646"
           },
           "BASE_FEED_2": {
             "address": "0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961",
@@ -327,7 +327,7 @@
         ],
         "implicit_unit_note": "Chaque slot listé ici vaut 1 dans la formule : la conversion correspondante est FIXÉE (ex. aucun QUOTE_FEED = l'actif prêté est supposé valoir 1 unité de la devise des feeds de base).",
         "created_by_official_factory": true,
-        "factory_evidence": "MorphoChainlinkOracleV2Factory.isMorphoChainlinkOracleV2(0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465) = True @ 0x3A7bB36Ee3f3eE32A60e9f2b33c1e5f2E83ad766 #26161750",
+        "factory_evidence": "MorphoChainlinkOracleV2Factory.isMorphoChainlinkOracleV2(0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465) = True @ 0x3A7bB36Ee3f3eE32A60e9f2b33c1e5f2E83ad766 #26162087",
         "proxy": {
           "detected": false,
           "upgradeable": null,
@@ -352,12 +352,12 @@
         "expiry": 1795651200,
         "expiry_iso": "2026-11-26T00:00:00+00:00",
         "is_expired": false,
-        "days_to_expiry": 46.52,
+        "days_to_expiry": 46.47,
         "factory": "0x3E6EBa46AbC5ab18ED95F6667d8B2fd4020E4637",
         "redemption_note": "à l'échéance, 1 PT se rachète contre la valeur de 1 actif comptable du SY (voir SY.assetInfo)",
-        "price_usd": 0.99221905,
+        "price_usd": 0.99222675,
         "price_usd_source": "oracle Morpho 0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08 (mode fixed) × prix USD de l'actif prêté",
-        "tvl_usd": 22758318.85,
+        "tvl_usd": 22758495.3,
         "tvl_usd_definition": "totalSupply × price_usd",
         "proxy": {
           "detected": false,
@@ -376,18 +376,18 @@
         "asset_kind": "erc4626_vault",
         "symbol": "sUSDe",
         "decimals": 18,
-        "total_supply": "969243071979897412582375883",
-        "total_supply_human": 969243071.9798974,
+        "total_supply": "969241118136593131771300357",
+        "total_supply_human": 969241118.1365931,
         "underlying": "0x4c9EDD5852cd905f086C759E8383e09bff1E68B3",
-        "share_to_asset_rate": 1.2523421219170405,
+        "share_to_asset_rate": 1.2523497420630154,
         "pricing_mode_of_rate": "internal_rate",
-        "total_assets": "1213823925416695582675214576",
-        "total_assets_human": 1213823925.4166956,
+        "total_assets": "1213828864295231082766046523",
+        "total_assets_human": 1213828864.295231,
         "cooldown_seconds": 86400,
         "owner": "0xE8Dc0Fab349EA169283C48Ccfd09d797E6DB7c94",
-        "price_usd": 1.2518372,
-        "price_usd_source": "convertToAssets (1.252342) × [Chainlink USDe / USD (0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961)]",
-        "tvl_usd": 1213334535.89,
+        "price_usd": 1.25184482,
+        "price_usd_source": "convertToAssets (1.252350) × [Chainlink USDe / USD (0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961)]",
+        "tvl_usd": 1213339472.77,
         "tvl_usd_definition": "totalSupply × price_usd",
         "proxy": {
           "detected": false,
@@ -412,7 +412,7 @@
         "accounting_asset": "0x4c9EDD5852cd905f086C759E8383e09bff1E68B3",
         "accounting_asset_type": 0,
         "accounting_asset_decimals": 18,
-        "exchange_rate": 1.2523421219170405,
+        "exchange_rate": 1.2523497420630154,
         "tokens_in": [
           "0x4c9EDD5852cd905f086C759E8383e09bff1E68B3",
           "0x9D39A5DE30e57443BfF2A8307A4256c8797A3497"
@@ -422,9 +422,9 @@
         ],
         "paused": false,
         "owner": "0x2aD631F72fB16d91c4953A7f4260A97C2fE2f31e",
-        "price_usd": 1.2518372,
-        "price_usd_source": "SY.exchangeRate (1.252342) × [Chainlink USDe / USD (0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961)]",
-        "tvl_usd": 28001365.97,
+        "price_usd": 1.25184482,
+        "price_usd_source": "SY.exchangeRate (1.252350) × [Chainlink USDe / USD (0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961)]",
+        "tvl_usd": 28001536.35,
         "tvl_usd_definition": "totalSupply × price_usd",
         "proxy": {
           "detected": false,
@@ -443,18 +443,18 @@
         "asset_kind": "erc20",
         "symbol": "USDC",
         "decimals": 6,
-        "total_supply": "48525449688681434",
-        "total_supply_human": 48525449688.681435,
+        "total_supply": "48516835246335777",
+        "total_supply_human": 48516835246.33578,
         "price_usd": 0.9998651,
-        "price_usd_source": "ENS usdc-usd.data.eth → 0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26161750 ; latestRoundData().answer = 99986510 (déc. 8)",
-        "tvl_usd": 48518903605.52,
+        "price_usd_source": "ENS usdc-usd.data.eth → 0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26162087 ; latestRoundData().answer = 99986510 (déc. 8)",
+        "tvl_usd": 48510290325.26,
         "tvl_usd_definition": "totalSupply × price_usd",
         "proxy": {
           "detected": true,
           "standard": "ZeppelinOS (legacy) (upgradeable)",
           "implementation": "0x43506849D7C04F9138D1A2050bbF3A0c054402dd",
           "upgradeable": true,
-          "evidence": "eth_getStorageAt(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48, slot ZeppelinOS (legacy)) = 0x43506849D7C04F9138D1A2050bbF3A0c054402dd #26161750"
+          "evidence": "eth_getStorageAt(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48, slot ZeppelinOS (legacy)) = 0x43506849D7C04F9138D1A2050bbF3A0c054402dd #26162087"
         }
       }
     },
@@ -503,17 +503,17 @@
         "implied_apy": 0.05011,
         "twap_observation_cardinality": 29,
         "api_snapshot": {
-          "liquidity_usd": 3820133.1940032598,
-          "implied_apy": 0.05011043707015128,
-          "fetched_at": "2026-10-10T11:32:15+00:00",
+          "liquidity_usd": 3820787.4685200085,
+          "implied_apy": 0.050110398953141955,
+          "fetched_at": "2026-10-10T12:39:40+00:00",
           "url": "https://api-v2.pendle.finance/core/v2/markets/all?skip=100&limit=100"
         },
-        "tvl_usd": 3820450.37,
+        "tvl_usd": 3820475.22,
         "tvl_usd_definition": "réserve PT × prix PT + réserve SY × prix SY",
-        "pt_price_implied_by_amm": 0.99378765,
+        "pt_price_implied_by_amm": 0.99379389,
         "pt_price_implied_by_amm_unit": "actif comptable du SY (USDe), = (1 + implied_apy)^(−années restantes)",
-        "pt_price_morpho_oracle": 0.99235292,
-        "oracle_vs_amm_gap": -0.001444,
+        "pt_price_morpho_oracle": 0.99236061,
+        "oracle_vs_amm_gap": -0.001442,
         "proxy": {
           "detected": false,
           "upgradeable": null,
@@ -693,10 +693,10 @@
       "chain": "ethereum",
       "meta": {
         "chain_id": 1,
-        "snapshot_block": 26161750,
-        "snapshot_block_hash": "0xbed4e51d0155c03625203c8c1433f7f17b7cbb5de31f6558ea05ca7e3c84c83a",
-        "snapshot_timestamp": 1791631895,
-        "snapshot_time_iso": "2026-10-10T11:31:35+00:00",
+        "snapshot_block": 26162087,
+        "snapshot_block_hash": "0x8cdf0b4a12c0019bc2dca50385ce6222b24a5b1995556fb7d56fbdeb828aa0b6",
+        "snapshot_timestamp": 1791635939,
+        "snapshot_time_iso": "2026-10-10T12:38:59+00:00",
         "note": "Toutes les lectures on-chain du graphe sont faites à ce bloc."
       }
     }
@@ -772,7 +772,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0xc3866d726C204C0836E0677A31973c649888973D) = 871 octets #26161750 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0xc3866d726C204C0836E0677A31973c649888973D) = 871 octets #26162087 ; eth_chainId = 1"
     },
     {
       "from": "feed_pt_susde_26nov2026_linear_discount",
@@ -780,7 +780,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0xA572Dad7DB3d975E9ce780db1Cf3Bf959401cD35) = 951 octets #26161750 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0xA572Dad7DB3d975E9ce780db1Cf3Bf959401cD35) = 951 octets #26162087 ; eth_chainId = 1"
     },
     {
       "from": "feed_usde_usd",
@@ -788,7 +788,7 @@
       "type": "issued_by",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "ENS usde-usd.data.eth → 0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26161750 ; le domaine data.eth est celui des feeds Chainlink (https://docs.chain.link/data-feeds/ens)"
+      "evidence": "ENS usde-usd.data.eth → 0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26162087 ; le domaine data.eth est celui des feeds Chainlink (https://docs.chain.link/data-feeds/ens)"
     },
     {
       "from": "feed_usde_usd",
@@ -796,7 +796,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961) = 9571 octets #26161750 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961) = 9571 octets #26162087 ; eth_chainId = 1"
     },
     {
       "from": "morpho:0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05:0x03BAbEB24619902253FDB0D5675A816879115d98",
@@ -804,7 +804,7 @@
       "type": "deployed_in",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "Morpho.position(0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05,0x03BAbEB24619902253FDB0D5675A816879115d98) = (0,355505047827188788,413030323985266824510019) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26161750"
+      "evidence": "Morpho.position(0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05,0x03BAbEB24619902253FDB0D5675A816879115d98) = (0,355505047827188788,413030323985266824510019) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26162087"
     },
     {
       "from": "morpho_market_5613b170",
@@ -812,7 +812,7 @@
       "type": "collateralized_by",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "Morpho.idToMarketParams(0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26161750 → collateralToken = 0xB195B618EA52b77CB2a58846F452f59f8dFa9390"
+      "evidence": "Morpho.idToMarketParams(0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26162087 → collateralToken = 0xB195B618EA52b77CB2a58846F452f59f8dFa9390"
     },
     {
       "from": "morpho_market_5613b170",
@@ -828,7 +828,7 @@
       "type": "lends",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "Morpho.idToMarketParams(0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26161750 → loanToken = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+      "evidence": "Morpho.idToMarketParams(0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26162087 → loanToken = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
     },
     {
       "from": "morpho_market_5613b170",
@@ -836,7 +836,7 @@
       "type": "priced_by",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "Morpho.idToMarketParams(0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26161750 → oracle = 0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08"
+      "evidence": "Morpho.idToMarketParams(0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26162087 → oracle = 0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08"
     },
     {
       "from": "morpho_market_5613b170",
@@ -844,7 +844,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb) = 15623 octets #26161750 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb) = 15623 octets #26162087 ; eth_chainId = 1"
     },
     {
       "from": "oracle_meta_f8b29e",
@@ -852,7 +852,7 @@
       "type": "priced_by",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "MetaOracleDeviationTimelock.primaryOracle() = 0x8fCa98C9abeE4Dcb33ba9f3d17db4AD57f72706D @ 0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08 #26161750 ; currentOracle() = 0x8fCa98C9abeE4Dcb33ba9f3d17db4AD57f72706D"
+      "evidence": "MetaOracleDeviationTimelock.primaryOracle() = 0x8fCa98C9abeE4Dcb33ba9f3d17db4AD57f72706D @ 0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08 #26162087 ; currentOracle() = 0x8fCa98C9abeE4Dcb33ba9f3d17db4AD57f72706D"
     },
     {
       "from": "oracle_meta_f8b29e",
@@ -860,7 +860,7 @@
       "type": "priced_by",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "MetaOracleDeviationTimelock.backupOracle() = 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 @ 0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08 #26161750 ; seuil de bascule deviationThreshold() = 7500000000000000"
+      "evidence": "MetaOracleDeviationTimelock.backupOracle() = 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 @ 0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08 #26162087 ; seuil de bascule deviationThreshold() = 7500000000000000"
     },
     {
       "from": "oracle_meta_f8b29e",
@@ -868,7 +868,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08) = 45 octets #26161750 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08) = 45 octets #26162087 ; eth_chainId = 1"
     },
     {
       "from": "oracle_morpho_v2_8fca98",
@@ -876,7 +876,7 @@
       "type": "priced_by",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "MorphoChainlinkOracleV2.BASE_FEED_1() = 0xA572Dad7DB3d975E9ce780db1Cf3Bf959401cD35 @ 0x8fCa98C9abeE4Dcb33ba9f3d17db4AD57f72706D #26161750 ; valeur lue = 992352920471841705"
+      "evidence": "MorphoChainlinkOracleV2.BASE_FEED_1() = 0xA572Dad7DB3d975E9ce780db1Cf3Bf959401cD35 @ 0x8fCa98C9abeE4Dcb33ba9f3d17db4AD57f72706D #26162087 ; valeur lue = 992360614535768646"
     },
     {
       "from": "oracle_morpho_v2_8fca98",
@@ -884,7 +884,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0x8fCa98C9abeE4Dcb33ba9f3d17db4AD57f72706D) = 2598 octets #26161750 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0x8fCa98C9abeE4Dcb33ba9f3d17db4AD57f72706D) = 2598 octets #26162087 ; eth_chainId = 1"
     },
     {
       "from": "oracle_morpho_v2_e2f4cf",
@@ -892,7 +892,7 @@
       "type": "priced_by",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "MorphoChainlinkOracleV2.QUOTE_FEED_1() = 0xc3866d726C204C0836E0677A31973c649888973D @ 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 #26161750 ; valeur lue = 1000000000000"
+      "evidence": "MorphoChainlinkOracleV2.QUOTE_FEED_1() = 0xc3866d726C204C0836E0677A31973c649888973D @ 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 #26162087 ; valeur lue = 1000000000000"
     },
     {
       "from": "oracle_morpho_v2_e2f4cf",
@@ -900,7 +900,7 @@
       "type": "priced_by",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "MorphoChainlinkOracleV2.BASE_FEED_1() = 0xA572Dad7DB3d975E9ce780db1Cf3Bf959401cD35 @ 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 #26161750 ; valeur lue = 992352920471841705"
+      "evidence": "MorphoChainlinkOracleV2.BASE_FEED_1() = 0xA572Dad7DB3d975E9ce780db1Cf3Bf959401cD35 @ 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 #26162087 ; valeur lue = 992360614535768646"
     },
     {
       "from": "oracle_morpho_v2_e2f4cf",
@@ -908,7 +908,7 @@
       "type": "priced_by",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "MorphoChainlinkOracleV2.BASE_FEED_2() = 0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961 @ 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 #26161750 ; valeur lue = 99959682"
+      "evidence": "MorphoChainlinkOracleV2.BASE_FEED_2() = 0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961 @ 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 #26162087 ; valeur lue = 99959682"
     },
     {
       "from": "oracle_morpho_v2_e2f4cf",
@@ -916,7 +916,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465) = 2598 octets #26161750 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465) = 2598 octets #26162087 ; eth_chainId = 1"
     },
     {
       "from": "pendle_plp_susde_26nov2026",
@@ -924,7 +924,7 @@
       "type": "issued_by",
       "weight": 1.0,
       "source": "curated",
-      "evidence": "PendleMarket.factory() = 0x6d247b1c044fA1E22e6B04fA9F71Baf99EB29A9f @ 0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E #26161750 ; cette factory est « Pendle marketFactoryV6 (crée les pools PT/SY) » selon https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/1-core.json (relevé le 2026-10-10)"
+      "evidence": "PendleMarket.factory() = 0x6d247b1c044fA1E22e6B04fA9F71Baf99EB29A9f @ 0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E #26162087 ; cette factory est « Pendle marketFactoryV6 (crée les pools PT/SY) » selon https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/1-core.json (relevé le 2026-10-10)"
     },
     {
       "from": "pendle_plp_susde_26nov2026",
@@ -932,7 +932,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E) = 23999 octets #26161750 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E) = 23999 octets #26162087 ; eth_chainId = 1"
     },
     {
       "from": "pt_susde_26nov2026",
@@ -940,7 +940,7 @@
       "type": "deployed_in",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "PendleMarket.readTokens() = (0xBF98480425A29197e5d99D003017f63a1e595D02,0xB195B618EA52b77CB2a58846F452f59f8dFa9390,0x89E6e5f7c3A60e7D6347F054051A29a272F4cE44) @ 0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E #26161750 ; PendleMarketFactory.isValidMarket(0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E) = True @ 0x6d247b1c044fA1E22e6B04fA9F71Baf99EB29A9f #26161750 ; pool localisé via l'API Pendle https://api-v2.pendle.finance/core/v2/markets/all?skip=100&limit=100 (fetched 2026-10-10T11:32:15+00:00)"
+      "evidence": "PendleMarket.readTokens() = (0xBF98480425A29197e5d99D003017f63a1e595D02,0xB195B618EA52b77CB2a58846F452f59f8dFa9390,0x89E6e5f7c3A60e7D6347F054051A29a272F4cE44) @ 0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E #26162087 ; PendleMarketFactory.isValidMarket(0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E) = True @ 0x6d247b1c044fA1E22e6B04fA9F71Baf99EB29A9f #26162087 ; pool localisé via l'API Pendle https://api-v2.pendle.finance/core/v2/markets/all?skip=100&limit=100 (fetched 2026-10-10T12:39:40+00:00)"
     },
     {
       "from": "pt_susde_26nov2026",
@@ -948,7 +948,7 @@
       "type": "issued_by",
       "weight": 1.0,
       "source": "curated",
-      "evidence": "PT-sUSDE-26NOV2026.factory() = 0x3E6EBa46AbC5ab18ED95F6667d8B2fd4020E4637 @ 0xB195B618EA52b77CB2a58846F452f59f8dFa9390 #26161750 ; cette factory est « Pendle yieldContractFactoryV6 (crée les PT/YT) » selon https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/1-core.json (relevé le 2026-10-10)"
+      "evidence": "PT-sUSDE-26NOV2026.factory() = 0x3E6EBa46AbC5ab18ED95F6667d8B2fd4020E4637 @ 0xB195B618EA52b77CB2a58846F452f59f8dFa9390 #26162087 ; cette factory est « Pendle yieldContractFactoryV6 (crée les PT/YT) » selon https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/1-core.json (relevé le 2026-10-10)"
     },
     {
       "from": "pt_susde_26nov2026",
@@ -956,7 +956,7 @@
       "type": "redeemable_into",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "PT-sUSDE-26NOV2026.SY() = 0xBF98480425A29197e5d99D003017f63a1e595D02 @ 0xB195B618EA52b77CB2a58846F452f59f8dFa9390 #26161750"
+      "evidence": "PT-sUSDE-26NOV2026.SY() = 0xBF98480425A29197e5d99D003017f63a1e595D02 @ 0xB195B618EA52b77CB2a58846F452f59f8dFa9390 #26162087"
     },
     {
       "from": "pt_susde_26nov2026",
@@ -964,7 +964,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0xB195B618EA52b77CB2a58846F452f59f8dFa9390) = 5858 octets #26161750 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0xB195B618EA52b77CB2a58846F452f59f8dFa9390) = 5858 octets #26162087 ; eth_chainId = 1"
     },
     {
       "from": "susde",
@@ -980,7 +980,7 @@
       "type": "redeemable_into",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "sUSDe.asset() = 0x4c9EDD5852cd905f086C759E8383e09bff1E68B3 @ 0x9D39A5DE30e57443BfF2A8307A4256c8797A3497 #26161750 ; convertToAssets(1e18) = 1252342121917040537 (taux interne)"
+      "evidence": "sUSDe.asset() = 0x4c9EDD5852cd905f086C759E8383e09bff1E68B3 @ 0x9D39A5DE30e57443BfF2A8307A4256c8797A3497 #26162087 ; convertToAssets(1e18) = 1252349742063015437 (taux interne)"
     },
     {
       "from": "susde",
@@ -988,7 +988,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0x9D39A5DE30e57443BfF2A8307A4256c8797A3497) = 17299 octets #26161750 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0x9D39A5DE30e57443BfF2A8307A4256c8797A3497) = 17299 octets #26162087 ; eth_chainId = 1"
     },
     {
       "from": "sy_susde",
@@ -996,7 +996,7 @@
       "type": "issued_by",
       "weight": 1.0,
       "source": "api",
-      "evidence": "API Pendle https://api-v2.pendle.finance/core/v2/markets/all?skip=100&limit=100 (fetched 2026-10-10T11:32:15+00:00) : le marché 0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E liste sy=0xBF98480425A29197e5d99D003017f63a1e595D02, identique à readTokens() on-chain #26161750"
+      "evidence": "API Pendle https://api-v2.pendle.finance/core/v2/markets/all?skip=100&limit=100 (fetched 2026-10-10T12:39:40+00:00) : le marché 0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E liste sy=0xBF98480425A29197e5d99D003017f63a1e595D02, identique à readTokens() on-chain #26162087"
     },
     {
       "from": "sy_susde",
@@ -1004,7 +1004,7 @@
       "type": "redeemable_into",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "SY-sUSDE.yieldToken() = 0x9D39A5DE30e57443BfF2A8307A4256c8797A3497 @ 0xBF98480425A29197e5d99D003017f63a1e595D02 #26161750 ; assetInfo() = (0,0x4c9EDD5852cd905f086C759E8383e09bff1E68B3,18)"
+      "evidence": "SY-sUSDE.yieldToken() = 0x9D39A5DE30e57443BfF2A8307A4256c8797A3497 @ 0xBF98480425A29197e5d99D003017f63a1e595D02 #26162087 ; assetInfo() = (0,0x4c9EDD5852cd905f086C759E8383e09bff1E68B3,18)"
     },
     {
       "from": "sy_susde",
@@ -1012,7 +1012,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0xBF98480425A29197e5d99D003017f63a1e595D02) = 14366 octets #26161750 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0xBF98480425A29197e5d99D003017f63a1e595D02) = 14366 octets #26162087 ; eth_chainId = 1"
     },
     {
       "from": "usdc",
@@ -1028,7 +1028,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48) = 2186 octets #26161750 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48) = 2186 octets #26162087 ; eth_chainId = 1"
     },
     {
       "from": "usde",
@@ -1044,7 +1044,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0x4c9EDD5852cd905f086C759E8383e09bff1E68B3) = 7567 octets #26161750 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0x4c9EDD5852cd905f086C759E8383e09bff1E68B3) = 7567 octets #26162087 ; eth_chainId = 1"
     },
     {
       "from": "vault_pendleusdc",
@@ -1052,7 +1052,7 @@
       "type": "deployed_in",
       "weight": 1.0,
       "source": "api",
-      "evidence": "API Morpho https://api.morpho.org/graphql marketById(0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05).supplyingVaultV2s contient 0x55C1B6e461a6334B567bAF0FEb5D728715446f05 (fetched 2026-10-10T11:32:14+00:00)"
+      "evidence": "API Morpho https://api.morpho.org/graphql marketById(0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05).supplyingVaultV2s contient 0x55C1B6e461a6334B567bAF0FEb5D728715446f05 (fetched 2026-10-10T12:39:37+00:00)"
     },
     {
       "from": "vault_pendleusdc",
@@ -1060,7 +1060,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0x55C1B6e461a6334B567bAF0FEb5D728715446f05) = 21808 octets #26161750 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0x55C1B6e461a6334B567bAF0FEb5D728715446f05) = 21808 octets #26162087 ; eth_chainId = 1"
     }
   ]
 }
