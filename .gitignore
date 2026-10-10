@@ -19,3 +19,6 @@ data/cache/**/*.tmp
 Thumbs.db
 
 # NB : data/cache/ est VOLONTAIREMENT commité → la démo tourne sans réseau.
+
+# Config locale de prévisualisation (chemin Python propre à chaque machine)
+.claude/launch.json
