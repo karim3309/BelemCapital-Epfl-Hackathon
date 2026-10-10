@@ -47,7 +47,10 @@ export default function SourcePill() {
       : pockets.isError
         ? 'Live · API error'
         : 'Live · connecting…'
-    : `Recorded · block ${blockNumber(recordedBlock(holder))}`
+    : (() => {
+        const b = recordedBlock(holder)
+        return b ? `Recorded · block ${blockNumber(b)}` : 'Recorded · not recorded yet'
+      })()
 
   return (
     <div ref={ref} className="relative flex items-center gap-4">
@@ -91,7 +94,13 @@ export default function SourcePill() {
                 <span className="text-caption font-normal text-neutral1">
                   {m === 'live'
                     ? 'Ethereum mainnet, block refreshed every 2 minutes.'
-                    : `Mainnet at block ${blockNumber(recordedBlock(holder))}, ${blockTime(recordedTimestamp(holder))}. No network needed.`}
+                    : (() => {
+                        const b = recordedBlock(holder)
+                        const t = recordedTimestamp(holder)
+                        return b && t
+                          ? `Mainnet at block ${blockNumber(b)}, ${blockTime(t)}. No network needed.`
+                          : 'Nothing recorded yet for this holder: run python -m stacktrace.record.'
+                      })()}
                 </span>
               </button>
             ))}

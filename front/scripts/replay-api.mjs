@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Replay server: answers the StackTrace API routes (src/stacktrace/api.py) with the real
- * responses recorded in docs/api_examples/. Lets the front run in "live" mode with no RPC
+ * responses recorded by `python -m stacktrace.record <holder>` in docs/api_examples/recordings/. Lets the front run in "live" mode with no RPC
  * node. It never invents an answer: a request that was not recorded gets an explicit 422.
  *
  *   node scripts/replay-api.mjs [--port 8000] [--latency 0]
@@ -28,8 +28,7 @@ const health = load('health.json')
 const same = (a, b) => String(a).toLowerCase() === String(b).toLowerCase()
 const close = (a, b) => typeof a === 'number' && typeof b === 'number' && Math.abs(a - b) < 1e-9
 
-// One bundle per holder: the original example, plus every docs/api_examples/recordings/<holder>/ folder
-// written by `python -m stacktrace.record` (a new recording of the original holder replaces it).
+// One bundle per holder: every docs/api_examples/recordings/<holder>/ folder written by `python -m stacktrace.record`.
 const bundles = []
 const recordings = join(dir, 'recordings')
 if (existsSync(recordings)) {
@@ -47,14 +46,7 @@ if (existsSync(recordings)) {
     })
   }
 }
-const original = {
-  pockets: load('pockets.json'),
-  book: load('book.json'),
-  graphs: [load('graph_vault.json')],
-  risks: [load('risk_vault.json'), load('risk_borrow.json')],
-  incidents: [load('incident.json')],
-}
-if (!bundles.some((b) => same(b.pockets.holder, original.pockets.holder))) bundles.push(original)
+if (bundles.length === 0) console.warn('No recording yet: run python -m stacktrace.record book:rockawayx')
 
 function resolvePocket(pockets, key) {
   const hs = pockets.holdings

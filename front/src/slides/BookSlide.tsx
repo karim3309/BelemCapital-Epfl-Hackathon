@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useBook, usePockets } from '../api/hooks'
-import { RECORDED_HOLDER, bundles } from '../api/recorded'
+import { DEFAULT_HOLDER, bundles } from '../api/recorded'
 import { useSource } from '../api/source'
 import Slide from '../components/Slide'
 import { Failure, Pending, Unrecorded } from '../components/States'
@@ -9,12 +9,12 @@ import { holderLabel, kindLabel, pct, pctAuto, usd, usdShort, verdictText } from
 import { useSelection } from '../state/selection'
 
 /** One-click starting points: every recorded holder, plus the curator book of config.yaml. */
-const PRESETS = Array.from(new Set([...bundles.map((b) => b.holder), 'book:rockawayx']))
+const PRESETS = Array.from(new Set([DEFAULT_HOLDER, ...bundles.map((b) => b.holder)]))
 
 /** Slide 1: the whole book at a glance, and the way into any pocket. */
 export default function BookSlide() {
   const { holder, setHolder, pocketId, setPocketId, goTo } = useSelection()
-  const { source } = useSource()
+  const { source, setMode } = useSource()
   const pockets = usePockets(holder)
   const book = useBook(holder, pocketId)
   const [draft, setDraft] = useState(holder)
@@ -122,14 +122,14 @@ export default function BookSlide() {
             action={
               <button
                 type="button"
-                onClick={() => setHolder(RECORDED_HOLDER)}
+                onClick={() => setMode('live')}
                 className="self-start text-body font-semibold text-accent hover:opacity-80"
               >
-                Back to the recorded holder
+                Go live (needs the API running)
               </button>
             }
           >
-            No recorded response for {holderLabel(holder)}.
+            No recorded response for {holderLabel(holder)} yet. Record it once with python -m stacktrace.record {holder}.
           </Unrecorded>
         )}
 

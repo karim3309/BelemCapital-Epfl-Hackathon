@@ -1,30 +1,21 @@
 /**
- * Real API responses recorded from Ethereum mainnet, imported straight from the backend's
- * docs/api_examples/ so there is one copy only. Used when no API is running: the demo then
- * works with no network at all.
+ * Real API responses recorded from Ethereum mainnet, for the offline demo (no API, no network).
  *
- * Two kinds of recordings, one "bundle" per holder:
- *  - the original example (holder 0x4F87…0545, block #26162868): the files at the root of api_examples/;
- *  - every folder docs/api_examples/recordings/<holder>/ written by `python -m stacktrace.record <holder>`
- *    (a curator book "book:<key>", a whole vault "vault:0x…" or an address). They are picked up by
- *    themselves: record, commit, and the front replays it.
+ * One "bundle" per holder: every folder docs/api_examples/recordings/<holder>/ written by
+ * `python -m stacktrace.record <holder>` (the curator book "book:rockawayx", a whole vault "vault:0x…").
+ * They are picked up by themselves: record, commit, and the front replays it.
  */
-import bookJson from '../../../docs/api_examples/book.json'
-import graphVaultJson from '../../../docs/api_examples/graph_vault.json'
-import healthJson from '../../../docs/api_examples/health.json'
-import incidentJson from '../../../docs/api_examples/incident.json'
-import pocketsJson from '../../../docs/api_examples/pockets.json'
-import riskBorrowJson from '../../../docs/api_examples/risk_borrow.json'
-import riskVaultJson from '../../../docs/api_examples/risk_vault.json'
 import type {
   BookResponse,
   GraphResponse,
-  Health,
   IncidentRequest,
   IncidentResponse,
   PocketsResponse,
   RiskResponse,
 } from './types'
+
+/** What the deck opens on: the RockawayX curator book (config.yaml → curator_books.rockawayx). */
+export const DEFAULT_HOLDER = 'book:rockawayx'
 
 export interface Bundle {
   holder: string
@@ -33,15 +24,6 @@ export interface Bundle {
   risks: RiskResponse[]
   graphs: GraphResponse[]
   incidents: IncidentResponse[]
-}
-
-const original: Bundle = {
-  holder: (pocketsJson as unknown as PocketsResponse).holder,
-  pockets: pocketsJson as unknown as PocketsResponse,
-  book: bookJson as unknown as BookResponse,
-  graphs: [graphVaultJson as unknown as GraphResponse],
-  risks: [riskVaultJson as unknown as RiskResponse, riskBorrowJson as unknown as RiskResponse],
-  incidents: [incidentJson as unknown as IncidentResponse],
 }
 
 /** Folders written by the recorder: recordings/<holder>/{pockets,book,risk_n,graph_n,incident}.json */
@@ -75,22 +57,16 @@ function recordingBundles(): Bundle[] {
 
 const same = (a: string, b: string) => a.toLowerCase() === b.toLowerCase()
 
-const fresh = recordingBundles()
-/** Every recorded holder; a new recording of the original holder replaces the original example. */
-export const bundles: Bundle[] = [...fresh, ...(fresh.some((b) => same(b.holder, original.holder)) ? [] : [original])]
-
-export const recordedHealth = healthJson as unknown as Health
-
-/** The holder shown first: the original example, unless it was re-recorded elsewhere in the list. */
-export const RECORDED_HOLDER = original.holder
+/** Every recorded holder (one folder each under docs/api_examples/recordings/). */
+export const bundles: Bundle[] = recordingBundles()
 
 export const bundleFor = (holder: string) => bundles.find((b) => same(b.holder, holder)) ?? null
 
 export const isRecordedHolder = (holder: string) => bundleFor(holder) !== null
 
-/** Block of the recording of this holder (the original one when nothing is recorded for it). */
-export const recordedBlock = (holder: string) => (bundleFor(holder) ?? original).pockets.block
-export const recordedTimestamp = (holder: string) => (bundleFor(holder) ?? original).pockets.block_timestamp
+/** Block and time of the recording of this holder, or null when it was not recorded yet. */
+export const recordedBlock = (holder: string) => bundleFor(holder)?.pockets.block ?? null
+export const recordedTimestamp = (holder: string) => bundleFor(holder)?.pockets.block_timestamp ?? null
 
 /** The pocket an index or id refers to, as the API resolves it. */
 function resolvePocket(b: Bundle, pocket: string): string | null {

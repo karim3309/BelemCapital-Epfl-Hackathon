@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { useBook, usePockets, useRisk } from '../api/hooks'
-import { RECORDED_HOLDER } from '../api/recorded'
+import { DEFAULT_HOLDER } from '../api/recorded'
 import type { BookPocket, Decision, Holding, Incident, RiskResponse } from '../api/types'
 
 export const SLIDES = [
@@ -43,7 +43,7 @@ function remembered(): string | null {
 }
 
 export function SelectionProvider({ children }: { children: ReactNode }) {
-  const [holder, setHolderState] = useState(() => readParam('holder') ?? RECORDED_HOLDER)
+  const [holder, setHolderState] = useState(() => readParam('holder') ?? DEFAULT_HOLDER)
   const [pocketId, setPocketIdState] = useState<string | null>(null)
   const [incidentId, setIncidentId] = useState<string | null>(null)
   const pockets = usePockets(holder)

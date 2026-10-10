@@ -52,7 +52,7 @@ export default function Header() {
               {view.count ? `${view.position}/${view.count}` : ''}
             </span>
             <span className="min-w-0 truncate text-caption font-semibold text-chalk md:max-w-[340px] md:text-body">
-              {view.holding?.label ?? 'Loading pockets…'}
+              {view.holding?.label ?? (view.holderUnrecorded ? 'Not recorded yet' : 'Loading pockets…')}
             </span>
             {view.holding && (
               <span className="hidden text-caption font-normal text-neutral1 md:inline">

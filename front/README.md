@@ -27,22 +27,21 @@ npm run build        # type check + production build
 
 | Source | When | What is shown |
 |---|---|---|
-| **Recorded** | by default, and whenever the API does not answer | the real responses from `docs/api_examples/` (mainnet, block #26162868), imported directly: a single copy |
+| **Recorded** | by default, and whenever the API does not answer | the real responses recorded with `python -m stacktrace.record` in `docs/api_examples/recordings/<holder>/`, imported directly: a single copy |
 | **Live** | the API is running and you pick it | any holder, the current block (refreshed every 2 min) |
 
 The front looks for the API in the background (`/health`) and offers to go live; the choice is remembered. The pill in
 the top-right corner always says where the numbers come from (block, age) and lets you change the API address.
 
-Force a source: `?source=recorded`, `?source=live`, `?api=http://host:8000`, `?holder=0x…` (or `?holder=book:rockawayx`, the curator book; `?holder=vault:0x…`, one whole vault), or at build time
+The deck opens on the **RockawayX curator book** (`book:rockawayx`, the Ethereum Morpho vaults of the Dune dashboard).
+
+Force a source: `?source=recorded`, `?source=live`, `?api=http://host:8000`, `?holder=book:rockawayx` (curator book), `?holder=vault:0x…` (one whole vault) or `?holder=0x…` (any address), or at build time
 `VITE_SOURCE=recorded|live` and `VITE_API_URL=…`.
 
-In recorded mode, only the recorded pockets have their full details (Belem RWA EURCV: graph, risk, incident; the
-PST/USDC borrow: risk). For the others, the front shows the portfolio row and says the details are computed live:
-it never makes up a response.
-
-More recordings: `PYTHONPATH=src python -m stacktrace.record book:rockawayx` (from the repo root, live RPC) writes every
+Recording: `PYTHONPATH=src python -m stacktrace.record book:rockawayx` (from the repo root, live RPC) writes every
 answer into `docs/api_examples/recordings/<holder>/`. Commit it: the front and the replay server pick up every
-folder there by themselves, and the portfolio slide offers each recorded holder as a one-click choice.
+folder there by themselves, and the portfolio slide offers each recorded holder as a one-click choice. Until a
+holder is recorded, recorded mode says so (and offers to go live): it never makes up a response.
 
 ### Live
 
