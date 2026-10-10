@@ -125,9 +125,9 @@ exchange_exposure_share:
 # ---------------------------------------------------------------------------------------------
 # Calibration de la sévérité d'un depeg USDe (historique on-chain)
 # ---------------------------------------------------------------------------------------------
-usde_depeg_history:
+usde_depeg_worst_observed:
   source: onchain
-  field: "inputs:chainlink_history"
+  field: "inputs:calibration.usde_worst_drawdown"
   note: "Tous les rounds du feed Chainlink USDe/USD (phases 1 et 2) lus au bloc figé : pire écart observé, temps passé sous chaque seuil."
 
 # ---------------------------------------------------------------------------------------------
@@ -140,9 +140,15 @@ events:
   usde_market_depeg:
     target: {id: usde}
     kind: market_depeg
-    annual_rate: {source: onchain, field: "inputs:chainlink_history", method: "épisodes Chainlink sous 0,99 $ par an ; si 0 épisode : borne haute « règle de 3 » = 3 / années observées"}
-    severity: {hypothesis: true, value: [0.01, 0.10], why: "Perte de valeur de l'USDe pendant un depeg de marché ; borne basse ≈ pire écart Chainlink observé, borne haute = stress au-delà de l'historique."}
-    duration_hours: {hypothesis: true, value: [1, 72], why: "Épisodes de quelques heures à quelques jours (octobre 2025 : ~40-90 min sur Binance)."}
+    annual_rate: {source: onchain, field: "inputs:calibration.usde_depeg_annual_rate_099", method: "épisodes du feed Chainlink USDe/USD sous 0,99 $ par année observée (src/risk/calibrate.py) ; si 0 épisode : règle de 3"}
+    severity: {hypothesis: true, value: [0.005, 0.025], why: "Calée sur l'historique on-chain : pire écart Chainlink observé ≈ 2,3 % (21/02/2025)."}
+    duration_hours: {hypothesis: true, value: [0.05, 1.0], why: "Calée sur l'historique on-chain : le plus long passage sous 0,99 $ a duré ~7 min."}
+  usde_severe_depeg:
+    target: {id: usde}
+    kind: market_depeg
+    annual_rate: {hypothesis: true, value: 0.1, why: "Jamais observé on-chain en ~2,5 ans (la règle de 3 donne une borne haute de ~1,2/an) : on retient une crise majeure de dollar synthétique tous les ~10 ans."}
+    severity: {hypothesis: true, value: [0.05, 0.30], why: "Au-delà de l'historique : de −5 % (seuil de liquidation de la position) à −30 % (scénario de démo du cadrage)."}
+    duration_hours: {hypothesis: true, value: [6, 168], why: "Une crise de confiance dure de quelques heures à plus d'une semaine."}
   exchange_failure:
     target: {type: offchain_counterparty, role: hedging_venue}
     kind: counterparty_failure
