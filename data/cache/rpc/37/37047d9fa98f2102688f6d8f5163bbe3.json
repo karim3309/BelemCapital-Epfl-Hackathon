@@ -1,0 +1,10 @@
+{
+ "fetched_at": "2026-10-10T11:21:12+00:00",
+ "request": {
+  "method": "eth_chainId",
+  "params": []
+ },
+ "response": {
+  "result": "0x1"
+ }
+}
