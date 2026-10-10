@@ -1,643 +1,643 @@
-# Guide pour grands débutants : comprendre notre projet sans rien connaître à la blockchain
+# A guide for complete beginners: understanding our project without knowing anything about blockchain
 
-> **Pour qui ?** Pour nous trois, en partant de zéro.
-> **Comment le lire ?** Dans l'ordre, chapitre par chapitre. Chaque mot technique est expliqué la première fois qu'il apparaît, et il est aussi dans le **glossaire** à la fin.
-> **Temps de lecture :** environ 1 heure (45 min pour les chapitres 1-12, 15 min pour le risque et le front). Prenez votre temps : tout le reste du projet repose là-dessus.
-
----
-
-## Sommaire
-1. [La blockchain, c'est quoi ?](#1-la-blockchain-cest-quoi-)
-2. [Les jetons (tokens) : de l'argent numérique](#2-les-jetons-tokens--de-largent-numérique)
-3. [Les « smart contracts » : des distributeurs automatiques](#3-les-smart-contracts--des-distributeurs-automatiques)
-4. [Les dollars numériques : USDC et USDe](#4-les-dollars-numériques--usdc-et-usde)
-5. [Faire fructifier son argent : sUSDe, la tirelire](#5-faire-fructifier-son-argent--susde-la-tirelire)
-6. [Pendle et le PT : le bon du Trésor numérique](#6-pendle-et-le-pt--le-bon-du-trésor-numérique)
-7. [Emprunter avec Morpho : le prêteur sur gages](#7-emprunter-avec-morpho--le-prêteur-sur-gages)
-8. [L'oracle : l'expert qui estime la valeur du gage](#8-loracle--lexpert-qui-estime-la-valeur-du-gage)
-9. [La position A racontée comme une histoire](#9-la-position-a-racontée-comme-une-histoire)
-10. [Les dépendances : un jeu de dominos](#10-les-dépendances--un-jeu-de-dominos)
-11. [Notre mission : jouer les détectives](#11-notre-mission--jouer-les-détectives)
-12. [Lire notre fichier graph.json sans paniquer](#12-lire-notre-fichier-graphjson-sans-paniquer)
-13. [Comment on mesure le risque](#13-comment-on-mesure-le-risque)
-14. [Comment lire le front](#14-comment-lire-le-front)
-15. [Glossaire](#15-glossaire)
-16. [Petit quiz pour vérifier qu'on a compris](#16-petit-quiz-pour-vérifier-quon-a-compris)
+> **Who is it for?** The three of us, starting from zero.
+> **How to read it?** In order, chapter by chapter. Every technical word is explained the first time it appears, and it is also in the **glossary** at the end.
+> **Reading time:** about 1 hour (45 min for chapters 1-12, 15 min for risk and the front). Take your time: the whole rest of the project rests on this.
 
 ---
 
-## 1. La blockchain, c'est quoi ?
+## Contents
+1. [What is a blockchain?](#1-what-is-a-blockchain)
+2. [Tokens: digital money](#2-tokens-digital-money)
+3. ["Smart contracts": vending machines](#3-smart-contracts-vending-machines)
+4. [Digital dollars: USDC and USDe](#4-digital-dollars-usdc-and-usde)
+5. [Growing your money: sUSDe, the piggy bank](#5-growing-your-money-susde-the-piggy-bank)
+6. [Pendle and the PT: the digital Treasury bond](#6-pendle-and-the-pt-the-digital-treasury-bond)
+7. [Borrowing with Morpho: the pawnbroker](#7-borrowing-with-morpho-the-pawnbroker)
+8. [The oracle: the expert who appraises the pledge](#8-the-oracle-the-expert-who-appraises-the-pledge)
+9. [Position A told as a story](#9-position-a-told-as-a-story)
+10. [Dependencies: a game of dominoes](#10-dependencies-a-game-of-dominoes)
+11. [Our mission: playing detective](#11-our-mission-playing-detective)
+12. [Reading our graph.json file without panicking](#12-reading-our-graphjson-file-without-panicking)
+13. [How we measure risk](#13-how-we-measure-risk)
+14. [How to read the front](#14-how-to-read-the-front)
+15. [Glossary](#15-glossary)
+16. [A short quiz to check we understood](#16-a-short-quiz-to-check-we-understood)
 
-### L'image à retenir : un grand cahier de comptes public
-Imaginez un **cahier de comptes géant** où l'on note toutes les opérations : « Alice donne 10 € à Bob », « Bob donne 3 € à Chloé »…
+---
 
-Dans une banque classique, ce cahier est **privé** : seule la banque l'a, et il faut lui faire confiance.
+## 1. What is a blockchain?
 
-Dans une **blockchain**, ce cahier est :
-- **public** : tout le monde peut le lire, à tout moment, gratuitement ;
-- **copié** sur des milliers d'ordinateurs dans le monde : personne ne peut le falsifier seul ;
-- **ineffaçable** : ce qui est écrit reste écrit.
+### The picture to remember: a big public ledger
+Imagine a **giant ledger** in which every operation is written down: "Alice gives €10 to Bob", "Bob gives €3 to Chloé"…
 
-### Pourquoi « chaîne de blocs » ?
-On n'écrit pas les opérations une par une. On les regroupe par **pages**, qu'on appelle des **blocs**. Sur **Ethereum** (la blockchain qu'on utilise), une nouvelle page s'ajoute **toutes les 12 secondes** environ. Chaque page porte un **numéro** et est collée à la précédente : c'est la « chaîne ».
+In a traditional bank, this ledger is **private**: only the bank has it, and you have to trust it.
 
-> 💡 **Pourquoi c'est important pour nous :** quand on lit des informations, on dit « **au bloc n° 26 162 087** ». C'est comme dire « d’après la page 26 162 087 du cahier », ou encore comme prendre une **photo** à un instant précis. Toutes nos données viennent de la même photo, donc elles sont cohérentes entre elles et n'importe qui peut les revérifier.
+In a **blockchain**, this ledger is:
+- **public**: anyone can read it, at any time, for free;
+- **copied** onto thousands of computers around the world: nobody can forge it on their own;
+- **indelible**: what is written stays written.
+
+### Why "chain of blocks"?
+Operations are not written one by one. They are grouped into **pages**, called **blocks**. On **Ethereum** (the blockchain we use), a new page is added roughly **every 12 seconds**. Each page has a **number** and is glued to the previous one: that is the "chain".
+
+> 💡 **Why it matters for us:** when we read information, we say "**at block #26,162,087**". It is like saying "according to page 26,162,087 of the ledger", or like taking a **photo** at a precise moment. All our data comes from the same photo, so it is consistent and anyone can re-check it.
 
 ### Ethereum
-Il existe plusieurs blockchains. **Ethereum** est la plus utilisée pour la finance. Dans notre projet, tout se passe sur le « mainnet » d'Ethereum (le vrai réseau, avec de vrais euros… enfin de vrais dollars, on va voir).
-- **mainnet** = le réseau réel (≠ réseaux de test)
-- **chain ID = 1** = le numéro d'identification d'Ethereum mainnet. Notre programme vérifie qu'il parle bien au réseau n° 1.
+There are several blockchains. **Ethereum** is the most used for finance. In our project, everything happens on Ethereum "mainnet" (the real network, with real euros… well, real dollars, as we'll see).
+- **mainnet** = the real network (≠ test networks)
+- **chain ID = 1** = the identification number of Ethereum mainnet. Our program checks that it is really talking to network #1.
 
-### Une adresse
-Sur la blockchain, tout le monde et tout programme a une **adresse**. C'est comme un numéro de compte (IBAN), mais qui ressemble à ça :
+### An address
+On the blockchain, every person and every program has an **address**. It is like an account number (IBAN), but it looks like this:
 ```
 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48
 ```
-C'est long, illisible, et une seule lettre fausse renvoie ailleurs. **C'est pour ça qu'on ne recopie jamais une adresse de mémoire** : on la lit sur une source officielle et on la vérifie.
+It is long, unreadable, and a single wrong letter sends you somewhere else. **That is why we never copy an address from memory**: we read it from an official source and we check it.
 
-### Comment on « lit » la blockchain ? (RPC)
-Notre programme n'a pas sa propre copie du cahier : elle est énorme. Il pose ses questions à un serveur qui en a une copie. Ce serveur s'appelle un **nœud**, et le « guichet » pour lui poser des questions s'appelle un **RPC**.
-> Analogie : le RPC, c'est le **guichet de la bibliothèque**. On demande « que dit la page X sur tel sujet ? », et le bibliothécaire va lire et nous répond.
+### How do we "read" the blockchain? (RPC)
+Our program does not have its own copy of the ledger: it is huge. It asks its questions to a server that has a copy. This server is called a **node**, and the "counter" where you ask it questions is called an **RPC**.
+> Analogy: the RPC is the **library's front desk**. You ask "what does page X say about this topic?", and the librarian goes to read it and answers.
 
-**Lire est gratuit.** Écrire (faire une opération) coûte des frais. Notre projet ne fait **que lire**.
+**Reading is free.** Writing (making an operation) costs fees. Our project **only reads**.
 
 ---
 
-## 2. Les jetons (tokens) : de l'argent numérique
+## 2. Tokens: digital money
 
-Un **jeton** (en anglais *token*) est une **ligne dans le cahier** qui dit « telle adresse possède tant d'unités de tel jeton ». Il y a des milliers de jetons différents : des dollars numériques, des parts de placement, des reconnaissances de dette…
+A **token** is a **line in the ledger** that says "this address owns so many units of this token". There are thousands of different tokens: digital dollars, investment shares, IOUs…
 
-Tous les jetons qui suivent la même « norme » se comportent pareil. La norme la plus courante s'appelle **ERC-20**. C'est comme une **prise électrique standard** : n'importe quelle application sait brancher n'importe quel jeton ERC-20.
+All tokens that follow the same "standard" behave the same way. The most common standard is called **ERC-20**. It is like a **standard electrical socket**: any application knows how to plug in any ERC-20 token.
 
-Un jeton ERC-20 sait toujours répondre à quelques questions de base :
-| Question | Exemple de réponse |
+An ERC-20 token can always answer a few basic questions:
+| Question | Example answer |
 |---|---|
-| `symbol()` : comment tu t'appelles ? | « USDC » |
-| `decimals()` : combien de chiffres après la virgule ? | 6 |
-| `totalSupply()` : combien en existe-t-il au total ? | 48 milliards |
-| `balanceOf(adresse)` : combien en possède cette adresse ? | 1 000 |
+| `symbol()`: what is your name? | "USDC" |
+| `decimals()`: how many digits after the decimal point? | 6 |
+| `totalSupply()`: how many exist in total? | 48 billion |
+| `balanceOf(address)`: how many does this address own? | 1,000 |
 
-> 💡 **Les décimales, piège classique :** la blockchain ne connaît pas les virgules. Elle stocke des nombres entiers. Avec 6 décimales, « 1 USDC » est stocké comme `1000000`. Notre programme fait la conversion pour vous.
+> 💡 **Decimals, a classic trap:** the blockchain does not know about decimal points. It stores whole numbers. With 6 decimals, "1 USDC" is stored as `1000000`. Our program does the conversion for you.
 
 ---
 
-## 3. Les « smart contracts » : des distributeurs automatiques
+## 3. "Smart contracts": vending machines
 
-Un **smart contract** (contrat intelligent) est un **programme posé sur la blockchain**. Il a une adresse, comme une personne, et il fonctionne tout seul selon des règles écrites à l'avance.
+A **smart contract** is a **program placed on the blockchain**. It has an address, like a person, and it runs on its own according to rules written in advance.
 
-> **L'image à retenir : le distributeur de boissons.** Vous mettez 2 €, vous appuyez sur B4, et la canette tombe. Personne ne décide : la machine applique ses règles. Et vous pouvez lire sur la vitre combien de canettes il reste.
+> **The picture to remember: the drinks vending machine.** You put in €2, you press B4, and the can drops. Nobody decides: the machine applies its rules. And you can read through the glass how many cans are left.
 
-Les jetons eux-mêmes sont des smart contracts. Les plateformes de prêt, d'échange, de placement… aussi. Tout ce qu'on étudie est fait de smart contracts qui se parlent entre eux.
+Tokens themselves are smart contracts. So are lending, exchange and investment platforms. Everything we study is made of smart contracts talking to each other.
 
-### Comment on interroge un contrat ?
-On appelle une de ses **fonctions de lecture**. Par exemple, on demande au contrat du PT « qui est ton SY ? » en appelant `SY()`, et il répond par une adresse.
+### How do we query a contract?
+We call one of its **read functions**. For example, we ask the PT contract "who is your SY?" by calling `SY()`, and it answers with an address.
 
-Si on appelle une fonction qui **n'existe pas** chez ce contrat, il refuse (on dit qu'il « **revert** »). Ce refus nous est très utile : en essayant plusieurs fonctions, on devine **ce qu'est** un contrat inconnu. C'est ce qu'on appelle **sonder** un contrat.
-> Analogie : vous trouvez une machine inconnue. Vous appuyez sur « café » : rien. Sur « billet de train » : un billet sort. Vous savez maintenant que c'est un distributeur de billets.
+If we call a function that **does not exist** on this contract, it refuses (we say it "**reverts**"). This refusal is very useful to us: by trying several functions, we figure out **what** an unknown contract is. This is called **probing** a contract.
+> Analogy: you find an unknown machine. You press "coffee": nothing. "Train ticket": a ticket comes out. Now you know it is a ticket machine.
 
 ### DeFi
-**DeFi** = *Decentralized Finance* = la finance faite avec des smart contracts, sans banque : prêter, emprunter, placer, échanger. C'est le sujet du hackathon.
+**DeFi** = *Decentralized Finance* = finance done with smart contracts, without a bank: lending, borrowing, investing, exchanging. It is the topic of the hackathon.
 
 ---
 
-## 4. Les dollars numériques : USDC et USDe
+## 4. Digital dollars: USDC and USDe
 
-Sur la blockchain, le prix des cryptomonnaies (comme l'ETH) bouge beaucoup. On a donc créé des jetons qui **valent toujours environ 1 dollar** : les **stablecoins** (« pièces stables »).
+On the blockchain, the price of cryptocurrencies (like ETH) moves a lot. So tokens were created that are **always worth about 1 dollar**: **stablecoins** ("stable coins").
 
-### USDC : le dollar « classique »
-- Il est émis par une **entreprise américaine, Circle**.
-- Pour chaque USDC en circulation, Circle garde **1 vrai dollar** en banque (ou en bons du Trésor).
-- **Analogie :** un **ticket de vestiaire**. Vous déposez 1 $, vous recevez un ticket ; vous rendez le ticket, vous récupérez votre dollar.
-- **Risque :** il faut faire confiance à Circle, qui peut aussi bloquer des comptes ou modifier son contrat (notre programme a d'ailleurs détecté que le contrat USDC est **modifiable** par Circle, un « proxy upgradeable »).
+### USDC: the "classic" dollar
+- It is issued by an **American company, Circle**.
+- For each USDC in circulation, Circle keeps **1 real dollar** in the bank (or in Treasury bills).
+- **Analogy:** a **cloakroom ticket**. You hand in $1, you receive a ticket; you give back the ticket, you get your dollar back.
+- **Risk:** you have to trust Circle, which can also freeze accounts or change its contract (our program actually detected that the USDC contract is **modifiable** by Circle, an "upgradeable proxy").
 
-### USDe : le dollar « fabriqué » par Ethena
-L'USDe est plus subtil. **Ethena** ne garde pas des dollars en banque. Elle garde des **cryptomonnaies** (de l'ETH, du bitcoin…) et elle **parie contre elles en même temps**, du même montant.
+### USDe: the dollar "manufactured" by Ethena
+USDe is more subtle. **Ethena** does not keep dollars in the bank. It keeps **cryptocurrencies** (ETH, bitcoin…) and **bets against them at the same time**, for the same amount.
 
-> **L'image à retenir : le parapluie et la crème solaire.** Vous vendez des parapluies et de la crème solaire. S'il pleut, vous gagnez sur les parapluies et perdez sur la crème ; s'il fait beau, c'est l'inverse. **Au total, votre caisse ne bouge pas, quelle que soit la météo.**
+> **The picture to remember: umbrellas and sunscreen.** You sell umbrellas and sunscreen. If it rains, you win on the umbrellas and lose on the sunscreen; if it is sunny, it is the other way round. **Overall, your till does not move, whatever the weather.**
 >
-> Ethena fait pareil : elle **possède** 1 ETH et **parie** que l'ETH va baisser, du même montant. Si l'ETH monte, elle gagne sur l'un et perd sur l'autre. Au total, la valeur reste stable, environ 1 dollar par USDe.
+> Ethena does the same: it **owns** 1 ETH and **bets** that ETH will go down, for the same amount. If ETH goes up, it wins on one and loses on the other. Overall, the value stays stable, about 1 dollar per USDe.
 
-**Mots à connaître :**
-- **couverture (hedge)** : le pari inverse qui neutralise les variations ;
-- **contrats perpétuels (« perps »)** : l'outil de pari, qui se trouve sur des **plateformes d'échange centralisées** (« exchanges ») comme Binance, Bybit, OKX… ;
-- **custodians** (gardiens) : des entreprises qui **gardent** les cryptos d'Ethena en sécurité, comme un coffre-fort (Copper, Ceffu, Fireblocks).
+**Words to know:**
+- **hedge**: the opposite bet that neutralises the price moves;
+- **perpetual contracts ("perps")**: the betting tool, found on **centralised exchange platforms** ("exchanges") such as Binance, Bybit, OKX…;
+- **custodians**: companies that **keep** Ethena's crypto safe, like a safe (Copper, Ceffu, Fireblocks).
 
-**⚠️ Le point crucial pour notre projet :** tout ça (quel coffre-fort, quel exchange, quelle quantité) **n'est PAS écrit dans le cahier public**. Ça se passe dans le monde réel, hors blockchain. On ne peut le savoir **que par ce qu'Ethena publie** sur son site. C'est exactement ce qu'on range dans notre fichier `curated.yaml`, avec le lien et la date (voir chapitre 11).
+**⚠️ The crucial point for our project:** all of this (which safe, which exchange, how much) **is NOT written in the public ledger**. It happens in the real world, off-chain. We can only know it **through what Ethena publishes** on its website. That is exactly what we store in our `curated.yaml` file, with the link and the date (see chapter 11).
 
-### « Depeg » : quand le dollar numérique ne vaut plus 1 $
-Un stablecoin est censé valoir 1 $. S'il se met à valoir 0,95 $, on dit qu'il « **perd son ancrage** », en anglais *depeg*. Pour l'USDe, ça pourrait arriver si un exchange fait faillite, si les paris coûtent trop cher pendant longtemps, etc. **Tout notre travail de risque tourne autour de cette question : que se passe-t-il pour nous si l'USDe « depeg » ?**
-
----
-
-## 5. Faire fructifier son argent : sUSDe, la tirelire
-
-L'USDe seul ne rapporte rien. Mais Ethena propose de le **déposer dans une tirelire** qui rapporte des intérêts. Les intérêts viennent de ses paris (les acheteurs de paris paient une petite commission régulière) et du staking.
-
-Quand on dépose ses USDe, on reçoit des **sUSDe** (« s » pour *staked*, « déposé »).
-
-> **L'image à retenir : les parts d'une cagnotte qui grossit.** Vous mettez 100 € dans une cagnotte commune et recevez 100 « parts ». La cagnotte gagne des intérêts, mais le nombre de parts ne change pas : c'est **la valeur de chaque part qui monte**.
-
-Ce que notre programme a lu au bloc 26 162 087 :
-- **1 sUSDe = 1,2523 USDe.** Celui qui a déposé tôt a gagné 25 % depuis.
-- Pour récupérer ses USDe, il faut **attendre 1 jour** (le « cooldown », délai de retrait).
-
-Cette norme de tirelire s'appelle **ERC-4626**. La fonction `convertToAssets()` répond à la question « combien vaut 1 part ? ».
-
-> 💡 **Taux interne ≠ prix de marché.** « 1 sUSDe = 1,2523 USDe » est un calcul **comptable** fait par la tirelire elle-même. Si demain tout le monde veut fuir les sUSDe, ce chiffre ne baissera pas tout seul. Le **prix auquel les gens sont prêts à l'acheter**, lui, pourrait baisser. On appelle ça un « **taux interne** », et on le distingue soigneusement d'un « **prix de marché** ».
+### "Depeg": when the digital dollar is no longer worth $1
+A stablecoin is supposed to be worth $1. If it starts being worth $0.95, we say it "**loses its peg**", or *depegs*. For USDe, this could happen if an exchange goes bankrupt, if the bets cost too much for too long, etc. **All our risk work revolves around this question: what happens to us if USDe "depegs"?**
 
 ---
 
-## 6. Pendle et le PT : le bon du Trésor numérique
+## 5. Growing your money: sUSDe, the piggy bank
 
-### L'idée de Pendle : séparer le capital et les intérêts
-**Pendle** est une plateforme qui prend un placement qui rapporte (ici le sUSDe) et le **coupe en deux morceaux** :
-- le **PT** (*Principal Token*, « jeton du capital ») : il donne droit au **capital à une date fixe** ;
-- le **YT** (*Yield Token*, « jeton du rendement ») : il donne droit **aux intérêts** d'ici là.
+USDe on its own earns nothing. But Ethena offers to **deposit it into a piggy bank** that pays interest. The interest comes from its bets (the people on the other side of the bets pay a small regular fee) and from staking.
 
-> **L'image à retenir : la maison louée.** Une maison rapporte des loyers. Pendle permet de vendre séparément :
-> - **le droit de récupérer la maison le 26 novembre** (c'est le PT) ;
-> - **le droit de toucher les loyers jusque-là** (c'est le YT).
+When you deposit your USDe, you receive **sUSDe** ("s" for *staked*, "deposited").
 
-### Le PT, c'est un bon zéro-coupon
-Le PT de notre position s'appelle **PT-sUSDE-26NOV2026**. Il promet : « **le 26 novembre 2026, ce jeton vaudra 1 USDe** ».
+> **The picture to remember: shares of a growing kitty.** You put €100 into a shared kitty and receive 100 "shares". The kitty earns interest, but the number of shares does not change: it is **the value of each share that goes up**.
 
-Comme il ne rapporte rien d'ici là, il s'achète **moins cher** avant cette date. Aujourd'hui (46 jours avant), il vaut environ **0,993 USDe**. Celui qui l'achète 0,993 et attend gagne 0,007 : c'est son « intérêt fixe ».
+What our program read at block 26,162,087:
+- **1 sUSDe = 1.2523 USDe.** Whoever deposited early has gained 25% since.
+- To get your USDe back, you have to **wait 1 day** (the "cooldown", the withdrawal delay).
 
-> **Analogie :** un **bon d'achat de 100 € valable au 26 novembre**, que vous achetez 99,30 € aujourd'hui. Plus la date approche, plus il vaut près de 100 €.
+This piggy-bank standard is called **ERC-4626**. The function `convertToAssets()` answers the question "how much is 1 share worth?".
 
-### Le SY : l'adaptateur
-Pour pouvoir couper n'importe quel placement, Pendle l'emballe d'abord dans un format standard, le **SY** (*Standardized Yield*). Ici, le **SY-sUSDE** est un emballage autour du sUSDe.
-> **Analogie :** l'**adaptateur de prise électrique** en voyage. Pendle ne sait parler qu'à des SY ; le SY parle au sUSDe.
+> 💡 **Internal rate ≠ market price.** "1 sUSDe = 1.2523 USDe" is an **accounting** calculation done by the piggy bank itself. If tomorrow everyone wants to flee sUSDe, this number will not go down on its own. The **price at which people are willing to buy it**, on the other hand, could go down. We call the first one an "**internal rate**", and we carefully distinguish it from a "**market price**".
 
-La chaîne complète, quand on « remonte » le PT :
+---
+
+## 6. Pendle and the PT: the digital Treasury bond
+
+### Pendle's idea: separating capital and interest
+**Pendle** is a platform that takes an investment that pays (here sUSDe) and **cuts it into two pieces**:
+- the **PT** (*Principal Token*): it entitles you to the **capital at a fixed date**;
+- the **YT** (*Yield Token*): it entitles you to **the interest** until then.
+
+> **The picture to remember: the rented house.** A house brings in rent. Pendle lets you sell separately:
+> - **the right to get the house back on November 26** (that is the PT);
+> - **the right to collect the rent until then** (that is the YT).
+
+### The PT is a zero-coupon bond
+The PT in our position is called **PT-sUSDE-26NOV2026**. It promises: "**on November 26, 2026, this token will be worth 1 USDe**".
+
+Since it pays nothing until then, it sells **for less** before that date. Today (46 days before), it is worth about **0.993 USDe**. Whoever buys it at 0.993 and waits gains 0.007: that is their "fixed interest".
+
+> **Analogy:** a **€100 voucher valid on November 26**, which you buy for €99.30 today. The closer the date, the closer it is to €100.
+
+### The SY: the adapter
+To be able to cut any investment, Pendle first wraps it in a standard format, the **SY** (*Standardized Yield*). Here, **SY-sUSDE** is a wrapper around sUSDe.
+> **Analogy:** the **travel plug adapter**. Pendle can only talk to SYs; the SY talks to sUSDe.
+
+The full chain, when you "walk back up" from the PT:
 ```
-PT-sUSDE  →  se rachète en  →  SY-sUSDE  →  qui contient  →  sUSDe  →  qui contient  →  USDe
+PT-sUSDE  →  redeems into  →  SY-sUSDE  →  which contains  →  sUSDe  →  which contains  →  USDe
 ```
 
-### Le pool : le bureau de change
-Si vous voulez revendre votre PT **avant** le 26 novembre, il faut quelqu'un pour l'acheter. Pendle a un **pool** (une « réserve d'échange ») où l'on échange des PT contre des SY à tout moment. Ce type de programme d'échange automatique s'appelle un **AMM** (*Automated Market Maker*).
-> **Analogie :** un **bureau de change** avec deux tiroirs, un de PT, un de SY. Vous déposez des PT dans un tiroir et prenez des SY dans l'autre. Le taux de change bouge selon ce qu'il reste dans chaque tiroir.
+### The pool: the currency exchange office
+If you want to sell your PT **before** November 26, you need someone to buy it. Pendle has a **pool** (an "exchange reserve") where PTs are swapped for SYs at any time. This kind of automatic exchange program is called an **AMM** (*Automated Market Maker*).
+> **Analogy:** a **currency exchange office** with two drawers, one of PT, one of SY. You put PTs into one drawer and take SYs from the other. The exchange rate moves according to what is left in each drawer.
 
-**Pourquoi la taille du pool compte :** notre pool contient environ **3,8 millions de dollars**. Si quelqu'un doit vendre beaucoup plus que ça d'un coup, il vide le tiroir et le prix s'effondre. Comme un petit bureau de change qui n'a pas assez de billets.
+**Why the pool's size matters:** our pool holds about **$3.8 million**. If someone has to sell much more than that at once, they empty the drawer and the price collapses. Like a small exchange office that does not have enough banknotes.
 
 ---
 
-## 7. Emprunter avec Morpho : le prêteur sur gages
+## 7. Borrowing with Morpho: the pawnbroker
 
-### L'image à retenir : le mont-de-piété
-Vous avez une montre de valeur. Vous la laissez en **gage** au prêteur, qui vous prête de l'argent en échange. Si vous remboursez, vous récupérez la montre. Si la valeur de la montre baisse trop par rapport à ce que vous devez, le prêteur **la vend** pour se rembourser.
+### The picture to remember: the pawnshop
+You have a valuable watch. You leave it as a **pledge** with the lender, who lends you money in exchange. If you repay, you get the watch back. If the watch's value falls too much compared to what you owe, the lender **sells it** to get repaid.
 
-**Morpho** fait exactement ça, avec des smart contracts.
-- **Le gage**, appelé **collatéral** : nos PT-sUSDe.
-- **L'argent prêté** : des USDC.
-- **Qui prête ?** D'autres personnes, ou des « coffres » de placement (**vaults**), qui déposent leurs USDC pour gagner des intérêts. Ici, c'est surtout un vault nommé « Pendle Ecosystem USDC ».
+**Morpho** does exactly that, with smart contracts.
+- **The pledge**, called **collateral**: our PT-sUSDe.
+- **The money lent**: USDC.
+- **Who lends?** Other people, or investment "safes" (**vaults**), which deposit their USDC to earn interest. Here, it is mostly a vault named "Pendle Ecosystem USDC".
 
-### Un « marché » Morpho
-Morpho est **un seul gros programme** qui contient des milliers de petits « guichets » séparés, appelés **marchés**. Chaque marché a ses règles, fixées une fois pour toutes :
-1. quel jeton est prêté (USDC) ;
-2. quel jeton sert de gage (le PT) ;
-3. qui donne le prix du gage (l'**oracle**, chapitre 8) ;
-4. comment est calculé le taux d'intérêt ;
-5. jusqu'où on peut emprunter (le **LLTV**, voir ci-dessous).
+### A Morpho "market"
+Morpho is **one single big program** that contains thousands of small separate "counters", called **markets**. Each market has its rules, set once and for all:
+1. which token is lent (USDC);
+2. which token serves as the pledge (the PT);
+3. who gives the price of the pledge (the **oracle**, chapter 8);
+4. how the interest rate is calculated;
+5. how far you can borrow (the **LLTV**, see below).
 
-Chaque marché a un **identifiant** (une longue suite de caractères). Cet identifiant est calculé à partir de ces 5 règles : c'est leur **empreinte digitale**. Notre programme recalcule cette empreinte et vérifie qu'elle correspond, ce qui prouve qu'on lit bien le bon marché.
+Each market has an **identifier** (a long string of characters). This identifier is computed from these 5 rules: it is their **fingerprint**. Our program recomputes this fingerprint and checks that it matches, which proves we are reading the right market.
 
-### Les chiffres qui comptent (avec un exemple simple)
-Prenons un exemple rond avant les vrais chiffres. Vous déposez un gage qui vaut **100 €** et vous empruntez **87 €**.
+### The numbers that matter (with a simple example)
+Let's take a round example before the real numbers. You deposit a pledge worth **€100** and you borrow **€87**.
 
-| Terme | Définition simple | Exemple |
+| Term | Simple definition | Example |
 |---|---|---|
-| **LTV** (*Loan-To-Value*) | ce que je dois ÷ ce que vaut mon gage | 87 / 100 = **87 %** |
-| **LLTV** (*Liquidation LTV*) | la **limite** à ne pas dépasser, fixée par le marché | **91,5 %** |
-| **Liquidation** | si mon LTV dépasse la limite, n'importe qui peut rembourser ma dette et **prendre mon gage avec un bonus** | — |
-| **Health factor** (facteur de santé) | à quelle distance je suis de la limite. Au-dessus de 1 : ça va. Égal à 1 : je suis liquidable | 91,5 / 87 = **1,05** |
+| **LTV** (*Loan-To-Value*) | what I owe ÷ what my pledge is worth | 87 / 100 = **87%** |
+| **LLTV** (*Liquidation LTV*) | the **limit** not to exceed, set by the market | **91.5%** |
+| **Liquidation** | if my LTV exceeds the limit, anyone can repay my debt and **take my pledge with a bonus** | — |
+| **Health factor** | how far I am from the limit. Above 1: fine. Equal to 1: I can be liquidated | 91.5 / 87 = **1.05** |
 
-> Avec un health factor de **1,05**, si la valeur estimée du gage baisse d'environ **5 %**, on touche la limite et on est liquidé.
+> With a health factor of **1.05**, if the estimated value of the pledge drops by about **5%**, we hit the limit and get liquidated.
 
-**Les vrais chiffres de la position A** (bloc 26 162 087) :
-- gage : **413 030 PT**, estimés à **409 872 USDC** ;
-- dette : **357 217 USDC** (intérêts inclus) ;
-- LTV : **87,2 %**, limite **91,5 %**, health factor **1,050** ;
-- **liquidable si le prix estimé du PT baisse de 4,75 %** ;
-- taux d'emprunt : **3,7 % par an**.
+**The real numbers of position A** (block 26,162,087):
+- pledge: **413,030 PT**, valued at **409,872 USDC**;
+- debt: **357,217 USDC** (interest included);
+- LTV: **87.2%**, limit **91.5%**, health factor **1.050**;
+- **liquidatable if the estimated PT price drops by 4.75%**;
+- borrow rate: **3.7% per year**.
 
-> 💡 **Les intérêts « en retard ».** Morpho ne met à jour les intérêts que quand quelqu'un interagit avec le marché. Entre-temps, la dette affichée est un peu en retard, comme un compteur de taxi qu'on ne regarde que de temps en temps. Notre programme recalcule les intérêts manquants comme Morpho le ferait.
+> 💡 **"Lagging" interest.** Morpho only updates interest when someone interacts with the market. In between, the displayed debt lags a little, like a taxi meter you only look at from time to time. Our program recomputes the missing interest the way Morpho would.
 
 ---
 
-## 8. L'oracle : l'expert qui estime la valeur du gage
+## 8. The oracle: the expert who appraises the pledge
 
-### Le problème
-Un smart contract est **aveugle** : il ne voit pas le monde extérieur et ne sait pas « combien vaut un PT ». Il faut quelqu'un pour **le lui dire**. Ce quelqu'un s'appelle un **oracle**.
+### The problem
+A smart contract is **blind**: it does not see the outside world and does not know "how much a PT is worth". Someone has to **tell it**. That someone is called an **oracle**.
 
-> **L'image à retenir : l'expert du mont-de-piété.** Le prêteur ne connaît pas la valeur de votre montre. Il demande à un expert. **Si l'expert dit qu'elle vaut moins, vous êtes liquidé, même si la montre n'a pas changé.**
+> **The picture to remember: the pawnshop's expert.** The lender does not know what your watch is worth. They ask an expert. **If the expert says it is worth less, you are liquidated, even if the watch has not changed.**
 >
-> **Morpho croit l'oracle aveuglément.** Comprendre l'oracle, c'est comprendre **quand** on peut être liquidé.
+> **Morpho trusts the oracle blindly.** Understanding the oracle means understanding **when** you can be liquidated.
 
-### Deux façons d'estimer : prix fixé, ou prix de marché
-C'est **LE point clé** du projet.
+### Two ways to appraise: fixed price, or market price
+This is **THE key point** of the project.
 
-| | **Prix fixé (« fixed »)** | **Prix de marché (« market »)** |
+| | **Fixed price ("fixed")** | **Market price ("market")** |
 |---|---|---|
-| Analogie | l'expert donne le **prix catalogue** de la montre | l'expert regarde **à combien elle se revend** aujourd'hui |
-| Avantage | ne panique pas si le marché a un coup de folie passager | colle à la réalité |
-| Danger | si la montre perd **vraiment** sa valeur, l'expert ne le voit pas | un mouvement brutal et passager peut déclencher des liquidations |
-| Qui prend le risque ? | les **prêteurs** (le gage vaut moins qu'annoncé) | les **emprunteurs** (nous) |
+| Analogy | the expert gives the watch's **catalogue price** | the expert looks at **what it resells for** today |
+| Advantage | does not panic if the market has a passing fit of madness | sticks to reality |
+| Danger | if the watch **really** loses its value, the expert does not see it | a sudden, short-lived move can trigger liquidations |
+| Who takes the risk? | the **lenders** (the pledge is worth less than announced) | the **borrowers** (us) |
 
-Il existe une 3ᵉ catégorie, le **taux interne** : l'expert demande au fabricant lui-même (comme la tirelire sUSDe, chapitre 5). Ce n'est pas un prix de marché non plus.
+There is a 3rd category, the **internal rate**: the expert asks the manufacturer itself (like the sUSDe piggy bank, chapter 5). It is not a market price either.
 
-### Notre oracle à nous : deux experts et un arbitre
-Notre programme a découvert que le marché utilise un **méta-oracle** (conçu par une société appelée Steakhouse). « Méta » veut dire qu'il chapeaute deux oracles.
+### Our own oracle: two experts and a referee
+Our program discovered that the market uses a **meta-oracle** (designed by a company called Steakhouse). "Meta" means it oversees two oracles.
 
 ```
-                  ARBITRE (méta-oracle)
+                  REFEREE (meta-oracle)
                  /                     \
-   EXPERT 1 « catalogue »         EXPERT 2 « marché »
-   (actif en temps normal)        (de secours)
-   prix du PT = formule           prix du PT = formule
-   qui ne dépend que du temps     × vrai prix de l'USDe
-   et suppose 1 USDe = 1 $        (fourni par Chainlink)
+   EXPERT 1 "catalogue"           EXPERT 2 "market"
+   (active in normal times)       (backup)
+   PT price = formula             PT price = formula
+   that depends only on time      × real USDe price
+   and assumes 1 USDe = $1        (provided by Chainlink)
 ```
 
-- **Expert 1 (prix fixé).** Il applique une **formule** : « le PT vaut 1 moins une petite décote qui diminue avec le temps » (6 % par an). Aujourd'hui, ça donne 0,9924. Le 26 novembre, ça donnera exactement 1. **Il ne regarde jamais le marché**, et il **suppose que 1 USDe vaut toujours 1 $**.
-- **Expert 2 (prix de marché).** Même formule, mais **multipliée par le vrai prix de l'USDe**, fourni par **Chainlink**, la plus grosse entreprise d'oracles. Si l'USDe tombe à 0,95 $, son prix baisse de 5 %.
-- **L'arbitre.** En temps normal, il écoute l'expert 1. Si les deux experts sont **en désaccord de plus de 0,75 %**, n'importe qui peut lever la main (« contestation »). Si le désaccord **dure encore 16 heures plus tard**, l'arbitre **passe à l'expert 2**.
+- **Expert 1 (fixed price).** It applies a **formula**: "the PT is worth 1 minus a small discount that shrinks over time" (6% per year). Today, that gives 0.9924. On November 26, it will give exactly 1. **It never looks at the market**, and it **assumes 1 USDe is always worth $1**.
+- **Expert 2 (market price).** Same formula, but **multiplied by the real USDe price**, provided by **Chainlink**, the biggest oracle company. If USDe falls to $0.95, its price drops by 5%.
+- **The referee.** In normal times, it listens to expert 1. If the two experts **disagree by more than 0.75%**, anyone can raise their hand (a "challenge"). If the disagreement **still holds 16 hours later**, the referee **switches to expert 2**.
 
-### Ce que ça veut dire concrètement (scénarios)
-| Si l'USDe vaut… | Que se passe-t-il pour nous ? |
+### What this means in practice (scenarios)
+| If USDe is worth… | What happens to us? |
 |---|---|
-| plus de 0,9925 $ | Rien. Les experts sont d'accord à moins de 0,75 %. |
-| entre 0,9525 $ et 0,9925 $ | Après 16 h, l'arbitre peut passer à l'expert 2. Notre santé baisse, **mais on n'est pas liquidés**. |
-| **moins de 0,9525 $ pendant plus de 16 h** | L'arbitre passe à l'expert 2, le prix estimé baisse de plus de 4,75 % : **on est liquidés**. |
-| moins de 0,9525 $ pendant **moins** de 16 h | L'expert 1 reste aux commandes, on n'est pas liquidés. Mais pendant ce temps, **ce sont les prêteurs qui sont exposés** : le gage vaut moins qu'annoncé. |
+| more than $0.9925 | Nothing. The experts agree within 0.75%. |
+| between $0.9525 and $0.9925 | After 16 h, the referee can switch to expert 2. Our health drops, **but we are not liquidated**. |
+| **less than $0.9525 for more than 16 h** | The referee switches to expert 2, the estimated price drops by more than 4.75%: **we are liquidated**. |
+| less than $0.9525 for **less** than 16 h | Expert 1 stays in charge, we are not liquidated. But during that time, **it is the lenders who are exposed**: the pledge is worth less than announced. |
 
-> 🎯 **À retenir :** ce système **ignore les paniques courtes** (bien pour nous) mais **suit les crises longues** (liquidation). Le délai de **16 heures** est le réglage de risque le plus important de toute notre position.
-
----
-
-## 9. La position A racontée comme une histoire
-
-Imaginons **Alice**, qui a la position A. Voici ce qu'elle a fait, étape par étape :
-
-1. Alice avait des **USDe** (le dollar d'Ethena).
-2. Elle les a mis dans la **tirelire** d'Ethena et a reçu des **sUSDe**, qui rapportent des intérêts.
-3. Elle a passé ses sUSDe chez **Pendle** : ils ont été emballés en **SY**, puis coupés, et elle a gardé le **PT**, qui vaudra 1 USDe le 26 novembre 2026.
-4. Elle a déposé ses PT en **gage** sur un marché **Morpho**, et a **emprunté des USDC** en échange.
-5. Le prix de son gage est donné par le **méta-oracle** (les deux experts + l'arbitre).
-
-Pourquoi faire ça ? Avec les USDC empruntés, Alice peut racheter des PT, les redéposer, emprunter encore… et ainsi **multiplier son rendement fixe**. C'est un montage classique, mais **chaque étape ajoute un risque**. Ce sont ces risques qu'on cartographie.
+> 🎯 **Key takeaway:** this system **ignores short panics** (good for us) but **follows long crises** (liquidation). The **16-hour** delay is the most important risk setting of our whole position.
 
 ---
 
-## 10. Les dépendances : un jeu de dominos
+## 9. Position A told as a story
 
-### L'idée
-Si une pièce du montage casse, tout ce qui est « au-dessus » tombe. C'est un **jeu de dominos**. Notre projet dessine **tous les dominos et leurs liens**, pour qu'une autre équipe puisse calculer « si tel domino tombe, combien on perd ? ».
+Let's imagine **Alice**, who holds position A. Here is what she did, step by step:
 
-### Le dessin (simplifié)
-Une flèche « A → B » veut dire « **A dépend de B** » : si B casse, A souffre.
+1. Alice had **USDe** (Ethena's dollar).
+2. She put them into Ethena's **piggy bank** and received **sUSDe**, which pay interest.
+3. She took her sUSDe to **Pendle**: they were wrapped into **SY**, then cut, and she kept the **PT**, which will be worth 1 USDe on November 26, 2026.
+4. She deposited her PTs as a **pledge** on a **Morpho** market, and **borrowed USDC** in exchange.
+5. The price of her pledge is given by the **meta-oracle** (the two experts + the referee).
+
+Why do this? With the borrowed USDC, Alice can buy more PTs, deposit them again, borrow again… and thus **multiply her fixed yield**. It is a classic setup, but **each step adds a risk**. These are the risks we map.
+
+---
+
+## 10. Dependencies: a game of dominoes
+
+### The idea
+If one piece of the setup breaks, everything "above" it falls. It is a **game of dominoes**. Our project draws **all the dominoes and their links**, so that another team can compute "if this domino falls, how much do we lose?".
+
+### The drawing (simplified)
+An arrow "A → B" means "**A depends on B**": if B breaks, A suffers.
 ```
-POSITION D'ALICE
-   │ est placée dans
+ALICE'S POSITION
+   │ is placed in
    ▼
-MARCHÉ MORPHO ──── prête des ────► USDC ──── émis par ────► Circle
-   │        └──── prix donné par ──► MÉTA-ORACLE ──► expert 1 (formule)
-   │                                            └──► expert 2 (formule × Chainlink USDe/USD)
-   │ garanti par
+MORPHO MARKET ──── lends ────► USDC ──── issued by ────► Circle
+   │        └──── priced by ──► META-ORACLE ──► expert 1 (formula)
+   │                                       └──► expert 2 (formula × Chainlink USDe/USD)
+   │ backed by
    ▼
-PT-sUSDe ──── échangeable dans ────► POOL PENDLE (bureau de change, 3,8 M$)
-   │ se rachète en
+PT-sUSDe ──── tradable in ────► PENDLE POOL (exchange office, $3.8M)
+   │ redeems into
    ▼
-SY-sUSDe ──► sUSDe ──► USDe ──── émis par ────► Ethena
-                                                 ├── garde ses cryptos chez → Copper, Ceffu, Fireblocks
-                                                 └── fait ses paris sur     → Binance, Bybit, OKX, Bitget, Deribit
-Et tout ça « fonctionne sur » ──► Ethereum
+SY-sUSDe ──► sUSDe ──► USDe ──── issued by ────► Ethena
+                                                 ├── keeps its crypto at → Copper, Ceffu, Fireblocks
+                                                 └── places its bets on  → Binance, Bybit, OKX, Bitget, Deribit
+And all of this "runs on" ──► Ethereum
 ```
 
-### Exemples de « dominos qui tombent »
-- **Binance fait faillite** → les paris d'Ethena sont touchés → l'USDe peut perdre son ancrage → le sUSDe, le SY et le PT perdent de la valeur → si ça dure plus de 16 h, l'oracle le voit → **Alice est liquidée**.
-- **Le pool Pendle est trop petit** → les liquidateurs ne peuvent pas revendre les PT saisis sans casser le prix → ils hésitent à liquider → **les prêteurs risquent de ne pas être remboursés**.
-- **Chainlink se trompe sur le prix de l'USDe** → l'expert 2 se trompe → si l'arbitre l'écoute, liquidation injuste.
+### Examples of "falling dominoes"
+- **Binance goes bankrupt** → Ethena's bets are hit → USDe can lose its peg → sUSDe, the SY and the PT lose value → if it lasts more than 16 h, the oracle sees it → **Alice is liquidated**.
+- **The Pendle pool is too small** → liquidators cannot resell the seized PTs without breaking the price → they hesitate to liquidate → **the lenders risk not being repaid**.
+- **Chainlink gets the USDe price wrong** → expert 2 is wrong → if the referee listens to it, unfair liquidation.
 
-Notre programme sait répondre automatiquement à « qui tombe si X tombe ? » :
+Our program can automatically answer "who falls if X falls?":
 ```bash
 PYTHONPATH=src python -m discovery.inspect_graph --impact binance
 ```
 
-### Le vocabulaire des flèches (traduit)
-| Mot anglais dans le fichier | En français | Exemple |
+### The arrow vocabulary (explained)
+| Word in the file | In plain English | Example |
 |---|---|---|
-| `deployed_in` | « est placé dans » | la position est placée dans le marché |
-| `collateralized_by` | « est garanti par » | le marché est garanti par le PT |
-| `lends` | « prête » | le marché prête des USDC |
-| `priced_by` | « tire son prix de » | le marché tire son prix de l'oracle |
-| `redeemable_into` | « s'échange contre » | le PT s'échange contre du SY |
-| `issued_by` | « est émis par » | l'USDe est émis par Ethena |
-| `settled_on` | « fonctionne sur » | tout fonctionne sur Ethereum |
+| `deployed_in` | "is placed in" | the position is placed in the market |
+| `collateralized_by` | "is backed by" | the market is backed by the PT |
+| `lends` | "lends" | the market lends USDC |
+| `priced_by` | "gets its price from" | the market gets its price from the oracle |
+| `redeemable_into` | "can be exchanged for" | the PT can be exchanged for SY |
+| `issued_by` | "is issued by" | USDe is issued by Ethena |
+| `settled_on` | "runs on" | everything runs on Ethereum |
 
 ---
 
-## 11. Notre mission : jouer les détectives
+## 11. Our mission: playing detective
 
-### Ce qu'on nous demande
-Notre partie du projet (le **Module de Découverte**, 30 % de la note) doit **trouver tous les dominos tout seul**, à partir d'une seule information de départ : l'identifiant du marché Morpho et l'adresse d'Alice.
+### What we are asked to do
+Our part of the project (the **Discovery Module**, 30% of the grade) must **find all the dominoes on its own**, starting from a single piece of information: the Morpho market identifier and Alice's address.
 
-Et surtout : **prouver chaque lien**. Pas de « je crois que », pas de « de mémoire ». Le jury veut voir que **rien n'est inventé** (en anglais : *no hallucination*).
+And above all: **prove every link**. No "I think that", no "from memory". The jury wants to see that **nothing is made up** (*no hallucination*).
 
-### Comment le programme enquête
-Comme un détective qui tire un fil :
-1. Il demande au marché Morpho : « quelles sont tes 5 règles ? ». Réponse : le gage est le contrat 0xB195…, l'oracle est 0xF8b2…
-2. Il demande au contrat 0xB195… : « qui es-tu ? ». Il **sonde** : il répond à `SY()` et `expiry()`, donc c'est un PT Pendle. « Qui est ton SY ? » → 0xBF98…
-3. Il demande au SY : « qu'y a-t-il dedans ? » → sUSDe. Au sUSDe : « quel est ton actif ? » → USDe.
-4. Il démonte l'oracle de la même façon, expert par expert.
-5. Et ainsi de suite, jusqu'à ce qu'il n'y ait plus de fil à tirer.
+### How the program investigates
+Like a detective pulling on a thread:
+1. It asks the Morpho market: "what are your 5 rules?". Answer: the pledge is contract 0xB195…, the oracle is 0xF8b2…
+2. It asks contract 0xB195…: "who are you?". It **probes**: the contract answers `SY()` and `expiry()`, so it is a Pendle PT. "Who is your SY?" → 0xBF98…
+3. It asks the SY: "what is inside you?" → sUSDe. It asks sUSDe: "what is your asset?" → USDe.
+4. It takes the oracle apart the same way, expert by expert.
+5. And so on, until there is no thread left to pull.
 
-### Les 3 types de preuves
-Chaque lien du graphe dit **d'où il vient**. Il y a trois niveaux de preuve :
+### The 3 types of evidence
+Every link in the graph says **where it comes from**. There are three levels of evidence:
 
-| Type | Analogie | Exemple | Fiabilité |
+| Type | Analogy | Example | Reliability |
 |---|---|---|---|
-| **onchain** | un **relevé officiel** lu directement dans le cahier public | « le contrat PT répond que son SY est 0xBF98…, au bloc 26 162 087 » | ⭐⭐⭐ vérifiable par n'importe qui |
-| **api** | un **renseignement** donné par le site officiel d'un protocole | « l'API de Morpho dit que tel vault prête à ce marché » | ⭐⭐ on fait confiance au site |
-| **curated** (curé) | une **coupure de presse datée** | « la doc d'Ethena, consultée le 10/10/2026, dit que ses gardiens sont Copper, Ceffu… » | ⭐ vrai à cette date, peut vieillir |
+| **onchain** | an **official statement** read directly from the public ledger | "the PT contract answers that its SY is 0xBF98…, at block 26,162,087" | ⭐⭐⭐ verifiable by anyone |
+| **api** | **information** given by a protocol's official website | "Morpho's API says this vault lends to this market" | ⭐⭐ we trust the website |
+| **curated** | a **dated press clipping** | "Ethena's docs, consulted on 10/10/2026, say its custodians are Copper, Ceffu…" | ⭐ true on that date, can go stale |
 
-> 💡 **« Curé »** ne veut rien dire de religieux : ça vient de l'anglais *curated*, « sélectionné à la main ». C'est ce qu'on a vérifié nous-mêmes dans des sources officielles, en notant le lien et la date. On l'utilise uniquement pour ce qui **n'existe pas** sur la blockchain (qui est derrière une adresse, où sont les coffres d'Ethena…).
+> 💡 **"Curated"** means "hand-picked". It is what we checked ourselves in official sources, writing down the link and the date. We use it only for what **does not exist** on the blockchain (who is behind an address, where Ethena's safes are…).
 
-Quand c'est possible, on **combine** : on utilise l'API pour **trouver** le pool Pendle (le PT ne connaît pas son pool), puis on le **prouve** dans le cahier public (le pool confirme qu'il contient bien notre PT).
+When possible, we **combine**: we use the API to **find** the Pendle pool (the PT does not know its pool), then we **prove** it in the public ledger (the pool confirms that it really contains our PT).
 
-### Pourquoi un « cache » ?
-Pendant la démo devant le jury, si le Wi-Fi tombe, on ne peut plus interroger la blockchain. On a donc **enregistré toutes les réponses** dans le dossier `data/cache/`.
-> **Analogie :** on a **photocopié toutes les pages** du cahier dont on avait besoin. Le jour J, on lit les photocopies : même résultat, sans réseau.
+### Why a "cache"?
+During the demo in front of the jury, if the Wi-Fi goes down, we can no longer query the blockchain. So we **recorded all the answers** in the `data/cache/` folder.
+> **Analogy:** we **photocopied every page** of the ledger we needed. On the big day, we read the photocopies: same result, no network.
 
-Comme toutes les questions ont été posées **au même bloc** (la même « photo »), les photocopies sont cohérentes et le résultat est identique à chaque fois.
+Since all the questions were asked **at the same block** (the same "photo"), the photocopies are consistent and the result is identical every time.
 
 ---
 
-## 12. Lire notre fichier graph.json sans paniquer
+## 12. Reading our graph.json file without panicking
 
-`output/graph.json` est le **livrable** que les autres équipes utilisent. Il a trois parties.
+`output/graph.json` is the **deliverable** the other teams use. It has three parts.
 
-### 1) La position
+### 1) The position
 ```json
 "position": {"id": "morpho:0x5613…:0x03BA…", "value_usd": 409816.56}
 ```
-En français : « La position sur le marché Morpho 0x5613…, de l'utilisateur 0x03BA…, vaut environ 409 817 $. »
+In plain English: "The position on Morpho market 0x5613…, of user 0x03BA…, is worth about $409,817."
 
-### 2) Les nœuds (les dominos)
+### 2) The nodes (the dominoes)
 ```json
 {"id": "usde", "type": "asset", "label": "USDe", "address": "0x4c9E…", "chain": "ethereum",
  "meta": {"price_usd": 0.9996, "tvl_usd": 4779918261, …}}
 ```
-En français : « Le domino `usde` est un **actif** (un jeton) appelé USDe, à l'adresse 0x4c9E… sur Ethereum. Il vaut 0,9996 $ et il en existe pour 4,78 milliards de dollars. »
-- `type` dit **quelle sorte** de domino c'est (jeton, oracle, marché, entreprise…) ;
-- `meta` est un sac d'informations supplémentaires utiles aux autres équipes.
+In plain English: "The domino `usde` is an **asset** (a token) called USDe, at address 0x4c9E… on Ethereum. It is worth $0.9996 and $4.78 billion of it exists."
+- `type` says **what kind** of domino it is (token, oracle, market, company…);
+- `meta` is a bag of extra information useful to the other teams.
 
-### 3) Les arêtes (les liens entre dominos)
+### 3) The edges (the links between dominoes)
 ```json
 {"from": "susde", "to": "usde", "type": "redeemable_into", "weight": 1.0,
  "source": "onchain", "evidence": "sUSDe.asset() = 0x4c9E… @ 0x9D39… #26162087 …"}
 ```
-En français : « **sUSDe s'échange contre USDe**, et le lien est total (`weight` 1.0). C'est prouvé **dans le cahier public** : on a demandé au contrat sUSDe (adresse 0x9D39…) quel était son actif, au bloc 26 162 087, et il a répondu 0x4c9E… (l'USDe). »
+In plain English: "**sUSDe can be exchanged for USDe**, and the link is total (`weight` 1.0). It is proven **in the public ledger**: we asked the sUSDe contract (address 0x9D39…) what its asset was, at block 26,162,087, and it answered 0x4c9E… (USDe)."
 
-Le champ `evidence` est **la preuve**. N'importe qui peut la refaire.
+The `evidence` field is **the proof**. Anyone can redo it.
 
 ---
 
-## 13. Comment on mesure le risque
+## 13. How we measure risk
 
-Les chapitres 1 à 12 répondent à « **de quoi** dépend la position ? ». Ce chapitre répond à la question que pose
-vraiment le brief : **« faut-il rester ou sortir, et pourquoi ? »**. C'est le travail du **moteur de risque**
+Chapters 1 to 12 answer "**what** does the position depend on?". This chapter answers the question the brief
+really asks: **"should we stay or exit, and why?"**. That is the job of the **risk engine**
 (`src/risk/`).
 
-### L'image à retenir : faut-il assurer sa voiture ?
-- L'assurance coûte une **prime certaine** (vous la payez à coup sûr).
-- Sans assurance, vous risquez un **accident** : peu probable, mais cher.
-- Assurer vaut le coup si « **probabilité d'accident × coût de l'accident** » dépasse la prime.
+### The picture to remember: should you insure your car?
+- Insurance costs a **certain premium** (you pay it for sure).
+- Without insurance, you risk an **accident**: unlikely, but expensive.
+- Insuring is worth it if "**probability of an accident × cost of the accident**" exceeds the premium.
 
-Pour notre position, c'est la même chose :
-- la « prime », c'est le **coût de sortie** : ce que ça coûte de tout revendre maintenant (certain) ;
-- l'« accident », c'est l'**incident** (un depeg, une faillite…), qui ferait perdre une somme si on reste.
+For our position, it is the same thing:
+- the "premium" is the **exit cost**: what it costs to sell everything now (certain);
+- the "accident" is the **incident** (a depeg, a bankruptcy…), which would make us lose a sum if we stay.
 
-### Étape 1 : imaginer un choc
-Un **choc**, c'est une phrase du type « *l'USDe tombe à 0,93 $ pendant 24 heures* ». Il a 4 ingrédients :
-**où** (quel nœud du graphe), **quoi** (depeg, faillite, panne…), **combien** (−7 %) et **combien de temps** (24 h).
+### Step 1: imagine a shock
+A **shock** is a sentence like "*USDe falls to $0.93 for 24 hours*". It has 4 ingredients:
+**where** (which node of the graph), **what** (depeg, bankruptcy, outage…), **how much** (−7%) and **how long** (24 h).
 
-### Étape 2 : faire tomber les dominos
-Le moteur fait remonter le choc le long des flèches du graphe, avec **une règle écrite en clair par type de flèche** :
+### Step 2: knock down the dominoes
+The engine pushes the shock up along the graph's arrows, with **one rule written in plain language per arrow type**:
 
-| Flèche | Règle (en français) |
+| Arrow | Rule (in plain English) |
 |---|---|
-| « s'échange contre » | si l'USDe perd 7 %, le sUSDe, le SY et le PT perdent 7 % aussi |
-| « est émis par » | si Ethena perd une partie de ses réserves, l'USDe perd la même part |
-| « est placé dans » (Ethena → Binance) | si Binance fait faillite, Ethena perd la petite part de ses réserves qui y était exposée |
-| « tire son prix de » | un expert « catalogue » (prix fixé) ne transmet **rien** ; un expert « marché » transmet tout |
+| "can be exchanged for" | if USDe loses 7%, sUSDe, the SY and the PT lose 7% too |
+| "is issued by" | if Ethena loses part of its reserves, USDe loses the same share |
+| "is placed in" (Ethena → Binance) | if Binance goes bankrupt, Ethena loses the small share of its reserves that was exposed there |
+| "gets its price from" | a "catalogue" expert (fixed price) passes on **nothing**; a "market" expert passes on everything |
 
-### Étape 3 : l'arbitre et sa minuterie de 16 heures
-Rappel du chapitre 8 : l'oracle a deux experts et un arbitre. L'arbitre ne passe à l'expert « marché » que si les deux
-experts sont en désaccord **pendant 16 heures** (chiffre lu dans le contrat lui-même).
-- USDe à 0,93 $ pendant **6 h** : l'arbitre ne bouge pas, rien ne se passe. **Perte : 0 $.**
-- USDe à 0,93 $ pendant **24 h** : l'arbitre bascule, le gage est réévalué à la baisse, Alice est liquidée. **Perte : ~37 000 $.**
+### Step 3: the referee and its 16-hour timer
+Reminder from chapter 8: the oracle has two experts and a referee. The referee only switches to the "market" expert if the two
+experts disagree **for 16 hours** (a figure read from the contract itself).
+- USDe at $0.93 for **6 h**: the referee does not move, nothing happens. **Loss: $0.**
+- USDe at $0.93 for **24 h**: the referee switches, the pledge is revalued downwards, Alice is liquidated. **Loss: ~$37,000.**
 
-C'est la découverte la plus importante du projet : **la durée d'un choc compte autant que son ampleur**.
+This is the most important finding of the project: **the duration of a shock matters as much as its size**.
 
-### Étape 4 : qui perd combien ?
-- **Si Alice est liquidée**, un « liquidateur » (n'importe qui) rembourse sa dette et repart avec son gage, **plus un
-  bonus** d'environ 2,6 % (formule officielle de Morpho). C'est Alice qui paie ce bonus.
-- **Si l'oracle ne voit rien** (prix fixé), Alice n'est pas liquidée. Mais si son gage vaut désormais **moins que sa dette**,
-  elle peut tout abandonner : c'est alors **le prêteur** qui encaisse le trou. On appelle ça une **dette irrécouvrable**.
-  Exemple : un exploit chez Pendle laisserait **152 000 $** de trou aux prêteurs, sans une seule liquidation.
+### Step 4: who loses how much?
+- **If Alice is liquidated**, a "liquidator" (anyone) repays her debt and walks away with her pledge, **plus a
+  bonus** of about 2.6% (Morpho's official formula). Alice is the one who pays this bonus.
+- **If the oracle sees nothing** (fixed price), Alice is not liquidated. But if her pledge is now worth **less than her debt**,
+  she can walk away from everything: then **the lender** absorbs the hole. This is called **bad debt**.
+  Example: an exploit at Pendle would leave a **$152,000** hole for the lenders, without a single liquidation.
 
-### Étape 5 : combien coûte de sortir ?
-On a demandé un **devis** au vrai bureau de change Pendle, sans rien vendre : « si je vendais 413 030 PT, combien
-recevrais-je ? ». Le contrat sait répondre à ça (une fonction de *simulation*). Le coût de sortie total additionne :
-1. le **glissement** : plus on vend gros, plus le taux se dégrade (environ 0,12 %) ;
-2. la conversion vers des USDC pour rembourser la dette (petite, et c'est une hypothèse) ;
-3. le **gas** : les frais de transaction d'Ethereum (quelques centimes aujourd'hui) ;
-4. le **rendement abandonné** : ce qu'on aurait gagné en restant pendant la semaine.
+### Step 5: how much does exiting cost?
+We asked the real Pendle exchange office for a **quote**, without selling anything: "if I sold 413,030 PT, how much
+would I receive?". The contract can answer that (a *simulation* function). The total exit cost adds up:
+1. the **slippage**: the bigger the sale, the worse the rate gets (about 0.12%);
+2. the conversion to USDC to repay the debt (small, and it is a hypothesis);
+3. the **gas**: Ethereum's transaction fees (a few cents today);
+4. the **forgone yield**: what we would have earned by staying during the week.
 
-Total : **854 $**, soit 1,6 % du capital d'Alice (qui vaut 53 133 $).
+Total: **$854**, i.e. 1.6% of Alice's capital (which is worth $53,133).
 
-### Étape 6 : le seuil p* (« p étoile »)
-La règle du brief tient en une division :
-> **p\* = coût de sortie ÷ perte si l'incident arrive**
+### Step 6: the threshold p* ("p-star")
+The brief's rule fits in one division:
+> **p\* = exit cost ÷ loss if the incident happens**
 
-- Exemple du brief : sortir coûte 11, l'incident coûterait 60, donc p\* = 11 ÷ 60 ≈ **18 %**.
-- Notre position face à l'alerte « USDe −30 % durable » : p\* = 854 ÷ 53 133 ≈ **1,6 %**.
+- The brief's example: exiting costs 11, the incident would cost 60, so p\* = 11 ÷ 60 ≈ **18%**.
+- Our position facing the alert "lasting USDe −30%": p\* = 854 ÷ 53,133 ≈ **1.6%**.
 
-Ce que ça veut dire : **si vous croyez à plus de 1,6 % de chances que l'incident arrive, sortir coûte moins cher que rester.**
-Le gros avantage : le manager n'a pas besoin de faire confiance à NOTRE probabilité. Il compare la sienne à p\*.
+What this means: **if you believe there is more than a 1.6% chance the incident happens, exiting costs less than staying.**
+The big advantage: the manager does not need to trust OUR probability. They compare their own to p\*.
 
-> 💡 Pourquoi p\* est-il si bas ici ? Parce que la position est à **levier** : Alice a emprunté 87 % de la valeur de son gage.
-> Une petite baisse peut donc effacer tout son capital. Un levier rend une position fragile.
+> 💡 Why is p\* so low here? Because the position is **leveraged**: Alice borrowed 87% of the value of her pledge.
+> So a small drop can wipe out all her capital. Leverage makes a position fragile.
 
-### Étape 7 : sortir en partie
-Le glissement grandit **plus vite** que la taille vendue : les premiers PT se vendent presque sans perte, les derniers plus
-cher. Selon la probabilité qu'on croit, la meilleure réponse est parfois « vendre 35 % » plutôt que tout ou rien. Le moteur
-calcule cette fraction pour chaque probabilité de 0 à 100 % : c'est le verdict **PARTIAL x %**.
+### Step 7: exiting partly
+Slippage grows **faster** than the size sold: the first PTs sell almost without loss, the last ones cost
+more. Depending on the probability you believe in, the best answer is sometimes "sell 35%" rather than all or nothing. The engine
+computes this fraction for every probability from 0 to 100%: that is the **PARTIAL x%** verdict.
 
-### Étape 8 : « et sans alerte ? » — le Monte Carlo
-Pour estimer le risque d'une semaine normale, on **rejoue la semaine 200 000 fois** sur ordinateur. À chaque fois, chaque
-événement (depeg, faillite, exploit…) arrive ou non, au hasard, selon sa fréquence. On obtient :
-- la **perte attendue** : la moyenne (environ 130 $ par semaine ici) ;
-- la **VaR 95 %** : la perte qu'on ne dépasse que dans 5 % des semaines. Elle vaut **0 $** ici, car dans 99 % des semaines
-  il ne se passe rien ;
-- l'**ES 99 %** : la moyenne des 1 % pires semaines (environ 13 000 $), pour voir la queue du risque.
+### Step 8: "and without an alert?" — the Monte Carlo
+To estimate the risk of a normal week, we **replay the week 200,000 times** on the computer. Each time, each
+event (depeg, bankruptcy, exploit…) happens or not, at random, according to its frequency. We get:
+- the **expected loss**: the average (about $130 per week here);
+- the **VaR 95%**: the loss exceeded in only 5% of weeks. It is **$0** here, because in 99% of weeks
+  nothing happens;
+- the **ES 99%**: the average of the worst 1% of weeks (about $13,000), to see the tail of the risk.
 
-### Étape 9 : l'honnêteté sur les chiffres
-Chaque paramètre du moteur porte une étiquette (fichier `risk/params.yaml`) :
-- **sourcé** : lu dans une doc officielle (lien + date), par exemple la formule du bonus de liquidation de Morpho ;
-- **on-chain** : lu dans la blockchain, par exemple les 16 h de l'arbitre ou le devis du bureau de change ;
-- **hypothèse** : un choix de notre équipe, justifié en une phrase. Exemple : « une faillite d'exchange majeur environ une
-  fois tous les 100 ans par exchange ».
+### Step 9: honesty about the numbers
+Every parameter of the engine carries a label (file `risk/params.yaml`):
+- **sourced**: read in official docs (link + date), for example Morpho's liquidation bonus formula;
+- **on-chain**: read from the blockchain, for example the referee's 16 h or the exchange office's quote;
+- **hypothesis**: a choice made by our team, justified in one sentence. Example: "a major exchange failure roughly
+  once every 100 years per exchange".
 
-Le programme **refuse de démarrer** si un chiffre n'a pas d'étiquette. Et une **analyse de sensibilité** montre ce qui bouge
-quand on change chaque hypothèse.
+The program **refuses to start** if a number has no label. And a **sensitivity analysis** shows what moves
+when each hypothesis is changed.
 
-### Étape 10 : la preuve sur un vrai incident
-Le **10 octobre 2025**, l'USDe est tombé à **0,65 $ sur Binance** pendant ~40 minutes, mais il est resté proche de 1 $
-on-chain. On a relu l'historique du feed Chainlink : son plus bas ce jour-là était **0,9929 $**. Résultat du replay :
-- notre oracle : rien ne se passe (l'écart n'a même pas atteint le seuil) ;
-- un oracle qui écouterait Binance : Alice aurait été **liquidée**.
+### Step 10: the proof on a real incident
+On **October 10, 2025**, USDe fell to **$0.65 on Binance** for ~40 minutes, but it stayed close to $1
+on-chain. We re-read the history of the Chainlink feed: its low that day was **$0.9929**. Result of the replay:
+- our oracle: nothing happens (the gap did not even reach the threshold);
+- an oracle listening to Binance: Alice would have been **liquidated**.
 
-Morale : **la source de l'oracle compte**.
+Moral: **the oracle's source matters**.
 
 ---
 
-## 14. Comment lire le front
+## 14. How to read the front
 
-Le front (`front/`) est un **deck de diapositives** qui suit les questions d'une risk manager à 3 h du matin. Pour le lancer :
+The front (`front/`) is a **slide deck** that follows the questions of a risk manager at 3 a.m. To launch it:
 ```bash
 cd front && npm install && npm run dev
 ```
-puis ouvrez http://localhost:5173. Sans backend, il affiche des réponses réelles enregistrées (`docs/api_examples/`) : pas
-besoin d'Internet. ← → change de poche, ↑ ↓ change de question.
+then open http://localhost:5173. Without a backend, it shows real recorded answers (`docs/api_examples/`): no
+need for Internet. ← → changes pocket, ↑ ↓ changes question.
 
-| # | Diapositive | Ce qu'elle montre |
+| # | Slide | What it shows |
 |---|---|---|
-| 1 | Portefeuille | les poches du détenteur, leur poids, leur verdict |
-| 2 | Verdict | **STAY / EXIT** en grand, ce que la sortie éviterait contre ce qu'elle coûte, le seuil p\* |
-| 3 | Par quel chemin ? | le graphe prouvé ; clic sur une arête = sa preuve |
-| 4 | Combien je perds ? | Monte Carlo et incidents classés, avec leur règle |
-| 5 | Combien coûte la sortie ? | coût certain, part sortable maintenant |
-| 6 | Et si ça arrive ? | votre probabilité contre p\* : le verdict bascule |
-| 7 | Concentration | les dépendances partagées par plusieurs poches |
+| 1 | Portfolio | the holder's pockets, their weight, their verdict |
+| 2 | Verdict | **STAY / EXIT** in big letters, what exiting would avoid versus what it costs, the threshold p\* |
+| 3 | Which path? | the proven graph; click on an edge = its evidence |
+| 4 | How much do I lose? | Monte Carlo and ranked incidents, with their rule |
+| 5 | What does exiting cost? | certain cost, share that can be exited now |
+| 6 | What if it happens? | your probability versus p\*: the verdict flips |
+| 7 | Concentration | the dependencies shared by several pockets |
 
-> Important : le front **ne calcule rien**. Il affiche ce que l'API Python a calculé. Si les chiffres semblent faux,
-> c'est dans `src/stacktrace/` qu'il faut regarder.
+> Important: the front **computes nothing**. It displays what the Python API computed. If the numbers look wrong,
+> `src/stacktrace/` is where you need to look.
 
 ---
 
-## 15. Glossaire
+## 15. Glossary
 
-| Mot | Explication simple |
+| Word | Simple explanation |
 |---|---|
-| **Adresse** | identifiant d'un compte ou d'un programme sur la blockchain (`0x…`, 42 caractères) |
-| **AMM / pool** | programme d'échange automatique entre deux jetons ; un « bureau de change » sans guichetier |
-| **API** | un service web qui répond à des questions (ici : les sites de Morpho et Pendle) |
-| **Bloc** | une « page » du cahier public ; numérotée ; une toutes les ~12 s sur Ethereum |
-| **Blockchain** | cahier de comptes public, copié partout, ineffaçable |
-| **Cache** | les réponses enregistrées pour pouvoir les relire sans réseau |
-| **Chainlink** | entreprise qui fournit des prix (oracles) à la blockchain |
-| **Collatéral** | le gage déposé pour emprunter |
-| **Cooldown** | délai d'attente avant de pouvoir retirer (1 jour pour sUSDe) |
-| **Curated (curé)** | information vérifiée à la main dans une source officielle, avec lien et date |
-| **Custodian** | entreprise « coffre-fort » qui garde des cryptos pour quelqu'un |
-| **DeFi** | finance décentralisée : prêter, emprunter, placer avec des smart contracts |
-| **Depeg** | quand un stablecoin ne vaut plus 1 $ |
-| **ERC-20** | la norme standard des jetons |
-| **ERC-4626** | la norme standard des « tirelires à parts » |
-| **Ethereum** | la blockchain sur laquelle tout se passe ici |
-| **Exchange** | plateforme d'échange centralisée (Binance, OKX…) |
-| **Health factor** | distance à la liquidation ; < 1 = liquidable |
-| **Hedge / couverture** | pari inverse qui neutralise les variations de prix |
-| **Liquidation** | vente forcée du gage quand la dette devient trop grande par rapport à lui |
-| **LLTV** | la limite dette/gage à ne pas dépasser (91,5 % ici) |
-| **LTV** | dette ÷ valeur du gage |
-| **Mainnet** | le vrai réseau (par opposition aux réseaux de test) |
-| **Marché (Morpho)** | un guichet de prêt avec ses 5 règles fixes |
-| **Méta-oracle** | oracle qui choisit entre deux autres oracles |
-| **Morpho** | plateforme de prêt/emprunt sur gage |
-| **Nœud / RPC** | serveur qui a une copie de la blockchain / le guichet pour l'interroger |
-| **Oracle** | le programme qui dit à la blockchain combien vaut quelque chose |
-| **Pendle** | plateforme qui sépare capital (PT) et intérêts (YT) |
-| **Prix fixé / de marché / taux interne** | prix par formule / prix réel de revente / calcul comptable du fabricant |
-| **Proxy upgradeable** | contrat dont le propriétaire peut changer le code (un risque) |
-| **PT** | jeton du capital : vaut 1 actif à une date fixe |
-| **Revert** | refus d'un contrat (par exemple : fonction inexistante) |
-| **Smart contract** | programme posé sur la blockchain qui applique ses règles tout seul |
-| **Sonder** | essayer des fonctions pour deviner ce qu'est un contrat |
-| **Stablecoin** | jeton qui vaut environ 1 $ (USDC, USDe) |
-| **sUSDe** | parts de la tirelire d'Ethena (USDe déposés qui rapportent) |
-| **SY** | emballage standard de Pendle (l'« adaptateur de prise ») |
-| **Token / jeton** | une unité numérique inscrite dans le cahier |
-| **TVL** | *Total Value Locked* : combien d'argent est déposé quelque part |
-| **USDC** | dollar numérique de Circle, adossé à de vrais dollars |
-| **USDe** | dollar numérique d'Ethena, adossé à des cryptos couvertes |
-| **Vault** | coffre de placement qui prête l'argent de ses déposants |
-| **YT** | jeton du rendement : touche les intérêts jusqu'à la date |
-| **Bonus de liquidation (LIF)** | ce que gagne le liquidateur en plus (≈ 2,6 % ici) ; c'est l'emprunteur qui le paie |
-| **Choc** | un incident imaginé : où, quoi, combien, combien de temps |
-| **Coût de sortie (C_exit)** | ce que coûte, à coup sûr, de tout revendre maintenant (glissement + conversion + gas + rendement abandonné) |
-| **Dette irrécouvrable** | la partie de la dette que le gage ne couvre plus : perdue pour les prêteurs |
-| **ES 99 %** | la moyenne des 1 % pires scénarios |
-| **Gas** | les frais payés pour faire une transaction sur Ethereum |
-| **Glissement (slippage)** | la perte due au fait que plus on vend gros, plus le prix se dégrade |
-| **Monte Carlo** | rejouer une période des milliers de fois au hasard pour voir la distribution des pertes |
-| **p\* (p étoile)** | le seuil de probabilité : coût de sortie ÷ perte en cas d'incident ; au-dessus, il vaut mieux sortir |
-| **Perte attendue** | la perte moyenne sur l'ensemble des scénarios tirés au hasard |
-| **Replay** | rejouer un incident réel passé sur la position d'aujourd'hui |
-| **Sensibilité** | comment le résultat change si on change une hypothèse |
-| **VaR 95 %** | la perte qu'on ne dépasse que dans 5 % des cas |
-| **Verdict** | STAY (rester), PARTIAL x % (sortir une partie), EXIT (tout sortir) |
+| **Address** | identifier of an account or a program on the blockchain (`0x…`, 42 characters) |
+| **AMM / pool** | automatic exchange program between two tokens; an "exchange office" with no clerk |
+| **API** | a web service that answers questions (here: the Morpho and Pendle websites) |
+| **Block** | a "page" of the public ledger; numbered; one every ~12 s on Ethereum |
+| **Blockchain** | public ledger, copied everywhere, indelible |
+| **Cache** | the recorded answers, so they can be re-read without a network |
+| **Chainlink** | company that provides prices (oracles) to the blockchain |
+| **Collateral** | the pledge deposited in order to borrow |
+| **Cooldown** | waiting time before you can withdraw (1 day for sUSDe) |
+| **Curated** | information checked by hand in an official source, with link and date |
+| **Custodian** | "safe" company that keeps crypto for someone |
+| **DeFi** | decentralised finance: lending, borrowing, investing with smart contracts |
+| **Depeg** | when a stablecoin is no longer worth $1 |
+| **ERC-20** | the standard for tokens |
+| **ERC-4626** | the standard for "piggy banks with shares" |
+| **Ethereum** | the blockchain on which everything happens here |
+| **Exchange** | centralised exchange platform (Binance, OKX…) |
+| **Health factor** | distance to liquidation; < 1 = liquidatable |
+| **Hedge** | opposite bet that neutralises price moves |
+| **Liquidation** | forced sale of the pledge when the debt becomes too large compared to it |
+| **LLTV** | the debt/pledge limit not to exceed (91.5% here) |
+| **LTV** | debt ÷ value of the pledge |
+| **Mainnet** | the real network (as opposed to test networks) |
+| **Market (Morpho)** | a lending counter with its 5 fixed rules |
+| **Meta-oracle** | oracle that chooses between two other oracles |
+| **Morpho** | platform for lending/borrowing against a pledge |
+| **Node / RPC** | server that has a copy of the blockchain / the counter where you query it |
+| **Oracle** | the program that tells the blockchain how much something is worth |
+| **Pendle** | platform that separates capital (PT) and interest (YT) |
+| **Fixed price / market price / internal rate** | price by formula / real resale price / the manufacturer's accounting calculation |
+| **Upgradeable proxy** | contract whose owner can change the code (a risk) |
+| **PT** | principal token: worth 1 asset at a fixed date |
+| **Revert** | a contract's refusal (for example: function does not exist) |
+| **Smart contract** | program placed on the blockchain that applies its rules on its own |
+| **Probe** | try functions to figure out what a contract is |
+| **Stablecoin** | token worth about $1 (USDC, USDe) |
+| **sUSDe** | shares of Ethena's piggy bank (deposited USDe that earn yield) |
+| **SY** | Pendle's standard wrapper (the "plug adapter") |
+| **Token** | a digital unit recorded in the ledger |
+| **TVL** | *Total Value Locked*: how much money is deposited somewhere |
+| **USDC** | Circle's digital dollar, backed by real dollars |
+| **USDe** | Ethena's digital dollar, backed by hedged crypto |
+| **Vault** | investment safe that lends its depositors' money |
+| **YT** | yield token: collects the interest until the date |
+| **Liquidation bonus (LIF)** | what the liquidator earns on top (≈ 2.6% here); the borrower is the one who pays it |
+| **Shock** | an imagined incident: where, what, how much, how long |
+| **Exit cost (C_exit)** | what it certainly costs to sell everything now (slippage + conversion + gas + forgone yield) |
+| **Bad debt** | the part of the debt the pledge no longer covers: lost for the lenders |
+| **ES 99%** | the average of the worst 1% of scenarios |
+| **Gas** | the fees paid to make a transaction on Ethereum |
+| **Slippage** | the loss due to the fact that the bigger you sell, the worse the price gets |
+| **Monte Carlo** | replaying a period thousands of times at random to see the distribution of losses |
+| **p\* (p-star)** | the probability threshold: exit cost ÷ loss in case of an incident; above it, exiting is better |
+| **Expected loss** | the average loss over all the randomly drawn scenarios |
+| **Replay** | replaying a real past incident on today's position |
+| **Sensitivity** | how the result changes if a hypothesis is changed |
+| **VaR 95%** | the loss exceeded in only 5% of cases |
+| **Verdict** | STAY (stay), PARTIAL x% (exit part), EXIT (exit everything) |
 
 ---
 
-## 16. Petit quiz pour vérifier qu'on a compris
+## 16. A short quiz to check we understood
 
-Répondez à voix haute entre vous, puis ouvrez le corrigé.
+Answer out loud among yourselves, then open the answer key.
 
-1. Pourquoi dit-on « au bloc n° 26 162 087 » ?
-2. Quelle est la différence entre USDC et USDe ?
-3. Si 1 sUSDe vaut 1,25 USDe, est-ce un prix de marché ?
-4. Que vaudra un PT-sUSDE-26NOV2026 le 26 novembre 2026 ?
-5. Alice a un health factor de 1,05. Qu'est-ce que ça veut dire ?
-6. L'USDe tombe à 0,90 $ pendant 2 heures, puis remonte. Alice est-elle liquidée ?
-7. Et s'il reste à 0,90 $ pendant 3 jours ?
-8. Pourquoi « où Ethena garde ses cryptos » est-il dans `curated.yaml` et pas « onchain » ?
-9. À quoi sert le dossier `data/cache/` ?
-10. Que veut dire la flèche « `susde` → `usde` » de type `redeemable_into` ?
-11. Sortir coûte 854 $ et l'incident ferait perdre 53 133 $. Que vaut p\*, et que veut-il dire ?
-12. Pourquoi un exploit chez Pendle ne liquide-t-il pas Alice, et qui perd de l'argent ?
-13. Pourquoi la VaR 95 % vaut-elle 0 $ alors que la perte attendue n'est pas nulle ?
+1. Why do we say "at block #26,162,087"?
+2. What is the difference between USDC and USDe?
+3. If 1 sUSDe is worth 1.25 USDe, is that a market price?
+4. What will a PT-sUSDE-26NOV2026 be worth on November 26, 2026?
+5. Alice has a health factor of 1.05. What does that mean?
+6. USDe falls to $0.90 for 2 hours, then recovers. Is Alice liquidated?
+7. And if it stays at $0.90 for 3 days?
+8. Why is "where Ethena keeps its crypto" in `curated.yaml` and not "onchain"?
+9. What is the `data/cache/` folder for?
+10. What does the arrow "`susde` → `usde`" of type `redeemable_into` mean?
+11. Exiting costs $854 and the incident would lose $53,133. What is p\*, and what does it mean?
+12. Why does an exploit at Pendle not liquidate Alice, and who loses money?
+13. Why is the VaR 95% equal to $0 when the expected loss is not zero?
 
 <details>
-<summary><b>Corrigé</b></summary>
+<summary><b>Answer key</b></summary>
 
-1. Pour dire **à quel instant** on a lu les données (la « photo » du cahier). Toutes nos lectures sont faites au même bloc, donc cohérentes et revérifiables.
-2. L'USDC est adossé à de **vrais dollars** gardés par Circle. L'USDe est adossé à des **cryptos + des paris inverses** gérés par Ethena.
-3. **Non**, c'est un **taux interne** (le calcul comptable de la tirelire). Le prix auquel quelqu'un l'achèterait pourrait être différent.
-4. **1 USDe** (payé sous forme de sUSDe, qu'il faudra déstaker pendant 1 jour pour avoir des USDe).
-5. Elle est à environ **5 % de la liquidation** : si le prix estimé de son gage baisse d'environ 4,75 %, elle devient liquidable.
-6. **Non.** L'arbitre exige 16 h de désaccord avant de passer à l'expert « marché ». Pendant ces 2 h, l'expert « catalogue » reste aux commandes.
-7. **Oui, probablement.** Après 16 h, quelqu'un peut faire basculer l'oracle sur le prix de marché. Le prix estimé baisse alors d'environ 10 %, plus que les 4,75 % de marge d'Alice.
-8. Parce que ça se passe **dans le monde réel** (entreprises, comptes sur des exchanges), pas dans le cahier public. On ne peut le savoir que par ce qu'Ethena **publie**, d'où le lien et la date.
-9. À **rejouer la découverte sans Internet**, avec exactement les mêmes réponses (les « photocopies » du cahier).
-10. « Le **sUSDe s'échange contre de l'USDe** » : le sUSDe dépend de l'USDe. Si l'USDe casse, le sUSDe souffre.
-11. p\* = 854 ÷ 53 133 ≈ **1,6 %** : si l'on croit à plus de 1,6 % de chances que l'incident arrive, sortir coûte moins cher que rester.
-12. Parce que l'oracle principal est **fixe** : il ne voit pas la baisse du PT, donc la santé d'Alice ne bouge pas. Mais son gage vaut moins que sa dette : elle peut abandonner, et ce sont les **prêteurs** qui encaissent le trou (dette irrécouvrable).
-13. Parce que dans plus de 95 % (et même 99 %) des semaines simulées, **rien ne se passe**. La perte attendue vient des rares semaines très mauvaises ; l'ES 99 % les montre.
+1. To say **at what moment** we read the data (the "photo" of the ledger). All our reads are made at the same block, so they are consistent and can be re-checked.
+2. USDC is backed by **real dollars** kept by Circle. USDe is backed by **crypto + opposite bets** managed by Ethena.
+3. **No**, it is an **internal rate** (the piggy bank's accounting calculation). The price at which someone would buy it could be different.
+4. **1 USDe** (paid in the form of sUSDe, which you will have to unstake for 1 day to get USDe).
+5. She is about **5% away from liquidation**: if the estimated price of her pledge drops by about 4.75%, she becomes liquidatable.
+6. **No.** The referee requires 16 h of disagreement before switching to the "market" expert. During those 2 h, the "catalogue" expert stays in charge.
+7. **Yes, probably.** After 16 h, someone can switch the oracle to the market price. The estimated price then drops by about 10%, more than Alice's 4.75% margin.
+8. Because it happens **in the real world** (companies, accounts on exchanges), not in the public ledger. We can only know it through what Ethena **publishes**, hence the link and the date.
+9. To **replay the discovery without Internet**, with exactly the same answers (the "photocopies" of the ledger).
+10. "**sUSDe can be exchanged for USDe**": sUSDe depends on USDe. If USDe breaks, sUSDe suffers.
+11. p\* = 854 ÷ 53,133 ≈ **1.6%**: if you believe there is more than a 1.6% chance the incident happens, exiting costs less than staying.
+12. Because the main oracle is **fixed**: it does not see the PT's drop, so Alice's health does not move. But her pledge is worth less than her debt: she can walk away, and it is the **lenders** who absorb the hole (bad debt).
+13. Because in more than 95% (and even 99%) of the simulated weeks, **nothing happens**. The expected loss comes from the rare very bad weeks; the ES 99% shows them.
 </details>
 
 ---
 
-## Et après ?
-Quand ce guide est clair pour vous, lisez dans cet ordre :
-1. [`POSITION_A.md`](POSITION_A.md) : la même histoire avec tous les vrais chiffres ;
-2. [`CONTRACT.md`](CONTRACT.md) : le format exact du fichier livré aux autres équipes ;
-3. [`VERIFY.md`](VERIFY.md) : ce que **vous** devez vérifier vous-mêmes ;
-4. [`NEXT_STEPS.md`](NEXT_STEPS.md) : la suite du travail.
+## What next?
+Once this guide is clear to you, read in this order:
+1. [`POSITION_A.md`](POSITION_A.md): the same story with all the real numbers;
+2. [`CONTRACT.md`](CONTRACT.md): the exact format of the file delivered to the other teams;
+3. [`VERIFY.md`](VERIFY.md): what **you** must check yourselves;
+4. [`NEXT_STEPS.md`](NEXT_STEPS.md): the rest of the work.
 
-Et pour **voir** le graphe dans le terminal :
+And to **see** the graph in the terminal:
 ```bash
 PYTHONPATH=src python -m discovery.inspect_graph
 ```
