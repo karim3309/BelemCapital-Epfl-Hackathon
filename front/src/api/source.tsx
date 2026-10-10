@@ -101,7 +101,8 @@ function initialState(): { mode: SourceMode; apiUrl: string; probeEnabled: boole
     params.get('api') ?? read(STORAGE.api) ?? (env.VITE_API_URL as string | undefined) ?? DEFAULT_API,
   )
   const asked = params.get('source') ?? read(STORAGE.mode) ?? (buildSource === 'auto' ? null : buildSource)
-  const mode: SourceMode = asked === 'live' ? 'live' : 'recorded'
+  // Live by default: the deck shows real data read now. Recorded only when asked for (URL, build, last choice).
+  const mode: SourceMode = asked === 'recorded' ? 'recorded' : 'live'
   // Recorded on purpose (URL or build): no background call to an API nobody runs.
   const recordedOnPurpose = params.get('source') === 'recorded' || (buildSource === 'recorded' && !params.has('source'))
   return { mode, apiUrl, probeEnabled: !recordedOnPurpose || params.has('api') }

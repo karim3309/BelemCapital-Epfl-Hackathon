@@ -104,6 +104,8 @@ Commands:
 PYTHONPATH=src python -m risk.refresh       # online: discovery + engine reads at the same block
 PYTHONPATH=src python -m risk.run           # offline: risk_report.json + risk_grid.json (validated)
 PYTHONPATH=src python -m stacktrace.api    # v2 API (online) → http://127.0.0.1:8000
+PYTHONPATH=src python -m stacktrace.api --hold-block   # demo: same block until restart
+PYTHONPATH=src python -m stacktrace.warmup book:rockawayx   # demo: precompute everything in the running API
 cd front && npm install && npm run dev      # front → http://localhost:5173
 ```
 
@@ -112,6 +114,6 @@ cd front && npm install && npm run dev      # front → http://localhost:5173
 - Parts 2 and 3 (impact + decision): 15 scenarios, price × duration grid, Monte Carlo, replay of 10/10/2025, p* and partial exit.
 - Backend v2 (`src/stacktrace/`): any real holder → pockets, graphs, STAY / EXIT, HTTP API. Curator view: `vault:0x…` (whole vault) and `book:<key>` (curator book of `config.yaml`, e.g. `book:rockawayx`); `python -m stacktrace.record <holder>` → `docs/api_examples/recordings/` for the offline demo.
 - Front: `front/` (slide deck on top of the v2 API).
-- 136 tests.
+- 139 tests.
 
 Read in this order: `docs/BEGINNER_GUIDE.md`, `docs/POSITION_A.md`, `docs/PARTS_2_3.md`, `docs/DEMO.md`. To verify: `docs/VERIFY.md`. Next steps: `docs/NEXT_STEPS.md`. Audits: `docs/AUDIT.md`.

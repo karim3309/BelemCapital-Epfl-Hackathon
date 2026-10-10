@@ -38,6 +38,8 @@ export interface Health extends BlockMeta {
   version: string
   rpc_host: string
   block_age_s: number
+  /** The API keeps this block until it restarts (python -m stacktrace.api --hold-block). */
+  block_held?: boolean
   apis: Record<string, string>
 }
 

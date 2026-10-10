@@ -116,3 +116,35 @@ def test_recorder_writes_every_route_of_a_holder(client, monkeypatch, tmp_path):
                      "risk_1.json", "risk_2.json"]
     import json
     assert json.loads((folder / "incident.json").read_text())["incident_mode"]["p_used"] == record.INCIDENT_EXAMPLE_P
+
+
+def test_health_keeps_the_results_already_computed(client):
+    c, calls = client
+    c.get(f"/holders/{HOLDER}/pockets/1/risk")
+    c.get("/health")                                     # used to force a new session and empty the cache
+    c.get(f"/holders/{HOLDER}/pockets/1/risk")
+    assert calls["analyze"] == 1
+
+
+def test_hold_block_keeps_the_session_beyond_the_ttl(client, monkeypatch):
+    c, calls = client
+    monkeypatch.setattr(api, "SESSION_TTL_S", None)
+    c.get(f"/holders/{HOLDER}/pockets/1/risk")
+    api.STATE.opened_at -= 3600                          # one hour later
+    c.get(f"/holders/{HOLDER}/pockets/1/risk")
+    assert calls["analyze"] == 1 and c.get("/health").json()["block_held"] is True
+
+
+def test_warmup_calls_every_route_of_the_deck(client, monkeypatch):
+    from stacktrace import warmup
+    c, calls = client
+    seen = []
+
+    def fake_get(url, timeout=None):
+        path = url.replace("http://127.0.0.1:8000", "")
+        seen.append(path)
+        return c.get(path)
+    monkeypatch.setattr(warmup.requests, "get", fake_get)
+    assert warmup.warmup(HOLDER) == 0
+    assert any(p.endswith("/book") for p in seen) and sum(p.endswith("/graph") for p in seen) == 2
+    assert calls["analyze"] == 2                         # each pocket analysed once, then served from the cache

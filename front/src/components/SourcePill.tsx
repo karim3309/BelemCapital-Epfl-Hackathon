@@ -93,7 +93,9 @@ export default function SourcePill() {
                 </span>
                 <span className="text-caption font-normal text-neutral1">
                   {m === 'live'
-                    ? 'Ethereum mainnet, block refreshed every 2 minutes.'
+                    ? probe.status === 'ok' && probe.health.block_held
+                      ? 'Ethereum mainnet, block held for the demo (--hold-block).'
+                      : 'Ethereum mainnet, block refreshed every 2 minutes.'
                     : (() => {
                         const b = recordedBlock(holder)
                         const t = recordedTimestamp(holder)

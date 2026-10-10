@@ -1,6 +1,7 @@
 """HTTP API of the StackTrace v2 backend (for the front) — FastAPI, read-only, real live data.
 
     PYTHONPATH=src python -m stacktrace.api                  # http://127.0.0.1:8000  (doc interactive : /docs)
+    PYTHONPATH=src python -m stacktrace.api --hold-block     # demo: one block until restart (warm up, then present)
 
 Routes (detailed contract + examples: docs/API.md):
     GET  /health                                         RPC + APIs diagnostic, current block
@@ -17,7 +18,8 @@ curator book listed in config.yaml → curator_books).
 `{pocket}` = the pocket's id (e.g. morpho_vault_v2:0xD6d4…) OR its number in the list (1, 2, …).
 
 How it works:
-  - one shared live SESSION (RPC + pinned block); renewed when its block is older than SESSION_TTL_S seconds;
+  - one shared live SESSION (RPC + pinned block); renewed when its block is older than SESSION_TTL_S seconds,
+    or NEVER with --hold-block (demo: everything computed during the warm-up stays instant until restart);
   - every result is cached FOR THAT BLOCK: calling a route again is instant, and all responses
     of the same block are consistent with each other (each response states its `block`);
   - computations run one at a time (lock): a full analysis takes time (hundreds of RPC calls).
@@ -40,7 +42,7 @@ from .params import load_params
 from .portfolio import BOOK_PREFIX, Holding, Portfolio, curator_book, scan_holder
 from .session import Session, SessionError, mask_url, open_session
 
-SESSION_TTL_S = 120
+SESSION_TTL_S: float | None = 120     # None = hold the block until restart (--hold-block)
 API_VERSION = "2.0"
 
 app = FastAPI(title="StackTrace API", version=API_VERSION,
@@ -57,7 +59,8 @@ class _State:
         self.cache: dict[tuple, Any] = {}
 
     def get_session(self, fresh: bool = False) -> Session:
-        if fresh or self.session is None or time.time() - self.opened_at > SESSION_TTL_S:
+        expired = SESSION_TTL_S is not None and time.time() - self.opened_at > SESSION_TTL_S
+        if fresh or self.session is None or expired:
             try:
                 self.session = open_session()
             except SessionError as e:
@@ -119,10 +122,11 @@ def _report(s: Session, holder: str, pocket: str, horizon: float | None) -> tupl
 # ----------------------------------------------------------------------------- routes
 @app.get("/health")
 def health() -> dict:
+    # The CURRENT session (no forced renewal): a health check must not throw away the results already computed.
     with STATE.lock:
-        s = STATE.get_session(fresh=True)
+        s = STATE.get_session()
     out = {"status": "ok", "version": API_VERSION, **_meta(s), "rpc_host": mask_url(s.config.rpc_url),
-           "block_age_s": round(time.time() - s.block_timestamp), "apis": {}}
+           "block_age_s": round(time.time() - s.block_timestamp), "block_held": SESSION_TTL_S is None, "apis": {}}
     checks = {"morpho": lambda u: requests.post(u, json={"query": "{ __typename }"}, timeout=15),
               "pendle": lambda u: requests.get(f"{u}/v2/markets/all", params={"skip": 0, "limit": 1}, timeout=15)}
     for name, key in (("morpho", "morpho_graphql"), ("pendle", "pendle_core")):
@@ -232,9 +236,20 @@ def book(holder: str, horizon: float | None = Query(None, gt=0, le=365)) -> dict
                       "pockets": summary, "skipped": skipped, "shared_dependencies": shared_dependencies(reports)})
 
 
-def main() -> None:
+def main(argv: list[str] | None = None) -> None:
+    import argparse
+
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    global SESSION_TTL_S
+    ap = argparse.ArgumentParser(description="StackTrace API (live, read-only).")
+    ap.add_argument("--hold-block", action="store_true",
+                    help="keep the same block until restart: warm up before a demo, then every screen is instant")
+    ap.add_argument("--port", type=int, default=8000)
+    a = ap.parse_args(argv)
+    if a.hold_block:
+        SESSION_TTL_S = None
+        print("Block held until restart (--hold-block): warm it up with  python -m stacktrace.warmup book:rockawayx")
+    uvicorn.run(app, host="127.0.0.1", port=a.port)
 
 
 if __name__ == "__main__":

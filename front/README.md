@@ -27,8 +27,8 @@ npm run build        # type check + production build
 
 | Source | When | What is shown |
 |---|---|---|
-| **Recorded** | by default, and whenever the API does not answer | the real responses recorded with `python -m stacktrace.record` in `docs/api_examples/recordings/<holder>/`, imported directly: a single copy |
-| **Live** | the API is running and you pick it | any holder, the current block (refreshed every 2 min) |
+| **Recorded** | only when asked for (`?source=recorded`) | the real responses recorded with `python -m stacktrace.record` in `docs/api_examples/recordings/<holder>/`, imported directly: a single copy |
+| **Live** | **by default**; start the API first (`python -m stacktrace.api --hold-block` for a demo) | any holder, the current block (refreshed every 2 min) |
 
 The front looks for the API in the background (`/health`) and offers to go live; the choice is remembered. The pill in
 the top-right corner always says where the numbers come from (block, age) and lets you change the API address.

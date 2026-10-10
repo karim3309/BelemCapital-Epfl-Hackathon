@@ -6,20 +6,38 @@ Common thread: the questions of Léa, the on-call risk manager (framing note §1
 3. How much does exiting cost?
 4. Do I exit everything, part of it, or do I wait?
 
-Numbers: real responses recorded at block **#26162868** (`docs/api_examples/`), replayed **without network**.
+Numbers: **live**, Ethereum mainnet, the RockawayX curator book (`book:rockawayx`, the 12 Ethereum Morpho vaults of
+the Dune dashboard), read at the block of the warm-up.
 
-## Before the demo (once)
-```bash
-python -m pytest -q
-```
-```bash
-cd front && npm install && npm run dev
-```
-Open http://localhost:5173 in full screen (1280 px or more). The pill at the top right must say **Recorded**.
-**Turn off the Wi-Fi**: everything must work.
+## Before the demo: warm-up, 10 minutes before going on stage
+Two PowerShell windows, both in the repo, venv active (`.venv311\Scripts\Activate.ps1`), `$env:PYTHONPATH="src"`
+(not needed after `pip install -e .`), and the RPC URL in `.env`.
 
-"Live" option (RPC required, `/book` takes ~1 min 30 on the first call): `PYTHONPATH=src python -m stacktrace.api`,
-then choose "Live" in the pill. Only do this after warming up the API.
+1. **Window 1, the API, block held** (leave it open until the end of the demo):
+   ```powershell
+   python -m stacktrace.api --hold-block
+   ```
+   `--hold-block` keeps ONE block until the API restarts. Without it the API moves to a new block every 2 minutes and
+   everything is recomputed (minutes) in front of the jury.
+2. **Window 2, the warm-up** (several minutes the first time; `RPC HTTP 429, retrying` lines are normal):
+   ```powershell
+   python -m stacktrace.warmup book:rockawayx
+   ```
+   It computes, in the running API, everything the deck will show. Wait for `Ready in … s`.
+3. **Window 2, the front:**
+   ```powershell
+   cd front
+   npm run dev
+   ```
+4. Open **http://localhost:5173/?source=live&holder=book:rockawayx** in full screen (1280 px or more). The pill at the
+   top right says **Live · block #…**, and in its menu "block held for the demo". Click through every slide once:
+   every screen must appear instantly.
+
+Do not restart the API after the warm-up (that would start a new block). If something breaks: restart the API with
+`--hold-block`, run the warm-up again, and keep talking over slide 1 meanwhile.
+
+> ⚠ The narrative below still follows the former single-holder example. It is to be rewritten on the RockawayX book
+> once the live numbers of the warm-up are known.
 
 ---
 
