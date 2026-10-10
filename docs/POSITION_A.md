@@ -1,6 +1,6 @@
 # Position A : ce qu'on a découvert, expliqué simplement
 
-Tous les chiffres sont lus **on-chain au bloc #26161750** (2026-10-10 11:31 UTC), sauf mention contraire.
+Tous les chiffres sont lus **on-chain au bloc #26162087** (2026-10-10 12:39 UTC), sauf mention contraire.
 Chaque affirmation de ce document correspond à une arête ou à un `meta` de [`output/graph.json`](../output/graph.json).
 On peut la retrouver avec :
 
@@ -9,7 +9,7 @@ PYTHONPATH=src python -m discovery.inspect_graph --evidence
 ```
 
 ## En 5 lignes
-1. On a déposé **413 030 PT-sUSDE-26NOV2026** sur un marché **Morpho Blue**, et on doit **357 215 USDC**.
+1. On a déposé **413 030 PT-sUSDE-26NOV2026** sur un marché **Morpho Blue**, et on doit **357 217 USDC**.
 2. Notre ratio dette/collatéral est de **87,2 %**, pour une limite (LLTV) de **91,5 %**. Le health factor vaut **1,050** : une baisse de **4,75 %** du prix donné par l'oracle nous rend liquidables.
 3. L'oracle est un **méta-oracle**. En temps normal, il donne un prix **fixé par une formule** (décote linéaire de 6 %/an, qui ignore le marché) et suppose USDe = USDC = 1. Si le prix de marché s'écarte de plus de 0,75 % pendant 16 h, il peut **basculer** sur un oracle qui suit le prix de marché de l'USDe (Chainlink).
 4. Tout en bas de la pile, le PT vaut 1 USDe à l'échéance (26 nov. 2026, dans 46,5 jours). L'USDe repose sur Ethena, c'est-à-dire des réserves chez des custodians et des shorts sur des exchanges centralisés. **Rien de cela n'est on-chain.**
@@ -23,7 +23,7 @@ PYTHONPATH=src python -m discovery.inspect_graph --evidence
 - **Ce que c'est :** une ligne dans le registre de Morpho, pour le couple (marché, emprunteur).
 - **Lu :** `Morpho.position(id, user)` renvoie `(supplyShares 0, borrowShares 355 505 047 827 188 788, collateral 413 030,32 PT)`.
 - **Dette à jour :** les parts de dette sont converties en USDC **avec les intérêts courus**. Morpho ne met ses totaux à jour qu'à chaque interaction (`lastUpdate`) ; ici, la dernière date d'environ 45 h. On ajoute donc les intérêts nous-mêmes, comme Morpho : `IRM.borrowRateView` donne le taux par seconde, auquel on applique `wTaylorCompounded`. Sans ça, la dette serait sous-estimée de 67 USDC sur notre position (1 322 USDC sur tout le marché). Recoupement : notre calcul et l'API Morpho diffèrent de **0,0001 %**.
-- **`value_usd = 409 816,56 $`** : valeur du collatéral au prix de l'oracle, × prix de l'USDC selon Chainlink (USDC/USD = 0,99987, feed trouvé par ENS `usdc-usd.data.eth`). Valeur nette (collatéral − dette) : 52 650 $.
+- **`value_usd = 409 819,73 $`** : valeur du collatéral au prix de l'oracle, × prix de l'USDC selon Chainlink (USDC/USD = 0,99987, feed trouvé par ENS `usdc-usd.data.eth`). Valeur nette au prix de l'oracle (collatéral − dette) : ~52 650 $ ; au prix de marché de l'AMM : 53 133 $.
 
 ### 1. Le marché de prêt · `morpho_market_5613b170`
 - **Ce que c'est :** un des marchés isolés du contrat unique Morpho Blue. Il est défini par 5 paramètres figés : USDC prêté, PT en collatéral, oracle, modèle de taux (IRM) et LLTV de 91,5 %.
@@ -92,7 +92,7 @@ Autrement dit, le méta-oracle **amortit les depegs courts** (bon pour l'emprunt
   Les deux listes sont introduites par « such as » dans la doc d'Ethena : ce sont des exemples, pas forcément la liste complète. La répartition n'est **pas** connue de notre graphe (poids 1.0 = borne haute). Elle se trouve dans les tableaux de bord de transparence d'Ethena : c'est une prochaine étape.
 
 ### 5. La chaîne · `ethereum`
-14 contrats ont du code au bloc #26161750 (`eth_getCode`), sur `eth_chainId = 1`.
+14 contrats ont du code au bloc #26162087 (`eth_getCode`), sur `eth_chainId = 1`.
 
 ### À côté de la pile : USDC · `usdc`, `circle`
 C'est l'actif de la dette. USDC est un **proxy upgradeable** (slot ZeppelinOS lu on-chain) : Circle peut en changer le code. L'adresse correspond à la page officielle de Circle.

@@ -91,5 +91,26 @@ PYTHONPATH=src python -m discovery.validate output/graph.json
 ```
 Rafraîchir les données : `snapshot_block: latest` dans `config.yaml` + `ETH_RPC_URL` dans `.env`, lancer `build_graph` en ligne, puis recopier le numéro de bloc affiché dans `config.yaml` (un bloc ancien exige un RPC archive).
 
-# Où en est-on (2026-10-10)
-Position A découverte de bout en bout : 28 nœuds, 45 arêtes, contrat valide, rejouable hors ligne. Voir `README.md`, `docs/POSITION_A.md` (ce qu'on a découvert), `docs/VERIFY.md` (à vérifier par l'équipe), `docs/NEXT_STEPS.md` (suite + prompts), `docs/AUDIT.md` (audits).
+# Moteur de risque (parties 2 et 3) et front « Rayon X »
+Référence : le brief et la note de cadrage dans `docs/*.pdf` ; synthèse dans `docs/PARTS_2_3.md`.
+1. **Le moteur ne lit que** `output/graph.json` + `output/risk_inputs.json` + `risk/*.yaml`. Les seules lectures on-chain du moteur sont dans `src/risk/collect.py`, au MÊME bloc que le graphe (`python -m risk.refresh` fait les deux d'un coup).
+2. **Aucun chiffre sans statut** dans `risk/params.yaml` : `source` (URL https + `as_of`), `source: onchain` (+ `field`), ou `hypothesis: true` (+ `why`). Le chargeur refuse sinon. Une hypothèse numérique porte un `range` (testé en sensibilité).
+3. **Une règle par type d'arête** (`src/risk/propagate.py::RULES`), écrite en français. Pas de « score magique » : des $, des %, et le seuil p* = C_exit / perte.
+4. **Le front ne calcule aucun risque** : il lit `web/data/` (copie exacte des sorties, vérifiée par test) ; seul un parcours de graphe (mode Impact) est fait en JS. Aucune ressource distante (test).
+5. Après toute modification du moteur : `python -m risk.run` puis `python -m risk.export_web`, et commitez `output/` + `web/data/` (le test « rapport à jour » échoue sinon).
+
+Commandes :
+```bash
+PYTHONPATH=src python -m risk.refresh       # en ligne : découverte + lectures du moteur au même bloc
+PYTHONPATH=src python -m risk.run           # hors ligne : risk_report.json + risk_grid.json (validés)
+PYTHONPATH=src python -m risk.export_web    # données du front
+python -m http.server 8000 -d web           # Rayon X → http://localhost:8000
+```
+
+# Où en est-on (2026-10-10, bloc #26162087)
+- Partie 1 (découverte) : position A, 28 nœuds, 45 arêtes, contrat valide, rejouable hors ligne.
+- Parties 2 et 3 (impact + décision) : 15 scénarios, grille prix × durée, Monte Carlo, replay du 10/10/2025, p* et sortie partielle.
+- Front « Rayon X » : `web/`.
+- 97 tests.
+
+Lire dans l'ordre : `docs/GUIDE_DEBUTANT.md`, `docs/POSITION_A.md`, `docs/PARTS_2_3.md`, `docs/DEMO.md`. À vérifier : `docs/VERIFY.md`. Suite : `docs/NEXT_STEPS.md`. Audits : `docs/AUDIT.md`.

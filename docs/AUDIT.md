@@ -51,6 +51,36 @@ on corrige, puis on recommence jusqu'à ce que l'audit ne trouve plus rien d'imp
 | Test des seuils : j'avais écrit seuil = u_now / HF (faux) | le moteur avait raison : après bascule HF = HF₀ × prix USDe, donc seuil = 1/HF₀ = 0,9525 $ (identique à POSITION_A.md) |
 | Résumé console : « ok » affiché pour une position liquidable mais non liquidée (exploit Morpho, collatéral nul) | libellé « liquidable » |
 
+## Audit 6 : front « Rayon X » et documentation
+| Constat | Correction |
+|---|---|
+| Filtre de flou SVG appliqué à ~75 formes, puis à tout le groupe d'arêtes animées : rendu lourd, captures qui expiraient | halo sans filtre (trait large transparent) et `drop-shadow` CSS sur les nœuds seulement |
+| Grain de film étiré (gros pixels visibles) | tuile de bruit 128 px répétée à sa taille réelle |
+| Phrases du moteur au format anglais (« 5,313 $ », « 1.6% ») | `src/risk/fmt.py` : « 5 313 $ », « 1,6 % » partout (rapport, traces, replay) |
+| Gabarit de règle avec deux `{to}`, un seul remplacé en JS | `replaceAll` |
+| Noms techniques tronqués (« MorphoChainlin… ») | libellés courts calculés en Python (`view.json.display` : « Primaire (fixe) », « Pool Pendle PT/SY »…) |
+| Seuil de challenge 0,9925 écrit en dur dans le JS | calculé par le moteur (`replay.meta_oracle.challenge_price`) à partir du seuil lu on-chain |
+| Tableau des paramètres qui débordait sur mobile, coin « R » qui chevauchait la 1re couche | `table-layout: fixed` + coupure des mots ; couches décalées sous les repères |
+| Risque que `web/data/` soit en retard sur le moteur, ou qu'une ressource distante se glisse | test : `web/data/*` doit être identique à `output/*`, aucune URL chargée par HTML/CSS/JS |
+
+## Audit final : conformité au prompt des parties 2-3
+| Exigence | Statut |
+|---|---|
+| Brief lu et résumé ; parties 2 et 3 identifiées (Impact 30 %, Décision 25 %) | ✅ `docs/PARTS_2_3.md` |
+| Découverte non modifiée (code) | ✅ code intact. Données rafraîchies au bloc #26162087 par la procédure documentée (RPC non-archive). `config.yaml` : 2 entrées sourcées ajoutées pour le moteur (RouterStatic, ENS ETH/USD) |
+| Aucun paramètre sans statut ; 3 badges dans le front | ✅ chargeur strict + test + `report.params` + badges sourcé / on-chain / hypothèse |
+| Formule de liquidation Morpho sourcée | ✅ doc Morpho, URL et date |
+| Règle par type d'arête, testée | ✅ `RULES` + `tests/risk/test_rules.py` |
+| Méta-oracle fidèle (seuil, challenge, healing, formule d'écart) | ✅ paramètres on-chain, formule sourcée Steakhouse, tests court / long / healing / arrêt de chaîne / feed figé |
+| Coût de sortie sur la vraie liquidité, version on-chain | ✅ RouterStatic au même bloc, 16 tailles, revert = sortie impossible |
+| Scénarios du prompt (USDe, EXCH, CUST, ORACLE, POOL, USDC, TIME) | ✅ 15 scénarios + grille qui contient toutes les combinaisons demandées |
+| `risk_report.json` + `risk_grid.json` + validateur + CLI | ✅ (nom `risk_report.json` repris du cadrage au lieu de `risk.json`) |
+| Pas de score synthétique (non demandé par le brief) | ✅ |
+| Seuils de POSITION_A.md retrouvés par le moteur | ✅ test : 0,99253 $ et 1/HF = 0,9525 $ |
+| Front : 6 fonctionnalités, hors ligne, sans build, `prefers-reduced-motion`, mobile 375 px | ✅ 6 captures dans `docs/screens/` |
+| Docs : PARTS_2_3, RISK_CONTRACT, DEMO, 2 chapitres du guide, README, AUDIT | ✅ |
+| `pytest` vert du début à la fin | ✅ 97 tests |
+
 ## Limites connues (à assumer ou à traiter, voir `NEXT_STEPS.md`)
 - **Vocabulaire :** `lends` et la convention de direction sont en attente de validation officielle.
 - **`value_usd`** = collatéral au prix de l'oracle (la valeur nette est donnée dans `meta.position.net_value_usd`). Définition à confirmer avec les équipes aval.
@@ -61,3 +91,11 @@ on corrige, puis on recommence jusqu'à ce que l'audit ne trouve plus rien d'imp
 - **RPC non-archive :** rafraîchir les données impose `snapshot_block: latest`, puis de figer le bloc (procédure dans `NEXT_STEPS.md`).
 - **Racine :** seules les positions Morpho Blue sont supportées comme point de départ.
 - **Fraîcheur :** `age_seconds` des feeds est fourni, mais pas comparé à un heartbeat sourcé.
+- **Moteur de risque :**
+  - les fréquences d'exploit sont des hypothèses (dataset DeFiLlama payant) ;
+  - la décision s'appuie sur p\*, qui n'en dépend pas.
+- **Coût de sortie :**
+  - calculé « maintenant », aux prix du bloc ; en pleine crise, le pool peut déjà s'être dégradé (voir les scénarios S-POOL) ;
+  - la conversion sUSDe → USDC est une hypothèse (5 points de base).
+- **Corrélations du Monte Carlo :** uniquement via les nœuds partagés du graphe (pas de corrélation de marché statistique).
+- **Replay xUSD/deUSD de novembre 2025 :** non fait (RPC archive nécessaire) ; c'est le plan B du cadrage (10/10/2025) qui est réalisé.

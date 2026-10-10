@@ -54,6 +54,6 @@ oracles = [n for n, d in g.nodes(data=True) if d.get("type") == "oracle"]
 ```
 
 ## Exemple de preuve par source
-- `onchain` : `PT-sUSDE-26NOV2026.SY() = 0xBF98… @ 0xB195… #26161750` (contrat, fonction, résultat, adresse, bloc).
+- `onchain` : `PT-sUSDE-26NOV2026.SY() = 0xBF98… @ 0xB195… #26162087` (contrat, fonction, résultat, adresse, bloc).
 - `api` : `API Morpho https://api.morpho.org/graphql marketById(…).supplyingVaultV2s contient 0x55C1… (fetched 2026-10-10T…)`
 - `curated` : `USDe Token = 0x4c9E… selon https://docs.ethena.fi/solution-design/key-addresses (relevé le 2026-10-10)`

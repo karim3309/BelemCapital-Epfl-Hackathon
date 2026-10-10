@@ -1,7 +1,67 @@
 # Prochaines étapes et prompts prêts à lancer
 
-## Où on en est
-La position A est **découverte de bout en bout** : 28 nœuds, 45 arêtes, contrat valide, rejouable sans réseau, 67 tests.
+## Où on en est (mise à jour après les parties 2 et 3)
+- **Partie 1, découverte** : position A, 28 nœuds, 45 arêtes, contrat valide, rejouable sans réseau.
+- **Parties 2 et 3, impact et décision** (`src/risk/`) :
+  - 15 scénarios et une grille prix × durée ;
+  - un Monte Carlo et un replay du 10/10/2025 ;
+  - p\* et la sortie partielle ;
+  - chaque chiffre avec son statut.
+- **Front « Rayon X »** : `web/`, hors ligne.
+- **97 tests** au total.
+
+Les prompts S1 à S8 plus bas restent valables (approfondir la découverte). Les nouveaux prompts R1 à R5 sont juste en dessous.
+
+### À valider en équipe / avec les mentors Belem (priorité 1)
+1. **Horizon de décision** : 7 jours (hypothèse). Le cadrage pose la question (24 h ou 7 jours ?). Changer `horizon_days` dans `risk/params.yaml`.
+2. **Poche V = capital net** de la position (53 k$), et non la valeur brute (410 k$). C'est ce qui rend p\* si bas (levier ×8). D'accord ?
+3. **Fréquences d'exploit** : hypothèses d'ordre de grandeur, car le dataset de hacks DeFiLlama est payant. Les mentors ont-ils une source de référence ?
+4. **Liquidation à 100 %** (pire cas, autorisé par Morpho) : sensibilité affichée de 50 % à 100 %. Réaliste pour eux ?
+5. **p\* leur parle-t-il plus qu'une probabilité estimée par nous ?** (question du cadrage)
+
+### Nouveaux prompts (après parties 2-3)
+**R1 · Position B : dépôt USDC dans un vault Morpho curé** (cadrage §4.1).
+```text
+Lis CLAUDE.md, docs/PARTS_2_3.md et docs/CONTRACT.md. Objectif : la position B du cadrage, un dépôt USDC dans un vault
+Morpho curé. La racine devient un vault : il alloue sur N marchés, chacun avec son collatéral et son oracle.
+1. Explique-moi en 10 lignes ce qu'est un vault MetaMorpho / Morpho Vault V2 et comment lire ses allocations ON-CHAIN
+   (fonctions exactes depuis la doc Morpho, URL citée). ATTENDS mon accord sur le vault choisi (ex. le vault « Pendle
+   Ecosystem USDC » déjà découvert, 61,6 M$).
+2. Ajoute un adaptateur racine « vault » sans casser la position A (nouveau config dans configs/, sortie output/position_b/).
+3. Adapte le moteur de risque : pour un prêteur, la perte vient de la dette irrécouvrable des marchés (déjà calculée par
+   position.py). Réutilise scénarios et Monte Carlo ; p* sur la poche du déposant.
+4. Tests, refresh, audit, front (sélecteur de position).
+```
+**R2 · Vue « book 10 poches »** (bonus du cadrage).
+```text
+Lis CLAUDE.md et docs/PARTS_2_3.md. Objectif : un book de 10 poches de 10 % (position A, position B, puis des variantes
+réelles). Montre les dépendances PARTAGÉES (ex. USDe, Ethena, Chainlink) et la concentration cachée : quelle part du book
+tombe si Ethena tombe ? Réutilise les graph.json et le moteur ; aucune donnée inventée (poches = positions réelles).
+```
+**R3 · Calibration des fréquences d'exploit sur une source publique.**
+```text
+Lis CLAUDE.md et risk/params.yaml (section events). Objectif : remplacer les fréquences annuelles « hypothesis » par une
+calibration sourcée. Le dataset de hacks DeFiLlama est payant (pro-api.llama.fi/api/hacks) : trouve une source publique
+(rekt.news, rapport annuel publié, export manuel daté), cite l'URL et montre-moi la méthode AVANT de coder. Statut :
+source + as_of, ou on garde l'hypothèse.
+```
+**R4 · Replay xUSD / deUSD (novembre 2025).** Il faut un RPC **archive** (Alchemy ou Infura gratuit) pour lire les blocs d'avant la crise.
+```text
+Lis CLAUDE.md et src/risk/replay.py. Objectif : le replay principal du cadrage, la cascade Stream xUSD → Elixir deUSD →
+marchés de prêt (novembre 2025). Trouve d'abord, dans des sources fiables (citées), les dates, actifs et marchés Morpho
+touchés, et un vault qui y était exposé. ATTENDS ma validation. Puis découvre le graphe de ce vault à un bloc d'AVANT la
+crise (RPC archive dans .env) et montre que l'outil retrouve le chemin de contagion.
+```
+**R5 · Claude comme jury** (cadrage §6.5).
+```text
+Joue le risk manager de Belem Capital (≈ 400 M$, zéro liquidation depuis 2020). Lis README.md, docs/PARTS_2_3.md et
+output/risk_report.json. Démonte nos chiffres : trouve les 10 critiques les plus dures sur la défendabilité de l'impact et
+de la décision, classées par gravité, avec ce qu'il faudrait pour y répondre. Ne modifie aucun fichier.
+```
+
+---
+
+## Avant les parties 2-3 (toujours valable)
 Ce document liste, dans l'ordre :
 1. ce que **vous** devez faire (vérifier, décider) ;
 2. la répartition à 3 ;

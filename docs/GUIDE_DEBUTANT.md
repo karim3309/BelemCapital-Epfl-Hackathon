@@ -2,7 +2,7 @@
 
 > **Pour qui ?** Pour nous trois, en partant de zéro.
 > **Comment le lire ?** Dans l'ordre, chapitre par chapitre. Chaque mot technique est expliqué la première fois qu'il apparaît, et il est aussi dans le **glossaire** à la fin.
-> **Temps de lecture :** environ 45 minutes. Prenez votre temps : tout le reste du projet repose là-dessus.
+> **Temps de lecture :** environ 1 heure (45 min pour les chapitres 1-12, 15 min pour le risque et le Rayon X). Prenez votre temps : tout le reste du projet repose là-dessus.
 
 ---
 
@@ -19,8 +19,10 @@
 10. [Les dépendances : un jeu de dominos](#10-les-dépendances--un-jeu-de-dominos)
 11. [Notre mission : jouer les détectives](#11-notre-mission--jouer-les-détectives)
 12. [Lire notre fichier graph.json sans paniquer](#12-lire-notre-fichier-graphjson-sans-paniquer)
-13. [Glossaire](#13-glossaire)
-14. [Petit quiz pour vérifier qu'on a compris](#14-petit-quiz-pour-vérifier-quon-a-compris)
+13. [Comment on mesure le risque](#13-comment-on-mesure-le-risque)
+14. [Comment lire le Rayon X](#14-comment-lire-le-rayon-x)
+15. [Glossaire](#15-glossaire)
+16. [Petit quiz pour vérifier qu'on a compris](#16-petit-quiz-pour-vérifier-quon-a-compris)
 
 ---
 
@@ -39,7 +41,7 @@ Dans une **blockchain**, ce cahier est :
 ### Pourquoi « chaîne de blocs » ?
 On n'écrit pas les opérations une par une. On les regroupe par **pages**, qu'on appelle des **blocs**. Sur **Ethereum** (la blockchain qu'on utilise), une nouvelle page s'ajoute **toutes les 12 secondes** environ. Chaque page porte un **numéro** et est collée à la précédente : c'est la « chaîne ».
 
-> 💡 **Pourquoi c'est important pour nous :** quand on lit des informations, on dit « **au bloc n° 26 161 750** ». C'est comme dire « d'après la page 26 161 750 du cahier », ou encore comme prendre une **photo** à un instant précis. Toutes nos données viennent de la même photo, donc elles sont cohérentes entre elles et n'importe qui peut les revérifier.
+> 💡 **Pourquoi c'est important pour nous :** quand on lit des informations, on dit « **au bloc n° 26 162 087** ». C'est comme dire « d’après la page 26 162 087 du cahier », ou encore comme prendre une **photo** à un instant précis. Toutes nos données viennent de la même photo, donc elles sont cohérentes entre elles et n'importe qui peut les revérifier.
 
 ### Ethereum
 Il existe plusieurs blockchains. **Ethereum** est la plus utilisée pour la finance. Dans notre projet, tout se passe sur le « mainnet » d'Ethereum (le vrai réseau, avec de vrais euros… enfin de vrais dollars, on va voir).
@@ -135,7 +137,7 @@ Quand on dépose ses USDe, on reçoit des **sUSDe** (« s » pour *staked*, « d
 
 > **L'image à retenir : les parts d'une cagnotte qui grossit.** Vous mettez 100 € dans une cagnotte commune et recevez 100 « parts ». La cagnotte gagne des intérêts, mais le nombre de parts ne change pas : c'est **la valeur de chaque part qui monte**.
 
-Ce que notre programme a lu au bloc 26 161 750 :
+Ce que notre programme a lu au bloc 26 162 087 :
 - **1 sUSDe = 1,2523 USDe.** Celui qui a déposé tôt a gagné 25 % depuis.
 - Pour récupérer ses USDe, il faut **attendre 1 jour** (le « cooldown », délai de retrait).
 
@@ -212,9 +214,9 @@ Prenons un exemple rond avant les vrais chiffres. Vous déposez un gage qui vaut
 
 > Avec un health factor de **1,05**, si la valeur estimée du gage baisse d'environ **5 %**, on touche la limite et on est liquidé.
 
-**Les vrais chiffres de la position A** (bloc 26 161 750) :
+**Les vrais chiffres de la position A** (bloc 26 162 087) :
 - gage : **413 030 PT**, estimés à **409 872 USDC** ;
-- dette : **357 215 USDC** (intérêts inclus) ;
+- dette : **357 217 USDC** (intérêts inclus) ;
 - LTV : **87,2 %**, limite **91,5 %**, health factor **1,050** ;
 - **liquidable si le prix estimé du PT baisse de 4,75 %** ;
 - taux d'emprunt : **3,7 % par an**.
@@ -355,7 +357,7 @@ Chaque lien du graphe dit **d'où il vient**. Il y a trois niveaux de preuve :
 
 | Type | Analogie | Exemple | Fiabilité |
 |---|---|---|---|
-| **onchain** | un **relevé officiel** lu directement dans le cahier public | « le contrat PT répond que son SY est 0xBF98…, au bloc 26 161 750 » | ⭐⭐⭐ vérifiable par n'importe qui |
+| **onchain** | un **relevé officiel** lu directement dans le cahier public | « le contrat PT répond que son SY est 0xBF98…, au bloc 26 162 087 » | ⭐⭐⭐ vérifiable par n'importe qui |
 | **api** | un **renseignement** donné par le site officiel d'un protocole | « l'API de Morpho dit que tel vault prête à ce marché » | ⭐⭐ on fait confiance au site |
 | **curated** (curé) | une **coupure de presse datée** | « la doc d'Ethena, consultée le 10/10/2026, dit que ses gardiens sont Copper, Ceffu… » | ⭐ vrai à cette date, peut vieillir |
 
@@ -393,15 +395,163 @@ En français : « Le domino `usde` est un **actif** (un jeton) appelé USDe, à 
 ### 3) Les arêtes (les liens entre dominos)
 ```json
 {"from": "susde", "to": "usde", "type": "redeemable_into", "weight": 1.0,
- "source": "onchain", "evidence": "sUSDe.asset() = 0x4c9E… @ 0x9D39… #26161750 …"}
+ "source": "onchain", "evidence": "sUSDe.asset() = 0x4c9E… @ 0x9D39… #26162087 …"}
 ```
-En français : « **sUSDe s'échange contre USDe**, et le lien est total (`weight` 1.0). C'est prouvé **dans le cahier public** : on a demandé au contrat sUSDe (adresse 0x9D39…) quel était son actif, au bloc 26 161 750, et il a répondu 0x4c9E… (l'USDe). »
+En français : « **sUSDe s'échange contre USDe**, et le lien est total (`weight` 1.0). C'est prouvé **dans le cahier public** : on a demandé au contrat sUSDe (adresse 0x9D39…) quel était son actif, au bloc 26 162 087, et il a répondu 0x4c9E… (l'USDe). »
 
 Le champ `evidence` est **la preuve**. N'importe qui peut la refaire.
 
 ---
 
-## 13. Glossaire
+## 13. Comment on mesure le risque
+
+Les chapitres 1 à 12 répondent à « **de quoi** dépend la position ? ». Ce chapitre répond à la question que pose
+vraiment le brief : **« faut-il rester ou sortir, et pourquoi ? »**. C'est le travail du **moteur de risque**
+(`src/risk/`).
+
+### L'image à retenir : faut-il assurer sa voiture ?
+- L'assurance coûte une **prime certaine** (vous la payez à coup sûr).
+- Sans assurance, vous risquez un **accident** : peu probable, mais cher.
+- Assurer vaut le coup si « **probabilité d'accident × coût de l'accident** » dépasse la prime.
+
+Pour notre position, c'est la même chose :
+- la « prime », c'est le **coût de sortie** : ce que ça coûte de tout revendre maintenant (certain) ;
+- l'« accident », c'est l'**incident** (un depeg, une faillite…), qui ferait perdre une somme si on reste.
+
+### Étape 1 : imaginer un choc
+Un **choc**, c'est une phrase du type « *l'USDe tombe à 0,93 $ pendant 24 heures* ». Il a 4 ingrédients :
+**où** (quel nœud du graphe), **quoi** (depeg, faillite, panne…), **combien** (−7 %) et **combien de temps** (24 h).
+
+### Étape 2 : faire tomber les dominos
+Le moteur fait remonter le choc le long des flèches du graphe, avec **une règle écrite en clair par type de flèche** :
+
+| Flèche | Règle (en français) |
+|---|---|
+| « s'échange contre » | si l'USDe perd 7 %, le sUSDe, le SY et le PT perdent 7 % aussi |
+| « est émis par » | si Ethena perd une partie de ses réserves, l'USDe perd la même part |
+| « est placé dans » (Ethena → Binance) | si Binance fait faillite, Ethena perd la petite part de ses réserves qui y était exposée |
+| « tire son prix de » | un expert « catalogue » (prix fixé) ne transmet **rien** ; un expert « marché » transmet tout |
+
+### Étape 3 : l'arbitre et sa minuterie de 16 heures
+Rappel du chapitre 8 : l'oracle a deux experts et un arbitre. L'arbitre ne passe à l'expert « marché » que si les deux
+experts sont en désaccord **pendant 16 heures** (chiffre lu dans le contrat lui-même).
+- USDe à 0,93 $ pendant **6 h** : l'arbitre ne bouge pas, rien ne se passe. **Perte : 0 $.**
+- USDe à 0,93 $ pendant **24 h** : l'arbitre bascule, le gage est réévalué à la baisse, Alice est liquidée. **Perte : ~37 000 $.**
+
+C'est la découverte la plus importante du projet : **la durée d'un choc compte autant que son ampleur**.
+
+### Étape 4 : qui perd combien ?
+- **Si Alice est liquidée**, un « liquidateur » (n'importe qui) rembourse sa dette et repart avec son gage, **plus un
+  bonus** d'environ 2,6 % (formule officielle de Morpho). C'est Alice qui paie ce bonus.
+- **Si l'oracle ne voit rien** (prix fixé), Alice n'est pas liquidée. Mais si son gage vaut désormais **moins que sa dette**,
+  elle peut tout abandonner : c'est alors **le prêteur** qui encaisse le trou. On appelle ça une **dette irrécouvrable**.
+  Exemple : un exploit chez Pendle laisserait **152 000 $** de trou aux prêteurs, sans une seule liquidation.
+
+### Étape 5 : combien coûte de sortir ?
+On a demandé un **devis** au vrai bureau de change Pendle, sans rien vendre : « si je vendais 413 030 PT, combien
+recevrais-je ? ». Le contrat sait répondre à ça (une fonction de *simulation*). Le coût de sortie total additionne :
+1. le **glissement** : plus on vend gros, plus le taux se dégrade (environ 0,12 %) ;
+2. la conversion vers des USDC pour rembourser la dette (petite, et c'est une hypothèse) ;
+3. le **gas** : les frais de transaction d'Ethereum (quelques centimes aujourd'hui) ;
+4. le **rendement abandonné** : ce qu'on aurait gagné en restant pendant la semaine.
+
+Total : **854 $**, soit 1,6 % du capital d'Alice (qui vaut 53 133 $).
+
+### Étape 6 : le seuil p* (« p étoile »)
+La règle du brief tient en une division :
+> **p\* = coût de sortie ÷ perte si l'incident arrive**
+
+- Exemple du brief : sortir coûte 11, l'incident coûterait 60, donc p\* = 11 ÷ 60 ≈ **18 %**.
+- Notre position face à l'alerte « USDe −30 % durable » : p\* = 854 ÷ 53 133 ≈ **1,6 %**.
+
+Ce que ça veut dire : **si vous croyez à plus de 1,6 % de chances que l'incident arrive, sortir coûte moins cher que rester.**
+Le gros avantage : le manager n'a pas besoin de faire confiance à NOTRE probabilité. Il compare la sienne à p\*.
+
+> 💡 Pourquoi p\* est-il si bas ici ? Parce que la position est à **levier** : Alice a emprunté 87 % de la valeur de son gage.
+> Une petite baisse peut donc effacer tout son capital. Un levier rend une position fragile.
+
+### Étape 7 : sortir en partie
+Le glissement grandit **plus vite** que la taille vendue : les premiers PT se vendent presque sans perte, les derniers plus
+cher. Selon la probabilité qu'on croit, la meilleure réponse est parfois « vendre 35 % » plutôt que tout ou rien. Le moteur
+calcule cette fraction pour chaque probabilité de 0 à 100 % : c'est le verdict **PARTIAL x %**.
+
+### Étape 8 : « et sans alerte ? » — le Monte Carlo
+Pour estimer le risque d'une semaine normale, on **rejoue la semaine 200 000 fois** sur ordinateur. À chaque fois, chaque
+événement (depeg, faillite, exploit…) arrive ou non, au hasard, selon sa fréquence. On obtient :
+- la **perte attendue** : la moyenne (environ 130 $ par semaine ici) ;
+- la **VaR 95 %** : la perte qu'on ne dépasse que dans 5 % des semaines. Elle vaut **0 $** ici, car dans 99 % des semaines
+  il ne se passe rien ;
+- l'**ES 99 %** : la moyenne des 1 % pires semaines (environ 13 000 $), pour voir la queue du risque.
+
+### Étape 9 : l'honnêteté sur les chiffres
+Chaque paramètre du moteur porte une étiquette (fichier `risk/params.yaml`) :
+- **sourcé** : lu dans une doc officielle (lien + date), par exemple la formule du bonus de liquidation de Morpho ;
+- **on-chain** : lu dans la blockchain, par exemple les 16 h de l'arbitre ou le devis du bureau de change ;
+- **hypothèse** : un choix de notre équipe, justifié en une phrase. Exemple : « une faillite d'exchange majeur environ une
+  fois tous les 100 ans par exchange ».
+
+Le programme **refuse de démarrer** si un chiffre n'a pas d'étiquette. Et une **analyse de sensibilité** montre ce qui bouge
+quand on change chaque hypothèse.
+
+### Étape 10 : la preuve sur un vrai incident
+Le **10 octobre 2025**, l'USDe est tombé à **0,65 $ sur Binance** pendant ~40 minutes, mais il est resté proche de 1 $
+on-chain. On a relu l'historique du feed Chainlink : son plus bas ce jour-là était **0,9929 $**. Résultat du replay :
+- notre oracle : rien ne se passe (l'écart n'a même pas atteint le seuil) ;
+- un oracle qui écouterait Binance : Alice aurait été **liquidée**.
+
+Morale : **la source de l'oracle compte**.
+
+---
+
+## 14. Comment lire le Rayon X
+
+Le **Rayon X** est la page web qui montre tout cela visuellement. Pour la lancer :
+```bash
+PYTHONPATH=src python -m risk.export_web
+```
+```bash
+python -m http.server 8000 -d web
+```
+puis ouvrez http://localhost:8000 dans un navigateur. Pas besoin d'Internet.
+
+### Les zones de l'écran
+| Zone | Ce qu'elle montre |
+|---|---|
+| **Barre du haut** | le nom de la position (« patient »), le numéro de bloc de la photo, les 4 modes |
+| **Constantes vitales** | comme chez le médecin : santé (HF), endettement (LTV / LLTV), marge avant liquidation, valeur, dette, capital, coût de sortie, verdict « sans alerte » |
+| **Le film** (au centre) | le **squelette** de la position : une couche par rangée, de la position (en haut) jusqu'à Ethereum (en bas) |
+| **Le panneau** (à droite) | la fiche du nœud cliqué, du scénario choisi, ou la fiche de risque |
+| **Le dock** (en bas) | les cartes de scénarios, ou les curseurs du mode Scénario |
+
+### Les codes visuels
+- **Trait cyan plein** : lien prouvé on-chain. **Pointillés cyan** : lien donné par une API. **Trait ambre fin + ▤** : lien curé (doc officielle datée).
+- **Pastille de couleur** sur un oracle : blanc = prix fixé, vert d'eau = prix de marché, violet = taux interne, ambre = hybride (arbitre).
+- **Magenta, pointillés qui avancent** : une **fracture**, c'est-à-dire le chemin par lequel un choc atteint la position.
+- **Grisé** : ce qui n'est pas concerné par ce qu'on regarde.
+
+### Les 4 modes
+1. **Squelette** : cliquez un nœud pour voir sa « fiche de l'os ». Elle contient une explication simple, ses chiffres et **toutes ses preuves** (avec lien Etherscan). En bas, les cartes de scénarios : cliquez-en une pour voir la fracture.
+2. **Scénario** : trois curseurs (prix de l'USDe, durée du choc, votre probabilité). L'arbitre s'affiche (expert « catalogue » / challenge / basculé), avec la santé, le statut (LIQUIDÉ / pas liquidé / prêteurs exposés) et le verdict.
+   **Essayez :** 0,93 $ pendant 15 h, puis pendant 16 h.
+3. **Impact** : cliquez n'importe quel nœud (Binance, Copper, Chainlink…) pour voir tout ce qui en dépend, et le chemin jusqu'à la position.
+4. **Explique-moi** : un parcours guidé en 7 étapes, l'histoire d'Alice. C'est la version « démo jury ».
+
+### Lire la fiche de risque
+De haut en bas :
+1. le **verdict** et sa phrase ;
+2. la **question de 3 h du matin** ;
+3. le seuil **p\*** en gros ;
+4. le risque d'une semaine normale (Monte Carlo) ;
+5. les **3 chemins les plus coûteux** (cliquables) ;
+6. les **replays** d'incidents réels ;
+7. la **confiance**, les **hypothèses** et la **sensibilité**.
+
+> Important : la page **ne calcule rien**. Elle affiche ce que le moteur Python a calculé (`output/risk_report.json` et
+> `output/risk_grid.json`). Si les chiffres semblent faux, c'est dans `src/risk/` qu'il faut regarder.
+
+---
+
+## 15. Glossaire
 
 | Mot | Explication simple |
 |---|---|
@@ -449,14 +599,28 @@ Le champ `evidence` est **la preuve**. N'importe qui peut la refaire.
 | **USDe** | dollar numérique d'Ethena, adossé à des cryptos couvertes |
 | **Vault** | coffre de placement qui prête l'argent de ses déposants |
 | **YT** | jeton du rendement : touche les intérêts jusqu'à la date |
+| **Bonus de liquidation (LIF)** | ce que gagne le liquidateur en plus (≈ 2,6 % ici) ; c'est l'emprunteur qui le paie |
+| **Choc** | un incident imaginé : où, quoi, combien, combien de temps |
+| **Coût de sortie (C_exit)** | ce que coûte, à coup sûr, de tout revendre maintenant (glissement + conversion + gas + rendement abandonné) |
+| **Dette irrécouvrable** | la partie de la dette que le gage ne couvre plus : perdue pour les prêteurs |
+| **ES 99 %** | la moyenne des 1 % pires scénarios |
+| **Gas** | les frais payés pour faire une transaction sur Ethereum |
+| **Glissement (slippage)** | la perte due au fait que plus on vend gros, plus le prix se dégrade |
+| **Monte Carlo** | rejouer une période des milliers de fois au hasard pour voir la distribution des pertes |
+| **p\* (p étoile)** | le seuil de probabilité : coût de sortie ÷ perte en cas d'incident ; au-dessus, il vaut mieux sortir |
+| **Perte attendue** | la perte moyenne sur l'ensemble des scénarios tirés au hasard |
+| **Replay** | rejouer un incident réel passé sur la position d'aujourd'hui |
+| **Sensibilité** | comment le résultat change si on change une hypothèse |
+| **VaR 95 %** | la perte qu'on ne dépasse que dans 5 % des cas |
+| **Verdict** | STAY (rester), PARTIAL x % (sortir une partie), EXIT (tout sortir) |
 
 ---
 
-## 14. Petit quiz pour vérifier qu'on a compris
+## 16. Petit quiz pour vérifier qu'on a compris
 
 Répondez à voix haute entre vous, puis ouvrez le corrigé.
 
-1. Pourquoi dit-on « au bloc n° 26 161 750 » ?
+1. Pourquoi dit-on « au bloc n° 26 162 087 » ?
 2. Quelle est la différence entre USDC et USDe ?
 3. Si 1 sUSDe vaut 1,25 USDe, est-ce un prix de marché ?
 4. Que vaudra un PT-sUSDE-26NOV2026 le 26 novembre 2026 ?
@@ -466,6 +630,9 @@ Répondez à voix haute entre vous, puis ouvrez le corrigé.
 8. Pourquoi « où Ethena garde ses cryptos » est-il dans `curated.yaml` et pas « onchain » ?
 9. À quoi sert le dossier `data/cache/` ?
 10. Que veut dire la flèche « `susde` → `usde` » de type `redeemable_into` ?
+11. Sortir coûte 854 $ et l'incident ferait perdre 53 133 $. Que vaut p\*, et que veut-il dire ?
+12. Pourquoi un exploit chez Pendle ne liquide-t-il pas Alice, et qui perd de l'argent ?
+13. Pourquoi la VaR 95 % vaut-elle 0 $ alors que la perte attendue n'est pas nulle ?
 
 <details>
 <summary><b>Corrigé</b></summary>
@@ -480,6 +647,9 @@ Répondez à voix haute entre vous, puis ouvrez le corrigé.
 8. Parce que ça se passe **dans le monde réel** (entreprises, comptes sur des exchanges), pas dans le cahier public. On ne peut le savoir que par ce qu'Ethena **publie**, d'où le lien et la date.
 9. À **rejouer la découverte sans Internet**, avec exactement les mêmes réponses (les « photocopies » du cahier).
 10. « Le **sUSDe s'échange contre de l'USDe** » : le sUSDe dépend de l'USDe. Si l'USDe casse, le sUSDe souffre.
+11. p\* = 854 ÷ 53 133 ≈ **1,6 %** : si l'on croit à plus de 1,6 % de chances que l'incident arrive, sortir coûte moins cher que rester.
+12. Parce que l'oracle principal est **fixe** : il ne voit pas la baisse du PT, donc la santé d'Alice ne bouge pas. Mais son gage vaut moins que sa dette : elle peut abandonner, et ce sont les **prêteurs** qui encaissent le trou (dette irrécouvrable).
+13. Parce que dans plus de 95 % (et même 99 %) des semaines simulées, **rien ne se passe**. La perte attendue vient des rares semaines très mauvaises ; l'ES 99 % les montre.
 </details>
 
 ---

@@ -47,6 +47,18 @@ Ils ont tous été appelés avec succès au bloc figé. Ceux marqués ⚖ ont en
 | ☐ | ENS | `resolver(bytes32)`, `addr(bytes32)` | doc ENS |
 | ☐ | **Non vérifié** : feed TWAP Pendle | `market()`, `twapDuration()` (sondes) | **absent de la position A** : trouver un marché Morpho qui l'utilise et confirmer (voir `NEXT_STEPS.md`) |
 
+## C bis. Moteur de risque (parties 2-3)
+| ☐ | Élément | Valeur / fonction | Source | Comment vérifier |
+|---|---|---|---|---|
+| ☐ | Pendle RouterStatic | `0x263833d47eA3fA4a30f269323aba6a107f9eB14C` | [déploiements Pendle 1-core.json](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/1-core.json) (clé `routerStatic`) | ✅ appelé on-chain avec succès ; vérifier la clé dans le fichier |
+| ☐ | fonction de simulation | `swapExactPtForSyStatic(address,uint256) → (netSyOut, netSyFee, priceImpact, exchangeRateAfter)` | [IPActionMarketCoreStatic.sol, @pendle/core-v2@6.6.1](https://cdn.jsdelivr.net/npm/@pendle/core-v2@6.6.1/contracts/interfaces/IPActionMarketCoreStatic.sol) | ✅ 1 PT → 0,7934 SY × 1,2523 ≈ 0,9937 USDe ≈ prix implicite de l'AMM |
+| ☐ | formule du bonus de liquidation | LIF = min(1,15 ; 1/(0,3·LLTV + 0,7)) | [doc Morpho : liquidation](https://docs.morpho.org/learn/concepts/liquidation/) | relire la formule et les constantes |
+| ☐ | règle du méta-oracle | écart = \|p − b\| / moyenne ; challenge / acceptChallenge / heal sans permission | [doc Steakhouse MetaOracle](https://steakhouse.financial/docs/products/infrastructure/metaoracle) | relire, puis lire le code source vérifié du contrat |
+| ☐ | historique Chainlink | `phaseId()`, `phaseAggregators(uint16)`, `latestRound()`, `getRoundData(uint80)` | doc Chainlink (historical data) | ✅ 960 rounds lus ; vérifier un round au hasard sur Etherscan |
+| ☐ | ETH/USD (gas) | ENS `eth-usd.data.eth` | [doc Chainlink ENS](https://docs.chain.link/data-feeds/ens) | ✅ résolu on-chain |
+| ☐ | épisode du 10/10/2025 | USDe 0,65 $ sur Binance, ~40 min | [21Shares](https://www.21shares.com/it-eu/insights/why-did-ethenas-stablecoin-remain-stable-onchain-but-depegged-on-binance) | relire l'article ; chercher une 2e source (Binance, Ethena) |
+| ☐ | toutes les hypothèses | `risk/params.yaml` (`hypothesis: true`) et `risk/scenarios.yaml` | — | les relire en équipe et en parler aux mentors |
+
 ## D. Faits relevés par Claude hors pipeline (pour le contexte, pas dans le graphe)
 - Les contrats `0xA572…` et `0xc386…` portent les noms vérifiés `PendleSparkLinearDiscountOracle` et `DummyFeed` sur Etherscan.
 - Le méta-oracle est un clone EIP-1167 de `0x9B46…`, contrat vérifié `MetaOracleDeviationTimelock`. La factory Steakhouse **n'a pas d'adresse publiée** dans la doc → lien non prouvé.
