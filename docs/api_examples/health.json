@@ -1,0 +1,13 @@
+{
+ "status": "ok",
+ "version": "2.0",
+ "block": 26162868,
+ "block_timestamp": 1791645371,
+ "chain_id": 1,
+ "rpc_host": "conv…quiknode.pro",
+ "block_age_s": 34,
+ "apis": {
+  "morpho": "ok",
+  "pendle": "ok"
+ }
+}

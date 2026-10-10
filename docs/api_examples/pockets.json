@@ -1,0 +1,408 @@
+{
+ "block": 26162868,
+ "block_timestamp": 1791645371,
+ "chain_id": 1,
+ "holder": "0x4F87De7d21aeF48090958f7342E1F69Dff790545",
+ "chain": "ethereum",
+ "block_time": 1791645371,
+ "located_by": "API Morpho https://api.morpho.org/graphql userByAddress (fetched 2026-10-10T15:16:47+00:00)",
+ "total_value_usd": 26409130.44,
+ "holdings": [
+  {
+   "id": "morpho_market_borrow:0xea4bfb18df0ee6bffb7b3f0270899a8adb92ab6b684709634c8276128813cfd4",
+   "kind": "morpho_market_borrow",
+   "label": "Emprunt RLUSD contre weETH · marché weETH/RLUSD",
+   "protocol": "morpho",
+   "chain": "ethereum",
+   "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+   "market_id": "0xea4bfb18df0ee6bffb7b3f0270899a8adb92ab6b684709634c8276128813cfd4",
+   "asset_symbol": "RLUSD",
+   "asset_address": "0x8292Bb45bf1Ee4d140127049757C2E0fF06317eD",
+   "amount": 5779126.468409398,
+   "price_usd": 0.9999598263597215,
+   "value_usd": 5778894.299861532,
+   "price_source": "api : prix de RLUSD (API Morpho https://api.morpho.org/graphql userByAddress (fetched 2026-10-10T15:16:47+00:00)) ; collatéral valorisé au prix de l'oracle du marché",
+   "evidence": [
+    "Morpho.position(0xea4bfb18df0ee6bffb7b3f0270899a8adb92ab6b684709634c8276128813cfd4,0x4F87De7d21aeF48090958f7342E1F69Dff790545) = (0,7486254656360633414905127411968,4837278104570955752591) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26162868",
+    "Contract.price() = 2773677361859520708236346060386671493227 @ 0x6ab351FfDe101BB24a97332f4f7162C1711f110b #26162868"
+   ],
+   "api_amount": 5762221.062766928,
+   "api_gap": 0.002925252758332926,
+   "details": {
+    "collateral_raw": "4837278104570955752591",
+    "debt_raw": "7637922303257793765757067",
+    "oracle_price_raw": "2773677361859520708236346060386671493227",
+    "collateral_value_in_loan": 13417048.771667192,
+    "debt": 7637922.303257794,
+    "health_factor": 1.5107,
+    "lltv": 0.86,
+    "value_definition": "capital propre = collatéral × prix oracle − dette (intérêts courus inclus)"
+   },
+   "share_of_book": 0.218822,
+   "index": 1
+  },
+  {
+   "id": "morpho_vault_v2:0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec",
+   "kind": "morpho_vault_v2",
+   "label": "Belem RWA EURCV",
+   "protocol": "morpho",
+   "chain": "ethereum",
+   "address": "0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec",
+   "market_id": null,
+   "asset_symbol": "EURCV",
+   "asset_address": "0x5F7827FDeb7c20b443265Fc2F40845B715385Ff2",
+   "amount": 4685065.306994055,
+   "price_usd": 1.1192741953123837,
+   "value_usd": 5243872.701471738,
+   "price_source": "api : assetsUsd / assets de cette position (API Morpho https://api.morpho.org/graphql userByAddress (fetched 2026-10-10T15:16:47+00:00))",
+   "evidence": [
+    "Belem RWA EURCV.balanceOf(0x4F87De7d21aeF48090958f7342E1F69Dff790545) = 4680800157017200626091665 @ 0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec #26162868",
+    "Belem RWA EURCV.convertToAssets(4680800157017200626091665) = 4685065306994055512581148 @ 0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec #26162868",
+    "Belem RWA EURCV.asset() = 0x5F7827FDeb7c20b443265Fc2F40845B715385Ff2 @ 0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec #26162868"
+   ],
+   "api_amount": 4685063.968996929,
+   "api_gap": 2.8558772156187533e-07,
+   "details": {
+    "shares": "4680800157017200626091665",
+    "assets_raw": "4685065306994055512581148",
+    "decimals": 18
+   },
+   "share_of_book": 0.198563,
+   "index": 2
+  },
+  {
+   "id": "morpho_market_borrow:0x7a25fb17b8bd83a934ad87d9d1725188fc129992ca816f3145b4ab7f673c98c3",
+   "kind": "morpho_market_borrow",
+   "label": "Emprunt EURCV contre wstETH · marché wstETH/EURCV",
+   "protocol": "morpho",
+   "chain": "ethereum",
+   "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+   "market_id": "0x7a25fb17b8bd83a934ad87d9d1725188fc129992ca816f3145b4ab7f673c98c3",
+   "asset_symbol": "EURCV",
+   "asset_address": "0x5F7827FDeb7c20b443265Fc2F40845B715385Ff2",
+   "amount": 3959086.9794695335,
+   "price_usd": 1.119274195312384,
+   "value_usd": 4431303.893117499,
+   "price_source": "api : prix de EURCV (API Morpho https://api.morpho.org/graphql userByAddress (fetched 2026-10-10T15:16:47+00:00)) ; collatéral valorisé au prix de l'oracle du marché",
+   "evidence": [
+    "Morpho.position(0x7a25fb17b8bd83a934ad87d9d1725188fc129992ca816f3145b4ab7f673c98c3,0x4F87De7d21aeF48090958f7342E1F69Dff790545) = (0,4644561348463238479279317711948,3105381382429625924506) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26162868",
+    "Contract.price() = 2783510112314792631879658974244520823104 @ 0xF13B2929b84fA6da4855942B2ea60E82B080C5a1 #26162868"
+   ],
+   "api_amount": 3979447.080718751,
+   "api_gap": 0.005142625396915506,
+   "details": {
+    "collateral_raw": "3105381382429625924506",
+    "debt_raw": "4684773501117420596815223",
+    "oracle_price_raw": "2783510112314792631879658974244520823104",
+    "collateral_value_in_loan": 8643860.480586953,
+    "debt": 4684773.50111742,
+    "health_factor": 1.5868,
+    "lltv": 0.86,
+    "value_definition": "capital propre = collatéral × prix oracle − dette (intérêts courus inclus)"
+   },
+   "share_of_book": 0.167794,
+   "index": 3
+  },
+  {
+   "id": "morpho_market_borrow:0xa6a4c1f15490a1ff39d9de3a366b408dd5647a436d8b179726d3e0562aff1292",
+   "kind": "morpho_market_borrow",
+   "label": "Emprunt USDT contre weETH · marché weETH/USDT",
+   "protocol": "morpho",
+   "chain": "ethereum",
+   "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+   "market_id": "0xa6a4c1f15490a1ff39d9de3a366b408dd5647a436d8b179726d3e0562aff1292",
+   "asset_symbol": "USDT",
+   "asset_address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+   "amount": 2564082.220227,
+   "price_usd": 0.9991777758426247,
+   "value_usd": 2561973.969884033,
+   "price_source": "api : prix de USDT (API Morpho https://api.morpho.org/graphql userByAddress (fetched 2026-10-10T15:16:47+00:00)) ; collatéral valorisé au prix de l'oracle du marché",
+   "evidence": [
+    "Morpho.position(0xa6a4c1f15490a1ff39d9de3a366b408dd5647a436d8b179726d3e0562aff1292,0x4F87De7d21aeF48090958f7342E1F69Dff790545) = (0,2587585711103283290,1869042368406113014917) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26162868",
+    "Contract.price() = 2767166243226134645906328305 @ 0xa3A7A3ceFee206f9d7Fe00eC3C83324ED4228411 #26162868"
+   ],
+   "api_amount": 2573771.5790268774,
+   "api_gap": 0.0037788799140067247,
+   "details": {
+    "collateral_raw": "1869042368406113014917",
+    "debt_raw": "2607868728785",
+    "oracle_price_raw": "2767166243226134645906328305",
+    "collateral_value_in_loan": 5171950.949012,
+    "debt": 2607868.728785,
+    "health_factor": 1.7056,
+    "lltv": 0.86,
+    "value_definition": "capital propre = collatéral × prix oracle − dette (intérêts courus inclus)"
+   },
+   "share_of_book": 0.097011,
+   "index": 4
+  },
+  {
+   "id": "morpho_vault_v2:0x2cA22cb25558fa2018ecb1CE4eD8AF92Ee7ea423",
+   "kind": "morpho_vault_v2",
+   "label": "RockawayX f(x) Protocol Ecosystem USDC",
+   "protocol": "morpho",
+   "chain": "ethereum",
+   "address": "0x2cA22cb25558fa2018ecb1CE4eD8AF92Ee7ea423",
+   "market_id": null,
+   "asset_symbol": "USDC",
+   "asset_address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+   "amount": 2500495.324089,
+   "price_usd": 0.999708117923575,
+   "value_usd": 2499765.4743217137,
+   "price_source": "api : assetsUsd / assets de cette position (API Morpho https://api.morpho.org/graphql userByAddress (fetched 2026-10-10T15:16:47+00:00))",
+   "evidence": [
+    "RockawayX f(x) Protocol Ecosystem USDC.balanceOf(0x4F87De7d21aeF48090958f7342E1F69Dff790545) = 2490411575378962914120283 @ 0x2cA22cb25558fa2018ecb1CE4eD8AF92Ee7ea423 #26162868",
+    "RockawayX f(x) Protocol Ecosystem USDC.convertToAssets(2490411575378962914120283) = 2500495324089 @ 0x2cA22cb25558fa2018ecb1CE4eD8AF92Ee7ea423 #26162868",
+    "RockawayX f(x) Protocol Ecosystem USDC.asset() = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 @ 0x2cA22cb25558fa2018ecb1CE4eD8AF92Ee7ea423 #26162868"
+   ],
+   "api_amount": 2500494.93197,
+   "api_gap": 1.5681653007811244e-07,
+   "details": {
+    "shares": "2490411575378962914120283",
+    "assets_raw": "2500495324089",
+    "decimals": 6
+   },
+   "share_of_book": 0.094655,
+   "index": 5
+  },
+  {
+   "id": "morpho_market_borrow:0x002278ea242ec722813b4fe3c8eeaa07dbc331c731cc0b4248a1bf0771f933ea",
+   "kind": "morpho_market_borrow",
+   "label": "Emprunt USDC contre PST · marché PST/USDC",
+   "protocol": "morpho",
+   "chain": "ethereum",
+   "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+   "market_id": "0x002278ea242ec722813b4fe3c8eeaa07dbc331c731cc0b4248a1bf0771f933ea",
+   "asset_symbol": "USDC",
+   "asset_address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+   "amount": 2064287.478813,
+   "price_usd": 0.9997081179235747,
+   "value_usd": 2063684.9502973454,
+   "price_source": "api : prix de USDC (API Morpho https://api.morpho.org/graphql userByAddress (fetched 2026-10-10T15:16:47+00:00)) ; collatéral valorisé au prix de l'oracle du marché",
+   "evidence": [
+    "Morpho.position(0x002278ea242ec722813b4fe3c8eeaa07dbc331c731cc0b4248a1bf0771f933ea,0x4F87De7d21aeF48090958f7342E1F69Dff790545) = (0,10416545854134702108,11167114867127) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26162868",
+    "Contract.price() = 1138192000000000000000000000000000000 @ 0xa5657B406Fc4282039861C6fcA64452aeFEC8ac0 #26162868"
+   ],
+   "api_amount": 2068005.4710293673,
+   "api_gap": 0.0018011019562571694,
+   "details": {
+    "collateral_raw": "11167114867127",
+    "debt_raw": "10646033326032",
+    "oracle_price_raw": "1138192000000000000000000000000000000",
+    "collateral_value_in_loan": 12710320.804845,
+    "debt": 10646033.326032,
+    "health_factor": 1.0268,
+    "lltv": 0.86,
+    "value_definition": "capital propre = collatéral × prix oracle − dette (intérêts courus inclus)"
+   },
+   "share_of_book": 0.078143,
+   "index": 6
+  },
+  {
+   "id": "morpho_vault_v2:0xB344e331A3cDa61D329fb3Cca2Be5942da87c418",
+   "kind": "morpho_vault_v2",
+   "label": "Bitwise Premium RWA AUSD",
+   "protocol": "morpho",
+   "chain": "ethereum",
+   "address": "0xB344e331A3cDa61D329fb3Cca2Be5942da87c418",
+   "market_id": null,
+   "asset_symbol": "AUSD",
+   "asset_address": "0x00000000eFE302BEAA2b3e6e1b18d08D69a9012a",
+   "amount": 1968730.328584,
+   "price_usd": 0.9990215057890807,
+   "value_usd": 1966803.9373546191,
+   "price_source": "api : assetsUsd / assets de cette position (API Morpho https://api.morpho.org/graphql userByAddress (fetched 2026-10-10T15:16:47+00:00))",
+   "evidence": [
+    "Bitwise Premium RWA AUSD.balanceOf(0x4F87De7d21aeF48090958f7342E1F69Dff790545) = 1959564198418601648916937 @ 0xB344e331A3cDa61D329fb3Cca2Be5942da87c418 #26162868",
+    "Bitwise Premium RWA AUSD.convertToAssets(1959564198418601648916937) = 1968730328584 @ 0xB344e331A3cDa61D329fb3Cca2Be5942da87c418 #26162868",
+    "Bitwise Premium RWA AUSD.asset() = 0x00000000eFE302BEAA2b3e6e1b18d08D69a9012a @ 0xB344e331A3cDa61D329fb3Cca2Be5942da87c418 #26162868"
+   ],
+   "api_amount": 1968725.832128,
+   "api_gap": 2.28393697945246e-06,
+   "details": {
+    "shares": "1959564198418601648916937",
+    "assets_raw": "1968730328584",
+    "decimals": 6
+   },
+   "share_of_book": 0.074474,
+   "index": 7
+  },
+  {
+   "id": "morpho_vault_v2:0xE0181090c22579B6A217f1522cbf8c9f1F0C1965",
+   "kind": "morpho_vault_v2",
+   "label": "RockawayX USDC Yield",
+   "protocol": "morpho",
+   "chain": "ethereum",
+   "address": "0xE0181090c22579B6A217f1522cbf8c9f1F0C1965",
+   "market_id": null,
+   "asset_symbol": "USDC",
+   "asset_address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+   "amount": 1822775.647721,
+   "price_usd": 0.999708117923575,
+   "value_usd": 1822243.612180086,
+   "price_source": "api : assetsUsd / assets de cette position (API Morpho https://api.morpho.org/graphql userByAddress (fetched 2026-10-10T15:16:47+00:00))",
+   "evidence": [
+    "RockawayX USDC Yield.balanceOf(0x4F87De7d21aeF48090958f7342E1F69Dff790545) = 1766532738064930191303042 @ 0xE0181090c22579B6A217f1522cbf8c9f1F0C1965 #26162868",
+    "RockawayX USDC Yield.convertToAssets(1766532738064930191303042) = 1822775647721 @ 0xE0181090c22579B6A217f1522cbf8c9f1F0C1965 #26162868",
+    "RockawayX USDC Yield.asset() = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 @ 0xE0181090c22579B6A217f1522cbf8c9f1F0C1965 #26162868"
+   ],
+   "api_amount": 1822774.499672,
+   "api_gap": 6.298356034038241e-07,
+   "details": {
+    "shares": "1766532738064930191303042",
+    "assets_raw": "1822775647721",
+    "decimals": 6
+   },
+   "share_of_book": 0.069001,
+   "index": 8
+  },
+  {
+   "id": "morpho_market_borrow:0xb4977179610abfecfc8b76255a002c16b33f46d077beb86e5911e1fe9ee6e512",
+   "kind": "morpho_market_borrow",
+   "label": "Emprunt PYUSD contre PST · marché PST/PYUSD",
+   "protocol": "morpho",
+   "chain": "ethereum",
+   "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+   "market_id": "0xb4977179610abfecfc8b76255a002c16b33f46d077beb86e5911e1fe9ee6e512",
+   "asset_symbol": "PYUSD",
+   "asset_address": "0x6c3ea9036406852006290770BEdFcAbA0e23A0e8",
+   "amount": 40585.10743,
+   "price_usd": 0.9996738226881747,
+   "value_usd": 40571.86948875834,
+   "price_source": "api : prix de PYUSD (API Morpho https://api.morpho.org/graphql userByAddress (fetched 2026-10-10T15:16:47+00:00)) ; collatéral valorisé au prix de l'oracle du marché",
+   "evidence": [
+    "Morpho.position(0xb4977179610abfecfc8b76255a002c16b33f46d077beb86e5911e1fe9ee6e512,0x4F87De7d21aeF48090958f7342E1F69Dff790545) = (0,179082766477789207,194566576681) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26162868",
+    "Contract.price() = 1137979707269852919854369757226265840 @ 0x39228D120B999E6F6918df162ceF928BEB954448 #26162868"
+   ],
+   "api_amount": 40698.95306515047,
+   "api_gap": 0.0028051086312098484,
+   "details": {
+    "collateral_raw": "194566576681",
+    "debt_raw": "180827708545",
+    "oracle_price_raw": "1137979707269852919854369757226265840",
+    "collateral_value_in_loan": 221412.815975,
+    "debt": 180827.708545,
+    "health_factor": 1.053,
+    "lltv": 0.86,
+    "value_definition": "capital propre = collatéral × prix oracle − dette (intérêts courus inclus)"
+   },
+   "share_of_book": 0.001536,
+   "index": 9
+  },
+  {
+   "id": "morpho_market_borrow:0x85d59152eeeab7ca024804895b358868d8dd1e134171be400d7792d5604a212c",
+   "kind": "morpho_market_borrow",
+   "label": "Emprunt PYUSD contre weETH · marché weETH/PYUSD",
+   "protocol": "morpho",
+   "chain": "ethereum",
+   "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+   "market_id": "0x85d59152eeeab7ca024804895b358868d8dd1e134171be400d7792d5604a212c",
+   "asset_symbol": "PYUSD",
+   "asset_address": "0x6c3ea9036406852006290770BEdFcAbA0e23A0e8",
+   "amount": 12.708826,
+   "price_usd": 0.9996738226881747,
+   "value_usd": 12.704680669298865,
+   "price_source": "api : prix de PYUSD (API Morpho https://api.morpho.org/graphql userByAddress (fetched 2026-10-10T15:16:47+00:00)) ; collatéral valorisé au prix de l'oracle du marché",
+   "evidence": [
+    "Morpho.position(0x85d59152eeeab7ca024804895b358868d8dd1e134171be400d7792d5604a212c,0x4F87De7d21aeF48090958f7342E1F69Dff790545) = (0,1323255899504,5069652081202559) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26162868",
+    "Contract.price() = 2773552554740314016652811521 @ 0x221898dA0890Fc5fb6c890Fcdc051FA97946eE11 #26162868"
+   ],
+   "api_amount": 12.695756399206074,
+   "api_gap": 0.0010283877357299867,
+   "details": {
+    "collateral_raw": "5069652081202559",
+    "debt_raw": "1352120",
+    "oracle_price_raw": "2773552554740314016652811521",
+    "collateral_value_in_loan": 14.060946,
+    "debt": 1.35212,
+    "health_factor": 8.9433,
+    "lltv": 0.86,
+    "value_definition": "capital propre = collatéral × prix oracle − dette (intérêts courus inclus)"
+   },
+   "share_of_book": 0.0,
+   "index": 10
+  },
+  {
+   "id": "morpho_vault_v2:0x64C18DCC4Ccb3b8D27877a4aeBB4C3126CB39cB9",
+   "kind": "morpho_vault_v2",
+   "label": "RockawayX wETH",
+   "protocol": "morpho",
+   "chain": "ethereum",
+   "address": "0x64C18DCC4Ccb3b8D27877a4aeBB4C3126CB39cB9",
+   "market_id": null,
+   "asset_symbol": "WETH",
+   "asset_address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+   "amount": 0.001209066760804536,
+   "price_usd": 2504.755059688289,
+   "value_usd": 3.0284160866260916,
+   "price_source": "api : assetsUsd / assets de cette position (API Morpho https://api.morpho.org/graphql userByAddress (fetched 2026-10-10T15:16:47+00:00))",
+   "evidence": [
+    "RockawayX wETH.balanceOf(0x4F87De7d21aeF48090958f7342E1F69Dff790545) = 1193381096356867 @ 0x64C18DCC4Ccb3b8D27877a4aeBB4C3126CB39cB9 #26162868",
+    "RockawayX wETH.convertToAssets(1193381096356867) = 1209066760804536 @ 0x64C18DCC4Ccb3b8D27877a4aeBB4C3126CB39cB9 #26162868",
+    "RockawayX wETH.asset() = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2 @ 0x64C18DCC4Ccb3b8D27877a4aeBB4C3126CB39cB9 #26162868"
+   ],
+   "api_amount": 0.001209066557632832,
+   "api_gap": 1.680401038689326e-07,
+   "details": {
+    "shares": "1193381096356867",
+    "assets_raw": "1209066760804536",
+    "decimals": 18
+   },
+   "share_of_book": 0.0,
+   "index": 11
+  }
+ ],
+ "ignored": [
+  {
+   "id": "morpho_vault_v2:0x23f5E9c35820f4baB695Ac1F19c203cC3f8e1e11",
+   "label": "sky.money USDT Savings",
+   "reason": "vide ou < 1.0 $",
+   "value_usd": null
+  },
+  {
+   "id": "morpho_vault_v2:0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9",
+   "label": "Steakhouse Prime USDT",
+   "reason": "vide ou < 1.0 $",
+   "value_usd": null
+  },
+  {
+   "id": "morpho_vault_v2:0x6dC58a0FdfC8D694e571DC59B9A52EEEa780E6bf",
+   "label": "Sentora RLUSD Main",
+   "reason": "vide ou < 1.0 $",
+   "value_usd": null
+  },
+  {
+   "id": "morpho_vault_v2:0xC21b08C16458202593D4D9B26b9984Ee67b38BbD",
+   "label": "Sentora PRIME Main",
+   "reason": "vide ou < 1.0 $",
+   "value_usd": null
+  },
+  {
+   "id": "morpho_vault_v2:0x3BD9AdAE6643dDcddD02746b8B60075E56DF9478",
+   "label": "RockawayX Tori Ecosystem",
+   "reason": "vide ou < 1.0 $",
+   "value_usd": null
+  },
+  {
+   "id": "morpho_vault_v2:0x55C1B6e461a6334B567bAF0FEb5D728715446f05",
+   "label": "Pendle Ecosystem USDC",
+   "reason": "vide ou < 1.0 $",
+   "value_usd": null
+  },
+  {
+   "id": "morpho_vault_v2:0x8381a156958711E230f325428B5eb4b6555C75D9",
+   "label": "Sentora Huma PST Main",
+   "reason": "vide ou < 1.0 $",
+   "value_usd": null
+  },
+  {
+   "id": "morpho_vault_v1:0x31A5684983EeE865d943A696AAC155363bA024f9",
+   "label": "Vault Bridge WETH",
+   "reason": "vide ou < 1.0 $",
+   "value_usd": null
+  }
+ ],
+ "notes": [
+  "Positions LOCALISÉES par API Morpho https://api.morpho.org/graphql userByAddress (fetched 2026-10-10T15:16:47+00:00) ; montants PROUVÉS on-chain au bloc #26162868."
+ ]
+}

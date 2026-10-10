@@ -1,0 +1,30 @@
+# Secrets : la clé RPC ne doit JAMAIS être commitée
+.env
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+.venv*/
+venv/
+
+# Fichiers temporaires du cache (écriture atomique)
+data/cache/**/*.tmp
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# NB : data/cache/ est VOLONTAIREMENT commité → la démo tourne sans réseau.
+
+# Config locale de prévisualisation (chemin Python propre à chaque machine)
+.claude/launch.json
+
+# Cache du mode EN LIGNE (backend v2) : journal local des réponses, jamais commité
+data/cache_live/
+
+# Sorties du mode EN LIGNE (backend v2) : régénérées à chaque analyse
+output/live/

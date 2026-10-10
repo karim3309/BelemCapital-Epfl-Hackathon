@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stacktrace-discovery"
+version = "0.1.0"
+description = "StackTrace — Module de Découverte : graphe de dépendances d'une position DeFi (Belem DeFi Risk hackathon)"
+requires-python = ">=3.11"
+dependencies = ["web3>=7.6,<8", "requests>=2.31", "networkx>=3.2", "numpy>=1.26", "pyyaml>=6.0", "python-dotenv>=1.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

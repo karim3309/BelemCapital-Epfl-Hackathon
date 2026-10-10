@@ -1,0 +1,83 @@
+# =====================================================================
+#  StackTrace — configuration du Module de Découverte
+# =====================================================================
+# RÈGLE D'OR : seules les ENTRÉES de la découverte vivent ici.
+# Tout le reste (PT, SY, sUSDe, USDe, oracles, feeds, pool Pendle...) est
+# DÉCOUVERT on-chain à partir de ces entrées : on ne l'écrit jamais à la main.
+#
+# Chaque adresse a une `source` (où elle a été lue) et un `verified_by`.
+# → Cochez vous-mêmes chaque ligne dans docs/VERIFY.md (Etherscan + doc officielle).
+# =====================================================================
+
+chain:
+  name: ethereum
+  expected_chain_id: 1
+
+# Bloc figé : TOUS les appels sont faits à ce bloc → résultat reproductible et cacheable.
+# "latest" = résolu au lancement (puis recopiez le numéro affiché ici pour figer).
+# Un bloc ancien (> ~128 blocs) exige un RPC "archive" s'il n'est pas déjà dans data/cache/.
+snapshot_block: 26162087
+
+rpc:
+  url_env: ETH_RPC_URL          # nom de la variable d'environnement (fichier .env)
+
+# ----- Position A -----------------------------------------------------
+position:
+  protocol: morpho
+  # Marché Morpho Blue PT-sUSDE-26NOV2026 / USDC (le plus gros marché PT-sUSDe/USDC trouvé, le 2026-10-10)
+  market_id: "0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05"
+  market_id_source: "Morpho API (markets search PT-sUSDE) + recalcul keccak256(MarketParams) on-chain"
+  # Emprunteur réel du marché (adresse publique, choisie dans le top des emprunteurs via l'API Morpho).
+  # Mettez null pour une position hypothétique.
+  user: "0x03BAbEB24619902253FDB0D5675A816879115d98"
+  # null → value_usd calculée on-chain (collatéral × prix oracle × USDC/USD Chainlink).
+  # Mettez 1000000 pour forcer la taille de position de l'exemple du brief.
+  value_usd_override: null
+
+# ----- Contrats d'infrastructure (points d'entrée) ---------------------
+contracts:
+  morpho_blue:
+    address: "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb"
+    source: "https://docs.morpho.org/developers/contracts/addresses/"
+    verified_by: "claude (doc officielle) — À RE-VÉRIFIER par l'équipe sur Etherscan"
+  morpho_adaptive_curve_irm:
+    address: "0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC"
+    source: "https://docs.morpho.org/developers/contracts/addresses/"
+    verified_by: "claude (doc officielle) — À RE-VÉRIFIER"
+  morpho_chainlink_oracle_v2_factory:
+    address: "0x3A7bB36Ee3f3eE32A60e9f2b33c1e5f2E83ad766"
+    source: "https://docs.morpho.org/developers/contracts/addresses/"
+    verified_by: "claude (doc officielle) — À RE-VÉRIFIER"
+  pendle_router_static:
+    # Utilisé par le MOTEUR DE RISQUE (src/risk/collect.py) pour simuler une vente de PT on-chain.
+    # Fonction : swapExactPtForSyStatic(address,uint256) → interface officielle IPActionMarketCoreStatic
+    # (paquet npm @pendle/core-v2@6.6.1, contracts/interfaces/IPActionMarketCoreStatic.sol)
+    address: "0x263833d47eA3fA4a30f269323aba6a107f9eB14C"
+    source: "https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/1-core.json"
+    verified_by: "claude (déploiements officiels Pendle, clé routerStatic) — À RE-VÉRIFIER"
+  ens_registry:
+    address: "0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e"
+    source: "https://docs.ens.domains/learn/deployments"
+    verified_by: "claude (doc officielle) — À RE-VÉRIFIER"
+
+# Feed USD de référence pour convertir le prix de l'actif prêté en USD (résolu on-chain via ENS).
+usd_reference:
+  loan_token_usd_feed_ens: "usdc-usd.data.eth"
+  gas_token_usd_feed_ens: "eth-usd.data.eth"   # moteur de risque : coût du gas en USD
+  source: "https://docs.chain.link/data-feeds/ens"
+
+# ----- APIs (utilisées uniquement quand l'info n'est pas lisible on-chain) -----
+apis:
+  morpho_graphql:
+    url: "https://api.morpho.org/graphql"
+    source: "https://docs.morpho.org/developers/api/get-started/"
+  pendle_core:
+    url: "https://api-v2.pendle.finance/core"
+    source: "https://docs.pendle.finance/pendle-v2-dev/Backend/ApiOverview"
+
+discovery:
+  max_nodes: 200         # garde-fou anti-boucle
+  include_vaults: true   # vaults qui prêtent au marché (via API Morpho)
+  curated_file: curated.yaml
+  output_file: output/graph.json
+  cache_dir: data/cache

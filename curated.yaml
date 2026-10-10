@@ -1,0 +1,185 @@
+# =====================================================================
+#  Couche CURÉE : ce qui N'EST PAS lisible on-chain, mais qui est VÉRIFIABLE.
+# =====================================================================
+# Règles (appliquées par src/discovery/adapters/curated.py, qui refuse de charger sinon) :
+#   1. chaque entrée a une `evidence_url` publique (doc officielle, page de transparence) ;
+#   2. chaque entrée a une date `as_of` : une info curée VIEILLIT (Ethena rééquilibre ses hedges) ;
+#   3. on recopie ce que dit la source, sans extrapoler. Si la source dit « par exemple », on l'écrit.
+#   4. les `type` utilisent le vocabulaire figé (src/discovery/vocab.py).
+# Toutes les entrées ci-dessous ont été relevées le 2026-10-10 par Claude dans la doc officielle :
+#   → l'équipe doit les re-vérifier (docs/VERIFY.md, section « curated »).
+# =====================================================================
+version: 1
+last_reviewed: "2026-10-10"
+
+# ---------------------------------------------------------------------
+# Entités hors chaîne (émetteurs, custodians, exchanges)
+# ---------------------------------------------------------------------
+entities:
+  - key: ethena_labs
+    type: issuer
+    label: Ethena Labs
+    evidence_url: "https://docs.ethena.fi/solution-design/key-addresses"
+    as_of: "2026-10-10"
+    note: "Émetteur de USDe et sUSDe (adresses listées dans « Key Addresses »)."
+
+  - key: circle
+    type: issuer
+    label: Circle
+    evidence_url: "https://developers.circle.com/stablecoins/usdc-contract-addresses"
+    as_of: "2026-10-10"
+    note: "Émetteur de USDC (adresse Ethereum listée par Circle)."
+
+  - key: pendle
+    type: issuer
+    label: Pendle Finance
+    evidence_url: "https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/1-core.json"
+    as_of: "2026-10-10"
+    note: "Protocole émetteur des PT/YT/SY et des pools PT/SY (factories listées dans les déploiements officiels)."
+
+  - key: morpho
+    type: issuer
+    label: Morpho
+    evidence_url: "https://docs.morpho.org/developers/contracts/addresses/"
+    as_of: "2026-10-10"
+    note: "Protocole Morpho Blue (contrat singleton listé dans la doc officielle)."
+
+  - key: chainlink
+    type: issuer
+    label: Chainlink
+    evidence_url: "https://docs.chain.link/data-feeds/ens"
+    as_of: "2026-10-10"
+    note: "Les feeds officiels Chainlink sont enregistrés sous le domaine ENS data.eth."
+
+  # --- Custodians « Off-Exchange Settlement » d'Ethena -----------------
+  - key: copper
+    type: offchain_counterparty
+    label: "Copper (ClearLoop)"
+    role: custodian_off_exchange_settlement
+    evidence_url: "https://docs.ethena.fi/backing-custody-and-security/overview/off-exchange-settlement-in-detail"
+    as_of: "2026-10-10"
+    note: "La doc dit « Ethena uses multiple Off-Exchange Settlement providers such as Copper, Ceffu, and Fireblocks » : liste d'exemples, pas forcément exhaustive."
+  - key: ceffu
+    type: offchain_counterparty
+    label: Ceffu
+    role: custodian_off_exchange_settlement
+    evidence_url: "https://docs.ethena.fi/backing-custody-and-security/overview/off-exchange-settlement-in-detail"
+    as_of: "2026-10-10"
+    note: "Cité comme fournisseur OES d'Ethena (« such as »)."
+  - key: fireblocks
+    type: offchain_counterparty
+    label: Fireblocks
+    role: custodian_off_exchange_settlement
+    evidence_url: "https://docs.ethena.fi/backing-custody-and-security/overview/off-exchange-settlement-in-detail"
+    as_of: "2026-10-10"
+    note: "Cité comme fournisseur OES d'Ethena (« such as »)."
+
+  # --- Exchanges où Ethena place ses hedges (shorts perpétuels) --------
+  - key: binance
+    type: offchain_counterparty
+    label: Binance
+    role: hedging_venue
+    evidence_url: "https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk"
+    as_of: "2026-10-10"
+    note: "Cité parmi les exchanges où Ethena trade ses dérivés (« such as Binance, Bybit, Bitget, Deribit, and Okx »). Répartition : voir les dashboards de transparence Ethena."
+  - key: bybit
+    type: offchain_counterparty
+    label: Bybit
+    role: hedging_venue
+    evidence_url: "https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk"
+    as_of: "2026-10-10"
+    note: "Cité parmi les exchanges de hedge d'Ethena (« such as »)."
+  - key: bitget
+    type: offchain_counterparty
+    label: Bitget
+    role: hedging_venue
+    evidence_url: "https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk"
+    as_of: "2026-10-10"
+    note: "Cité parmi les exchanges de hedge d'Ethena (« such as »)."
+  - key: deribit
+    type: offchain_counterparty
+    label: Deribit
+    role: hedging_venue
+    evidence_url: "https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk"
+    as_of: "2026-10-10"
+    note: "Cité parmi les exchanges de hedge d'Ethena (« such as »)."
+  - key: okx
+    type: offchain_counterparty
+    label: OKX
+    role: hedging_venue
+    evidence_url: "https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk"
+    as_of: "2026-10-10"
+    note: "Cité parmi les exchanges de hedge d'Ethena (« such as »)."
+
+# ---------------------------------------------------------------------
+# Contrats connus : adresse on-chain → émetteur (le lien « qui est derrière »)
+#   `match: address`  → le nœud a CETTE adresse
+#   `match: factory`  → le nœud a été créé par cette factory (lu on-chain via factory())
+# ---------------------------------------------------------------------
+known_contracts:
+  - address: "0x4c9edd5852cd905f086c759e8383e09bff1e68b3"
+    issuer: ethena_labs
+    match: address
+    role: "USDe Token"
+    evidence_url: "https://docs.ethena.fi/solution-design/key-addresses"
+    as_of: "2026-10-10"
+  - address: "0x9d39a5de30e57443bff2a8307a4256c8797a3497"
+    issuer: ethena_labs
+    match: address
+    role: "sUSDe Token (Staking Contract)"
+    evidence_url: "https://docs.ethena.fi/solution-design/key-addresses"
+    as_of: "2026-10-10"
+  - address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+    issuer: circle
+    match: address
+    role: "USDC (Ethereum)"
+    evidence_url: "https://developers.circle.com/stablecoins/usdc-contract-addresses"
+    as_of: "2026-10-10"
+  - address: "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb"
+    issuer: morpho
+    match: address
+    role: "Morpho Blue (singleton)"
+    evidence_url: "https://docs.morpho.org/developers/contracts/addresses/"
+    as_of: "2026-10-10"
+  - address: "0x3E6EBa46AbC5ab18ED95F6667d8B2fd4020E4637"
+    issuer: pendle
+    match: factory
+    role: "Pendle yieldContractFactoryV6 (crée les PT/YT)"
+    evidence_url: "https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/1-core.json"
+    as_of: "2026-10-10"
+  - address: "0x6d247b1c044fA1E22e6B04fA9F71Baf99EB29A9f"
+    issuer: pendle
+    match: factory
+    role: "Pendle marketFactoryV6 (crée les pools PT/SY)"
+    evidence_url: "https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/1-core.json"
+    as_of: "2026-10-10"
+
+# ---------------------------------------------------------------------
+# Relations hors chaîne entre entités (from = dépendant → to = dépendance)
+#   weight : part de l'exposition si connue ; sinon 1.0 = borne haute conservatrice (dit dans la preuve).
+# ---------------------------------------------------------------------
+relations:
+  - {from: ethena_labs, to: copper,     type: deployed_in, weight: 1.0, weight_known: false,
+     evidence_url: "https://docs.ethena.fi/backing-custody-and-security/overview/off-exchange-settlement-in-detail",
+     as_of: "2026-10-10", note: "actifs de réserve d'USDe conservés chez un fournisseur OES"}
+  - {from: ethena_labs, to: ceffu,      type: deployed_in, weight: 1.0, weight_known: false,
+     evidence_url: "https://docs.ethena.fi/backing-custody-and-security/overview/off-exchange-settlement-in-detail",
+     as_of: "2026-10-10", note: "actifs de réserve d'USDe conservés chez un fournisseur OES"}
+  - {from: ethena_labs, to: fireblocks, type: deployed_in, weight: 1.0, weight_known: false,
+     evidence_url: "https://docs.ethena.fi/backing-custody-and-security/overview/off-exchange-settlement-in-detail",
+     as_of: "2026-10-10", note: "actifs de réserve d'USDe conservés chez un fournisseur OES"}
+  - {from: ethena_labs, to: binance,    type: deployed_in, weight: 1.0, weight_known: false,
+     evidence_url: "https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk",
+     as_of: "2026-10-10", note: "hedges (shorts perpétuels) margés par délégation depuis les custodians"}
+  - {from: ethena_labs, to: bybit,      type: deployed_in, weight: 1.0, weight_known: false,
+     evidence_url: "https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk",
+     as_of: "2026-10-10", note: "hedges (shorts perpétuels) margés par délégation depuis les custodians"}
+  - {from: ethena_labs, to: bitget,     type: deployed_in, weight: 1.0, weight_known: false,
+     evidence_url: "https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk",
+     as_of: "2026-10-10", note: "hedges (shorts perpétuels) margés par délégation depuis les custodians"}
+  - {from: ethena_labs, to: deribit,    type: deployed_in, weight: 1.0, weight_known: false,
+     evidence_url: "https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk",
+     as_of: "2026-10-10", note: "hedges (shorts perpétuels) margés par délégation depuis les custodians"}
+  - {from: ethena_labs, to: okx,        type: deployed_in, weight: 1.0, weight_known: false,
+     evidence_url: "https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk",
+     as_of: "2026-10-10", note: "hedges (shorts perpétuels) margés par délégation depuis les custodians"}

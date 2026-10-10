@@ -1,0 +1,131 @@
+{
+ "block": 26162868,
+ "block_timestamp": 1791645371,
+ "chain_id": 1,
+ "pocket": {
+  "id": "morpho_market_borrow:0x002278ea242ec722813b4fe3c8eeaa07dbc331c731cc0b4248a1bf0771f933ea",
+  "kind": "morpho_market_borrow",
+  "label": "Emprunt USDC contre PST · marché PST/USDC",
+  "value_usd": 2063684.9502973454,
+  "share_of_book": 0.078143
+ },
+ "graph": {
+  "nodes": 8,
+  "edges": 12,
+  "position_id": "morpho:0x002278ea242ec722813b4fe3c8eeaa07dbc331c731cc0b4248a1bf0771f933ea:0x4F87De7d21aeF48090958f7342E1F69Dff790545"
+ },
+ "markets": [
+  {
+   "label": "Morpho Blue PST / USDC (LLTV 86.0%)",
+   "collateral_pricing": "internal_rate",
+   "collateral_class": "rwa_or_synthetic",
+   "lltv": 0.86,
+   "utilization": 0.9057807268266197,
+   "liquidity": 3577282.2171,
+   "our_supply": 0.0,
+   "borrowers": 12,
+   "borrowers_source": "API Morpho https://api.morpho.org/graphql marketPositions (fetched 2026-10-10T15:17:17+00:00)"
+  }
+ ],
+ "monte_carlo": {
+  "samples": 100000,
+  "horizon_days": 7,
+  "expected_loss_usd": 1936.6599740805962,
+  "var95_usd": 0.0,
+  "var99_usd": 0.0,
+  "var999_usd": 843717.1019825678,
+  "p_any_loss": 0.00103,
+  "independence_note": "incidents tirés indépendamment (corrélations entre nœuds non modélisées)"
+ },
+ "exit": {
+  "f_max_now": 0.25,
+  "cost_full_usd": 274939.750648308,
+  "cost_full_pct": 0.1332275794368193,
+  "quote_api": "https://aggregator-api.kyberswap.com/ethereum/api/v1/routes",
+  "collateral_to_sell_full": 9353459.983932411,
+  "gas": "1500000 gas × baseFee 0.12 gwei (bloc #26162868) × ETH 2,510 $ (ENS eth-usd.data.eth → 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26162868)",
+  "reference": {
+   "collateral_in": 17576.858162707977,
+   "rate_out_per_in_raw": 1.1380396623581743,
+   "fetched": "2026-10-10T15:17:18+00:00"
+  },
+  "quotes": [
+   {
+    "fraction": 0.25,
+    "slippage": 0.103146
+   },
+   {
+    "fraction": 0.5,
+    "slippage": 0.999993
+   },
+   {
+    "fraction": 1.0,
+    "slippage": 0.999997
+   }
+  ],
+  "measured": true,
+  "market_capacity_note": "au-delà de 25% de la dette, le glissement dépasse 25% : le marché ne peut pas absorber la vente (autre voie : rachat chez l'émetteur, non modélisé)",
+  "forgone_net_carry_rate_over_horizon": 0.0009589041095890412
+ },
+ "decision": {
+  "verdict": "STAY",
+  "exit_fraction": 0.0,
+  "sentence": "STAY — sortir (seuls 25 % sont sortables maintenant) éviterait 484 $ de perte attendue sur l'horizon, mais coûterait 274 940 $. Sortez si vous estimez à plus de 58,7 % le risque « Chute du collatéral PST » (notre estimation : 0,10 %)."
+ },
+ "incidents": [
+  {
+   "id": "rwa_credit_event:pst",
+   "title": "Chute du collatéral PST",
+   "family": "rwa_credit_event",
+   "target": "pst",
+   "annual_rate": 0.05,
+   "p_horizon": 0.0009584445079596771,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 1872201.4796901648,
+   "loss_if_incident_max_usd": 2063684.9502973454,
+   "expected_loss_usd": 1794.4012260030192,
+   "p_star": 0.5874148773641787,
+   "rule": "perte de valeur propre au collatéral ; + pénalité de liquidation ρ·D·(LIF−1) si l'oracle suit et HF·(1−d) < 1",
+   "contagion_path": "morpho:0x002278ea2… → [deployed_in] Morpho Blue PST / USDC (LLTV 86.0%) → [collateralized_by] PST"
+  },
+  {
+   "id": "internal_rate_fault:feed_pst_usdc_exchange_rate_calculated",
+   "title": "Feed Chainlink PST-USDC Exchange Rate (Calculated) faussé vers le bas (liquidation à tort)",
+   "family": "internal_rate_fault",
+   "target": "feed_pst_usdc_exchange_rate_calculated",
+   "annual_rate": 0.005,
+   "p_horizon": 9.588581362041104e-05,
+   "severity_range": [
+    0.05,
+    0.3
+   ],
+   "loss_if_incident_usd": 1897607.6596754214,
+   "loss_if_incident_max_usd": 2063684.9502973454,
+   "expected_loss_usd": 181.95365438030186,
+   "p_star": 0.5795502547567403,
+   "rule": "si HF·(1−x) < 1 : liquidation à tort, perte = ρ·D·(LIF/(1−x) − 1)",
+   "contagion_path": "morpho:0x002278ea2… → [deployed_in] Morpho Blue PST / USDC (LLTV 86.0%) → [priced_by] MorphoChainlinkOracleV2 (internal_rate) → [priced_by] Chainlink PST-USDC Exchange Rate (Calculated)"
+  },
+  {
+   "id": "protocol_exploit:morpho",
+   "title": "Faille du protocole Morpho Blue",
+   "family": "protocol_exploit",
+   "target": "morpho",
+   "annual_rate": 0.003,
+   "p_horizon": 5.753259151231038e-05,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 1872201.4796901648,
+   "loss_if_incident_max_usd": 2063684.9502973454,
+   "expected_loss_usd": 107.71260295975732,
+   "p_star": 0.5874148773641787,
+   "rule": "collatéral volé : perte = min(collatéral × s, capital propre)",
+   "contagion_path": "morpho:0x002278ea2… → [deployed_in] Morpho Blue PST / USDC (LLTV 86.0%) → [issued_by] Morpho"
+  }
+ ]
+}

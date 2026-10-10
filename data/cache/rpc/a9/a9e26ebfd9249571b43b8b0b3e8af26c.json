@@ -1,0 +1,20 @@
+{
+ "fetched_at": "2026-10-10T14:47:30+00:00",
+ "request": {
+  "method": "eth_call",
+  "params": [
+   {
+    "data": "0x05e2d541",
+    "to": "0xc3866d726C204C0836E0677A31973c649888973D"
+   },
+   "0x18f33a7"
+  ]
+ },
+ "response": {
+  "error": {
+   "code": 3,
+   "data": "0x",
+   "message": "execution reverted"
+  }
+ }
+}

@@ -1,0 +1,28 @@
+# =====================================================================
+#  REPLAYS d'incidents RÉELS (démo, critère « données réelles » du brief)
+# =====================================================================
+# Le chemin de prix ON-CHAIN vient de l'historique Chainlink lu au bloc figé (risk_inputs.json).
+# Le prix HORS CHAÎNE (carnet d'ordres d'un exchange) n'existe pas on-chain : il est CURÉ, avec URL + date.
+# =====================================================================
+replays:
+  - id: R-OCT2025
+    title: "10 octobre 2025 : l'USDe à 0,65 $ sur Binance"
+    story: >
+      Krach du 10 octobre 2025 : sur le carnet d'ordres de Binance, l'USDe tombe à 0,65 $ pendant
+      une quarantaine de minutes, alors qu'on-chain il reste proche de 1 $. Binance valorisait ce
+      collatéral avec SON propre prix : des positions y ont été liquidées. Qu'aurait vécu la position A ?
+    window: {start: "2025-10-10T00:00:00+00:00", end: "2025-10-12T00:00:00+00:00"}
+    offchain_path:
+      venue: Binance (carnet d'ordres spot)
+      low: 0.65
+      duration_minutes: 40
+      evidence_url: "https://www.21shares.com/it-eu/insights/why-did-ethenas-stablecoin-remain-stable-onchain-but-depegged-on-binance"
+      as_of: "2026-10-10"
+      says: "USDe « briefly plunging to $0.65 » sur le spot de Binance, résorbé « within about 40 minutes » ; plus proche de 1 $ sur les venues décentralisées (Curve)."
+
+  - id: R-FEB2025
+    title: "21 février 2025 : le pire écart jamais vu par le feed Chainlink USDe/USD"
+    story: >
+      Le jour où le feed Chainlink USDe/USD a enregistré son plus bas historique (0,977 $), pendant
+      quelques minutes. Rejoué sur la position A : l'oracle aurait-il basculé ? aurait-on été liquidé ?
+    window: {start: "2025-02-21T00:00:00+00:00", end: "2025-02-22T00:00:00+00:00"}

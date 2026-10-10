@@ -1,0 +1,10 @@
+web3>=7.6,<8
+requests>=2.31
+networkx>=3.2
+numpy>=1.26
+pyyaml>=6.0
+python-dotenv>=1.0
+pytest>=8.0
+fastapi>=0.115      # backend v2 : API HTTP pour le front (src/stacktrace/api.py)
+uvicorn>=0.30       # serveur de l'API
+httpx>=0.27         # tests de l'API (TestClient)
