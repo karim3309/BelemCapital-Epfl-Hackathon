@@ -1,13 +1,13 @@
-"""Données de risque d'une poche, tirées de SON graphe prouvé + quelques lectures complémentaires.
+"""Risk data of a pocket, taken from ITS proven graph + a few extra reads.
 
-Pour chaque marché Morpho dans lequel la poche est exposée, on assemble :
-  - les totaux (fourni, emprunté, liquidité disponible) — déjà prouvés on-chain dans le graphe ;
-  - le prix de l'oracle, relu on-chain (`price()`, au bloc figé) ;
-  - le PROFIL de l'oracle côté collatéral : suit-il le prix de MARCHÉ du collatéral, ou un taux interne /
-    un prix posé par un admin ? (c'est ce qui décide si une chute sera liquidée à temps) ;
-  - la liste des EMPRUNTEURS (dette, collatéral) : localisés par l'API Morpho, recalés sur le total
-    on-chain. Pourquoi pas l'agrégat ? Un emprunteur à 85 % de LTV et un autre à 10 % n'ont pas la même
-    dette irrécouvrable qu'une moyenne à 47 % : la perte se calcule emprunteur par emprunteur.
+For each Morpho market the pocket is exposed to, we assemble:
+  - the totals (supplied, borrowed, available liquidity) — already proven on-chain in the graph;
+  - the oracle price, re-read on-chain (`price()`, at the pinned block);
+  - the oracle PROFILE on the collateral side: does it follow the collateral's MARKET price, or an internal rate /
+    an admin-set price? (that is what decides whether a drop gets liquidated in time);
+  - the list of BORROWERS (debt, collateral): located by the Morpho API, rescaled to the on-chain
+    total. Why not the aggregate? A borrower at 85% LTV and another at 10% do not have the same
+    bad debt as an average at 47%: the loss is computed borrower by borrower.
 """
 from __future__ import annotations
 
@@ -32,9 +32,9 @@ class Feed:
     node_id: str
     kind: str
     mode: str
-    role: str                     # "base" (feed ↑ ⇒ prix collatéral ↑) ou "quote" (feed ↑ ⇒ prix ↓)
+    role: str                     # "base" (feed ↑ ⇒ collateral price ↑) or "quote" (feed ↑ ⇒ price ↓)
     label: str
-    bounds: tuple[float, float] | None = None   # (baisse max, hausse max) relatives, si le feed est borné on-chain
+    bounds: tuple[float, float] | None = None   # (max drop, max rise) relative, if the feed is bounded on-chain
 
 
 @dataclass
@@ -46,28 +46,28 @@ class Market:
     collateral_symbol: str
     loan_symbol: str
     lltv: float
-    supply: float                 # en unités de l'actif prêté
+    supply: float                 # in units of the lent asset
     borrow: float
     liquidity: float
     supply_apy: float | None
-    collateral_mode: str          # mode de prix de l'oracle CÔTÉ COLLATÉRAL
+    collateral_mode: str          # pricing mode of the oracle on the COLLATERAL SIDE
     collateral_class: str         # volatile | pendle_pt | rwa_or_synthetic
     oracle_id: str
     feeds: list[Feed]
-    price: float                  # prix oracle : unités prêtées par unité de collatéral
-    debts: np.ndarray = field(default_factory=lambda: np.zeros(0))       # dette de chaque emprunteur
-    coll_values: np.ndarray = field(default_factory=lambda: np.zeros(0)) # collatéral × prix oracle (unités prêtées)
+    price: float                  # oracle price: lent units per unit of collateral
+    debts: np.ndarray = field(default_factory=lambda: np.zeros(0))       # debt of each borrower
+    coll_values: np.ndarray = field(default_factory=lambda: np.zeros(0)) # collateral × oracle price (lent units)
     borrowers_source: str = ""
-    our_supply: float = 0.0       # ce que le VAULT de la poche fournit à ce marché
+    our_supply: float = 0.0       # what the pocket's VAULT supplies to this market
 
     @property
     def tracks_market(self) -> bool:
         return self.collateral_mode in TRACKING_MODES
 
 
-# ----------------------------------------------------------------------------- lecture du graphe
+# ----------------------------------------------------------------------------- graph reading
 class G:
-    """Accès pratique au graph.json (dict) d'une poche."""
+    """Convenient access to a pocket's graph.json (dict)."""
 
     def __init__(self, graph: dict):
         self.raw = graph
@@ -88,7 +88,7 @@ class G:
         return next((n for n in self.raw["nodes"] if n["type"] == ntype), None)
 
     def path_to(self, target: str) -> list[dict]:
-        """Plus court chemin position → target (liste d'arêtes) : le CHEMIN DE CONTAGION."""
+        """Shortest path position → target (list of edges): the CONTAGION PATH."""
         start = self.raw["position"]["id"]
         prev, q = {start: None}, [start]
         while q:
@@ -109,8 +109,8 @@ class G:
 
 
 def collateral_side_mode(base_modes: list[str]) -> str:
-    """Le prix du collatéral ne SUIT son marché que si TOUTES ses composantes côté collatéral suivent un marché.
-    Ex. PST priced = taux interne PST × USDC/USD (marché) → le collatéral lui-même n'est PAS suivi au marché."""
+    """The collateral price FOLLOWS its market only if ALL its collateral-side components follow a market.
+    E.g. PST priced = PST internal rate × USDC/USD (market) → the collateral itself is NOT tracked at market."""
     if not base_modes:
         return "fixed"
     for m in ("unknown", "fixed", "internal_rate"):
@@ -120,8 +120,8 @@ def collateral_side_mode(base_modes: list[str]) -> str:
 
 
 def oracle_profile(g: G, oracle_id: str) -> tuple[str, list[Feed]]:
-    """(mode côté collatéral, feeds feuilles avec leur rôle). Pour un MorphoChainlinkOracle, seuls les
-    composants BASE décrivent le collatéral (les QUOTE décrivent l'actif prêté)."""
+    """(collateral-side mode, leaf feeds with their role). For a MorphoChainlinkOracle, only the
+    BASE components describe the collateral (the QUOTE ones describe the lent asset)."""
     m = g.meta(oracle_id)
     feeds: list[Feed] = []
 
@@ -177,7 +177,7 @@ def load_markets(ctx: Ctx, g: G) -> list[Market]:
         mode, feeds = oracle_profile(g, oracle_id)
         loan_dec, coll_dec = g.meta(loan_id)["decimals"], g.meta(coll_id)["decimals"]
         price_raw = ctx.call(m["oracle"], "price()", returns=["uint256"])
-        price = price_raw / 10**36 * 10**coll_dec / 10**loan_dec       # unités prêtées par unité de collatéral
+        price = price_raw / 10**36 * 10**coll_dec / 10**loan_dec       # lent units per unit of collateral
         apy = m.get("borrow_apy")
         supply_apy = apy * (m.get("utilization") or 0) * (1 - (m.get("fee") or 0)) if apy is not None else None
         mk = Market(
@@ -201,17 +201,17 @@ def _load_borrowers(ctx: Ctx, mk: Market, loan_dec: int, coll_dec: int, price_ra
             debts.append(int(st["borrowAssets"] or 0) / 10**loan_dec)
             colls.append(int(st["collateral"] or 0) * price_raw / 10**36 / 10**loan_dec)
         src = f"API Morpho {url} marketPositions (fetched {fetched})"
-    except Exception as e:                       # API muette : on retombe sur l'agrégat, et on le DIT
-        src = f"API indisponible ({type(e).__name__}) → un seul emprunteur agrégé"
+    except Exception as e:                       # API silent: fall back to the aggregate, and SAY it
+        src = f"API unavailable ({type(e).__name__}) → a single aggregated borrower"
     listed = sum(debts)
     residual = mk.borrow - listed
     if residual > 1e-6 * max(mk.borrow, 1):
-        # Emprunteurs non listés : on les regroupe au LTV moyen des listés (ou à la LLTV, prudent, si aucun).
+        # Unlisted borrowers: grouped at the listed ones' average LTV (or at the LLTV, prudently, if none).
         ltv = (listed / sum(colls)) if colls and sum(colls) else mk.lltv
         debts.append(residual)
         colls.append(residual / ltv)
-        src += f" ; reste {residual:,.0f} {mk.loan_symbol} agrégé au LTV moyen {ltv:.1%}"
+        src += f"; remaining {residual:,.0f} {mk.loan_symbol} aggregated at the average LTV {ltv:.1%}"
     elif listed > mk.borrow and listed:
-        k = mk.borrow / listed                 # recalage sur le total PROUVÉ on-chain (intérêts courus)
+        k = mk.borrow / listed                 # rescaled to the total PROVEN on-chain (accrued interest)
         debts = [d * k for d in debts]
     mk.debts, mk.coll_values, mk.borrowers_source = np.array(debts), np.array(colls), src

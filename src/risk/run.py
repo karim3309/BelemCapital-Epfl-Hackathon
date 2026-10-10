@@ -1,13 +1,13 @@
-"""Point d'entrée du moteur de risque : graph.json + risk_inputs.json → risk_report.json + risk_grid.json.
+"""Risk engine entry point: graph.json + risk_inputs.json → risk_report.json + risk_grid.json.
 
-    PYTHONPATH=src python -m risk.run            # 100 % hors ligne (aucun appel réseau)
+    PYTHONPATH=src python -m risk.run            # 100% offline (no network call)
 
-Ce que produit le rapport (c'est la « fiche de risque » du cadrage §4.5) :
-  - le verdict principal STAY / PARTIAL x % / EXIT, en une phrase, avec le seuil p* ;
-  - la perte attendue, la VaR 95 %, le coût de sortie ($ et % du capital) ;
-  - les 3 chemins de contagion les plus coûteux (avec les preuves des arêtes) ;
-  - tous les scénarios de stress, le replay d'incidents réels, la sensibilité aux hypothèses ;
-  - la liste des paramètres avec leur statut (sourcé / on-chain / hypothèse) et un niveau de confiance.
+What the report produces (the "risk sheet" of the framing note §4.5):
+  - the main verdict STAY / PARTIAL x% / EXIT, in one sentence, with the threshold p*;
+  - the expected loss, the 95% VaR, the exit cost ($ and % of capital);
+  - the 3 costliest contagion paths (with the evidence of the edges);
+  - every stress scenario, the replay of real incidents, the sensitivity to hypotheses;
+  - the list of parameters with their status (sourced / on-chain / hypothesis) and a confidence level.
 """
 from __future__ import annotations
 
@@ -44,8 +44,8 @@ def build_engine(graph_path: Path = GRAPH, inputs_path: Path = INPUTS, params_pa
     gv = GraphView.load(graph_path)
     inputs = json.loads(Path(inputs_path).read_text(encoding="utf-8"))
     if inputs.get("snapshot_block") != gv.snapshot()["block"]:
-        raise ValueError(f"risk_inputs.json (bloc {inputs.get('snapshot_block')}) ≠ graph.json (bloc "
-                         f"{gv.snapshot()['block']}) : relancez `python -m risk.refresh`")
+        raise ValueError(f"risk_inputs.json (block {inputs.get('snapshot_block')}) ≠ graph.json (block "
+                         f"{gv.snapshot()['block']}): run `python -m risk.refresh` again")
     calibrate(inputs, gv.snapshot()["timestamp"])
     params = load_params(params_path, gv, inputs)
     exit_model = ExitModel.build(gv, inputs, params)
@@ -53,7 +53,7 @@ def build_engine(graph_path: Path = GRAPH, inputs_path: Path = INPUTS, params_pa
 
 
 def sensitivity(engine: Engine, headline: dict, sc_def: dict, mc_samples: int) -> list[dict]:
-    """Tornade : on fait varier chaque hypothèse dans sa plage et on regarde ce qui bouge."""
+    """Tornado: vary each hypothesis within its range and see what moves."""
     from .scenarios import evaluate_scenario as ev_sc
     base_el = run_mc(engine, samples=mc_samples, with_paths=False)["expected_loss_usd"]
     rows = []
@@ -71,7 +71,7 @@ def sensitivity(engine: Engine, headline: dict, sc_def: dict, mc_samples: int) -
             res[f"headline_p_star_{tag}"] = sc["decision"]["p_star"]
             res[f"el_{tag}"] = run_mc(eng, samples=mc_samples, with_paths=False)["expected_loss_usd"]
         rows.append(res)
-    for name in engine.params.events:          # fréquences annuelles ×0,5 / ×2
+    for name in engine.params.events:          # annual frequencies ×0.5 / ×2
         if engine.params.events[name]["annual_rate"].status != "hypothesis":
             continue
         res = {"param": f"{name}.annual_rate", "base": engine.params.events[name]["annual_rate"].value,
@@ -122,7 +122,7 @@ def build_report(engine: Engine, mc_samples: int | None = None, sens_samples: in
             "health_factor": engine.base.hf, "ltv": market["position"]["ltv"], "lltv": engine.base.lltv,
             "lif": lif(engine.base.lltv, engine.params), "borrow_apy": engine.base.borrow_apy,
             "oracle_drop_to_liquidation": 1 - 1 / engine.base.hf,
-            "pocket_definition": "V = capital net (valeur de marché du collatéral − dette) : c'est ce que le manager récupère en sortant",
+            "pocket_definition": "V = net capital (collateral market value − debt): what the manager gets back by exiting",
         },
         "headline": {
             "scenario": HEADLINE, "title": headline["title"],
@@ -133,15 +133,15 @@ def build_report(engine: Engine, mc_samples: int | None = None, sens_samples: in
             "lender_loss_usd": headline["outcome"]["lender_loss_usd"],
             "exit_cost_usd": exit_full["total_usd"], "exit_cost_pct_equity": (exit_full["total_usd"] or 0) / eq,
             "sentence": headline["decision"]["sentence"],
-            "three_am_question": (f"Est-ce que je crois à plus de {prob(headline['decision']['p_star'], 1, engine.horizon_days)} de chances que "
-                                  f"« {headline['title']} » se produise d'ici {engine.horizon_days:g} jours ?"
+            "three_am_question": (f"Do I believe there is more than a {prob(headline['decision']['p_star'], 1, engine.horizon_days)} chance that "
+                                  f"\"{headline['title']}\" happens within {engine.horizon_days:g} days?"
                                   if headline["decision"]["p_star"] is not None else None),
         },
         "baseline": {
             "verdict": base_verdict,
-            "sentence": (f"{base_verdict} — sans alerte, la perte attendue sur {engine.horizon_days:g} jours "
-                         f"({usd(baseline_loss)}) est {'inférieure' if base_verdict == 'STAY' else 'supérieure'} "
-                         f"au coût certain de sortie ({usd(exit_full['total_usd'])})."),
+            "sentence": (f"{base_verdict} — with no alert, the expected loss over {engine.horizon_days:g} days "
+                         f"({usd(baseline_loss)}) is {'below' if base_verdict == 'STAY' else 'above'} "
+                         f"the certain exit cost ({usd(exit_full['total_usd'])})."),
         },
         "exit_cost": {
             "full": exit_full,
@@ -149,8 +149,8 @@ def build_report(engine: Engine, mc_samples: int | None = None, sens_samples: in
             "max_feasible_pt": engine.exit_model.max_feasible_pt,
             "first_reverted_pt": engine.exit_model.min_reverted_pt,
             "simulations_evidence": engine.exit_model.evidence,
-            "method": ("PT → SY simulé on-chain (Pendle RouterStatic.swapExactPtForSyStatic) ; coût = écart au prix "
-                       "spot de l'AMM ; + conversion vers USDC (hypothèse) + gas (on-chain) + rendement abandonné"),
+            "method": ("PT → SY simulated on-chain (Pendle RouterStatic.swapExactPtForSyStatic); cost = gap to the AMM "
+                       "spot price; + conversion to USDC (hypothesis) + gas (on-chain) + forgone yield"),
         },
         "monte_carlo": mc,
         "scenarios": scenarios,
@@ -159,10 +159,10 @@ def build_report(engine: Engine, mc_samples: int | None = None, sens_samples: in
         "calibration": engine.inputs["calibration"],
         "params": [p.to_dict() for p in engine.params.all_params()],
         "confidence": {
-            "p_star": "moyenne à élevée : coût de sortie mesuré on-chain, perte calculée sur le graphe prouvé ; "
-                      "seules la taille/durée du choc et quelques paramètres de transmission sont des hypothèses",
-            "expected_loss_and_var": "faible : la plupart des fréquences annuelles sont des hypothèses d'ordre de "
-                                     "grandeur (le dataset de hacks DeFiLlama est payant) — voir la sensibilité",
+            "p_star": "medium to high: exit cost measured on-chain, loss computed on the proven graph; "
+                      "only the size/duration of the shock and a few transmission parameters are hypotheses",
+            "expected_loss_and_var": "low: most annual frequencies are order-of-magnitude hypotheses "
+                                     "(the DeFiLlama hacks dataset is paid) — see the sensitivity",
         },
     }
     return report, grid
@@ -174,34 +174,34 @@ def _fmt_pct(x):
 
 def print_summary(report: dict, elapsed: float) -> None:
     h, pos, mc = report["headline"], report["position"], report["monte_carlo"]
-    print(f"\n=== StackTrace · fiche de risque · bloc #{report['snapshot']['block']} ===")
+    print(f"\n=== StackTrace · risk sheet · block #{report['snapshot']['block']} ===")
     print(f"position : HF {pos['health_factor']:.3f} · capital net {usd(pos['equity_usd'])} · "
-          f"liquidable si l'oracle baisse de {pct(pos['oracle_drop_to_liquidation'], 2)}")
-    print(f"sortie   : {usd(h['exit_cost_usd'])} ({pct(h['exit_cost_pct_equity'], 2)} du capital)")
-    print(f"alerte   : {h['title']} → perte {usd(h['loss_if_incident_usd'])} ; "
+          f"liquidatable if the oracle drops by {pct(pos['oracle_drop_to_liquidation'], 2)}")
+    print(f"exit     : {usd(h['exit_cost_usd'])} ({pct(h['exit_cost_pct_equity'], 2)} of capital)")
+    print(f"alert    : {h['title']} → loss {usd(h['loss_if_incident_usd'])}; "
           f"p* = {prob(h['p_star'], 1, report['monte_carlo']['horizon_days'])}")
     print(f"verdict  : {h['sentence']}")
-    print(f"sans alerte ({mc['horizon_days']:g} j, {mc['samples']:,} tirages) : perte attendue {usd(mc['expected_loss_usd'])} · "
+    print(f"no alert ({mc['horizon_days']:g} d, {mc['samples']:,} draws): expected loss {usd(mc['expected_loss_usd'])} · "
           f"VaR95 {usd(mc['var95_usd'])} · VaR99 {usd(mc['var99_usd'])} → {report['baseline']['verdict']}")
-    print("scénarios :")
+    print("scenarios:")
     for s in report["scenarios"]:
         o, d = s["outcome"], s["decision"]
         print(f"   · {s['id']:<18} HF {o['hf_before']:.3f}→{o['hf_after']:.3f} "
-              f"{'LIQUIDÉ' if o['liquidated'] else ('liquidable' if o['liquidatable'] else 'ok'):<10} emprunteur −{o['borrower_loss_usd']:>10,.0f} $  "
-              f"prêteurs −{o['lender_loss_usd']:>9,.0f} $  p*={_fmt_pct(d['p_star']):>7}  {d['verdict']}")
+              f"{'LIQUIDATED' if o['liquidated'] else ('liquidatable' if o['liquidatable'] else 'ok'):<12} borrower −${o['borrower_loss_usd']:>10,.0f}  "
+              f"lenders −${o['lender_loss_usd']:>9,.0f}  p*={_fmt_pct(d['p_star']):>7}  {d['verdict']}")
     for r in report["replays"]:
         if r.get("available"):
             print(f"replay   : {r['title']}")
             for d in r["designs"]:
-                print(f"   · {d['design']:<52} HF min {d['min_hf']:.3f} {'LIQUIDÉ' if d['liquidated'] else 'ok'}")
+                print(f"   · {d['design']:<52} min HF {d['min_hf']:.3f} {'LIQUIDATED' if d['liquidated'] else 'ok'}")
     print(f"({elapsed:.1f} s)")
 
 
 def main(argv: list[str] | None = None) -> int:
     utf8_console()
-    ap = argparse.ArgumentParser(description="Moteur de risque StackTrace")
-    ap.add_argument("--samples", type=int, default=None, help="tirages Monte Carlo (défaut : params.yaml)")
-    ap.add_argument("--offline", action="store_true", help="(sans effet : le moteur n'appelle jamais le réseau)")
+    ap = argparse.ArgumentParser(description="StackTrace risk engine")
+    ap.add_argument("--samples", type=int, default=None, help="Monte Carlo draws (default: params.yaml)")
+    ap.add_argument("--offline", action="store_true", help="(no effect: the engine never calls the network)")
     args = ap.parse_args(argv)
     t0 = time.time()
     engine = build_engine()
@@ -209,12 +209,12 @@ def main(argv: list[str] | None = None) -> int:
     from .validate_report import validate_report
     errors = validate_report(report, grid, engine.gv)
     if errors:
-        print(f"✗ {len(errors)} erreur(s) dans le rapport :", *errors, sep="\n  - ")
+        print(f"✗ {len(errors)} error(s) in the report:", *errors, sep="\n  - ")
         return 1
     REPORT.write_text(json.dumps(report, indent=1, ensure_ascii=False, default=str) + "\n", encoding="utf-8", newline="\n")
     GRID.write_text(json.dumps(grid, ensure_ascii=False, default=str) + "\n", encoding="utf-8", newline="\n")
     print_summary(report, time.time() - t0)
-    print(f"✓ {REPORT.relative_to(REPO_ROOT)} et {GRID.relative_to(REPO_ROOT)} valides")
+    print(f"✓ {REPORT.relative_to(REPO_ROOT)} and {GRID.relative_to(REPO_ROOT)} are valid")
     return 0
 
 

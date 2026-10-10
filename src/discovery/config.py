@@ -1,7 +1,7 @@
-"""Chargement de config.yaml + .env, avec garde-fous anti-hallucination.
+"""Loads config.yaml + .env, with anti-hallucination guards.
 
-On refuse de démarrer si une adresse est un placeholder ("0x...", "TO_VERIFY", "à vérifier")
-ou n'a pas le bon format : mieux vaut planter que découvrir un graphe faux.
+We refuse to start if an address is a placeholder ("0x...", "TO_VERIFY", "to verify")
+or has the wrong format: better to crash than to discover a wrong graph.
 """
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 
 _ADDRESS_RE = re.compile(r"^0x[0-9a-fA-F]{40}$")
 _MARKET_ID_RE = re.compile(r"^0x[0-9a-fA-F]{64}$")
-_PLACEHOLDERS = ("0x...", "to_verify", "todo", "à vérifier", "a verifier")
+_PLACEHOLDERS = ("0x...", "to_verify", "to verify", "todo", "à vérifier", "a verifier")
 
 
 class ConfigError(ValueError):
@@ -27,9 +27,9 @@ class ConfigError(ValueError):
 
 def _check_address(name: str, value: Any) -> str:
     if not isinstance(value, str) or any(p in value.lower() for p in _PLACEHOLDERS):
-        raise ConfigError(f"{name}: adresse manquante ou placeholder ({value!r}) — vérifiez-la sur Etherscan")
+        raise ConfigError(f"{name}: missing or placeholder address ({value!r}) — check it on Etherscan")
     if not _ADDRESS_RE.match(value):
-        raise ConfigError(f"{name}: format d'adresse invalide ({value!r})")
+        raise ConfigError(f"{name}: invalid address format ({value!r})")
     return value
 
 
@@ -39,14 +39,14 @@ class Config:
     path: Path
     chain_name: str
     expected_chain_id: int
-    snapshot_block: int | str          # int, ou "latest" (résolu au démarrage)
+    snapshot_block: int | str          # int, or "latest" (resolved at startup)
     rpc_url: str | None
     offline: bool
     market_id: str
     user: str | None
     value_usd_override: float | None
-    contracts: dict[str, str]          # nom → adresse
-    contract_sources: dict[str, str]   # nom → URL de la source
+    contracts: dict[str, str]          # name → address
+    contract_sources: dict[str, str]   # name → source URL
     loan_usd_feed_ens: str | None
     apis: dict[str, str]
     api_sources: dict[str, str]
@@ -66,10 +66,10 @@ def load_config(path: str | Path | None = None, *, offline: bool | None = None) 
 
     pos = raw["position"]
     if pos.get("protocol") != "morpho":
-        raise ConfigError("Seul le protocole 'morpho' est supporté comme racine pour l'instant")
+        raise ConfigError("Only the 'morpho' protocol is supported as a root for now")
     market_id = str(pos["market_id"])
     if not _MARKET_ID_RE.match(market_id):
-        raise ConfigError(f"position.market_id invalide : {market_id!r} (attendu 0x + 64 hex)")
+        raise ConfigError(f"invalid position.market_id: {market_id!r} (expected 0x + 64 hex)")
     user = pos.get("user")
     if user is not None:
         user = _check_address("position.user", user)
@@ -79,11 +79,11 @@ def load_config(path: str | Path | None = None, *, offline: bool | None = None) 
         contracts[name] = _check_address(f"contracts.{name}.address", entry.get("address"))
         sources[name] = entry.get("source", "")
         if not sources[name].startswith("http"):
-            raise ConfigError(f"contracts.{name}: une `source` (URL) est obligatoire")
+            raise ConfigError(f"contracts.{name}: a `source` (URL) is required")
 
     snap = raw.get("snapshot_block", "latest")
     if not (snap == "latest" or isinstance(snap, int)):
-        raise ConfigError("snapshot_block doit être un entier ou 'latest'")
+        raise ConfigError("snapshot_block must be an integer or 'latest'")
 
     if offline is None:
         offline = os.getenv("STACKTRACE_OFFLINE", "0").strip() in ("1", "true", "yes")

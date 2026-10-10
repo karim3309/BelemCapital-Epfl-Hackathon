@@ -1,4 +1,4 @@
-"""T9 — la couche curée : stricte sur les preuves, sinon elle refuse de charger."""
+"""T9 — the curated layer: strict about evidence, otherwise it refuses to load."""
 import pytest
 import yaml
 
@@ -11,7 +11,7 @@ def test_real_curated_file_loads():
     c = load_curated(REPO_ROOT / "curated.yaml")
     assert {"ethena_labs", "circle", "pendle", "morpho", "chainlink"} <= set(c.entities)
     assert all(e["evidence_url"].startswith("https://") for e in c.entities.values())
-    assert c.relations, "les relations hors chaîne d'Ethena doivent être présentes"
+    assert c.relations, "Ethena's off-chain relations must be present"
 
 
 def _write(tmp_path, data):
@@ -26,7 +26,7 @@ BASE = {"key": "acme", "type": "issuer", "label": "Acme", "evidence_url": "https
 @pytest.mark.parametrize("entity,needle", [
     ({**BASE, "evidence_url": ""}, "evidence_url"),
     ({**BASE, "evidence_url": "http://insecure.example"}, "evidence_url"),
-    ({**BASE, "as_of": "hier"}, "as_of"),
+    ({**BASE, "as_of": "yesterday"}, "as_of"),
     ({**BASE, "type": "asset"}, "type"),
     ({**BASE, "key": "Acme Corp"}, "snake_case"),
 ])
@@ -53,4 +53,4 @@ def test_issuer_edge_by_address_and_by_factory(tmp_path):
     assert e1.to_key == "issuer:acme" and e1.source == "curated" and "https://acme.example/a" in e1.evidence
     e2 = c.issuer_edge("k2", addr(3), addr(2), 100, "PT")
     assert e2 is not None and "factory()" in e2.evidence and "#100" in e2.evidence
-    assert c.issuer_edge("k3", addr(4), None, 100, "X") is None      # inconnu → pas d'arête inventée
+    assert c.issuer_edge("k3", addr(4), None, 100, "X") is None      # unknown → no invented edge

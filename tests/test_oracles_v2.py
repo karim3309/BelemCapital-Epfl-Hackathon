@@ -1,4 +1,4 @@
-"""Étape 4 — nouveaux types d'oracle rencontrés dans le portefeuille réel (FakeCtx, aucun réseau)."""
+"""Step 4 — new oracle types met in the real portfolio (FakeCtx, no network)."""
 from discovery.adapters.oracles import classify_oracle, discover_oracle
 from tests.fakes import FakeCtx, addr
 
@@ -23,7 +23,7 @@ def test_nav_adapter_needs_the_nav_description():
     nav = FakeCtx({**base, (a, "description()", ()): "Net Asset Value in USD"}, timestamp=TS)
     assert classify_oracle(nav, a) == "nav_chainlink_adapter"
     other = FakeCtx({**base, (a, "description()", ()): "Something else"}, timestamp=TS)
-    assert classify_oracle(other, a) != "nav_chainlink_adapter"          # token() seul ne suffit pas
+    assert classify_oracle(other, a) != "nav_chainlink_adapter"          # token() alone is not enough
 
 
 def test_redstone_fundamental_vs_market():
@@ -42,7 +42,7 @@ def test_chainlink_exchange_rate_feed_is_not_a_market_price():
     ctx = FakeCtx({(a, "aggregator()", ()): addr(47), (a, "phaseId()", ()): 1,
                    (a, "description()", ()): "PST-USDC Exchange Rate (Calculated)",
                    (a, R, ()): (7, 113 * 10**4, 0, TS, 7), (a, "decimals()", ()): 6},
-                  timestamp=TS, contracts={"ens_registry": addr(48)})   # ENS : aucun nom → émetteur non prouvé
+                  timestamp=TS, contracts={"ens_registry": addr(48)})   # ENS: no name → issuer not proven
     assert classify_oracle(ctx, a) == "chainlink_aggregator_proxy"
     n = discover_oracle(ctx, a).nodes[0]
     assert n.meta["pricing_mode"] == "internal_rate" and "docs.chain.link" in n.meta["pricing_basis"]

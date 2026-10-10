@@ -1,11 +1,11 @@
-"""Rafraîchir TOUTE la photo en une commande : découverte + lectures du moteur de risque, au même bloc.
+"""Refresh the WHOLE snapshot in one command: discovery + risk-engine reads, at the same block.
 
-Pourquoi une commande dédiée ? Un RPC public (non « archive ») ne sait répondre qu'aux ~128 derniers
-blocs (~25 min). Le graphe et les lectures du moteur de risque doivent être faits au MÊME bloc,
-donc dans la foulée. Ensuite tout est en cache : on rejoue hors ligne autant qu'on veut.
+Why a dedicated command? A public (non-"archive") RPC can only answer for the last ~128
+blocks (~25 min). The graph and the risk-engine reads must be made at the SAME block,
+so back to back. After that everything is cached: replay offline as much as you like.
 
-    PYTHONPATH=src python -m risk.refresh      # nécessite ETH_RPC_URL dans .env
-puis
+    PYTHONPATH=src python -m risk.refresh      # requires ETH_RPC_URL in .env
+then
     PYTHONPATH=src python -m risk.run --offline
 """
 from __future__ import annotations
@@ -36,17 +36,17 @@ def main() -> int:
     graph, report, _ = build(config)
     errors = validate(graph)
     if errors:
-        print("✗ graphe invalide :", *errors, sep="\n  - ")
+        print("✗ invalid graph:", *errors, sep="\n  - ")
         return 1
     config.output_file.write_text(json.dumps(graph, indent=2, ensure_ascii=False) + "\n",
                                   encoding="utf-8", newline="\n")
     pin_block(report.block)
-    print(f"✓ graphe découvert au bloc #{report.block} ({len(graph['nodes'])} nœuds) — config.yaml figé")
+    print(f"✓ graph discovered at block #{report.block} ({len(graph['nodes'])} nodes) — config.yaml pinned")
     data = collect_mod.collect(offline=False)
     collect_mod.OUTPUT.write_text(json.dumps(data, indent=1, ensure_ascii=False) + "\n",
                                   encoding="utf-8", newline="\n")
-    print(f"✓ lectures du moteur de risque au même bloc → {collect_mod.OUTPUT}")
-    print("Ensuite : python -m risk.run --offline  (puis commitez data/cache, output/, config.yaml)")
+    print(f"✓ risk-engine reads at the same block → {collect_mod.OUTPUT}")
+    print("Next: python -m risk.run --offline  (then commit data/cache, output/, config.yaml)")
     return 0
 
 

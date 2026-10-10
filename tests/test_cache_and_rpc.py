@@ -1,4 +1,4 @@
-"""T1/T2 — le cache disque et le provider RPC caché."""
+"""T1/T2 — the disk cache and the cached RPC provider."""
 import pytest
 
 from discovery.cache import CacheMissError, DiskCache, cache_key
@@ -17,9 +17,9 @@ def test_put_then_get_roundtrip(tmp_path):
     c.put("rpc", payload, {"result": "0xabc"})
     entry = c.get("rpc", payload)
     assert entry["response"] == {"result": "0xabc"}
-    assert entry["request"] == payload            # la requête est stockée : le cache est lisible
+    assert entry["request"] == payload            # the request is stored: the cache is readable
     assert c.stats.hits == 1 and c.stats.misses == 1 and c.stats.writes == 1
-    assert not list(tmp_path.rglob("*.tmp"))       # écriture atomique : pas de fichier temporaire résiduel
+    assert not list(tmp_path.rglob("*.tmp"))       # atomic write: no leftover temporary file
 
 
 def test_offline_miss_raises(tmp_path):
@@ -41,7 +41,7 @@ def test_only_block_pinned_calls_are_cacheable(method, params, pinned):
 
 
 class _ScriptedProvider(CachedHTTPProvider):
-    """Provider dont le « réseau » renvoie des réponses écrites à l'avance."""
+    """Provider whose "network" returns answers written in advance."""
 
     def __init__(self, cache, script):
         super().__init__("http://fake.invalid", cache)
@@ -62,10 +62,10 @@ def test_provider_caches_pinned_results_and_reverts(tmp_path):
     params = [{"to": "0x1"}, "0x10"]
     assert p.make_request("eth_call", params)["result"] == "0x01"
     assert p.make_request("eth_call", params)["result"] == "0x01"
-    assert p.network_calls == 1                                   # 2e appel servi par le cache
+    assert p.network_calls == 1                                   # 2nd call served by the cache
     p.make_request("eth_getCode", ["0x1", "0x10"])
     p.make_request("eth_getCode", ["0x1", "0x10"])
-    assert p.network_calls == 2                                   # le revert aussi est caché
+    assert p.network_calls == 2                                   # the revert is cached too
 
 
 def test_provider_does_not_cache_real_errors(tmp_path):

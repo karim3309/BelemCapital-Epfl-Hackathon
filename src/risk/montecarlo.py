@@ -1,20 +1,20 @@
-"""Monte Carlo : « sur les 7 prochains jours, combien puis-je perdre, en moyenne et dans les pires cas ? »
+"""Monte Carlo: "over the next 7 days, how much can I lose, on average and in the worst cases?"
 
-Idée : on rejoue la semaine 200 000 fois. À chaque fois, chaque événement racine de params.yaml
-(depeg de l'USDe, faillite d'un exchange, d'un custodian, exploit de Pendle/Morpho, panne de feed,
-fuite de liquidité, depeg de l'USDC) se produit ou non selon sa fréquence annuelle λ :
-    probabilité sur l'horizon = 1 − exp(−λ × horizon)          (loi de Poisson)
-avec une sévérité et une durée tirées dans leur plage. Les événements tirés deviennent des chocs, qui
-passent par EXACTEMENT le même moteur que les scénarios (propagation → oracle → position).
+Idea: we replay the week 200,000 times. Each time, each root event of params.yaml
+(USDe depeg, failure of an exchange or a custodian, Pendle/Morpho exploit, feed outage,
+liquidity flight, USDC depeg) happens or not according to its annual frequency λ:
+    probability over the horizon = 1 − exp(−λ × horizon)          (Poisson law)
+with a severity and a duration drawn within their range. The drawn events become shocks, which
+go through EXACTLY the same engine as the scenarios (propagation → oracle → position).
 
-Corrélation « via les parents communs » (cadrage) : deux événements qui touchent le même nœud
-(ex. deux exchanges d'Ethena) se cumulent sur ce nœud (l'USDe), puis sur tout ce qui en dépend.
+Correlation "through common parents" (framing note): two events hitting the same node
+(e.g. two of Ethena's exchanges) add up on that node (USDe), then on everything depending on it.
 
-Sorties : perte attendue (moyenne), VaR 95 % / 99 % (perte qu'on ne dépasse que dans 5 % / 1 % des
-semaines), ES 99 % (moyenne des 1 % pires semaines), et les chemins de contagion qui coûtent le plus.
+Outputs: expected loss (mean), VaR 95% / 99% (loss exceeded in only 5% / 1% of
+weeks), ES 99% (mean of the worst 1% of weeks), and the costliest contagion paths.
 
-⚠ Les fréquences λ sont pour la plupart des HYPOTHÈSES (statut affiché). C'est pourquoi la décision
-s'appuie d'abord sur p* (qui n'en dépend pas) ; le Monte Carlo donne l'ordre de grandeur et la sensibilité.
+⚠ The frequencies λ are mostly HYPOTHESES (status displayed). That is why the decision
+relies first on p* (which does not depend on them); the Monte Carlo gives the order of magnitude and the sensitivity.
 """
 from __future__ import annotations
 
@@ -87,7 +87,7 @@ def run_mc(engine: Engine, samples: int | None = None, seed: int | None = None,
         lender[i] = out["lender_loss_usd"]
         liquidations += int(out["liquidated"])
         if borrower[i] > 0:
-            contrib[active] += borrower[i] / len(active)     # partage à parts égales entre événements simultanés
+            contrib[active] += borrower[i] / len(active)     # split equally between simultaneous events
 
     def var(x, q):
         return float(np.quantile(x, q))

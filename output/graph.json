@@ -13,7 +13,7 @@
       "meta": {
         "protocol": "morpho_blue",
         "market_id": "0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05",
-        "market_id_check": "keccak256(abi.encode(MarketParams)) = 0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05 (identique à l'ID demandé)",
+        "market_id_check": "keccak256(abi.encode(MarketParams)) = 0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05 (identical to the requested ID)",
         "loan_token": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
         "collateral_token": "0xB195B618EA52b77CB2a58846F452f59f8dFa9390",
         "oracle": "0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08",
@@ -50,16 +50,16 @@
           "health_factor": 1.049883,
           "oracle_drop_to_liquidation": 0.047513,
           "loan_token_usd": 0.9998651,
-          "loan_token_usd_evidence": "ENS usdc-usd.data.eth → 0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26162087 ; latestRoundData().answer = 99986510 (déc. 8)",
-          "value_usd_definition": "valeur du collatéral au prix de l'oracle Morpho × prix USD de l'actif prêté",
+          "loan_token_usd_evidence": "ENS usdc-usd.data.eth → 0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26162087; latestRoundData().answer = 99986510 (dec. 8)",
+          "value_usd_definition": "collateral value at the Morpho oracle price × USD price of the lent asset",
           "net_value_usd": 52651.22
         },
         "tvl_usd": 7757478.51,
-        "tvl_usd_definition": "total fourni (intérêts inclus) × prix USD de l'actif prêté",
+        "tvl_usd_definition": "total supplied (interest included) × USD price of the lent asset",
         "proxy": {
           "detected": false,
           "upgradeable": null,
-          "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+          "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
         }
       }
     },
@@ -78,18 +78,18 @@
         "total_assets": "61586620277169",
         "discovered_via": "https://api.morpho.org/graphql (fetched 2026-10-10T12:39:37+00:00)",
         "tvl_usd": 61578312.24,
-        "tvl_usd_definition": "totalAssets × prix USD de l'actif du vault",
+        "tvl_usd_definition": "totalAssets × USD price of the vault's asset",
         "proxy": {
           "detected": false,
           "upgradeable": null,
-          "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+          "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
         }
       }
     },
     {
       "id": "feed_constant_c3866d",
       "type": "oracle",
-      "label": "Feed constant (Dummy feed with 12 decimals)",
+      "label": "Constant feed (Dummy feed with 12 decimals)",
       "address": "0xc3866d726C204C0836E0677A31973c649888973D",
       "chain": "ethereum",
       "meta": {
@@ -102,18 +102,18 @@
         "round_id": 1,
         "updated_at": 1791635939,
         "age_seconds": 0,
-        "why_constant": "latestRoundData() renvoie roundId=1 et updatedAt = horodatage du bloc #26162087 : la valeur est calculée à la volée, aucun opérateur ne la met à jour",
+        "why_constant": "latestRoundData() returns roundId=1 and updatedAt = timestamp of block #26162087: the value is computed on the fly, no operator updates it",
         "proxy": {
           "detected": false,
           "upgradeable": null,
-          "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+          "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
         }
       }
     },
     {
       "id": "feed_pt_susde_26nov2026_linear_discount",
       "type": "oracle",
-      "label": "Décote linéaire Pendle (PT-sUSDE-26NOV2026)",
+      "label": "Pendle linear discount (PT-sUSDE-26NOV2026)",
       "address": "0xA572Dad7DB3d975E9ce780db1Cf3Bf959401cD35",
       "chain": "ethereum",
       "meta": {
@@ -122,7 +122,7 @@
         "priced_asset": "0xB195B618EA52b77CB2a58846F452f59f8dFa9390",
         "maturity": 1795651200,
         "base_discount_per_year": 0.06,
-        "formula": "prix_PT = 1 − baseDiscountPerYear × (maturity − now) / 1 an  (ne regarde AUCUN marché)",
+        "formula": "PT_price = 1 − baseDiscountPerYear × (maturity − now) / 1 year  (looks at NO market)",
         "formula_expected": 0.992360614536,
         "formula_matches": true,
         "answer_raw": "992360614535768646",
@@ -134,7 +134,7 @@
         "proxy": {
           "detected": false,
           "upgradeable": null,
-          "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+          "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
         }
       }
     },
@@ -164,14 +164,14 @@
         "proxy": {
           "detected": false,
           "upgradeable": null,
-          "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+          "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
         }
       }
     },
     {
       "id": "oracle_meta_f8b29e",
       "type": "oracle",
-      "label": "Méta-oracle primaire/secours (deviation timelock)",
+      "label": "Primary/fallback meta-oracle (deviation timelock)",
       "address": "0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08",
       "chain": "ethereum",
       "meta": {
@@ -190,9 +190,9 @@
         "healing_timelock_seconds": 86400,
         "is_challenged": false,
         "is_healing": false,
-        "switch_rule": "Écart = |primaire − secours| / moyenne. S'il dépasse deviation_threshold, n'importe qui peut appeler challenge() ; si l'écart tient encore après challenge_timelock_seconds, acceptChallenge() bascule sur le SECOURS. Retour au primaire via heal() puis acceptHealing() après healing_timelock_seconds de reconvergence. Fonctions sans permission.",
+        "switch_rule": "Deviation = |primary − fallback| / average. If it exceeds deviation_threshold, anyone can call challenge(); if the deviation still holds after challenge_timelock_seconds, acceptChallenge() switches to the FALLBACK. Back to the primary via heal() then acceptHealing() after healing_timelock_seconds of reconvergence. Permissionless functions.",
         "switch_rule_source": "https://steakhouse.financial/docs/products/infrastructure/metaoracle",
-        "design_note": "Contrat MetaOracleDeviationTimelock conçu par Steakhouse Financial (doc ci-dessus), déployé en clones EIP-1167 par une factory. Lien entre CETTE adresse et la factory officielle : non prouvé on-chain (adresse de la factory non publiée dans la doc) → pas d'arête issued_by.",
+        "design_note": "MetaOracleDeviationTimelock contract designed by Steakhouse Financial (docs above), deployed as EIP-1167 clones by a factory. Link between THIS address and the official factory: not proven on-chain (factory address not published in the docs) → no issued_by edge.",
         "price_raw": "992360614535768646000000",
         "price": 0.9923606145357686,
         "price_scale": "1e24",
@@ -200,7 +200,7 @@
         "backup_price": 0.9919605145832001,
         "proxy": {
           "detected": true,
-          "standard": "EIP-1167 (clone minimal, non upgradeable)",
+          "standard": "EIP-1167 (minimal clone, not upgradeable)",
           "implementation": "0x9B4655239E91dc9E1f7599bB88FBA41B4542de5B",
           "upgradeable": false,
           "evidence": "eth_getCode(0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08) = clone EIP-1167 → 0x9B4655239E91dc9E1f7599bB88FBA41B4542de5B #26162087"
@@ -220,7 +220,7 @@
         "price_raw": "992360614535768646000000",
         "price": 0.9923606145357686,
         "price_scale": "1e24",
-        "formula": "SCALE_FACTOR × BASE_VAULT × BASE_FEED_1 × BASE_FEED_2 / (QUOTE_VAULT × QUOTE_FEED_1 × QUOTE_FEED_2), slot vide = 1",
+        "formula": "SCALE_FACTOR × BASE_VAULT × BASE_FEED_1 × BASE_FEED_2 / (QUOTE_VAULT × QUOTE_FEED_1 × QUOTE_FEED_2), empty slot = 1",
         "price_recomputed_raw": "992360614535768646000000",
         "price_recomputed_matches": true,
         "components": {
@@ -260,13 +260,13 @@
           "QUOTE_FEED_1",
           "QUOTE_FEED_2"
         ],
-        "implicit_unit_note": "Chaque slot listé ici vaut 1 dans la formule : la conversion correspondante est FIXÉE (ex. aucun QUOTE_FEED = l'actif prêté est supposé valoir 1 unité de la devise des feeds de base).",
+        "implicit_unit_note": "Each slot listed here counts as 1 in the formula: the matching conversion is FIXED (e.g. no QUOTE_FEED = the lent asset is assumed to be worth 1 unit of the base feeds' currency).",
         "created_by_official_factory": true,
         "factory_evidence": "MorphoChainlinkOracleV2Factory.isMorphoChainlinkOracleV2(0x8fCa98C9abeE4Dcb33ba9f3d17db4AD57f72706D) = True @ 0x3A7bB36Ee3f3eE32A60e9f2b33c1e5f2E83ad766 #26162087",
         "proxy": {
           "detected": false,
           "upgradeable": null,
-          "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+          "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
         }
       }
     },
@@ -283,7 +283,7 @@
         "price_raw": "991960514583200114797305",
         "price": 0.9919605145832001,
         "price_scale": "1e24",
-        "formula": "SCALE_FACTOR × BASE_VAULT × BASE_FEED_1 × BASE_FEED_2 / (QUOTE_VAULT × QUOTE_FEED_1 × QUOTE_FEED_2), slot vide = 1",
+        "formula": "SCALE_FACTOR × BASE_VAULT × BASE_FEED_1 × BASE_FEED_2 / (QUOTE_VAULT × QUOTE_FEED_1 × QUOTE_FEED_2), empty slot = 1",
         "price_recomputed_raw": "991960514583200114797305",
         "price_recomputed_matches": true,
         "components": {
@@ -325,13 +325,13 @@
           "QUOTE_VAULT",
           "QUOTE_FEED_2"
         ],
-        "implicit_unit_note": "Chaque slot listé ici vaut 1 dans la formule : la conversion correspondante est FIXÉE (ex. aucun QUOTE_FEED = l'actif prêté est supposé valoir 1 unité de la devise des feeds de base).",
+        "implicit_unit_note": "Each slot listed here counts as 1 in the formula: the matching conversion is FIXED (e.g. no QUOTE_FEED = the lent asset is assumed to be worth 1 unit of the base feeds' currency).",
         "created_by_official_factory": true,
         "factory_evidence": "MorphoChainlinkOracleV2Factory.isMorphoChainlinkOracleV2(0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465) = True @ 0x3A7bB36Ee3f3eE32A60e9f2b33c1e5f2E83ad766 #26162087",
         "proxy": {
           "detected": false,
           "upgradeable": null,
-          "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+          "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
         }
       }
     },
@@ -354,15 +354,15 @@
         "is_expired": false,
         "days_to_expiry": 46.47,
         "factory": "0x3E6EBa46AbC5ab18ED95F6667d8B2fd4020E4637",
-        "redemption_note": "à l'échéance, 1 PT se rachète contre la valeur de 1 actif comptable du SY (voir SY.assetInfo)",
+        "redemption_note": "at maturity, 1 PT redeems for the value of 1 SY accounting asset (see SY.assetInfo)",
         "price_usd": 0.99222675,
-        "price_usd_source": "oracle Morpho 0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08 (mode fixed) × prix USD de l'actif prêté",
+        "price_usd_source": "Morpho oracle 0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08 (mode fixed) × USD price of the lent asset",
         "tvl_usd": 22758495.3,
         "tvl_usd_definition": "totalSupply × price_usd",
         "proxy": {
           "detected": false,
           "upgradeable": null,
-          "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+          "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
         }
       }
     },
@@ -392,7 +392,7 @@
         "proxy": {
           "detected": false,
           "upgradeable": null,
-          "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+          "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
         }
       }
     },
@@ -429,7 +429,7 @@
         "proxy": {
           "detected": false,
           "upgradeable": null,
-          "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+          "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
         }
       }
     },
@@ -446,7 +446,7 @@
         "total_supply": "48516835246335777",
         "total_supply_human": 48516835246.33578,
         "price_usd": 0.9998651,
-        "price_usd_source": "ENS usdc-usd.data.eth → 0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26162087 ; latestRoundData().answer = 99986510 (déc. 8)",
+        "price_usd_source": "ENS usdc-usd.data.eth → 0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26162087; latestRoundData().answer = 99986510 (dec. 8)",
         "tvl_usd": 48510290325.26,
         "tvl_usd_definition": "totalSupply × price_usd",
         "proxy": {
@@ -477,7 +477,7 @@
         "proxy": {
           "detected": false,
           "upgradeable": null,
-          "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+          "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
         }
       }
     },
@@ -509,15 +509,15 @@
           "url": "https://api-v2.pendle.finance/core/v2/markets/all?skip=100&limit=100"
         },
         "tvl_usd": 3820475.22,
-        "tvl_usd_definition": "réserve PT × prix PT + réserve SY × prix SY",
+        "tvl_usd_definition": "PT reserve × PT price + SY reserve × SY price",
         "pt_price_implied_by_amm": 0.99379389,
-        "pt_price_implied_by_amm_unit": "actif comptable du SY (USDe), = (1 + implied_apy)^(−années restantes)",
+        "pt_price_implied_by_amm_unit": "SY accounting asset (USDe), = (1 + implied_apy)^(−years remaining)",
         "pt_price_morpho_oracle": 0.99236061,
         "oracle_vs_amm_gap": -0.001442,
         "proxy": {
           "detected": false,
           "upgradeable": null,
-          "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+          "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
         }
       }
     },
@@ -530,7 +530,7 @@
       "meta": {
         "evidence_url": "https://docs.chain.link/data-feeds/ens",
         "as_of": "2026-10-10",
-        "note": "Les feeds officiels Chainlink sont enregistrés sous le domaine ENS data.eth."
+        "note": "Official Chainlink feeds are registered under the ENS domain data.eth."
       }
     },
     {
@@ -542,7 +542,7 @@
       "meta": {
         "evidence_url": "https://developers.circle.com/stablecoins/usdc-contract-addresses",
         "as_of": "2026-10-10",
-        "note": "Émetteur de USDC (adresse Ethereum listée par Circle)."
+        "note": "Issuer of USDC (Ethereum address listed by Circle)."
       }
     },
     {
@@ -554,7 +554,7 @@
       "meta": {
         "evidence_url": "https://docs.ethena.fi/solution-design/key-addresses",
         "as_of": "2026-10-10",
-        "note": "Émetteur de USDe et sUSDe (adresses listées dans « Key Addresses »)."
+        "note": "Issuer of USDe and sUSDe (addresses listed under \"Key Addresses\")."
       }
     },
     {
@@ -566,7 +566,7 @@
       "meta": {
         "evidence_url": "https://docs.morpho.org/developers/contracts/addresses/",
         "as_of": "2026-10-10",
-        "note": "Protocole Morpho Blue (contrat singleton listé dans la doc officielle)."
+        "note": "Morpho Blue protocol (singleton contract listed in the official docs)."
       }
     },
     {
@@ -578,7 +578,7 @@
       "meta": {
         "evidence_url": "https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/1-core.json",
         "as_of": "2026-10-10",
-        "note": "Protocole émetteur des PT/YT/SY et des pools PT/SY (factories listées dans les déploiements officiels)."
+        "note": "Protocol issuing PT/YT/SY and the PT/SY pools (factories listed in the official deployments)."
       }
     },
     {
@@ -590,7 +590,7 @@
       "meta": {
         "evidence_url": "https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk",
         "as_of": "2026-10-10",
-        "note": "Cité parmi les exchanges où Ethena trade ses dérivés (« such as Binance, Bybit, Bitget, Deribit, and Okx »). Répartition : voir les dashboards de transparence Ethena.",
+        "note": "Cited among the exchanges where Ethena trades its derivatives (\"such as Binance, Bybit, Bitget, Deribit, and Okx\"). Split: see Ethena's transparency dashboards.",
         "role": "hedging_venue"
       }
     },
@@ -603,7 +603,7 @@
       "meta": {
         "evidence_url": "https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk",
         "as_of": "2026-10-10",
-        "note": "Cité parmi les exchanges de hedge d'Ethena (« such as »).",
+        "note": "Cited among Ethena's hedging exchanges (\"such as\").",
         "role": "hedging_venue"
       }
     },
@@ -616,7 +616,7 @@
       "meta": {
         "evidence_url": "https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk",
         "as_of": "2026-10-10",
-        "note": "Cité parmi les exchanges de hedge d'Ethena (« such as »).",
+        "note": "Cited among Ethena's hedging exchanges (\"such as\").",
         "role": "hedging_venue"
       }
     },
@@ -629,7 +629,7 @@
       "meta": {
         "evidence_url": "https://docs.ethena.fi/backing-custody-and-security/overview/off-exchange-settlement-in-detail",
         "as_of": "2026-10-10",
-        "note": "Cité comme fournisseur OES d'Ethena (« such as »).",
+        "note": "Cited as an Ethena OES provider (\"such as\").",
         "role": "custodian_off_exchange_settlement"
       }
     },
@@ -642,7 +642,7 @@
       "meta": {
         "evidence_url": "https://docs.ethena.fi/backing-custody-and-security/overview/off-exchange-settlement-in-detail",
         "as_of": "2026-10-10",
-        "note": "La doc dit « Ethena uses multiple Off-Exchange Settlement providers such as Copper, Ceffu, and Fireblocks » : liste d'exemples, pas forcément exhaustive.",
+        "note": "The docs say \"Ethena uses multiple Off-Exchange Settlement providers such as Copper, Ceffu, and Fireblocks\": a list of examples, not necessarily exhaustive.",
         "role": "custodian_off_exchange_settlement"
       }
     },
@@ -655,7 +655,7 @@
       "meta": {
         "evidence_url": "https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk",
         "as_of": "2026-10-10",
-        "note": "Cité parmi les exchanges de hedge d'Ethena (« such as »).",
+        "note": "Cited among Ethena's hedging exchanges (\"such as\").",
         "role": "hedging_venue"
       }
     },
@@ -668,7 +668,7 @@
       "meta": {
         "evidence_url": "https://docs.ethena.fi/backing-custody-and-security/overview/off-exchange-settlement-in-detail",
         "as_of": "2026-10-10",
-        "note": "Cité comme fournisseur OES d'Ethena (« such as »).",
+        "note": "Cited as an Ethena OES provider (\"such as\").",
         "role": "custodian_off_exchange_settlement"
       }
     },
@@ -681,7 +681,7 @@
       "meta": {
         "evidence_url": "https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk",
         "as_of": "2026-10-10",
-        "note": "Cité parmi les exchanges de hedge d'Ethena (« such as »).",
+        "note": "Cited among Ethena's hedging exchanges (\"such as\").",
         "role": "hedging_venue"
       }
     },
@@ -697,7 +697,7 @@
         "snapshot_block_hash": "0x8cdf0b4a12c0019bc2dca50385ce6222b24a5b1995556fb7d56fbdeb828aa0b6",
         "snapshot_timestamp": 1791635939,
         "snapshot_time_iso": "2026-10-10T12:38:59+00:00",
-        "note": "Toutes les lectures on-chain du graphe sont faites à ce bloc."
+        "note": "Every on-chain read of the graph is made at this block."
       }
     }
   ],
@@ -708,7 +708,7 @@
       "type": "deployed_in",
       "weight": 1.0,
       "source": "curated",
-      "evidence": "hedges (shorts perpétuels) margés par délégation depuis les custodians — https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk (relevé le 2026-10-10) ; poids inconnu → 1.0 = borne haute conservatrice"
+      "evidence": "hedges (perpetual shorts) margined by delegation from the custodians — https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk (as of 2026-10-10); weight unknown → 1.0 = conservative upper bound"
     },
     {
       "from": "ethena_labs",
@@ -716,7 +716,7 @@
       "type": "deployed_in",
       "weight": 1.0,
       "source": "curated",
-      "evidence": "hedges (shorts perpétuels) margés par délégation depuis les custodians — https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk (relevé le 2026-10-10) ; poids inconnu → 1.0 = borne haute conservatrice"
+      "evidence": "hedges (perpetual shorts) margined by delegation from the custodians — https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk (as of 2026-10-10); weight unknown → 1.0 = conservative upper bound"
     },
     {
       "from": "ethena_labs",
@@ -724,7 +724,7 @@
       "type": "deployed_in",
       "weight": 1.0,
       "source": "curated",
-      "evidence": "hedges (shorts perpétuels) margés par délégation depuis les custodians — https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk (relevé le 2026-10-10) ; poids inconnu → 1.0 = borne haute conservatrice"
+      "evidence": "hedges (perpetual shorts) margined by delegation from the custodians — https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk (as of 2026-10-10); weight unknown → 1.0 = conservative upper bound"
     },
     {
       "from": "ethena_labs",
@@ -732,7 +732,7 @@
       "type": "deployed_in",
       "weight": 1.0,
       "source": "curated",
-      "evidence": "actifs de réserve d'USDe conservés chez un fournisseur OES — https://docs.ethena.fi/backing-custody-and-security/overview/off-exchange-settlement-in-detail (relevé le 2026-10-10) ; poids inconnu → 1.0 = borne haute conservatrice"
+      "evidence": "USDe reserve assets held with an OES provider — https://docs.ethena.fi/backing-custody-and-security/overview/off-exchange-settlement-in-detail (as of 2026-10-10); weight unknown → 1.0 = conservative upper bound"
     },
     {
       "from": "ethena_labs",
@@ -740,7 +740,7 @@
       "type": "deployed_in",
       "weight": 1.0,
       "source": "curated",
-      "evidence": "actifs de réserve d'USDe conservés chez un fournisseur OES — https://docs.ethena.fi/backing-custody-and-security/overview/off-exchange-settlement-in-detail (relevé le 2026-10-10) ; poids inconnu → 1.0 = borne haute conservatrice"
+      "evidence": "USDe reserve assets held with an OES provider — https://docs.ethena.fi/backing-custody-and-security/overview/off-exchange-settlement-in-detail (as of 2026-10-10); weight unknown → 1.0 = conservative upper bound"
     },
     {
       "from": "ethena_labs",
@@ -748,7 +748,7 @@
       "type": "deployed_in",
       "weight": 1.0,
       "source": "curated",
-      "evidence": "hedges (shorts perpétuels) margés par délégation depuis les custodians — https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk (relevé le 2026-10-10) ; poids inconnu → 1.0 = borne haute conservatrice"
+      "evidence": "hedges (perpetual shorts) margined by delegation from the custodians — https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk (as of 2026-10-10); weight unknown → 1.0 = conservative upper bound"
     },
     {
       "from": "ethena_labs",
@@ -756,7 +756,7 @@
       "type": "deployed_in",
       "weight": 1.0,
       "source": "curated",
-      "evidence": "actifs de réserve d'USDe conservés chez un fournisseur OES — https://docs.ethena.fi/backing-custody-and-security/overview/off-exchange-settlement-in-detail (relevé le 2026-10-10) ; poids inconnu → 1.0 = borne haute conservatrice"
+      "evidence": "USDe reserve assets held with an OES provider — https://docs.ethena.fi/backing-custody-and-security/overview/off-exchange-settlement-in-detail (as of 2026-10-10); weight unknown → 1.0 = conservative upper bound"
     },
     {
       "from": "ethena_labs",
@@ -764,7 +764,7 @@
       "type": "deployed_in",
       "weight": 1.0,
       "source": "curated",
-      "evidence": "hedges (shorts perpétuels) margés par délégation depuis les custodians — https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk (relevé le 2026-10-10) ; poids inconnu → 1.0 = borne haute conservatrice"
+      "evidence": "hedges (perpetual shorts) margined by delegation from the custodians — https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk (as of 2026-10-10); weight unknown → 1.0 = conservative upper bound"
     },
     {
       "from": "feed_constant_c3866d",
@@ -788,7 +788,7 @@
       "type": "issued_by",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "ENS usde-usd.data.eth → 0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26162087 ; le domaine data.eth est celui des feeds Chainlink (https://docs.chain.link/data-feeds/ens)"
+      "evidence": "ENS usde-usd.data.eth → 0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26162087; the data.eth domain is the Chainlink feeds' domain (https://docs.chain.link/data-feeds/ens)"
     },
     {
       "from": "feed_usde_usd",
@@ -820,7 +820,7 @@
       "type": "issued_by",
       "weight": 1.0,
       "source": "curated",
-      "evidence": "Morpho Blue (singleton) = 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb selon https://docs.morpho.org/developers/contracts/addresses/ (relevé le 2026-10-10)"
+      "evidence": "Morpho Blue (singleton) = 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb according to https://docs.morpho.org/developers/contracts/addresses/ (as of 2026-10-10)"
     },
     {
       "from": "morpho_market_5613b170",
@@ -860,7 +860,7 @@
       "type": "priced_by",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "MetaOracleDeviationTimelock.backupOracle() = 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 @ 0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08 #26162087 ; seuil de bascule deviationThreshold() = 7500000000000000"
+      "evidence": "MetaOracleDeviationTimelock.backupOracle() = 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 @ 0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08 #26162087; switch threshold deviationThreshold() = 7500000000000000"
     },
     {
       "from": "oracle_meta_f8b29e",
@@ -876,7 +876,7 @@
       "type": "priced_by",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "MorphoChainlinkOracleV2.BASE_FEED_1() = 0xA572Dad7DB3d975E9ce780db1Cf3Bf959401cD35 @ 0x8fCa98C9abeE4Dcb33ba9f3d17db4AD57f72706D #26162087 ; valeur lue = 992360614535768646"
+      "evidence": "MorphoChainlinkOracleV2.BASE_FEED_1() = 0xA572Dad7DB3d975E9ce780db1Cf3Bf959401cD35 @ 0x8fCa98C9abeE4Dcb33ba9f3d17db4AD57f72706D #26162087; value read = 992360614535768646"
     },
     {
       "from": "oracle_morpho_v2_8fca98",
@@ -892,7 +892,7 @@
       "type": "priced_by",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "MorphoChainlinkOracleV2.QUOTE_FEED_1() = 0xc3866d726C204C0836E0677A31973c649888973D @ 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 #26162087 ; valeur lue = 1000000000000"
+      "evidence": "MorphoChainlinkOracleV2.QUOTE_FEED_1() = 0xc3866d726C204C0836E0677A31973c649888973D @ 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 #26162087; value read = 1000000000000"
     },
     {
       "from": "oracle_morpho_v2_e2f4cf",
@@ -900,7 +900,7 @@
       "type": "priced_by",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "MorphoChainlinkOracleV2.BASE_FEED_1() = 0xA572Dad7DB3d975E9ce780db1Cf3Bf959401cD35 @ 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 #26162087 ; valeur lue = 992360614535768646"
+      "evidence": "MorphoChainlinkOracleV2.BASE_FEED_1() = 0xA572Dad7DB3d975E9ce780db1Cf3Bf959401cD35 @ 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 #26162087; value read = 992360614535768646"
     },
     {
       "from": "oracle_morpho_v2_e2f4cf",
@@ -908,7 +908,7 @@
       "type": "priced_by",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "MorphoChainlinkOracleV2.BASE_FEED_2() = 0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961 @ 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 #26162087 ; valeur lue = 99959682"
+      "evidence": "MorphoChainlinkOracleV2.BASE_FEED_2() = 0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961 @ 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 #26162087; value read = 99959682"
     },
     {
       "from": "oracle_morpho_v2_e2f4cf",
@@ -924,7 +924,7 @@
       "type": "issued_by",
       "weight": 1.0,
       "source": "curated",
-      "evidence": "PendleMarket.factory() = 0x6d247b1c044fA1E22e6B04fA9F71Baf99EB29A9f @ 0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E #26162087 ; cette factory est « Pendle marketFactoryV6 (crée les pools PT/SY) » selon https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/1-core.json (relevé le 2026-10-10)"
+      "evidence": "PendleMarket.factory() = 0x6d247b1c044fA1E22e6B04fA9F71Baf99EB29A9f @ 0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E #26162087 ; this factory is \"Pendle marketFactoryV6 (creates the PT/SY pools)\" according to https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/1-core.json (as of 2026-10-10)"
     },
     {
       "from": "pendle_plp_susde_26nov2026",
@@ -940,7 +940,7 @@
       "type": "deployed_in",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "PendleMarket.readTokens() = (0xBF98480425A29197e5d99D003017f63a1e595D02,0xB195B618EA52b77CB2a58846F452f59f8dFa9390,0x89E6e5f7c3A60e7D6347F054051A29a272F4cE44) @ 0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E #26162087 ; PendleMarketFactory.isValidMarket(0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E) = True @ 0x6d247b1c044fA1E22e6B04fA9F71Baf99EB29A9f #26162087 ; pool localisé via l'API Pendle https://api-v2.pendle.finance/core/v2/markets/all?skip=100&limit=100 (fetched 2026-10-10T12:39:40+00:00)"
+      "evidence": "PendleMarket.readTokens() = (0xBF98480425A29197e5d99D003017f63a1e595D02,0xB195B618EA52b77CB2a58846F452f59f8dFa9390,0x89E6e5f7c3A60e7D6347F054051A29a272F4cE44) @ 0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E #26162087 ; PendleMarketFactory.isValidMarket(0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E) = True @ 0x6d247b1c044fA1E22e6B04fA9F71Baf99EB29A9f #26162087; pool located via the Pendle API https://api-v2.pendle.finance/core/v2/markets/all?skip=100&limit=100 (fetched 2026-10-10T12:39:40+00:00)"
     },
     {
       "from": "pt_susde_26nov2026",
@@ -948,7 +948,7 @@
       "type": "issued_by",
       "weight": 1.0,
       "source": "curated",
-      "evidence": "PT-sUSDE-26NOV2026.factory() = 0x3E6EBa46AbC5ab18ED95F6667d8B2fd4020E4637 @ 0xB195B618EA52b77CB2a58846F452f59f8dFa9390 #26162087 ; cette factory est « Pendle yieldContractFactoryV6 (crée les PT/YT) » selon https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/1-core.json (relevé le 2026-10-10)"
+      "evidence": "PT-sUSDE-26NOV2026.factory() = 0x3E6EBa46AbC5ab18ED95F6667d8B2fd4020E4637 @ 0xB195B618EA52b77CB2a58846F452f59f8dFa9390 #26162087 ; this factory is \"Pendle yieldContractFactoryV6 (creates PT/YT)\" according to https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/1-core.json (as of 2026-10-10)"
     },
     {
       "from": "pt_susde_26nov2026",
@@ -972,7 +972,7 @@
       "type": "issued_by",
       "weight": 1.0,
       "source": "curated",
-      "evidence": "sUSDe Token (Staking Contract) = 0x9D39A5DE30e57443BfF2A8307A4256c8797A3497 selon https://docs.ethena.fi/solution-design/key-addresses (relevé le 2026-10-10)"
+      "evidence": "sUSDe Token (Staking Contract) = 0x9D39A5DE30e57443BfF2A8307A4256c8797A3497 according to https://docs.ethena.fi/solution-design/key-addresses (as of 2026-10-10)"
     },
     {
       "from": "susde",
@@ -980,7 +980,7 @@
       "type": "redeemable_into",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "sUSDe.asset() = 0x4c9EDD5852cd905f086C759E8383e09bff1E68B3 @ 0x9D39A5DE30e57443BfF2A8307A4256c8797A3497 #26162087 ; convertToAssets(1e18) = 1252349742063015437 (taux interne)"
+      "evidence": "sUSDe.asset() = 0x4c9EDD5852cd905f086C759E8383e09bff1E68B3 @ 0x9D39A5DE30e57443BfF2A8307A4256c8797A3497 #26162087; convertToAssets(1e18) = 1252349742063015437 (internal rate)"
     },
     {
       "from": "susde",
@@ -996,7 +996,7 @@
       "type": "issued_by",
       "weight": 1.0,
       "source": "api",
-      "evidence": "API Pendle https://api-v2.pendle.finance/core/v2/markets/all?skip=100&limit=100 (fetched 2026-10-10T12:39:40+00:00) : le marché 0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E liste sy=0xBF98480425A29197e5d99D003017f63a1e595D02, identique à readTokens() on-chain #26162087"
+      "evidence": "Pendle API https://api-v2.pendle.finance/core/v2/markets/all?skip=100&limit=100 (fetched 2026-10-10T12:39:40+00:00): market 0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E lists sy=0xBF98480425A29197e5d99D003017f63a1e595D02, identical to on-chain readTokens() #26162087"
     },
     {
       "from": "sy_susde",
@@ -1020,7 +1020,7 @@
       "type": "issued_by",
       "weight": 1.0,
       "source": "curated",
-      "evidence": "USDC (Ethereum) = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 selon https://developers.circle.com/stablecoins/usdc-contract-addresses (relevé le 2026-10-10)"
+      "evidence": "USDC (Ethereum) = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 according to https://developers.circle.com/stablecoins/usdc-contract-addresses (as of 2026-10-10)"
     },
     {
       "from": "usdc",
@@ -1036,7 +1036,7 @@
       "type": "issued_by",
       "weight": 1.0,
       "source": "curated",
-      "evidence": "USDe Token = 0x4c9EDD5852cd905f086C759E8383e09bff1E68B3 selon https://docs.ethena.fi/solution-design/key-addresses (relevé le 2026-10-10)"
+      "evidence": "USDe Token = 0x4c9EDD5852cd905f086C759E8383e09bff1E68B3 according to https://docs.ethena.fi/solution-design/key-addresses (as of 2026-10-10)"
     },
     {
       "from": "usde",
@@ -1052,7 +1052,7 @@
       "type": "deployed_in",
       "weight": 1.0,
       "source": "api",
-      "evidence": "API Morpho https://api.morpho.org/graphql marketById(0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05).supplyingVaultV2s contient 0x55C1B6e461a6334B567bAF0FEb5D728715446f05 (fetched 2026-10-10T12:39:37+00:00)"
+      "evidence": "Morpho API https://api.morpho.org/graphql marketById(0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05).supplyingVaultV2s contains 0x55C1B6e461a6334B567bAF0FEb5D728715446f05 (fetched 2026-10-10T12:39:37+00:00)"
     },
     {
       "from": "vault_pendleusdc",

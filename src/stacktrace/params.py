@@ -1,7 +1,7 @@
-"""Chargeur STRICT de risk/params_v2.yaml : aucun chiffre sans statut (source officielle ou hypothèse assumée).
+"""STRICT loader of risk/params_v2.yaml: no number without a status (official source or stated hypothesis).
 
-Chaque feuille « paramètre » doit avoir `value` ET soit (`source` https + `as_of`), soit (`hypothesis: true` + `why`).
-On garde le statut à côté de la valeur : le rapport final liste toutes les hypothèses utilisées.
+Each "parameter" leaf must have `value` AND either (`source` https + `as_of`), or (`hypothesis: true` + `why`).
+The status is kept next to the value: the final report lists every hypothesis used.
 """
 from __future__ import annotations
 
@@ -41,7 +41,7 @@ class Params:
         return self.items[path].value if path in self.items else default
 
     def override(self, path: str, value: Any) -> "Params":
-        """Copie avec une valeur remplacée (analyse de sensibilité)."""
+        """Copy with one value replaced (sensitivity analysis)."""
         new = Params(self.raw, dict(self.items))
         p = self.items[path]
         new.items[path] = Param(p.path, value, p.status, p.why, p.range)
@@ -59,12 +59,12 @@ def _is_leaf(node: Any) -> bool:
 def _check(path: str, leaf: dict) -> Param:
     if leaf.get("hypothesis") is True:
         if not str(leaf.get("why", "")).strip():
-            raise ParamsError(f"{path} : hypothèse sans `why`")
+            raise ParamsError(f"{path}: hypothesis without `why`")
         return Param(path, leaf["value"], "hypothesis", leaf["why"], leaf.get("range"))
     src = str(leaf.get("source", ""))
     if src.startswith("https://") and leaf.get("as_of"):
-        return Param(path, leaf["value"], "source", f"{src} (relevé le {leaf['as_of']})", leaf.get("range"))
-    raise ParamsError(f"{path} : ni `source` https + `as_of`, ni `hypothesis: true` + `why` → refusé")
+        return Param(path, leaf["value"], "source", f"{src} (as of {leaf['as_of']})", leaf.get("range"))
+    raise ParamsError(f"{path}: neither `source` https + `as_of`, nor `hypothesis: true` + `why` → refused")
 
 
 def load_params(path: Path = PARAMS_FILE) -> Params:
@@ -78,11 +78,11 @@ def load_params(path: Path = PARAMS_FILE) -> Params:
         if isinstance(node, dict):
             for k, v in node.items():
                 if k in ("version", "applies_to", "speed", "oracle_tracks", "oracle_tracks_why"):
-                    continue                     # descriptions / options qualitatives, pas des chiffres
+                    continue                     # descriptions / qualitative options, not numbers
                 walk(v, f"{prefix}.{k}" if prefix else k)
 
     walk(raw, "")
     for name, ev in (raw.get("events") or {}).items():
         if ev.get("speed") not in ("gradual", "jump"):
-            raise ParamsError(f"events.{name}.speed doit valoir gradual ou jump")
+            raise ParamsError(f"events.{name}.speed must be gradual or jump")
     return p

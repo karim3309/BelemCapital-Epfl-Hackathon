@@ -1,12 +1,12 @@
-"""Convention d'`id` des nœuds : un slug snake_case DÉTERMINISTE (même entrée → même id, sur toutes les machines).
+"""Node `id` convention: a DETERMINISTIC snake_case slug (same input → same id, on every machine).
 
-  - token          → symbol() normalisé            "PT-sUSDE-26NOV2026" → "pt_susde_26nov2026"
-  - marché Morpho  → morpho_market_<8 hex de l'ID> "morpho_market_5613b170"
+  - token          → normalised symbol()           "PT-sUSDE-26NOV2026" → "pt_susde_26nov2026"
+  - Morpho market  → morpho_market_<8 hex of ID>  "morpho_market_5613b170"
   - feed Chainlink → feed_<description>            "USDe / USD"         → "feed_usde_usd"
-  - autre contrat  → <kind>_<6 hex de l'adresse>   "oracle_meta_f8b29e"
-  - hors chaîne    → nom de l'entité              "ethena_labs", "copper"
-  - chaîne         → nom                            "ethereum"
-En cas de collision, graph.py ajoute "_<6 hex de l'adresse>" (ou un suffixe numérique).
+  - other contract → <kind>_<6 hex of the address>  "oracle_meta_f8b29e"
+  - off-chain      → entity name                  "ethena_labs", "copper"
+  - chain          → name                           "ethereum"
+On collision, graph.py appends "_<6 hex of the address>" (or a numeric suffix).
 """
 from __future__ import annotations
 
@@ -37,5 +37,5 @@ def morpho_market_id(market_id: str) -> str:
 
 
 def position_id(market_id: str, user: str) -> str:
-    """Format imposé par le contrat : morpho:<marketId>:<user>."""
+    """Format required by the contract: morpho:<marketId>:<user>."""
     return f"morpho:{market_id.lower()}:{user}"

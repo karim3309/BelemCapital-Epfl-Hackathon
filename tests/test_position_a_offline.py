@@ -1,9 +1,9 @@
-"""T12 — test « golden » : la position A est rejouée 100 % depuis data/cache/ (zéro réseau).
+"""T12 — "golden" test: position A is replayed 100% from data/cache/ (zero network).
 
-Ce test garantit trois choses pour la démo :
-  1. le cache commité suffit (aucun appel réseau, même si le Wi-Fi tombe) ;
-  2. le graphe est conforme au contrat JSON ;
-  3. le graphe contient bien les dépendances attendues de la position A (et leurs preuves).
+This test guarantees three things for the demo:
+  1. the committed cache is enough (no network call, even if the Wi-Fi drops);
+  2. the graph complies with the JSON contract;
+  3. the graph does contain the expected dependencies of position A (and their evidence).
 """
 import json
 
@@ -18,7 +18,7 @@ from discovery.validate import validate
 def result():
     config = load_config(REPO_ROOT / "config.yaml", offline=True)
     if config.snapshot_block == "latest":
-        pytest.skip("snapshot_block: latest → figez un bloc dans config.yaml pour rejouer hors ligne")
+        pytest.skip("snapshot_block: latest → pin a block in config.yaml to replay offline")
     graph, report, cache = build(config)
     return config, graph, report, cache
 
@@ -44,7 +44,7 @@ def test_contract_is_valid(result):
 def test_matches_committed_output(result):
     config, graph, _, _ = result
     committed = json.loads(config.output_file.read_text(encoding="utf-8"))
-    assert graph == committed, "output/graph.json n'est plus à jour : relancez python -m discovery.build_graph --offline"
+    assert graph == committed, "output/graph.json is out of date: re-run python -m discovery.build_graph --offline"
 
 
 def test_expected_dependency_chain(result):
@@ -68,15 +68,15 @@ def test_expected_dependency_chain(result):
         ("pt_susde_26nov2026", "settled_on", "ethereum"),
     }
     missing = expected - edges
-    assert not missing, f"arêtes manquantes : {missing}"
+    assert not missing, f"missing edges: {missing}"
 
 
 def test_oracle_story_is_captured(result):
     _, graph, _, _ = result
     meta = _node(graph, "oracle_meta_f8b29e")["meta"]
     assert meta["pricing_mode"] == "hybrid"
-    assert meta["primary_pricing_mode"] == "fixed"      # primaire : décote linéaire seule (USDe = USDC = 1)
-    assert meta["backup_pricing_mode"] == "market"      # secours : × Chainlink USDe/USD
+    assert meta["primary_pricing_mode"] == "fixed"      # primary: linear discount only (USDe = USDC = 1)
+    assert meta["backup_pricing_mode"] == "market"      # backup: × Chainlink USDe/USD
     for oid in ("oracle_morpho_v2_8fca98", "oracle_morpho_v2_e2f4cf"):
         assert _node(graph, oid)["meta"]["price_recomputed_matches"] is True
         assert _node(graph, oid)["meta"]["created_by_official_factory"] is True

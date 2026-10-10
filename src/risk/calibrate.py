@@ -1,16 +1,16 @@
-"""Calibration sur l'historique RÉEL : combien de fois l'USDe a-t-il décroché, et de combien ?
+"""Calibration on the REAL history: how many times did USDe depeg, and by how much?
 
-Source : tous les « rounds » du feed Chainlink USDe/USD lus on-chain (output/risk_inputs.json).
-Un round = une mise à jour du prix par Chainlink (quand le prix bouge assez, ou à intervalle régulier).
+Source: every "round" of the Chainlink USDe/USD feed read on-chain (output/risk_inputs.json).
+A round = a price update by Chainlink (when the price moves enough, or at regular intervals).
 
-Analogie : relire le carnet de température d'un patient depuis 2 ans pour savoir combien de fois il a
-eu de la fièvre, combien de temps, et quelle a été la pire.
+Analogy: re-reading a patient's temperature log over 2 years to know how many times they
+had a fever, for how long, and what the worst was.
 
-Méthode d'estimation de la fréquence :
-  - un « épisode » = une période continue où le prix est sous un seuil (ex. 0,99 $) ;
-  - fréquence annuelle = nombre d'épisodes / années observées ;
-  - si on n'a vu AUCUN épisode : on utilise la « règle de 3 » (3 / années), borne haute à 95 % d'un
-    taux d'événement jamais observé — plus honnête que de dire « probabilité nulle ».
+Frequency estimation method:
+  - an "episode" = a continuous period where the price is below a threshold (e.g. $0.99);
+  - annual frequency = number of episodes / years observed;
+  - if NO episode was seen: we use the "rule of 3" (3 / years), the 95% upper bound of an
+    event rate never observed — more honest than claiming "zero probability".
 """
 from __future__ import annotations
 
@@ -25,7 +25,7 @@ def _iso(ts: int) -> str:
 
 
 def episodes(rounds: list[dict], threshold: float, end_ts: int) -> list[dict]:
-    """Périodes continues sous le seuil : début, fin (round suivant au-dessus), plus bas."""
+    """Continuous periods below the threshold: start, end (next round above), low."""
     out, cur = [], None
     for r in rounds:
         below = r["answer"] < threshold
@@ -70,7 +70,7 @@ def calibrate_feed(history: dict, snapshot_ts: int) -> dict:
         stats["by_threshold"][f"{thr}"] = {
             "episodes": n,
             "annual_rate": round(rate, 4),
-            "rate_method": "épisodes / années" if n else "aucun épisode : règle de 3 (borne haute 95 %)",
+            "rate_method": "episodes / years" if n else "no episode: rule of 3 (95% upper bound)",
             "longest_minutes": max((e["duration_minutes"] for e in eps), default=0),
             "list": eps[:10],
         }
@@ -78,7 +78,7 @@ def calibrate_feed(history: dict, snapshot_ts: int) -> dict:
 
 
 def calibrate(inputs: dict, snapshot_ts: int) -> dict:
-    """Ajoute inputs['calibration'] (utilisé par params.yaml via `inputs:calibration...`)."""
+    """Adds inputs['calibration'] (used by params.yaml via `inputs:calibration...`)."""
     feeds = {fid: calibrate_feed(h, snapshot_ts) for fid, h in inputs.get("chainlink_history", {}).items()}
     usde = next((v for v in feeds.values() if v.get("available") and "USDe" in (v.get("description") or "")), None)
     cal = {"feeds": feeds}

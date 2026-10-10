@@ -1,13 +1,13 @@
-"""Session EN LIGNE : une connexion RPC + UN bloc figé pour toute une analyse.
+"""LIVE session: an RPC connection + ONE pinned block for a whole analysis.
 
-Pourquoi figer un bloc alors qu'on travaille en direct ?
-  La blockchain avance d'un bloc toutes les ~12 s. Si on lisait le vault au bloc N et ses marchés
-  au bloc N+3, les chiffres ne seraient plus cohérents entre eux. On lit donc « latest » UNE fois au
-  démarrage, puis toutes les lectures de l'analyse se font à ce bloc-là : c'est une photo instantanée
-  de la chaîne, et chaque preuve peut citer « … @ 0xAdresse #bloc ».
+Why pin a block when working live?
+  The blockchain moves one block every ~12 s. If we read the vault at block N and its markets
+  at block N+3, the numbers would no longer be consistent. So we read "latest" ONCE at
+  startup, then every read of the analysis is made at that block: it is a snapshot
+  of the chain, and each piece of evidence can cite "… @ 0xAddress #block".
 
-Le cache (data/cache_live/) n'est plus là pour la démo hors ligne : il évite de relire deux fois la même
-chose pendant une analyse et garde une trace lisible de chaque réponse. Il est ignoré par git.
+The cache (data/cache_live/) is no longer there for the offline demo: it avoids reading the same thing
+twice during an analysis and keeps a readable trace of each response. It is ignored by git.
 """
 from __future__ import annotations
 
@@ -31,11 +31,11 @@ class SessionError(RuntimeError):
 
 
 class BlockScopedHttp(CachedHttp):
-    """APIs en ligne : la réponse cachée est rattachée au BLOC de l'analyse.
+    """Live APIs: the cached response is tied to the analysis BLOCK.
 
-    Une API ne sait pas répondre « au bloc N » : sans ce rattachement, la première réponse resterait
-    dans le cache pour toujours (données périmées). Ici, une nouvelle analyse (nouveau bloc) refait
-    l'appel, et deux lectures dans la même analyse renvoient la même réponse (cohérence).
+    An API cannot answer "at block N": without that link, the first response would stay
+    in the cache forever (stale data). Here, a new analysis (new block) makes the
+    call again, and two reads within the same analysis return the same response (consistency).
     """
 
     def __init__(self, cache: DiskCache, block: int, **kw):
@@ -47,7 +47,7 @@ class BlockScopedHttp(CachedHttp):
 
 
 def mask_url(url: str | None) -> str:
-    """Affiche l'hôte d'une URL RPC sans jamais montrer la clé (souvent dans le chemin)."""
+    """Shows the host of an RPC URL without ever showing the key (often in the path)."""
     if not url:
         return "—"
     host = urlparse(url).hostname or ""
@@ -60,9 +60,9 @@ class Session:
     w3: Web3
     cache: DiskCache
     chain_id: int
-    block: int              # le bloc figé de cette analyse
-    block_timestamp: int    # son horodatage (secondes UNIX)
-    ctx: Ctx                # la porte d'accès des adaptateurs (ctx.call, ctx.http, preuves)
+    block: int              # the pinned block of this analysis
+    block_timestamp: int    # its timestamp (UNIX seconds)
+    ctx: Ctx                # the adapters' gateway (ctx.call, ctx.http, evidence)
 
     @property
     def provider(self) -> CachedHTTPProvider:
@@ -74,25 +74,25 @@ class Session:
 
     def describe(self) -> str:
         t = time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime(self.block_timestamp))
-        return f"chaîne {self.chain_id} · bloc #{self.block} ({t}) · RPC {mask_url(self.config.rpc_url)}"
+        return f"chain {self.chain_id} · block #{self.block} ({t}) · RPC {mask_url(self.config.rpc_url)}"
 
 
 def open_session(block: int | str = "latest") -> Session:
-    """Ouvre une session en ligne. `block` = "latest" (par défaut) ou un numéro (rejeu d'un état passé).
+    """Opens a live session. `block` = "latest" (default) or a number (replay of a past state).
 
-    Lève SessionError avec un message clair si le RPC manque ou ne répond pas.
+    Raises SessionError with a clear message if the RPC is missing or does not answer.
     """
     config = load_config(offline=False)
     if not config.rpc_url:
-        raise SessionError("ETH_RPC_URL est vide : ouvrez le fichier .env à la racine du repo et collez-y "
-                           "l'URL de votre endpoint Ethereum mainnet (QuickNode, Alchemy…).")
+        raise SessionError("ETH_RPC_URL is empty: open the .env file at the repo root and paste in "
+                           "the URL of your Ethereum mainnet endpoint (QuickNode, Alchemy…).")
     cache = DiskCache(LIVE_CACHE_DIR, offline=False)
     w3 = make_web3(config.rpc_url, cache)
     try:
         chain_id = check_chain(w3, config.expected_chain_id)
         pinned = resolve_snapshot_block(w3, block, offline=False)
         ts = int(w3.eth.get_block(pinned)["timestamp"])
-    except Exception as e:  # message pédagogique plutôt qu'une trace web3 illisible
-        raise SessionError(f"Le RPC ({mask_url(config.rpc_url)}) ne répond pas correctement : {e}") from e
+    except Exception as e:  # an explanatory message rather than an unreadable web3 traceback
+        raise SessionError(f"The RPC ({mask_url(config.rpc_url)}) is not answering correctly: {e}") from e
     ctx = Ctx(w3=w3, block=pinned, http=BlockScopedHttp(cache, pinned), config=config)
     return Session(config=config, w3=w3, cache=cache, chain_id=chain_id, block=pinned, block_timestamp=ts, ctx=ctx)

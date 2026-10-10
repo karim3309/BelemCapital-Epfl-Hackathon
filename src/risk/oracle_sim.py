@@ -1,20 +1,20 @@
-"""Simulateur d'oracle : quel prix Morpho verra-t-il PENDANT le choc ?
+"""Oracle simulator: what price will Morpho see DURING the shock?
 
-Rappel (GUIDE_DEBUTANT §8) : l'oracle est l'expert qui estime le gage. Morpho le croit aveuglément.
-On rejoue l'arbre d'oracles découvert dans graph.json, brique par brique :
+Reminder (BEGINNER_GUIDE §8): the oracle is the appraiser valuing the collateral. Morpho trusts it blindly.
+We replay the oracle tree discovered in graph.json, block by block:
 
-  - feed « market » (Chainlink)       : il voit le choc → valeur × multiplicateur de l'actif mesuré ;
-                                        sauf s'il est en panne (prix faux) ou figé (ne voit rien) ;
-  - feed « fixed » (décote linéaire)  : il ne voit RIEN du marché ; seule l'horloge le fait bouger
-                                        (prix = 1 − décote × temps restant) ;
-  - feed constant (« Dummy »)          : toujours la même valeur ;
-  - MorphoChainlinkOracleV2           : prix = SCALE × feeds de base / feeds de cotation, donc on
-                                        multiplie le prix normal par la variation de chaque brique ;
-  - MÉTA-ORACLE (Steakhouse)          : deux experts et un arbitre. Écart = |primaire − secours| /
-                                        moyenne. Si l'écart dépasse le seuil, n'importe qui appelle
-                                        challenge() ; si l'écart tient encore après le délai
-                                        (challengeTimelock, lu on-chain : 16 h), on BASCULE sur le secours.
-    → la DURÉE du choc compte autant que son ampleur : c'est le cœur de notre analyse.
+  - "market" feed (Chainlink)         : it sees the shock → value × multiplier of the measured asset;
+                                        unless it is broken (wrong price) or frozen (sees nothing);
+  - "fixed" feed (linear discount)    : it sees NOTHING of the market; only the clock moves it
+                                        (price = 1 − discount × time remaining);
+  - constant feed ("Dummy")           : always the same value;
+  - MorphoChainlinkOracleV2           : price = SCALE × base feeds / quote feeds, so we
+                                        multiply the normal price by the change of each block;
+  - META-ORACLE (Steakhouse)          : two appraisers and a referee. Deviation = |primary − fallback| /
+                                        average. If the deviation exceeds the threshold, anyone calls
+                                        challenge(); if the deviation still holds after the delay
+                                        (challengeTimelock, read on-chain: 16 h), it SWITCHES to the fallback.
+    → the DURATION of the shock matters as much as its size: this is the heart of our analysis.
 """
 from __future__ import annotations
 
@@ -32,8 +32,8 @@ class OracleEval:
     node: str
     kind: str
     price_normal: float
-    price: float                       # prix vu par Morpho pendant le choc (après décision de bascule)
-    mode: str                          # mode de prix EFFECTIF pendant le choc
+    price: float                       # price seen by Morpho during the shock (after the switch decision)
+    mode: str                          # EFFECTIVE pricing mode during the shock
     switched: bool = False
     switch_after_hours: float | None = None
     deviation: float | None = None
@@ -54,28 +54,28 @@ def _linear_answer(meta: dict, ts: float) -> float:
 
 
 def _feed(gv: GraphView, fid: str, world: World, ts_offset: float) -> tuple[float, float, str, list[str]]:
-    """(valeur normale, valeur choquée, mode, trace) d'un feed, en unités « humaines »."""
+    """(normal value, shocked value, mode, trace) of a feed, in "human" units."""
     meta, kind = gv.meta(fid), gv.meta(fid).get("oracle_kind")
     now = gv.snapshot()["timestamp"]
     if kind == "pendle_linear_discount_feed":
         normal = _linear_answer(meta, now + ts_offset)
-        return normal, normal, "fixed", [f"{fid} : formule de décote, insensible au marché ({normal:.6f})"]
+        return normal, normal, "fixed", [f"{fid}: discount formula, blind to the market ({normal:.6f})"]
     if kind == "constant_feed":
         return meta["answer"], meta["answer"], "fixed", [f"{fid} : constant ({meta['answer']})"]
     normal = meta.get("answer") or 1.0
     override = world.feed_override.get(fid)
     if override and override[0] == "frozen":
-        return normal, normal, "market", [f"{fid} : FIGÉ, ne voit pas le choc"]
+        return normal, normal, "market", [f"{fid}: FROZEN, does not see the shock"]
     if meta.get("pricing_mode") == "market":
         asset = gv.feed_priced_asset(fid)
         m = world.mult(asset) if asset else 1.0
         shocked = normal * m
-        trace = [f"{fid} suit le marché de {asset} : {normal:.5f} → {shocked:.5f}"]
+        trace = [f"{fid} follows the {asset} market: {normal:.5f} → {shocked:.5f}"]
         if override and override[0] == "fault":
             shocked = normal * override[1]
-            trace.append(f"{fid} en PANNE : rapporte {shocked:.5f} quel que soit le marché")
+            trace.append(f"{fid} BROKEN: reports {shocked:.5f} whatever the market")
         return normal, shocked, "market", trace
-    return normal, normal, meta.get("pricing_mode", "unknown"), [f"{fid} : mode {meta.get('pricing_mode')} — pas de transmission prouvée"]
+    return normal, normal, meta.get("pricing_mode", "unknown"), [f"{fid}: mode {meta.get('pricing_mode')} — no proven transmission"]
 
 
 def evaluate(gv: GraphView, oid: str, world: World, params, ts_offset: float = 0.0) -> OracleEval:
@@ -90,13 +90,13 @@ def evaluate(gv: GraphView, oid: str, world: World, params, ts_offset: float = 0
         now = gv.snapshot()["timestamp"]
         for slot, comp in meta.get("components", {}).items():
             if not comp.get("address") or comp.get("pricing_mode") == "internal_rate":
-                continue      # slot vide (= 1) ou taux interne : insensible au choc de marché
+                continue      # empty slot (= 1) or internal rate: blind to the market shock
             node = gv.by_address(comp["address"])
             if node is None:
                 continue
             normal_now = gv.meta(node["id"]).get("answer")
             normal, shocked, mode, t = _feed(gv, node["id"], world, ts_offset)
-            # variation par rapport à la valeur LUE au bloc (le prix normal de l'oracle y correspond)
+            # change relative to the value READ at the block (the oracle's normal price matches it)
             if normal_now:
                 factor = shocked / normal_now
                 ratio *= factor if comp["role"] == "base" else 1 / factor
@@ -105,7 +105,7 @@ def evaluate(gv: GraphView, oid: str, world: World, params, ts_offset: float = 0
             children.append(OracleEval(node=node["id"], kind=gv.meta(node["id"]).get("oracle_kind"),
                                        price_normal=normal, price=shocked, mode=mode, trace=t))
         base = meta["price"]
-        # prix « normal » à la date décalée (S-TIME) : seule la décote linéaire bouge avec l'horloge
+        # "normal" price at the shifted date (S-TIME): only the linear discount moves with the clock
         time_ratio = 1.0
         for c in children:
             if c.kind == "pendle_linear_discount_feed":
@@ -115,14 +115,14 @@ def evaluate(gv: GraphView, oid: str, world: World, params, ts_offset: float = 0
         return OracleEval(node=oid, kind=kind, price_normal=price_normal, price=base * ratio,
                           mode=mode, trace=trace, children=children)
 
-    # Oracle non reconnu : on ne devine pas
+    # Unrecognised oracle: we do not guess
     price = meta.get("price") or meta.get("answer") or 0.0
     return OracleEval(node=oid, kind=kind, price_normal=price, price=price, mode="unknown",
-                      trace=[f"{oid} non reconnu : prix supposé inchangé (à analyser)"])
+                      trace=[f"{oid} not recognised: price assumed unchanged (to analyse)"])
 
 
 def deviation(a: float, b: float) -> float:
-    """Formule de la doc Steakhouse : |primaire − secours| / moyenne(primaire, secours)."""
+    """Formula from the Steakhouse docs: |primary − fallback| / average(primary, fallback)."""
     return abs(a - b) / ((a + b) / 2) if a + b else 0.0
 
 
@@ -141,28 +141,28 @@ def _meta(gv: GraphView, oid: str, world: World, params, ts_offset: float) -> Or
     lasts = duration is None or duration >= needed
     start_backup = meta.get("current_role") == "backup"
 
-    tl = [{"t_hours": 0, "event": f"choc : écart primaire/secours = {pct(dev, 2)} (seuil {pct(thr, 2)})",
+    tl = [{"t_hours": 0, "event": f"shock: primary/fallback deviation = {pct(dev, 2)} (threshold {pct(thr, 2)})",
            "role": "backup" if start_backup else "primary"}]
-    trace = [f"écart = |{primary.price:.6f} − {backup.price:.6f}| / moyenne = {pct(dev, 3)} ; seuil = {pct(thr, 3)}"]
+    trace = [f"deviation = |{primary.price:.6f} − {backup.price:.6f}| / average = {pct(dev, 3)}; threshold = {pct(thr, 3)}"]
     switched = start_backup
     if not start_backup and possible and world.chain_halted:
-        trace.append("chaîne à l'arrêt : personne ne peut appeler challenge() → pas de bascule")
+        trace.append("chain halted: nobody can call challenge() → no switch")
     elif not start_backup and possible:
-        tl.append({"t_hours": delay_h, "event": "challenge() appelé (fonction sans permission)", "role": "primary"})
+        tl.append({"t_hours": delay_h, "event": "challenge() called (permissionless function)", "role": "primary"})
         if lasts:
             switched = True
-            tl.append({"t_hours": needed, "event": f"acceptChallenge() après {challenge_h:.0f} h → BASCULE sur le secours",
+            tl.append({"t_hours": needed, "event": f"acceptChallenge() after {challenge_h:.0f} h → SWITCH to the fallback",
                        "role": "backup"})
-            trace.append(f"l'écart dure ≥ {needed:.0f} h → bascule sur le secours ({backup.mode})")
+            trace.append(f"the deviation lasts ≥ {needed:.0f} h → switch to the fallback ({backup.mode})")
         else:
-            tl.append({"t_hours": duration, "event": "fin du choc avant la fin du délai → revokeChallenge(), pas de bascule",
+            tl.append({"t_hours": duration, "event": "shock ends before the delay is over → revokeChallenge(), no switch",
                        "role": "primary"})
-            trace.append(f"le choc dure {duration:g} h < {needed:.0f} h → PAS de bascule, le prix reste {primary.mode}")
+            trace.append(f"the shock lasts {duration:g} h < {needed:.0f} h → NO switch, the price stays {primary.mode}")
     else:
-        trace.append("écart sous le seuil → pas de challenge possible, le primaire reste en place")
+        trace.append("deviation below the threshold → no challenge possible, the primary stays in place")
     if switched and duration is not None and not start_backup:
-        tl.append({"t_hours": duration, "event": "fin du choc : les prix reconvergent → heal()", "role": "backup"})
-        tl.append({"t_hours": duration + healing_h, "event": f"acceptHealing() après {healing_h:.0f} h → retour au primaire",
+        tl.append({"t_hours": duration, "event": "end of the shock: prices reconverge → heal()", "role": "backup"})
+        tl.append({"t_hours": duration + healing_h, "event": f"acceptHealing() after {healing_h:.0f} h → back to the primary",
                    "role": "primary"})
 
     chosen = backup if switched else primary

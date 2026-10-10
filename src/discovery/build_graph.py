@@ -1,16 +1,16 @@
-"""Script principal : (marketId, user) → graph.json prouvé.
+"""Main script: (marketId, user) → proven graph.json.
 
-    python -m discovery.build_graph                 # en ligne (remplit le cache si besoin)
-    python -m discovery.build_graph --offline       # démo : 100 % depuis data/cache/, zéro réseau
+    python -m discovery.build_graph                 # online (fills the cache if needed)
+    python -m discovery.build_graph --offline       # demo: 100% from data/cache/, zero network
 
-Déroulé :
-  1. connexion RPC (via le cache) + vérification chainId + bloc figé ;
-  2. racine : le marché Morpho (paramètres prouvés par recalcul du hash) et la position ;
-  3. exploration en largeur : chaque adaptateur renvoie des nœuds, des arêtes et les prochaines
-     cibles (`follow`) — token, oracle, pool Pendle, vaults... jusqu'à épuisement ;
-  4. passes finales : valorisation (price_usd / tvl_usd), émetteurs (curated.yaml),
-     relations hors chaîne, chaîne de règlement ;
-  5. validation stricte du contrat JSON, puis écriture de output/graph.json.
+Steps:
+  1. RPC connection (through the cache) + chainId check + pinned block;
+  2. root: the Morpho market (parameters proven by recomputing the hash) and the position;
+  3. breadth-first exploration: each adapter returns nodes, edges and the next
+     targets (`follow`) — token, oracle, Pendle pool, vaults... until exhausted;
+  4. final passes: valuation (price_usd / tvl_usd), issuers (curated.yaml),
+     off-chain relations, settlement chain;
+  5. strict validation of the JSON contract, then output/graph.json is written.
 """
 from __future__ import annotations
 
@@ -61,7 +61,7 @@ class Report:
 def discover_token(ctx: Ctx, address: str) -> Discovery:
     info = read_token(ctx, address)
     if info is None:
-        raise ValueError(f"{address} n'est pas un ERC-20 lisible (symbol/decimals absents)")
+        raise ValueError(f"{address} is not a readable ERC-20 (symbol/decimals missing)")
     ctx.labels[info["address"]] = info["symbol"]
     kind = classify(ctx, address)
     if kind == "pendle_pt":
@@ -84,7 +84,7 @@ def run_task(ctx: Ctx, task: Task) -> Discovery:
     if task.kind == "pendle_market_lookup":
         found = find_market_via_api(ctx, task.target)
         if not found:
-            return Discovery(notes=[f"Aucun pool Pendle trouvé via l'API pour le PT {task.target}"])
+            return Discovery(notes=[f"No Pendle pool found via the API for PT {task.target}"])
         entry, url, fetched_at = found
         market = checksum(entry["address"])
         return discover_pendle_market(ctx, market, task.target, entry, url, fetched_at)
@@ -93,9 +93,9 @@ def run_task(ctx: Ctx, task: Task) -> Discovery:
         return discover_pendle_market(ctx, task.target, pt, None, None, None)
     if task.kind == "vaults_lookup":
         if not ctx.config.include_vaults:
-            return Discovery(notes=["vaults ignorés (discovery.include_vaults = false)"])
+            return Discovery(notes=["vaults skipped (discovery.include_vaults = false)"])
         return discover_supplying_vaults(ctx, task.target, ctx.config.expected_chain_id)
-    raise ValueError(f"tâche inconnue : {task.kind}")
+    raise ValueError(f"unknown task: {task.kind}")
 
 
 def apply(g: GraphBuilder, d: Discovery, queue: deque, report: Report) -> None:
@@ -107,16 +107,16 @@ def apply(g: GraphBuilder, d: Discovery, queue: deque, report: Report) -> None:
     report.notes.extend(d.notes)
 
 
-# =========================================================================== passes finales
+# =========================================================================== final passes
 def add_issuers_and_offchain(g: GraphBuilder, curated: Curated, block: int, labels: dict) -> None:
-    # 1. issued_by pour chaque contrat connu (par adresse ou par factory)
+    # 1. issued_by for every known contract (by address or by factory)
     for n in list(g.nodes.values()):
         if not n.address:
             continue
         edge = curated.issuer_edge(n.key, n.address, n.meta.get("factory"), block, labels.get(n.address, n.label))
         if edge:
             g.add_edge(edge)
-    # 2. on matérialise les entités curées RÉFÉRENCÉES, puis leurs relations (récursivement)
+    # 2. materialise the REFERENCED curated entities, then their relations (recursively)
     pending = deque(e.to_key for e in g.edges.values() if e.to_key.startswith(("issuer:", "offchain:")))
     while pending:
         key = pending.popleft()
@@ -124,7 +124,7 @@ def add_issuers_and_offchain(g: GraphBuilder, curated: Curated, block: int, labe
             continue
         node = curated.node_for_key(key)
         if node is None:
-            raise ValueError(f"entité {key} référencée mais absente de curated.yaml")
+            raise ValueError(f"entity {key} referenced but missing from curated.yaml")
         g.add_node(node)
         for e in curated.relation_edges(key.partition(":")[2]):
             g.add_edge(e)
@@ -143,14 +143,14 @@ def build(config: Config) -> tuple[dict, Report, DiskCache]:
     g = GraphBuilder()
     queue: deque[Task] = deque()
 
-    # --- racine : marché + position
+    # --- root: market + position
     m = read_market(ctx, config.market_id)
     apply(g, discover_market(ctx, m), queue, report)
     pos_d, pos_meta, value_usd = discover_position(ctx, m, config.user, config.value_usd_override)
     apply(g, pos_d, queue, report)
     g.nodes[market_key(config.market_id)].meta["position"] = pos_meta
 
-    # --- exploration en largeur
+    # --- breadth-first exploration
     seen: set[tuple[str, str]] = set()
     while queue:
         task = queue.popleft()
@@ -159,24 +159,24 @@ def build(config: Config) -> tuple[dict, Report, DiskCache]:
             continue
         seen.add(sig)
         if len(g.nodes) > config.max_nodes:
-            raise RuntimeError(f"plus de {config.max_nodes} nœuds : boucle probable, on arrête")
+            raise RuntimeError(f"more than {config.max_nodes} nodes: probable loop, stopping")
         log.info("→ %s %s", task.kind, task.target)
         try:
             d = run_task(ctx, task)
         except requests.RequestException as e:
             if task.kind not in API_TASKS:
                 raise
-            # Une API indisponible ne doit pas faire tomber la découverte on-chain : on le DIT.
-            d = Discovery(notes=[f"⚠ {task.kind} {task.target} non découvert (API indisponible : {e})"])
+            # An unavailable API must not bring down on-chain discovery: we SAY it.
+            d = Discovery(notes=[f"⚠ {task.kind} {task.target} not discovered (API unavailable: {e})"])
         apply(g, d, queue, report)
         report.tasks_done += 1
 
-    # --- passes finales
+    # --- final passes
     usd, usd_source = loan_token_usd_price(ctx)
     value_graph(g, market_key(config.market_id), usd, usd_source, ctx.block_timestamp)
     add_issuers_and_offchain(g, curated, block, ctx.labels)
     onchain = [n for n in g.nodes.values() if n.address]
-    for n in onchain:   # upgradeabilité de CHAQUE contrat : une info de risque pour les autres équipes
+    for n in onchain:   # upgradeability of EVERY contract: risk information for the other teams
         n.meta.setdefault("proxy", proxy_info(ctx, n.address) or dict(NOT_DETECTED))
     apply(g, discover_chain(ctx, config.chain_name, chain_id, onchain), queue, report)
 
@@ -188,31 +188,31 @@ def build(config: Config) -> tuple[dict, Report, DiskCache]:
 # =========================================================================== CLI
 def _print_summary(graph: dict, report: Report, cache: DiskCache, errors: list[str], out: Path) -> None:
     from collections import Counter
-    print(f"\n=== StackTrace · découverte au bloc #{report.block} ===")
+    print(f"\n=== StackTrace · discovery at block #{report.block} ===")
     print(f"position : {graph['position']['id']}  (value_usd = {graph['position']['value_usd']:,})")
-    print("nœuds    :", dict(Counter(n["type"] for n in graph["nodes"])))
-    print("arêtes   :", dict(Counter(e["type"] for e in graph["edges"])))
+    print("nodes    :", dict(Counter(n["type"] for n in graph["nodes"])))
+    print("edges    :", dict(Counter(e["type"] for e in graph["edges"])))
     print("sources  :", dict(Counter(e["source"] for e in graph["edges"])))
     s = cache.stats
-    print(f"cache    : {s.hits} hits, {s.misses} misses, {s.writes} écritures {s.by_namespace}")
+    print(f"cache    : {s.hits} hits, {s.misses} misses, {s.writes} writes {s.by_namespace}")
     if report.notes:
         print("notes    :")
         for n in report.notes:
             print("   ·", n)
     if errors:
-        print(f"✗ {len(errors)} erreur(s) de validation :")
+        print(f"✗ {len(errors)} validation error(s):")
         for e in errors:
             print("   -", e)
     else:
-        print(f"✓ contrat JSON valide → {out}")
+        print(f"✓ valid JSON contract → {out}")
 
 
 def main(argv: list[str] | None = None) -> int:
     utf8_console()
-    p = argparse.ArgumentParser(description="StackTrace — découverte du graphe de dépendances")
-    p.add_argument("--config", default=None, help="chemin de config.yaml")
-    p.add_argument("--offline", action="store_true", help="aucun appel réseau : tout depuis data/cache/")
-    p.add_argument("--out", default=None, help="fichier de sortie (défaut : discovery.output_file)")
+    p = argparse.ArgumentParser(description="StackTrace — dependency graph discovery")
+    p.add_argument("--config", default=None, help="path to config.yaml")
+    p.add_argument("--offline", action="store_true", help="no network call: everything from data/cache/")
+    p.add_argument("--out", default=None, help="output file (default: discovery.output_file)")
     p.add_argument("-v", "--verbose", action="store_true")
     args = p.parse_args(argv)
     logging.basicConfig(level=logging.INFO if args.verbose else logging.WARNING, format="%(message)s")
@@ -221,7 +221,7 @@ def main(argv: list[str] | None = None) -> int:
         config = load_config(args.config, offline=True if args.offline else None)
         graph, report, cache = build(config)
     except (ConfigError, OfflineError, CacheMissError, RpcError) as e:
-        # Erreurs « attendues » (config, réseau, cache incomplet) : un message clair plutôt qu'une trace.
+        # "Expected" errors (config, network, incomplete cache): a clear message rather than a traceback.
         print(f"✗ {type(e).__name__} : {e}", file=sys.stderr)
         return 2
     errors = validate(graph)

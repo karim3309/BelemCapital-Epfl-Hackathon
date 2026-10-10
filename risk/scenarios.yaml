@@ -1,60 +1,60 @@
 # =====================================================================
-#  StackTrace — SCÉNARIOS DE STRESS (déterministes)
+#  StackTrace — STRESS SCENARIOS (deterministic)
 # =====================================================================
-# Un scénario = « que se passe-t-il pour la position SI tel incident arrive ? »
-# Les ampleurs/durées sont des CHOIX de scénario (statut : hypothèse) : chaque scénario a un `why`.
-# `p_default` = probabilité d'illustration que l'incident se matérialise sur l'horizon : c'est au
-# manager de la fixer ; la décision affiche surtout le SEUIL p* (indépendant de cette valeur).
+# A scenario = "what happens to the position IF such incident happens?"
+# Sizes/durations are scenario CHOICES (status: hypothesis): every scenario has a `why`.
+# `p_default` = illustrative probability that the incident materialises over the horizon: it is up to
+# the manager to set it; the decision mostly shows the THRESHOLD p* (independent of that value).
 #
-# shocks[].node    : id d'un nœud de output/graph.json
-# shocks[].select  : sélecteur {type, role/oracle_kind/...} → un choc par nœud trouvé
+# shocks[].node    : id of a node of output/graph.json
+# shocks[].select  : selector {type, role/oracle_kind/...} → one shock per node found
 # shocks[].kind    : market_depeg | counterparty_failure | issuer_failure | protocol_exploit |
 #                    feed_fault | feed_frozen | liquidity_drain | chain_halt
-# duration_hours   : null = durable (au-delà de l'horizon)
+# duration_hours   : null = lasting (beyond the horizon)
 # =====================================================================
 scenarios:
   - id: S-USDe-30
     family: S-USDe
-    title: "Depeg USDe −30 % durable"
-    story: "L'alerte de la démo du cadrage : l'USDe perd 30 % et ne revient pas."
-    why: "Scénario de démo prévu par le cadrage (« depeg 30 % »), ordre de grandeur d'une faillite de stablecoin."
-    p_default: {value: 0.10, hypothesis: true, why: "Valeur d'illustration ; le manager règle sa propre probabilité."}
+    title: "Lasting USDe depeg −30%"
+    story: "The framing note's demo alert: USDe loses 30% and does not come back."
+    why: "Demo scenario planned by the framing note (\"30% depeg\"), order of magnitude of a stablecoin failure."
+    p_default: {value: 0.10, hypothesis: true, why: "Illustrative value; the manager sets their own probability."}
     shocks:
       - {node: usde, kind: market_depeg, severity: 0.30, duration_hours: null}
 
   - id: S-USDe-7-24h
     family: S-USDe
-    title: "Depeg USDe à 0,93 $ pendant 24 h"
-    story: "Un depeg sévère mais temporaire : assez long pour faire basculer le méta-oracle (16 h)."
-    why: "Teste la règle des 16 h : au-delà du délai de challenge, mais choc de taille modérée."
-    p_default: {value: 0.10, hypothesis: true, why: "Valeur d'illustration."}
+    title: "USDe depeg to $0.93 for 24 h"
+    story: "A severe but temporary depeg: long enough to make the meta-oracle switch (16 h)."
+    why: "Tests the 16 h rule: beyond the challenge delay, but a moderate-size shock."
+    p_default: {value: 0.10, hypothesis: true, why: "Illustrative value."}
     shocks:
       - {node: usde, kind: market_depeg, severity: 0.07, duration_hours: 24}
 
   - id: S-USDe-7-6h
     family: S-USDe
-    title: "Depeg USDe à 0,93 $ pendant 6 h"
-    story: "Même ampleur, mais le choc s'arrête AVANT la fin du délai de 16 h."
-    why: "Montre que la durée compte autant que l'ampleur."
-    p_default: {value: 0.10, hypothesis: true, why: "Valeur d'illustration."}
+    title: "USDe depeg to $0.93 for 6 h"
+    story: "Same size, but the shock stops BEFORE the end of the 16 h delay."
+    why: "Shows that duration matters as much as size."
+    p_default: {value: 0.10, hypothesis: true, why: "Illustrative value."}
     shocks:
       - {node: usde, kind: market_depeg, severity: 0.07, duration_hours: 6}
 
   - id: S-EXCH-BINANCE
     family: S-EXCH
-    title: "Défaillance de Binance (hedges d'Ethena)"
-    story: "Un exchange où Ethena place ses shorts fait faillite ; panique temporaire sur l'USDe."
-    why: "Brief et cadrage : dépendance hors chaîne d'Ethena aux exchanges de perp. Panique de 3 % pendant 72 h choisie par nous."
-    p_default: {value: 0.05, hypothesis: true, why: "Valeur d'illustration."}
+    title: "Binance failure (Ethena's hedges)"
+    story: "An exchange where Ethena places its shorts goes bankrupt; temporary panic on USDe."
+    why: "Brief and framing note: Ethena's off-chain dependency on perp exchanges. A 3% panic for 72 h chosen by us."
+    p_default: {value: 0.05, hypothesis: true, why: "Illustrative value."}
     shocks:
       - {node: binance, kind: counterparty_failure, severity: 1.0, panic: 0.03, duration_hours: 72}
 
   - id: S-EXCH-MULTI
     family: S-EXCH
-    title: "Défaillance de 3 exchanges (Binance, Bybit, OKX)"
-    story: "Crise systémique des exchanges centralisés : la panique sur l'USDe dure."
-    why: "Stress extrême de la couche hors chaîne ; panique durable de 10 % choisie par nous."
-    p_default: {value: 0.02, hypothesis: true, why: "Valeur d'illustration."}
+    title: "Failure of 3 exchanges (Binance, Bybit, OKX)"
+    story: "Systemic crisis of centralised exchanges: the panic on USDe lasts."
+    why: "Extreme stress of the off-chain layer; a lasting 10% panic chosen by us."
+    p_default: {value: 0.02, hypothesis: true, why: "Illustrative value."}
     shocks:
       - {node: binance, kind: counterparty_failure, severity: 1.0, panic: 0.10, duration_hours: null}
       - {node: bybit, kind: counterparty_failure, severity: 1.0, duration_hours: null}
@@ -62,99 +62,99 @@ scenarios:
 
   - id: S-CUST-COPPER
     family: S-CUST
-    title: "Défaillance d'un custodian (Copper)"
-    story: "Les actifs de réserve d'Ethena conservés chez Copper sont bloqués/perdus."
-    why: "Dépendance de garde hors chaîne ; part des réserves chez ce custodian = paramètre custodian_backing_share."
-    p_default: {value: 0.02, hypothesis: true, why: "Valeur d'illustration."}
+    title: "Custodian failure (Copper)"
+    story: "Ethena's reserve assets held at Copper are frozen/lost."
+    why: "Off-chain custody dependency; share of the reserves at this custodian = custodian_backing_share parameter."
+    p_default: {value: 0.02, hypothesis: true, why: "Illustrative value."}
     shocks:
       - {node: copper, kind: counterparty_failure, severity: 1.0, duration_hours: null}
 
   - id: S-ORACLE-WRONG
     family: S-ORACLE
-    title: "Feed Chainlink USDe/USD faux (−10 %) pendant 24 h"
-    story: "Le marché est sain, mais le feed de l'oracle de secours rapporte un prix 10 % trop bas."
-    why: "Panne / manipulation d'oracle (cadrage §4.3) ; teste ce que le méta-oracle fait d'un mauvais secours."
-    p_default: {value: 0.02, hypothesis: true, why: "Valeur d'illustration."}
+    title: "Wrong Chainlink USDe/USD feed (−10%) for 24 h"
+    story: "The market is healthy, but the fallback oracle's feed reports a price 10% too low."
+    why: "Oracle outage / manipulation (framing note §4.3); tests what the meta-oracle does with a bad fallback."
+    p_default: {value: 0.02, hypothesis: true, why: "Illustrative value."}
     shocks:
       - {node: feed_usde_usd, kind: feed_fault, severity: 0.10, duration_hours: 24}
 
   - id: S-ORACLE-FROZEN
     family: S-ORACLE
-    title: "Depeg USDe −10 % durable avec feed Chainlink figé"
-    story: "L'USDe perd 10 %, mais le feed de secours est bloqué : aucun expert ne voit la crise."
-    why: "Cas « oracle qui ne suit pas le marché » du cadrage : pas de liquidation, dette résiduelle chez les prêteurs."
-    p_default: {value: 0.02, hypothesis: true, why: "Valeur d'illustration."}
+    title: "Lasting USDe depeg −10% with a frozen Chainlink feed"
+    story: "USDe loses 10%, but the fallback feed is stuck: no appraiser sees the crisis."
+    why: "The framing note's \"oracle not following the market\" case: no liquidation, residual debt for the lenders."
+    p_default: {value: 0.02, hypothesis: true, why: "Illustrative value."}
     shocks:
       - {node: usde, kind: market_depeg, severity: 0.10, duration_hours: null}
       - {node: feed_usde_usd, kind: feed_frozen, duration_hours: null}
 
   - id: S-POOL-HALF
     family: S-POOL
-    title: "Pool Pendle divisé par 2"
-    story: "La moitié des LP retirent leur liquidité : la valeur ne bouge pas, mais sortir coûte plus cher."
-    why: "Gel / fuite de liquidité (cadrage §4.3)."
-    p_default: {value: 0.10, hypothesis: true, why: "Valeur d'illustration."}
+    title: "Pendle pool halved"
+    story: "Half of the LPs pull their liquidity: the value does not move, but exiting costs more."
+    why: "Liquidity freeze / flight (framing note §4.3)."
+    p_default: {value: 0.10, hypothesis: true, why: "Illustrative value."}
     shocks:
       - {select: {type: liquidity_venue}, kind: liquidity_drain, severity: 0.5, duration_hours: 168}
 
   - id: S-POOL-TENTH
     family: S-POOL
-    title: "Pool Pendle divisé par 10"
-    story: "Fuite massive de liquidité : la sortie complète devient impossible sur le pool."
-    why: "Gel de liquidité extrême (« combien de temps avant que la liquidité de sortie disparaisse », persona Léa)."
-    p_default: {value: 0.05, hypothesis: true, why: "Valeur d'illustration."}
+    title: "Pendle pool divided by 10"
+    story: "Massive liquidity flight: a full exit becomes impossible on the pool."
+    why: "Extreme liquidity freeze (\"how long before exit liquidity disappears\", Léa persona)."
+    p_default: {value: 0.05, hypothesis: true, why: "Illustrative value."}
     shocks:
       - {select: {type: liquidity_venue}, kind: liquidity_drain, severity: 0.9, duration_hours: 168}
 
   - id: S-USDC-5
     family: S-USDC
-    title: "Depeg de l'USDC à 0,95 $ pendant 72 h"
-    story: "L'actif EMPRUNTÉ perd son ancrage : la dette vaut moins en dollars."
-    why: "Dépendance à Circle ; précédent historique de depeg de l'USDC. Ampleur choisie par nous."
-    p_default: {value: 0.02, hypothesis: true, why: "Valeur d'illustration."}
+    title: "USDC depeg to $0.95 for 72 h"
+    story: "The BORROWED asset loses its peg: the debt is worth less in dollars."
+    why: "Dependency on Circle; historical precedent of a USDC depeg. Size chosen by us."
+    p_default: {value: 0.02, hypothesis: true, why: "Illustrative value."}
     shocks:
       - {node: usdc, kind: market_depeg, severity: 0.05, duration_hours: 72}
 
   - id: S-PENDLE-EXPLOIT
     family: S-PROTOCOL
-    title: "Exploit Pendle : le SY perd 50 %"
-    story: "Une faille dans les contrats Pendle déprécie le SY, donc le PT."
-    why: "Risque de contrat (cadrage §4.3 : exploit). Ampleur choisie par nous."
-    p_default: {value: 0.01, hypothesis: true, why: "Valeur d'illustration."}
+    title: "Pendle exploit: the SY loses 50%"
+    story: "A flaw in the Pendle contracts devalues the SY, hence the PT."
+    why: "Contract risk (framing note §4.3: exploit). Size chosen by us."
+    p_default: {value: 0.01, hypothesis: true, why: "Illustrative value."}
     shocks:
       - {node: pendle, kind: issuer_failure, severity: 0.5, duration_hours: null}
 
   - id: S-MORPHO-EXPLOIT
     family: S-PROTOCOL
-    title: "Exploit Morpho : collatéral volé"
-    story: "Une faille dans Morpho Blue vide le collatéral du marché."
-    why: "Risque de contrat du marché de prêt. Ampleur maximale choisie par nous."
-    p_default: {value: 0.005, hypothesis: true, why: "Valeur d'illustration."}
+    title: "Morpho exploit: collateral stolen"
+    story: "A flaw in Morpho Blue drains the market's collateral."
+    why: "Contract risk of the lending market. Maximum size chosen by us."
+    p_default: {value: 0.005, hypothesis: true, why: "Illustrative value."}
     shocks:
       - {node: morpho, kind: protocol_exploit, severity: 1.0, duration_hours: null}
 
   - id: S-CHAIN-HALT
     family: S-CHAIN
-    title: "Ethereum à l'arrêt pendant un depeg USDe −10 % de 24 h"
-    story: "La chaîne s'arrête : personne ne peut challenger l'oracle ni liquider ni sortir."
-    why: "Arrêt de chaîne (cadrage §4.3). Combiné à un depeg pour montrer l'effet."
-    p_default: {value: 0.005, hypothesis: true, why: "Valeur d'illustration."}
+    title: "Ethereum halted during a 24 h USDe depeg of −10%"
+    story: "The chain stops: nobody can challenge the oracle, liquidate or exit."
+    why: "Chain halt (framing note §4.3). Combined with a depeg to show the effect."
+    p_default: {value: 0.005, hypothesis: true, why: "Illustrative value."}
     shocks:
       - {node: usde, kind: market_depeg, severity: 0.10, duration_hours: 24}
       - {select: {type: chain}, kind: chain_halt, duration_hours: 24}
 
   - id: S-TIME
     family: S-TIME
-    title: "Rien ne se passe jusqu'à l'échéance du PT"
-    story: "Le temps passe : le PT converge vers 1, la dette grossit au taux d'emprunt."
-    why: "Référence sans incident (prompt S-TIME)."
-    p_default: {value: 1.0, hypothesis: true, why: "Le temps passe à coup sûr."}
+    title: "Nothing happens until the PT matures"
+    story: "Time passes: the PT converges to 1, the debt grows at the borrow rate."
+    why: "No-incident reference (prompt S-TIME)."
+    p_default: {value: 1.0, hypothesis: true, why: "Time passes for sure."}
     time_offset: to_maturity
     shocks: []
 
-# Grille du curseur du front : prix de l'USDe × durée (heures). null = durable.
+# Front slider grid: USDe price × duration (hours). null = lasting.
 usde_grid:
-  why: "Grille du prompt (0,99 → 0,85 ; 1 h → 72 h), affinée pour un curseur fluide."
+  why: "Grid from the prompt ($0.99 → $0.85; 1 h → 72 h), refined for a smooth slider."
   prices: [1.0, 0.995, 0.9925, 0.99, 0.985, 0.98, 0.97, 0.96, 0.955, 0.95, 0.94, 0.93, 0.92, 0.90, 0.875, 0.85, 0.80, 0.75, 0.70]
   durations_hours: [1, 3, 6, 12, 15, 16, 18, 24, 48, 72, 168, null]
-  p_default: {value: 0.10, hypothesis: true, why: "Valeur d'illustration pour le verdict par défaut du curseur."}
+  p_default: {value: 0.10, hypothesis: true, why: "Illustrative value for the slider's default verdict."}

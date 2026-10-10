@@ -1,11 +1,11 @@
-"""Adaptateurs de découverte : un fichier par protocole / standard.
+"""Discovery adapters: one file per protocol / standard.
 
-Contrat commun (c'est lui qui permet de travailler à 3 sans se marcher dessus) :
-    une fonction `discover_xxx(ctx, cible, ...) -> Discovery`
-  - lit la blockchain UNIQUEMENT via `ctx` (donc caché, au bloc figé, avec preuve) ;
-  - ne modifie rien : elle RENVOIE des nœuds, des arêtes, et des tâches `follow`
-    (les prochaines cibles à explorer). C'est build_graph.py qui assemble.
-  - si elle ne reconnaît pas un contrat, elle le dit (meta.unresolved=True) au lieu de deviner.
+Shared contract (this is what lets 3 people work in parallel without stepping on each other):
+    a function `discover_xxx(ctx, target, ...) -> Discovery`
+  - reads the blockchain ONLY through `ctx` (so cached, at the pinned block, with evidence);
+  - changes nothing: it RETURNS nodes, edges, and `follow` tasks
+    (the next targets to explore). build_graph.py does the assembly.
+  - if it does not recognise a contract, it says so (meta.unresolved=True) instead of guessing.
 """
 from __future__ import annotations
 
@@ -18,8 +18,8 @@ from ..graph import Edge, Node
 @dataclass(frozen=True)
 class Task:
     kind: str                      # "token" | "oracle" | "pendle_market_lookup" | "vaults_lookup" | ...
-    target: str                    # adresse (checksum) ou identifiant
-    hint: tuple = ()               # infos complémentaires (hashable)
+    target: str                    # address (checksum) or identifier
+    hint: tuple = ()               # extra info (hashable)
 
 
 @dataclass
@@ -27,7 +27,7 @@ class Discovery:
     nodes: list[Node] = field(default_factory=list)
     edges: list[Edge] = field(default_factory=list)
     follow: list[Task] = field(default_factory=list)
-    notes: list[str] = field(default_factory=list)   # remarques pour le rapport console
+    notes: list[str] = field(default_factory=list)   # remarks for the console report
 
     def extend(self, other: "Discovery") -> "Discovery":
         self.nodes += other.nodes
@@ -38,12 +38,12 @@ class Discovery:
 
 
 def scaled(value: int, decimals: int) -> float:
-    """Entier on-chain → nombre lisible (ex. 1_000_000 avec 6 décimales → 1.0)."""
+    """On-chain integer → readable number (e.g. 1_000_000 with 6 decimals → 1.0)."""
     return value / 10 ** decimals
 
 
 def jsonable(v: Any) -> Any:
-    """Les très grands entiers (uint256) sont stockés en chaîne dans meta pour ne pas perdre de précision en JSON."""
+    """Very large integers (uint256) are stored as strings in meta so JSON does not lose precision."""
     if isinstance(v, bool) or v is None:
         return v
     if isinstance(v, int) and abs(v) > 2**53:

@@ -1,4 +1,4 @@
-"""Intérêts Morpho, valorisation USD et inspecteur networkx."""
+"""Morpho interest, USD valuation and networkx inspector."""
 import math
 
 from discovery.adapters.morpho import WAD, accrue_interest, w_taylor_compounded
@@ -13,7 +13,7 @@ TS = 1_700_000_000
 
 
 def test_taylor_compounding_is_close_to_exp():
-    rate = int(0.05 / (365 * 86400) * WAD)          # 5 %/an par seconde
+    rate = int(0.05 / (365 * 86400) * WAD)          # 5%/year per second
     one_year = 365 * 86400
     approx = w_taylor_compounded(rate, one_year) / WAD
     assert abs(approx - (math.exp(0.05) - 1)) < 1e-4
@@ -56,8 +56,8 @@ def test_valuation_uses_only_proven_prices():
     g, mkey = _priced_graph()
     value_graph(g, mkey, 1.0, "Chainlink USDC/USD", TS)
     meta = {n.label: n.meta for n in g.nodes.values()}
-    assert meta["USDe"]["price_usd"] == 0.98                    # feed Chainlink découvert
-    assert abs(meta["sUSDe"]["price_usd"] - 1.2 * 0.98) < 1e-12  # taux interne × sous-jacent
+    assert meta["USDe"]["price_usd"] == 0.98                    # discovered Chainlink feed
+    assert abs(meta["sUSDe"]["price_usd"] - 1.2 * 0.98) < 1e-12  # internal rate × underlying
     assert meta["PT-X"]["price_usd"] == 0.99                     # oracle Morpho × USDC
     assert meta["USDe"]["tvl_usd"] == 9.8
     assert meta["F"]["priced_asset"] == addr(2)
@@ -76,4 +76,4 @@ def test_impact_walks_up_to_the_position(capsys):
     graph = g.to_contract(position_id("0x" + "ab" * 32, addr(8)), 1)
     print_impact(to_networkx(graph), graph["position"]["id"], "acme")
     out = capsys.readouterr().out
-    assert "3 élément(s)" in out and "pt --issued_by--> acme" in out
+    assert "3 element(s)" in out and "pt --issued_by--> acme" in out

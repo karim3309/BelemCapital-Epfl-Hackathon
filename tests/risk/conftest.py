@@ -1,4 +1,4 @@
-"""Fixtures du moteur de risque : le VRAI graphe de la position A (commité) et un petit graphe fait main."""
+"""Risk engine fixtures: the REAL graph of position A (committed) and a small hand-made graph."""
 import pytest
 
 from risk.graphview import GraphView
@@ -11,7 +11,7 @@ def engine():
 
 
 class P(dict):
-    """Paramètres minimaux pour les tests unitaires (même interface que Params : p['nom'])."""
+    """Minimal parameters for the unit tests (same interface as Params: p['name'])."""
 
 
 def tiny_params(**over):
@@ -32,7 +32,7 @@ def _e(a, b, t):
 
 @pytest.fixture
 def tiny_graph():
-    """PT → SY → sUSDe → USDe ; émetteurs Pendle / Ethena ; Ethena → custodian + exchange."""
+    """PT → SY → sUSDe → USDe; issuers Pendle / Ethena; Ethena → custodian + exchange."""
     nodes = [_n(x, "asset", {"asset_kind": k}) for x, k in
              (("pt", "pendle_pt"), ("sy", "pendle_sy"), ("susde", "erc4626_vault"), ("usde", "erc20"))]
     nodes += [_n("pendle", "issuer"), _n("ethena", "issuer"),

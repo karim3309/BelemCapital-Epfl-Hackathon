@@ -1,51 +1,51 @@
-"""Vocabulaire FIGÉ du contrat graph.json (voir CLAUDE.md, section « Vocabulaire du graphe »).
+"""FROZEN vocabulary of the graph.json contract (see CLAUDE.md, "Graph vocabulary" section).
 
-Règle de direction (appliquée partout) :
-    `from` = celui qui DÉPEND, `to` = sa DÉPENDANCE.
-    On lit l'arête comme une phrase : "<from> <type> <to>"
+Direction rule (applied everywhere):
+    `from` = the one that DEPENDS, `to` = its DEPENDENCY.
+    Read the edge as a sentence: "<from> <type> <to>"
     ex. "morpho_market collateralized_by pt_susde", "susde redeemable_into usde".
-    → Une panne se propage TOUJOURS à contre-courant des flèches (de `to` vers `from`).
+    → A failure ALWAYS travels against the arrows (from `to` to `from`).
 
-Toute modification de ce fichier doit être validée par les 3 membres (PR relue) :
-les autres équipes consomment ces chaînes de caractères telles quelles.
+Any change to this file must be approved by the 3 members (reviewed PR):
+other teams consume these strings as they are.
 """
 
-# --- Types de nœuds -------------------------------------------------------
+# --- Node types ------------------------------------------------------------
 NODE_TYPES = {
-    "chain",                  # blockchain où le contrat s'exécute (ethereum)
-    "asset",                  # tout token ERC-20 : PT, SY, sUSDe, USDe, USDC... (détail dans meta.asset_kind)
-    "issuer",                 # entité responsable d'un actif / protocole (Ethena Labs, Circle, Pendle, Morpho, Chainlink)
-    "oracle",                 # tout contrat qui fournit un prix : assembleur ou feed (détail dans meta.oracle_kind)
-    "liquidity_venue",        # AMM / pool où l'on peut vendre l'actif (pool Pendle PT/SY)
-    "lending_market",         # un marché de prêt isolé (1 marketId Morpho = 1 nœud)
-    "vault",                  # coffre qui alloue des fonds dans des marchés (MetaMorpho / Morpho Vault V2)
-    "offchain_counterparty",  # entité hors chaîne qui détient des actifs ou des hedges (custodian, exchange)
+    "chain",                  # blockchain the contract runs on (ethereum)
+    "asset",                  # any ERC-20 token: PT, SY, sUSDe, USDe, USDC... (details in meta.asset_kind)
+    "issuer",                 # entity responsible for an asset / protocol (Ethena Labs, Circle, Pendle, Morpho, Chainlink)
+    "oracle",                 # any contract that provides a price: assembler or feed (details in meta.oracle_kind)
+    "liquidity_venue",        # AMM / pool where the asset can be sold (Pendle PT/SY pool)
+    "lending_market",         # an isolated lending market (1 Morpho marketId = 1 node)
+    "vault",                  # vault allocating funds into markets (MetaMorpho / Morpho Vault V2)
+    "offchain_counterparty",  # off-chain entity holding assets or hedges (custodian, exchange)
 }
 
-# --- Types d'arêtes (from = dépendant → to = dépendance) ---------------------
+# --- Edge types (from = dependent → to = dependency) ------------------------
 EDGE_TYPES = {
-    "deployed_in",        # "mes fonds sont placés dans"        position→marché, vault→marché, asset→pool, émetteur→custodian
-    "collateralized_by",  # "je suis garanti par"                marché→collatéral  (= « est collatéral de » lu à l'envers)
-    "lends",              # "je prête cet actif"                 marché→actif prêté (EXTENSION, à confirmer avec les orgas)
-    "priced_by",          # "ma valeur est calculée par"         marché→oracle, oracle→feed, oracle→vault (taux interne)
-    "redeemable_into",    # "je peux être échangé contre"        PT→SY→sUSDe→USDe
-    "issued_by",          # "je suis émis / contrôlé par"        actif→émetteur, oracle→émetteur
-    "settled_on",         # "je m'exécute sur"                    contrat→chaîne
+    "deployed_in",        # "my funds are placed in"            position→market, vault→market, asset→pool, issuer→custodian
+    "collateralized_by",  # "I am secured by"                    market→collateral  (= "is collateral of" read backwards)
+    "lends",              # "I lend this asset"                  market→lent asset (EXTENSION, to be confirmed with the organisers)
+    "priced_by",          # "my value is computed by"            market→oracle, oracle→feed, oracle→vault (internal rate)
+    "redeemable_into",    # "I can be exchanged for"             PT→SY→sUSDe→USDe
+    "issued_by",          # "I am issued / controlled by"        asset→issuer, oracle→issuer
+    "settled_on",         # "I run on"                           contract→chain
 }
 
 SOURCES = {"onchain", "api", "curated"}
 
-# Comment un oracle (ou un composant d'oracle) suit le prix — l'info clé en cas de depeg.
+# How an oracle (or an oracle component) follows the price — the key information in a depeg.
 PRICING_MODES = {
-    "market",         # suit un prix de marché (Chainlink, TWAP d'AMM)
-    "fixed",          # prix fixé / formule déterministe (décote linéaire, feed constant, feed absent = 1)
-    "internal_rate",  # taux comptable interne d'un contrat (ERC-4626 convertToAssets)
-    "hybrid",         # bascule entre plusieurs modes (méta-oracle avec oracle de secours)
-    "unknown",        # on n'a pas pu prouver le mode → on ne devine pas
+    "market",         # follows a market price (Chainlink, AMM TWAP)
+    "fixed",          # fixed price / deterministic formula (linear discount, constant feed, missing feed = 1)
+    "internal_rate",  # internal accounting rate of a contract (ERC-4626 convertToAssets)
+    "hybrid",         # switches between several modes (meta-oracle with a fallback oracle)
+    "unknown",        # the mode could not be proven → we do not guess
 }
 
-# Triplets autorisés (type du from, type d'arête, types possibles du to).
-# "position" désigne la racine (objet `position` du JSON, qui n'est pas un nœud).
+# Allowed triplets (from type, edge type, possible to types).
+# "position" means the root (the JSON `position` object, which is not a node).
 ALLOWED_EDGE_SHAPES: dict[str, tuple[set[str], set[str]]] = {
     "deployed_in": ({"position", "vault", "issuer", "asset"},
                     {"lending_market", "liquidity_venue", "offchain_counterparty", "vault"}),
@@ -57,4 +57,4 @@ ALLOWED_EDGE_SHAPES: dict[str, tuple[set[str], set[str]]] = {
     "settled_on": ({"asset", "oracle", "vault", "lending_market", "liquidity_venue"}, {"chain"}),
 }
 
-assert set(ALLOWED_EDGE_SHAPES) == EDGE_TYPES, "chaque type d'arête doit avoir sa forme autorisée"
+assert set(ALLOWED_EDGE_SHAPES) == EDGE_TYPES, "every edge type must have its allowed shape"

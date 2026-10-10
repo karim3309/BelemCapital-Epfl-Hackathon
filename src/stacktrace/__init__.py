@@ -1,5 +1,5 @@
-"""StackTrace v2 — backend EN LIGNE : une adresse réelle → ses positions → graphe → risque → STAY / EXIT.
+"""StackTrace v2 — LIVE backend: a real address → its positions → graph → risk → STAY / EXIT.
 
-Ce paquet réutilise les briques de `discovery` (RPC caché, adaptateurs, preuves) et de `risk`,
-mais ne dépend plus d'une position écrite en dur dans config.yaml.
+This package reuses the building blocks of `discovery` (cached RPC, adapters, evidence) and of `risk`,
+but no longer depends on a position hard-coded in config.yaml.
 """

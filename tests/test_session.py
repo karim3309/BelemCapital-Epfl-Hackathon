@@ -1,7 +1,7 @@
-"""Tests de la session en ligne (étape 1 du backend v2).
+"""Tests of the online session (step 1 of backend v2).
 
-Les tests par défaut n'utilisent PAS le réseau. Le test marqué `online` ne tourne que si
-STACKTRACE_ONLINE_TESTS=1 (il lit le vrai mainnet via ETH_RPC_URL).
+The default tests do NOT use the network. The test marked `online` only runs if
+STACKTRACE_ONLINE_TESTS=1 (it reads the real mainnet via ETH_RPC_URL).
 """
 import os
 
@@ -34,12 +34,12 @@ def test_open_session_without_rpc_url_explains_what_to_do(monkeypatch):
         sess.open_session()
 
 
-@pytest.mark.skipif(os.getenv("STACKTRACE_ONLINE_TESTS") != "1", reason="test réseau (STACKTRACE_ONLINE_TESTS=1)")
+@pytest.mark.skipif(os.getenv("STACKTRACE_ONLINE_TESTS") != "1", reason="network test (STACKTRACE_ONLINE_TESTS=1)")
 def test_open_session_live_mainnet():
     s = sess.open_session()
     assert s.chain_id == 1
     assert s.block > 0 and s.block_timestamp > 0
-    # le bloc est figé : un second appel au même bloc vient du cache, pas du réseau
+    # the block is pinned: a second call at the same block comes from the cache, not the network
     s.w3.eth.get_balance("0x0000000000000000000000000000000000000000", block_identifier=s.block)
     before = s.network_calls
     s.w3.eth.get_balance("0x0000000000000000000000000000000000000000", block_identifier=s.block)

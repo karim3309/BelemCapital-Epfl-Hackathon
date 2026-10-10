@@ -1,4 +1,4 @@
-"""Tests de l'étape 3 — vault V2 et nouveaux oracles — SANS réseau (FakeCtx)."""
+"""Step 3 tests — vault V2 and new oracles — WITHOUT network (FakeCtx)."""
 from eth_abi import encode
 from eth_utils import keccak
 
@@ -12,7 +12,7 @@ TS = 1_700_000_000
 ROUND = "latestRoundData()"
 
 
-# ------------------------------------------------------------------ feed Midas (prix posé par un admin)
+# ------------------------------------------------------------------ Midas feed (price set by an admin)
 def test_midas_custom_feed_is_fixed_and_exposes_bounds():
     f = addr(10)
     ctx = FakeCtx({
@@ -27,13 +27,13 @@ def test_midas_custom_feed_is_fixed_and_exposes_bounds():
     assert node.meta["age_seconds"] == 86400 and "setRoundData" in node.meta["pricing_detail"]
 
 
-# ------------------------------------------------------------------ feed wstETH (marché × taux interne)
+# ------------------------------------------------------------------ wstETH feed (market × internal rate)
 def test_wsteth_feed_links_market_feed_and_token():
     f, cl, wst = addr(20), addr(21), addr(22)
     ctx = FakeCtx({
         (f, "stETHtoETHPriceFeed()", ()): cl, (f, "wstETH()", ()): wst,
         (f, ROUND, ()): (1, 12 * 10**7, 0, TS, 1), (f, "decimals()", ()): 8,
-        # le feed stETH/ETH est un proxy Chainlink → mode « market »
+        # the stETH/ETH feed is a Chainlink proxy → "market" mode
         (cl, "aggregator()", ()): addr(23), (cl, "phaseId()", ()): 1, (cl, "description()", ()): "STETH / ETH",
         (cl, ROUND, ()): (5, 10**18, 0, TS, 5),
     }, timestamp=TS)
@@ -44,7 +44,7 @@ def test_wsteth_feed_links_market_feed_and_token():
     assert {t.kind for t in d.follow} == {"oracle", "token"}
 
 
-# ------------------------------------------------------------------ vault V2 → adapter → marché
+# ------------------------------------------------------------------ vault V2 → adapter → market
 def _vault_world():
     vault, holder, asset, adapter, coll, oracle, irm, morpho, curator = (addr(i) for i in range(30, 39))
     params = (asset, coll, oracle, irm, 86 * 10**16)
@@ -52,17 +52,17 @@ def _vault_world():
     mid = bytes.fromhex(mid_hex[2:])
     shares = 7 * 10**18
     responses = {
-        # vault : 1 000 EURCV au total, dont 100 non placés (idle) ; le détenteur en a 500
+        # vault: 1,000 EURCV in total, of which 100 not placed (idle); the holder has 500
         (vault, "name()", ()): "Vault Test", (vault, "asset()", ()): asset, (vault, "totalAssets()", ()): 1000 * 10**6,
         (vault, "balanceOf(address)", (holder,)): shares, (vault, "convertToAssets(uint256)", (shares,)): 500 * 10**6,
         (vault, "curator()", ()): curator, (vault, "owner()", ()): curator, (vault, "liquidityAdapter()", ()): adapter,
         (vault, "adaptersLength()", ()): 1, (vault, "adapters(uint256)", (0,)): adapter,
         (vault, "forceDeallocatePenalty(address)", (adapter,)): 0,
         (asset, "decimals()", ()): 6, (asset, "symbol()", ()): "EURCV", (asset, "balanceOf(address)", (vault,)): 100 * 10**6,
-        # adapter « marché Morpho » (version actuelle) : 900 EURCV dans 1 marché
+        # "Morpho market" adapter (current version): 900 EURCV in 1 market
         (adapter, "parentVault()", ()): vault, (adapter, "marketIdsLength()", ()): 1,
         (adapter, "marketIds(uint256)", (0,)): mid_hex, (adapter, "expectedSupplyAssets(bytes32)", (mid,)): 900 * 10**6,
-        # marché : 1 000 fournis, 900 empruntés → seulement 100 de liquidité disponible
+        # market: 1,000 supplied, 900 borrowed → only 100 of liquidity available
         (morpho, "idToMarketParams(bytes32)", (mid,)): params,
         (morpho, "market(bytes32)", (mid,)): (1000 * 10**6, 1000 * 10**12, 900 * 10**6, 900 * 10**12, TS, 0),
         (coll, "symbol()", ()): "WBTC", (coll, "decimals()", ()): 8,
@@ -75,17 +75,17 @@ def test_vault_v2_allocation_weights_and_exit_liquidity():
     d = discover_vault_v2(ctx, vault, holder)
     edges = {(e.from_key, e.to_key, e.type): e for e in d.edges}
 
-    assert (POSITION_KEY, vault, "deployed_in") in edges                 # détenteur → vault (balanceOf)
-    alloc = edges[(vault, market_key(mid_hex), "deployed_in")]          # vault → marché, poids = part du vault
+    assert (POSITION_KEY, vault, "deployed_in") in edges                 # holder → vault (balanceOf)
+    alloc = edges[(vault, market_key(mid_hex), "deployed_in")]          # vault → market, weight = vault's share
     assert abs(alloc.weight - 0.9) < 1e-9 and "expectedSupplyAssets" in alloc.evidence
 
     v = next(n for n in d.nodes if n.key == vault).meta
-    # retirable = idle 100 + min(900 fournis, 100 de liquidité du marché) = 200 → 40 % de la poche (500)
+    # withdrawable = idle 100 + min(900 supplied, 100 of market liquidity) = 200 → 40% of the pocket (500)
     assert v["exit_liquidity"]["withdrawable_now_human"] == 200
     assert v["exit_liquidity"]["covers_holder_share"] == 0.4
     assert v["holder_share_of_vault"] == 0.5
 
     cur = next(n for n in d.nodes if n.type == "issuer")
-    assert cur.meta["unresolved"] and cur.meta["curator_address"] == curator   # identité NON devinée
+    assert cur.meta["unresolved"] and cur.meta["curator_address"] == curator   # identity NOT guessed
     assert any(e.type == "issued_by" and "curator()" in e.evidence for e in d.edges)
-    assert not any(t.kind == "vaults_lookup" for t in d.follow)               # co-prêteurs exclus
+    assert not any(t.kind == "vaults_lookup" for t in d.follow)               # co-lenders excluded

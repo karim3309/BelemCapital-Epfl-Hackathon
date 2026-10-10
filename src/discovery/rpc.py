@@ -1,15 +1,15 @@
-"""Connexion RPC Ethereum, avec cache disque branché AU NIVEAU DU PROVIDER.
+"""Ethereum RPC connection, with the disk cache plugged in AT THE PROVIDER LEVEL.
 
-Pourquoi au niveau du provider ? Parce que TOUT ce que fait web3.py (eth_call, eth_getCode,
-lecture d'un bloc...) passe par `make_request`. En l'interceptant ici, aucun appel ne peut
-« oublier » le cache : c'est une garantie structurelle, pas une discipline.
+Why at the provider level? Because EVERYTHING web3.py does (eth_call, eth_getCode,
+reading a block...) goes through `make_request`. Intercepting it here means no call can
+"forget" the cache: it is a structural guarantee, not a discipline.
 
-Règle de cache :
-  - méthodes statiques (eth_chainId)                 → toujours cachées ;
-  - méthodes lues À UN BLOC PRÉCIS (eth_call, ...)    → cachées (le résultat ne change plus jamais) ;
-  - tout appel à "latest"/"pending"                  → jamais caché (le résultat bouge),
-    et INTERDIT en mode offline. On résout "latest" une seule fois au démarrage, puis on fige.
-  - un `revert` est un résultat déterministe → on le cache aussi (les sondes de fonctions en dépendent).
+Cache rule:
+  - static methods (eth_chainId)                     → always cached;
+  - methods read AT A SPECIFIC BLOCK (eth_call, ...) → cached (the result never changes again);
+  - any call at "latest"/"pending"                   → never cached (the result moves),
+    and FORBIDDEN in offline mode. "latest" is resolved once at startup, then pinned.
+  - a `revert` is a deterministic result → it is cached too (function probes rely on it).
 """
 from __future__ import annotations
 
@@ -27,7 +27,7 @@ from .cache import CacheMissError, DiskCache
 log = logging.getLogger(__name__)
 
 STATIC_METHODS = {"eth_chainId", "net_version"}
-# méthode → index du paramètre "bloc"
+# method → index of the "block" parameter
 BLOCK_PARAM_INDEX = {
     "eth_call": 1,
     "eth_getCode": 1,
@@ -62,12 +62,12 @@ def _is_pinned(method: str, params: Any) -> bool:
 
 
 class CachedHTTPProvider(HTTPProvider):
-    """HTTPProvider qui lit/écrit data/cache/rpc/ avant de toucher au réseau."""
+    """HTTPProvider that reads/writes data/cache/rpc/ before touching the network."""
 
     _ids = itertools.count(1)
 
     def __init__(self, endpoint_uri: str | None, cache: DiskCache, max_retries: int = 4, **kwargs):
-        # En offline sans URL, on met une URL factice : elle ne sera jamais appelée.
+        # Offline without a URL, use a dummy URL: it will never be called.
         super().__init__(endpoint_uri or "http://offline.invalid", request_kwargs={"timeout": 30}, **kwargs)
         self.has_endpoint = endpoint_uri is not None
         self.cache = cache
@@ -78,7 +78,7 @@ class CachedHTTPProvider(HTTPProvider):
         params = list(params) if isinstance(params, tuple) else params
         if _is_pinned(method, params):
             payload = {"method": method, "params": params}
-            entry = self.cache.get("rpc", payload)  # lève CacheMissError en offline
+            entry = self.cache.get("rpc", payload)  # raises CacheMissError when offline
             if entry is not None:
                 return {"jsonrpc": "2.0", "id": next(self._ids), **entry["response"]}
             response = self._network(method, params)
@@ -90,12 +90,12 @@ class CachedHTTPProvider(HTTPProvider):
                 raise RpcError(self._explain(method, params, response.get("error")))
             return response
         if self.cache.offline:
-            raise OfflineError(f"[offline] appel non figé interdit : {method} {params} (le bloc doit être un nombre)")
+            raise OfflineError(f"[offline] unpinned call not allowed: {method} {params} (the block must be a number)")
         return self._network(method, params)
 
     def _network(self, method, params):
         if not self.has_endpoint:
-            raise OfflineError("Aucun ETH_RPC_URL défini (.env) — impossible de compléter le cache")
+            raise OfflineError("No ETH_RPC_URL set (.env) — cannot fill the cache")
         delay = 1.0
         for attempt in range(self.max_retries + 1):
             try:
@@ -106,15 +106,15 @@ class CachedHTTPProvider(HTTPProvider):
                     raise _Transient(str(err))
                 return response
             except (_Transient, requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
-                log.warning("RPC transitoire (%s), nouvel essai dans %.0fs", e, delay)
+                log.warning("Transient RPC error (%s), retrying in %.0fs", e, delay)
             except requests.exceptions.HTTPError as e:
                 status = e.response.status_code if e.response is not None else None
                 if status not in (429, 500, 502, 503, 504) or attempt >= self.max_retries:
                     raise RpcError(self._explain(method, params, {"message": str(e)})) from e
-                log.warning("RPC HTTP %s, nouvel essai dans %.0fs", status, delay)
+                log.warning("RPC HTTP %s, retrying in %.0fs", status, delay)
             time.sleep(delay)
             delay *= 2
-        raise RpcError(f"RPC injoignable après {self.max_retries} essais : {method}")
+        raise RpcError(f"RPC unreachable after {self.max_retries} attempts: {method}")
 
     @staticmethod
     def _is_transient(err: dict) -> bool:
@@ -126,9 +126,9 @@ class CachedHTTPProvider(HTTPProvider):
         msg = str((error or {}).get("message", error))
         hint = ""
         if any(s in msg.lower() for s in ("header not found", "missing trie node", "historical", "archive", "403")):
-            hint = (" → ce bloc est trop ancien pour ce RPC (nœud non-archive). "
-                    "Utilisez un RPC archive, ou snapshot_block: latest.")
-        return f"Erreur RPC sur {method} {str(params)[:160]} : {msg}{hint}"
+            hint = (" → this block is too old for this RPC (non-archive node). "
+                    "Use an archive RPC, or snapshot_block: latest.")
+        return f"RPC error on {method} {str(params)[:160]}: {msg}{hint}"
 
 
 class _Transient(Exception):
@@ -141,19 +141,19 @@ def make_web3(rpc_url: str | None, cache: DiskCache) -> Web3:
 
 
 def resolve_snapshot_block(w3: Web3, snapshot: int | str, offline: bool) -> int:
-    """Transforme "latest" en numéro de bloc. Une seule fois par exécution."""
+    """Turns "latest" into a block number. Once per run."""
     if isinstance(snapshot, int):
         return snapshot
     if offline:
-        raise OfflineError("snapshot_block: latest est impossible en offline — figez un numéro de bloc dans config.yaml")
-    # On recule de 2 blocs pour éviter un bloc pas encore propagé chez tous les nœuds.
+        raise OfflineError("snapshot_block: latest is impossible offline — pin a block number in config.yaml")
+    # Step back 2 blocks to avoid a block not yet propagated to every node.
     return int(w3.eth.block_number) - 2
 
 
 def check_chain(w3: Web3, expected_chain_id: int) -> int:
     chain_id = int(w3.eth.chain_id)
     if chain_id != expected_chain_id:
-        raise RpcError(f"Mauvaise chaîne : chainId={chain_id}, attendu {expected_chain_id}")
+        raise RpcError(f"Wrong chain: chainId={chain_id}, expected {expected_chain_id}")
     return chain_id
 
 

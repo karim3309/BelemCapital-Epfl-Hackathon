@@ -1,6 +1,6 @@
-"""Tests du scan de portefeuille (étape 2) — SANS réseau : FakeCtx + fausse API.
+"""Portfolio scan tests (step 2) — WITHOUT network: FakeCtx + fake API.
 
-Le test marqué `online` relit le vrai mainnet (STACKTRACE_ONLINE_TESTS=1).
+The test marked `online` re-reads the real mainnet (STACKTRACE_ONLINE_TESTS=1).
 """
 import os
 from types import SimpleNamespace
@@ -40,9 +40,9 @@ def api_item(assets_raw, assets_usd):
 
 
 def test_to_assets_down_matches_morpho_sharesmath():
-    # 1e6 parts virtuelles / 1 actif virtuel : un marché vide convertit 1e6 parts en 1 actif
+    # 1e6 virtual shares / 1 virtual asset: an empty market converts 1e6 shares into 1 asset
     assert pf.to_assets_down(10**6, 0, 0) == 1
-    assert pf.to_assets_down(10**6, 10, 10**6) == 5          # 10**6 × 11 / (2·10**6) = 5,5 → arrondi vers le bas
+    assert pf.to_assets_down(10**6, 10, 10**6) == 5          # 10**6 × 11 / (2·10**6) = 5.5 → rounded down
 
 
 def test_usd_per_unit_from_api_ratio():
@@ -52,13 +52,13 @@ def test_usd_per_unit_from_api_ratio():
 
 def test_prove_vault_reads_the_chain_not_the_api():
     ctx = vault_ctx(assets=1_000_000 * 10**6)
-    # l'API annonce 990 000 : la chaîne dit 1 000 000 → on garde la chaîne et on mesure l'écart
+    # the API announces 990,000: the chain says 1,000,000 → we keep the chain and measure the gap
     h = pf.prove_vault(ctx, HOLDER, api_item(990_000 * 10**6, 990_000.0), "v2", "API test")
     assert h.amount == 1_000_000
     assert h.price_usd == pytest.approx(1.0)
     assert h.value_usd == pytest.approx(1_000_000)
     assert h.api_gap == pytest.approx(0.01)
-    assert any("balanceOf" in e and "#100" in e for e in h.evidence)     # preuve datée au bloc figé
+    assert any("balanceOf" in e and "#100" in e for e in h.evidence)     # evidence dated at the pinned block
 
 
 def test_scan_filters_empty_positions_and_computes_book_shares():
@@ -72,23 +72,23 @@ def test_scan_filters_empty_positions_and_computes_book_shares():
     empty = vault_ctx(shares=0)
     empty.http = ctx.http
     p0 = pf.scan_holder(empty, HOLDER)
-    assert p0.holdings == [] and p0.ignored and "vide" in p0.ignored[0]["reason"]
+    assert p0.holdings == [] and p0.ignored and "empty" in p0.ignored[0]["reason"]
 
 
 def test_scan_unknown_holder_is_not_an_error():
     ctx = vault_ctx()
     ctx.http = FakeHttp({"errors": [{"message": "No results matching given parameters"}]})
     p = pf.scan_holder(ctx, HOLDER)
-    assert p.holdings == [] and "aucune position" in p.notes[-1]
+    assert p.holdings == [] and "no position" in p.notes[-1]
 
 
-@pytest.mark.skipif(os.getenv("STACKTRACE_ONLINE_TESTS") != "1", reason="test réseau (STACKTRACE_ONLINE_TESTS=1)")
+@pytest.mark.skipif(os.getenv("STACKTRACE_ONLINE_TESTS") != "1", reason="network test (STACKTRACE_ONLINE_TESTS=1)")
 def test_scan_real_holder_live():
     from stacktrace.session import open_session
     s = open_session()
-    # Déposant principal du vault « Belem RWA EURCV » (API Morpho, vault listé sur le dashboard Dune RockawayX)
+    # Main depositor of the "Belem RWA EURCV" vault (Morpho API, vault listed on the RockawayX Dune dashboard)
     p = pf.scan_holder(s.ctx, "0x4F87De7d21aeF48090958f7342E1F69Dff790545", s.chain_id)
-    assert p.holdings, "au moins une poche attendue"
+    assert p.holdings, "at least one pocket expected"
     assert all(h.evidence for h in p.holdings)
     vaults = [h for h in p.holdings if h.kind.startswith("morpho_vault")]
     assert all(h.api_gap is None or h.api_gap < 0.01 for h in vaults)

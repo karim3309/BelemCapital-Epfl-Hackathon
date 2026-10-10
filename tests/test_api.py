@@ -1,4 +1,4 @@
-"""API v2 — routes, codes d'erreur et cache, SANS réseau (session, scan et analyse remplacés par des faux)."""
+"""API v2 — routes, error codes and cache, WITHOUT network (session, scan and analysis replaced by fakes)."""
 from types import SimpleNamespace
 
 import pytest
@@ -12,7 +12,7 @@ HOLDER = "0x" + "ab" * 20
 
 
 def holding(i: int, kind="morpho_vault_v2") -> Holding:
-    return Holding(id=f"{kind}:0x{i:040x}", kind=kind, label=f"Poche {i}", protocol="morpho", chain="ethereum",
+    return Holding(id=f"{kind}:0x{i:040x}", kind=kind, label=f"Pocket {i}", protocol="morpho", chain="ethereum",
                    address=f"0x{i:040x}", market_id=None, asset_symbol="USDC", asset_address="0x" + "0" * 40,
                    amount=100.0, price_usd=1.0, value_usd=100.0 * i, price_source="test", share_of_book=0.5)
 
@@ -35,7 +35,7 @@ def client(monkeypatch):
                 "_graph": {"position": {"id": "p"}, "nodes": [], "edges": []}, "_events": [], "_exit": None,
                 "_holding": h}
     monkeypatch.setattr(api, "analyze_pocket", fake_analyze)
-    api.STATE.__init__()                      # état neuf à chaque test
+    api.STATE.__init__()                      # fresh state for every test
     return TestClient(api.app), calls
 
 
@@ -52,8 +52,8 @@ def test_risk_by_index_or_id_and_cached_per_block(client):
     assert c.get(f"/holders/{HOLDER}/pockets/1/risk").json()["decision"]["verdict"] == "STAY"
     pid = holding(1).id
     r = c.get(f"/holders/{HOLDER}/pockets/{pid}/risk").json()
-    assert r["pocket"]["id"] == pid and "_graph" not in r          # objets internes jamais exposés
-    assert calls["analyze"] == 1                                    # 2e appel : cache du bloc
+    assert r["pocket"]["id"] == pid and "_graph" not in r          # internal objects never exposed
+    assert calls["analyze"] == 1                                    # 2nd call: block cache
 
 
 def test_unknown_pocket_is_404_with_the_list(client):
@@ -90,7 +90,7 @@ def test_book_aggregates_all_pockets(client):
 
 def test_rpc_down_is_503(monkeypatch):
     def boom():
-        raise api.SessionError("ETH_RPC_URL est vide")
+        raise api.SessionError("ETH_RPC_URL is empty")
     monkeypatch.setattr(api, "open_session", boom)
     api.STATE.__init__()
     r = TestClient(api.app).get(f"/holders/{HOLDER}/pockets")

@@ -1,16 +1,16 @@
-"""Étape 5 — pour un détenteur réel : chaque poche → graphe → incidents → pertes → coût de sortie → STAY / EXIT.
+"""Step 5 — for a real holder: each pocket → graph → incidents → losses → exit cost → STAY / EXIT.
 
-    PYTHONPATH=src python -m stacktrace.analyze 0xDétenteur                       # tout le portefeuille
-    PYTHONPATH=src python -m stacktrace.analyze 0xDétenteur --pocket "Belem RWA"  # une poche
-    PYTHONPATH=src python -m stacktrace.analyze 0xDétenteur --pocket "Belem RWA" --list-incidents
-    PYTHONPATH=src python -m stacktrace.analyze 0xDétenteur --pocket "Belem RWA" --incident rwa_credit_event:mgloeuro --severity 0.3 --p 0.2
+    PYTHONPATH=src python -m stacktrace.analyze 0xHolder                       # the whole portfolio
+    PYTHONPATH=src python -m stacktrace.analyze 0xHolder --pocket "Belem RWA"  # one pocket
+    PYTHONPATH=src python -m stacktrace.analyze 0xHolder --pocket "Belem RWA" --list-incidents
+    PYTHONPATH=src python -m stacktrace.analyze 0xHolder --pocket "Belem RWA" --incident rwa_credit_event:mgloeuro --severity 0.3 --p 0.2
 
-LA RÈGLE DE DÉCISION (brief Belem + cadrage §4.4)
-    Rester coûte une perte INCERTAINE, sortir coûte un montant CERTAIN.
-    On choisit la fraction f à sortir maintenant qui minimise   coût_sortie(f) + perte_attendue × (1 − f)
-    avec f ≤ f_max (ce qui est sortable tout de suite).  f* > 0 → EXIT (f*),  sinon STAY.
-    Pour un incident donné :  p* = coût_sortie / perte_si_incident  — « sortez si vous croyez à plus de p* ».
-    p* ne dépend PAS de nos probabilités (hypothèses) : seulement de la perte et du coût, qui sont mesurés.
+THE DECISION RULE (Belem brief + framing note §4.4)
+    Staying costs an UNCERTAIN loss, exiting costs a CERTAIN amount.
+    We pick the fraction f to exit now that minimises   exit_cost(f) + expected_loss × (1 − f)
+    with f ≤ f_max (what can be exited right away).  f* > 0 → EXIT (f*),  otherwise STAY.
+    For a given incident:  p* = exit_cost / loss_if_incident  — "exit if you believe in more than p*".
+    p* does NOT depend on our probabilities (hypotheses): only on the loss and the cost, which are measured.
 """
 from __future__ import annotations
 
@@ -36,7 +36,7 @@ from .risk_engine import BorrowPocket, Event, VaultPocket, borrow_events, monte_
 F_STEP = 0.05
 
 
-# ----------------------------------------------------------------------------- décision
+# ----------------------------------------------------------------------------- decision
 def best_fraction(exit_m: ExitModel, loss_usd: float) -> tuple[float, float]:
     grid = sorted(set([round(x, 4) for x in np.arange(0, exit_m.f_max + 1e-9, F_STEP)] + [round(exit_m.f_max, 4)]))
     best = (0.0, loss_usd)
@@ -48,7 +48,7 @@ def best_fraction(exit_m: ExitModel, loss_usd: float) -> tuple[float, float]:
 
 
 def p_star(exit_m: ExitModel, lgi_usd: float) -> float | None:
-    """Probabilité au-delà de laquelle sortir (f_max) coûte moins que rester."""
+    """Probability above which exiting (f_max) costs less than staying."""
     f = exit_m.f_max
     if f <= 0 or lgi_usd <= 0:
         return None
@@ -56,54 +56,54 @@ def p_star(exit_m: ExitModel, lgi_usd: float) -> float | None:
 
 
 def usd(x: float) -> str:
-    return f"{x:,.0f} $".replace(",", " ")
+    return ("-" if x < 0 else "") + f"${abs(x):,.0f}"
 
 
 def pct(x: float | None, d: int = 1) -> str:
-    return "—" if x is None else f"{x * 100:.{d}f} %".replace(".", ",")
+    return "—" if x is None else f"{x * 100:.{d}f}%"
 
 
 def prob(x: float | None, d: int, days: float) -> str:
-    """Probabilité sur l'horizon + fréquence parlante : « 0,10 % (≈ une fois tous les 20 ans) »."""
+    """Probability over the horizon + telling frequency: "0.10% (≈ once every 20 years)"."""
     freq = every(x, days)
     return pct(x, d) + (f" ({freq})" if freq else "")
 
 
-def soit(x: float | None, days: float) -> str:
-    """Fréquence à glisser DANS une parenthèse : « , soit ≈ une fois tous les 20 ans »."""
+def ie(x: float | None, days: float) -> str:
+    """Frequency to slip INTO a parenthesis: ", i.e. ≈ once every 20 years"."""
     freq = every(x, days)
-    return f", soit {freq}" if freq else ""
+    return f", i.e. {freq}" if freq else ""
 
 
 def verdict_sentence(v: str, f: float, f_max: float, el: float, exit_cost: float, top: dict | None,
                      days: float = 7.0) -> str:
-    """Compare ce que la sortie ÉVITE (perte attendue × part sortable) à ce qu'elle COÛTE."""
+    """Compares what the exit AVOIDS (expected loss × exitable share) with what it COSTS."""
     if v == "STAY":
         avoided = el * f_max
-        scope = "" if f_max >= 0.999 else f" (seuls {pct(f_max, 0)} sont sortables maintenant)"
-        s = (f"STAY — sortir{scope} éviterait {usd(avoided)} de perte attendue sur l'horizon, "
-             f"mais coûterait {usd(exit_cost)}.")
+        scope = "" if f_max >= 0.999 else f" (only {pct(f_max, 0)} can be exited now)"
+        s = (f"STAY — exiting{scope} would avoid {usd(avoided)} of expected loss over the horizon, "
+             f"but would cost {usd(exit_cost)}.")
         if top and top.get("p_star") is not None and top["p_star"] < 1:
-            s += (f" Sortez si vous estimez à plus de {prob(top['p_star'], 1, days)} le risque « {top['title']} » "
-                  f"(notre estimation : {pct(top['p_horizon'], 2)}{soit(top['p_horizon'], days)}).")
+            s += (f" Exit if you put the risk \"{top['title']}\" above {prob(top['p_star'], 1, days)} "
+                  f"(our estimate: {pct(top['p_horizon'], 2)}{ie(top['p_horizon'], days)}).")
         elif top and top.get("p_star") is not None:
-            s += f" Même certain, « {top['title']} » coûterait moins que la sortie : rester est toujours mieux."
+            s += f" Even if certain, \"{top['title']}\" would cost less than exiting: staying is always better."
         elif f_max <= 0:
-            s += " Sortie impossible par le marché maintenant (aucune liquidité / glissement excessif)."
+            s += " Exit through the market impossible right now (no liquidity / excessive slippage)."
         return s
-    part = "" if f >= 0.999 else f" {pct(f, 0)} de la poche (maximum sortable maintenant : {pct(f_max, 0)})"
-    return (f"EXIT{part} — la perte attendue évitée ({usd(el * f)}) dépasse le coût de sortie ({usd(exit_cost)})"
-            + (f" ; risque principal : « {top['title']} »." if top else "."))
+    part = "" if f >= 0.999 else f" {pct(f, 0)} of the pocket (maximum exitable now: {pct(f_max, 0)})"
+    return (f"EXIT{part} — the expected loss avoided ({usd(el * f)}) exceeds the exit cost ({usd(exit_cost)})"
+            + (f"; main risk: \"{top['title']}\"." if top else "."))
 
 
 def path_text(g: G, target: str) -> str:
     path = g.path_to(target)
     if not path:
-        return "(hors du chemin direct)"
+        return "(off the direct path)"
     return " → ".join([g.raw["position"]["id"][:18] + "…"] + [f"[{e['type']}] {g.nodes[e['to']]['label']}" for e in path])
 
 
-# ----------------------------------------------------------------------------- une poche
+# ----------------------------------------------------------------------------- one pocket
 def analyze_pocket(s, h: Holding, holder: str, p, days: float, incident: str | None = None,
                    severity: float | None = None, p_incident: float | None = None) -> dict:
     graph, _ = build_position_graph(s, h, holder)
@@ -182,7 +182,7 @@ class UnknownIncident(LookupError):
 
 def incident_decision(report: dict, p, incident: str, severity: float | None = None,
                       p_incident: float | None = None) -> dict:
-    """Mode incident : réutilise les incidents et le coût de sortie DÉJÀ calculés (aucun nouvel appel réseau)."""
+    """Incident mode: reuses the incidents and the exit cost ALREADY computed (no new network call)."""
     events, exit_m, h = report["_events"], report["_exit"], report["_holding"]
     g = G(report["_graph"])
     ev = next((e for e in events if e.id.lower().startswith(incident.lower())), None)
@@ -197,31 +197,31 @@ def incident_decision(report: dict, p, incident: str, severity: float | None = N
     return {
         "incident": ev.id, "title": ev.title, "severity": sev, "loss_if_incident_usd": lgi,
         "loss_if_incident_pct": lgi / (h.value_usd or 1), "p_used": pi,
-        "p_source": "manager" if p_incident is not None else "hypothèse par défaut (params_v2.yaml)",
+        "p_source": "manager" if p_incident is not None else "default hypothesis (params_v2.yaml)",
         "p_star": ps, "verdict": vi, "exit_fraction": fi, "rule": ev.rule, "contagion_path": path_text(g, ev.target),
         "contagion_edges": g.path_to(ev.target),
-        "sentence": (f"{vi}{'' if fi in (0, 1) else f' {pct(fi, 0)}'} — si « {ev.title} » (sévérité {pct(sev, 0)}) se produit, "
-                     f"la poche perd {usd(lgi)} ({pct(lgi / (h.value_usd or 1))}). Sortir maintenant coûte "
+        "sentence": (f"{vi}{'' if fi in (0, 1) else f' {pct(fi, 0)}'} — if \"{ev.title}\" (severity {pct(sev, 0)}) happens, "
+                     f"the pocket loses {usd(lgi)} ({pct(lgi / (h.value_usd or 1))}). Exiting now costs "
                      f"{usd(exit_m.cost(max(exit_m.f_max, 1e-9)))}"
-                     + (f" et ne couvre que {pct(exit_m.f_max, 0)} de la poche" if exit_m.f_max < 0.999 else "")
-                     + (f". Seuil : sortez si vous croyez à plus de {prob(ps, 1, report['monte_carlo']['horizon_days'])} "
-                        "de chances." if ps is not None
-                        else ". Sortie impossible maintenant (aucune liquidité).")),
+                     + (f" and only covers {pct(exit_m.f_max, 0)} of the pocket" if exit_m.f_max < 0.999 else "")
+                     + (f". Threshold: exit if you believe there is more than a {prob(ps, 1, report['monte_carlo']['horizon_days'])} "
+                        "chance." if ps is not None
+                        else ". Exit impossible right now (no liquidity).")),
     }
 
 
 def public(report: dict) -> dict:
-    """Le rapport sans les objets internes (clés « _… ») : ce qui part en JSON."""
+    """The report without the internal objects ("_…" keys): what goes out as JSON."""
     return {k: v for k, v in report.items() if not k.startswith("_")}
 
 
-# ----------------------------------------------------------------------------- portefeuille
+# ----------------------------------------------------------------------------- portfolio
 def shared_dependencies(reports: list[dict]) -> list[dict]:
-    """Dépendances communes à plusieurs poches (même adresse) : la concentration cachée du portefeuille."""
+    """Dependencies shared by several pockets (same address): the portfolio's hidden concentration."""
     seen = defaultdict(lambda: {"label": None, "type": None, "pockets": set(), "value_usd": 0.0})
     for r in reports:
         for n in r["_graph"]["nodes"]:
-            # un marché Morpho a l'adresse du contrat unique : on l'identifie par son marketId
+            # a Morpho market has the singleton contract's address: identify it by its marketId
             key = n["meta"].get("market_id") if n["type"] == "lending_market" else (n.get("address") or n["id"])
             if n["type"] == "chain":
                 continue
@@ -237,34 +237,34 @@ def shared_dependencies(reports: list[dict]) -> list[dict]:
 
 def print_pocket(r: dict) -> None:
     pk, mc, ex, dec = r["pocket"], r["monte_carlo"], r["exit"], r["decision"]
-    print(f"\n━━━ {pk['label']} · {usd(pk['value_usd'] or 0)} ({pct(pk['share_of_book'])} du portefeuille) ━━━")
-    print(f"  graphe {r['graph']['nodes']} nœuds / {r['graph']['edges']} arêtes")
+    print(f"\n━━━ {pk['label']} · {usd(pk['value_usd'] or 0)} ({pct(pk['share_of_book'])} of the portfolio) ━━━")
+    print(f"  graph {r['graph']['nodes']} nodes / {r['graph']['edges']} edges")
     for m in r["markets"]:
-        print(f"  · {m['label'][12:60]:48s} prix collatéral : {m['collateral_pricing']:13s} util. {pct(m['utilization'], 0):>6s} "
-              f"{m['borrowers']:>3d} emprunteurs")
-    print(f"  Perte attendue ({mc['horizon_days']:.0f} j) : {usd(mc['expected_loss_usd'])} · proba d'une perte : "
+        print(f"  · {m['label'][12:60]:48s} collateral price: {m['collateral_pricing']:13s} util. {pct(m['utilization'], 0):>6s} "
+              f"{m['borrowers']:>3d} borrowers")
+    print(f"  Expected loss ({mc['horizon_days']:.0f} d): {usd(mc['expected_loss_usd'])} · probability of a loss: "
           f"{pct(mc['p_any_loss'], 2)} · VaR 99,9 % : {usd(mc['var999_usd'])}"
-          f" · coût de sortie : {usd(ex['cost_full_usd'])} ({pct(ex['cost_full_pct'], 2)}) · sortable maintenant : {pct(ex['f_max_now'], 0)}")
-    print("  Principaux risques (perte si l'incident arrive · p* = seuil de sortie) :")
+          f" · exit cost: {usd(ex['cost_full_usd'])} ({pct(ex['cost_full_pct'], 2)}) · exitable now: {pct(ex['f_max_now'], 0)}")
+    print("  Main risks (loss if the incident happens · p* = exit threshold):")
     for row in [x for x in r["incidents"] if x["loss_if_incident_usd"] > 0][:4]:
         print(f"    - {row['title'][:62]:62s} {usd(row['loss_if_incident_usd']):>14s}   p* {pct(row['p_star']):>8s}")
     print(f"  ➜ {dec['sentence']}")
     if "incident_mode" in r:
         im = r["incident_mode"]
-        print(f"\n  ⚡ INCIDENT : {im['sentence']}\n     chemin : {im['contagion_path']}\n     règle : {im['rule']}")
+        print(f"\n  ⚡ INCIDENT: {im['sentence']}\n     path: {im['contagion_path']}\n     rule: {im['rule']}")
 
 
 def main(argv: list[str] | None = None) -> int:
     from .session import SessionError, open_session
     utf8_console()
     logging.basicConfig(level=logging.ERROR)
-    ap = argparse.ArgumentParser(description="Risque et décision STAY / EXIT pour les poches d'un détenteur réel.")
+    ap = argparse.ArgumentParser(description="Risk and STAY / EXIT decision for the pockets of a real holder.")
     ap.add_argument("holder")
-    ap.add_argument("--pocket", help="numéro ou morceau du nom d'une poche (défaut : tout le portefeuille)")
-    ap.add_argument("--horizon", type=float, help="horizon en jours (défaut : params_v2.yaml)")
-    ap.add_argument("--incident", help="id (ou début d'id) d'un incident en cours, voir --list-incidents")
-    ap.add_argument("--severity", type=float, help="sévérité de l'incident (0–1)")
-    ap.add_argument("--p", type=float, help="votre probabilité que l'incident se matérialise (0–1)")
+    ap.add_argument("--pocket", help="number or part of the name of a pocket (default: the whole portfolio)")
+    ap.add_argument("--horizon", type=float, help="horizon in days (default: params_v2.yaml)")
+    ap.add_argument("--incident", help="id (or start of id) of an ongoing incident, see --list-incidents")
+    ap.add_argument("--severity", type=float, help="incident severity (0–1)")
+    ap.add_argument("--p", type=float, help="your probability that the incident materialises (0–1)")
     ap.add_argument("--list-incidents", action="store_true")
     a = ap.parse_args(argv)
     try:
@@ -276,23 +276,23 @@ def main(argv: list[str] | None = None) -> int:
     days = a.horizon or p["horizon_days"]
     port = scan_holder(s.ctx, a.holder, s.chain_id)
     pockets = [pick(port.holdings, a.pocket)] if a.pocket else port.holdings
-    print(f"{s.describe()}\nDétenteur {port.holder} · {len(port.holdings)} poches · {usd(port.total_value_usd)} · horizon {days:.0f} j")
+    print(f"{s.describe()}\nHolder {port.holder} · {len(port.holdings)} pockets · {usd(port.total_value_usd)} · horizon {days:.0f} d")
 
     reports = []
     for h in pockets:
         try:
             r = analyze_pocket(s, h, port.holder, p, days, a.incident, a.severity, a.p)
         except UnknownIncident:
-            print(f"incident « {a.incident} » inconnu pour « {h.label} ». Utilisez --list-incidents.")
+            print(f"incident \"{a.incident}\" unknown for \"{h.label}\". Use --list-incidents.")
             return 1
         except NotImplementedError as e:
-            print(f"\n━━━ {h.label} : ignorée ({e})")
+            print(f"\n━━━ {h.label}: skipped ({e})")
             continue
         reports.append(r)
         if a.list_incidents:
-            print(f"\nIncidents générés pour « {h.label} » :")
+            print(f"\nIncidents generated for \"{h.label}\":")
             for row in r["incidents"]:
-                print(f"  {row['id'][:60]:60s} perte si incident {usd(row['loss_if_incident_usd']):>14s}  ({row['title'][:50]})")
+                print(f"  {row['id'][:60]:60s} loss if incident {usd(row['loss_if_incident_usd']):>14s}  ({row['title'][:50]})")
             continue
         print_pocket(r)
 
@@ -302,18 +302,18 @@ def main(argv: list[str] | None = None) -> int:
                 "expected_loss_usd": sum(r["monte_carlo"]["expected_loss_usd"] for r in reports),
                 "exits": [r["pocket"]["label"] for r in reports if r["decision"]["verdict"] == "EXIT"],
                 "shared_dependencies": shared_dependencies(reports)[:12]}
-        print(f"\n━━━ PORTEFEUILLE : perte attendue {usd(book['expected_loss_usd'])} sur {usd(book['total_value_usd'])} · "
-              f"EXIT recommandé : {', '.join(book['exits']) or 'aucune poche'}")
-        print("  Dépendances partagées par plusieurs poches (concentration cachée) :")
+        print(f"\n━━━ PORTFOLIO: expected loss {usd(book['expected_loss_usd'])} out of {usd(book['total_value_usd'])} · "
+              f"EXIT recommended: {', '.join(book['exits']) or 'no pocket'}")
+        print("  Dependencies shared by several pockets (hidden concentration):")
         for d in book["shared_dependencies"][:8]:
-            print(f"    - {d['dependency'][:40]:40s} [{d['type']:14s}] {d['pockets']} poches · {usd(d['exposed_value_usd'])} exposés")
+            print(f"    - {d['dependency'][:40]:40s} [{d['type']:14s}] {d['pockets']} pockets · {usd(d['exposed_value_usd'])} exposed")
 
     out = OUTPUT_DIR / f"risk_{port.holder.lower()}.json"
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps({"holder": port.holder, "block": s.block, "horizon_days": days, "book": book,
                                "pockets": [public(r) for r in reports],
                                "assumptions": p.listing()}, indent=1, ensure_ascii=False, default=float), encoding="utf-8")
-    print(f"\n→ {out.relative_to(REPO_ROOT)}  ({s.network_calls} appels RPC réseau)")
+    print(f"\n→ {out.relative_to(REPO_ROOT)}  ({s.network_calls} network RPC calls)")
     return 0
 
 

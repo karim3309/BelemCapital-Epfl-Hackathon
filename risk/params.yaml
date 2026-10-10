@@ -1,51 +1,51 @@
 # =====================================================================
-#  StackTrace — PARAMÈTRES DU MOTEUR DE RISQUE
+#  StackTrace — RISK ENGINE PARAMETERS
 # =====================================================================
-# Chaque paramètre a OBLIGATOIREMENT un statut (le chargeur src/risk/params.py refuse sinon) :
+# Every parameter MUST have a status (the loader src/risk/params.py refuses otherwise):
 #
-#   source: https://...   + as_of: AAAA-MM-JJ   → chiffre/formule lu dans une doc officielle
-#   source: onchain       + field: <chemin>     → valeur lue dans output/graph.json ou output/risk_inputs.json
-#   hypothesis: true      + why: "<1 phrase>"   → choix de modélisation de NOTRE équipe, assumé et affiché
+#   source: https://...   + as_of: YYYY-MM-DD   → number/formula read in official docs
+#   source: onchain       + field: <path>       → value read in output/graph.json or output/risk_inputs.json
+#   hypothesis: true      + why: "<1 sentence>" → modelling choice of OUR team, stated and displayed
 #
-# Règle d'or : on n'invente aucun chiffre. Quand on ne sait pas, on le DIT (hypothesis) et on
-# montre la sensibilité du résultat à ce choix (champ `range` = valeurs testées en sensibilité).
+# Golden rule: we invent no number. When we do not know, we SAY so (hypothesis) and we
+# show how sensitive the result is to that choice (`range` field = values tested in sensitivity).
 # =====================================================================
 version: 1
 
 # ---------------------------------------------------------------------------------------------
-# Décision
+# Decision
 # ---------------------------------------------------------------------------------------------
 horizon_days:
   value: 7
   hypothesis: true
-  why: "Horizon de décision d'une astreinte risque ; le cadrage le liste comme question ouverte aux mentors (24 h ou 7 jours)."
+  why: "Decision horizon of a risk on-call shift; the framing note lists it as an open question for the mentors (24 h or 7 days)."
   range: [1, 30]
 
 # ---------------------------------------------------------------------------------------------
-# Morpho Blue : liquidation (formule officielle)
+# Morpho Blue: liquidation (official formula)
 # ---------------------------------------------------------------------------------------------
 morpho_lif_beta:
   value: 0.3
   source: "https://docs.morpho.org/learn/concepts/liquidation/"
   as_of: "2026-10-10"
-  note: "LIF = min(M, 1 / (β·LLTV + (1−β))) avec β = 0,3"
+  note: "LIF = min(M, 1 / (β·LLTV + (1−β))) with β = 0.3"
 morpho_lif_max:
   value: 1.15
   source: "https://docs.morpho.org/learn/concepts/liquidation/"
   as_of: "2026-10-10"
-  note: "M = 1,15 (bonus maximal de 15 %)"
+  note: "M = 1.15 (maximum bonus of 15%)"
 liquidation_repaid_fraction:
   value: 1.0
   hypothesis: true
-  why: "La doc Morpho autorise un liquidateur à rembourser jusqu'à 100 % de la dette en une fois ; on prend ce pire cas pour l'emprunteur."
+  why: "The Morpho docs let a liquidator repay up to 100% of the debt at once; we take that worst case for the borrower."
   range: [0.5, 1.0]
 liquidator_requires_profit:
   value: true
   hypothesis: true
-  why: "Un liquidateur n'agit que si le bonus couvre le coût de revente du collatéral saisi (sinon : pas de liquidation, dette à risque chez les prêteurs)."
+  why: "A liquidator only acts if the bonus covers the cost of reselling the seized collateral (otherwise: no liquidation, debt at risk for the lenders)."
 
 # ---------------------------------------------------------------------------------------------
-# Méta-oracle (Steakhouse MetaOracleDeviationTimelock) : paramètres LUS ON-CHAIN
+# Meta-oracle (Steakhouse MetaOracleDeviationTimelock): parameters READ ON-CHAIN
 # ---------------------------------------------------------------------------------------------
 meta_oracle_deviation_formula:
   value: "abs(primary - backup) / average(primary, backup)"
@@ -63,29 +63,29 @@ meta_oracle_healing_timelock_seconds:
 challenger_delay_hours:
   value: 0
   hypothesis: true
-  why: "challenge() est sans permission (doc Steakhouse) : on suppose qu'un bot l'appelle dès que l'écart dépasse le seuil (pire cas pour l'emprunteur)."
+  why: "challenge() is permissionless (Steakhouse docs): we assume a bot calls it as soon as the deviation exceeds the threshold (worst case for the borrower)."
   range: [0, 12]
 
 # ---------------------------------------------------------------------------------------------
-# Coût de sortie C_exit
+# Exit cost C_exit
 # ---------------------------------------------------------------------------------------------
 exit_pendle_leg:
   source: onchain
   field: "inputs:exit_simulations"
-  note: "Vente PT → SY simulée au bloc figé par RouterStatic.swapExactPtForSyStatic (Pendle), plusieurs tailles."
+  note: "PT → SY sale simulated at the pinned block by RouterStatic.swapExactPtForSyStatic (Pendle), at several sizes."
 stressed_pool_scaling:
-  value: "vendre Q dans un pool k fois plus petit ≈ vendre Q/k dans le pool actuel"
+  value: "selling Q in a pool k times smaller ≈ selling Q/k in the current pool"
   hypothesis: true
-  why: "Approximation au 1er ordre valable pour un AMM ; on ne peut pas simuler on-chain un pool qui n'existe pas encore."
+  why: "First-order approximation valid for an AMM; a pool that does not exist yet cannot be simulated on-chain."
 second_leg_cost_rate:
   value: 0.0005
   hypothesis: true
-  why: "Conversion sUSDe/USDe → USDC pour rembourser la dette : pools non découverts, frais d'un pool stable de l'ordre de quelques points de base (non mesuré)."
+  why: "sUSDe/USDe → USDC conversion to repay the debt: pools not discovered, fees of a stable pool in the order of a few basis points (not measured)."
   range: [0.0, 0.005]
 unwind_gas_units:
   value: 1500000
   hypothesis: true
-  why: "Débouclage = flash-loan + remboursement Morpho + retrait + swap Pendle + swap stable ; ordre de grandeur de quelques transactions DeFi, non mesuré."
+  why: "Unwind = flash loan + Morpho repayment + withdrawal + Pendle swap + stable swap; order of magnitude of a few DeFi transactions, not measured."
   range: [500000, 3000000]
 gas_base_fee:
   source: onchain
@@ -96,115 +96,115 @@ gas_token_usd:
 carry_pt_implied_apy:
   source: onchain
   field: "graph:liquidity_venue.meta.implied_apy"
-  note: "Rendement fixe du PT abandonné si l'on sort (sur l'horizon)."
+  note: "Fixed yield of the PT forgone when exiting (over the horizon)."
 carry_borrow_apy:
   source: onchain
   field: "graph:lending_market.meta.borrow_apy"
-  note: "Coût d'emprunt économisé si l'on sort (sur l'horizon)."
+  note: "Borrowing cost saved when exiting (over the horizon)."
 
 # ---------------------------------------------------------------------------------------------
-# Transmission des chocs (propagation)
+# Shock transmission (propagation)
 # ---------------------------------------------------------------------------------------------
 pt_extra_amm_discount_under_stress:
   value: 0.0
   hypothesis: true
-  why: "Le cadrage prévoit « PT ≈ −d % plus la décote de l'AMM » ; on ne sait pas calibrer cette décote supplémentaire, valeur de base 0 et sensibilité affichée."
+  why: "The framing note expects \"PT ≈ −d% plus the AMM discount\"; we cannot calibrate that extra discount, base value 0 and sensitivity displayed."
   range: [0.0, 0.03]
 custodian_backing_share:
   value: 0.3333
   hypothesis: true
-  why: "Ethena cite 3 fournisseurs OES (Copper, Ceffu, Fireblocks) sans répartition dans notre couche curée : répartition égale supposée."
+  why: "Ethena cites 3 OES providers (Copper, Ceffu, Fireblocks) with no split in our curated layer: an equal split is assumed."
   range: [0.1, 0.6]
 exchange_exposure_share:
   value: 0.02
   hypothesis: true
-  why: "D'après Ethena, l'exposition à un exchange est limitée au PnL non réglé entre deux cycles de règlement (doc 'Exchange Failure Risk') : petite fraction des réserves."
+  why: "According to Ethena, the exposure to an exchange is limited to the unsettled PnL between two settlement cycles ('Exchange Failure Risk' docs): a small fraction of the reserves."
   range: [0.005, 0.1]
   source_context: "https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk"
 
 # ---------------------------------------------------------------------------------------------
-# Calibration de la sévérité d'un depeg USDe (historique on-chain)
+# Calibration of the severity of a USDe depeg (on-chain history)
 # ---------------------------------------------------------------------------------------------
 usde_depeg_worst_observed:
   source: onchain
   field: "inputs:calibration.usde_worst_drawdown"
-  note: "Tous les rounds du feed Chainlink USDe/USD (phases 1 et 2) lus au bloc figé : pire écart observé, temps passé sous chaque seuil."
+  note: "Every round of the Chainlink USDe/USD feed (phases 1 and 2) read at the pinned block: worst deviation observed, time spent below each threshold."
 
 # ---------------------------------------------------------------------------------------------
-# Événements racines du Monte Carlo : probabilité annuelle λ, sévérité, durée
-#   target = sélecteur de nœuds du graph.json (id, ou type + role/oracle_kind/asset_kind)
-#   Sauf mention contraire, λ est une HYPOTHÈSE d'ordre de grandeur (le dataset de hacks DeFiLlama
-#   est payant : on ne l'a pas). La décision repose sur p* qui, lui, ne dépend pas de λ.
+# Monte Carlo root events: annual probability λ, severity, duration
+#   target = node selector of graph.json (id, or type + role/oracle_kind/asset_kind)
+#   Unless stated otherwise, λ is an order-of-magnitude HYPOTHESIS (the DeFiLlama hacks dataset
+#   is paid: we do not have it). The decision relies on p*, which does not depend on λ.
 # ---------------------------------------------------------------------------------------------
 events:
   usde_market_depeg:
     target: {id: usde}
     kind: market_depeg
-    annual_rate: {source: onchain, field: "inputs:calibration.usde_depeg_annual_rate_099", method: "épisodes du feed Chainlink USDe/USD sous 0,99 $ par année observée (src/risk/calibrate.py) ; si 0 épisode : règle de 3"}
-    severity: {hypothesis: true, value: [0.005, 0.025], why: "Calée sur l'historique on-chain : pire écart Chainlink observé ≈ 2,3 % (21/02/2025)."}
-    duration_hours: {hypothesis: true, value: [0.05, 1.0], why: "Calée sur l'historique on-chain : le plus long passage sous 0,99 $ a duré ~7 min."}
+    annual_rate: {source: onchain, field: "inputs:calibration.usde_depeg_annual_rate_099", method: "episodes of the Chainlink USDe/USD feed below $0.99 per year observed (src/risk/calibrate.py); if 0 episodes: rule of 3"}
+    severity: {hypothesis: true, value: [0.005, 0.025], why: "Set from the on-chain history: worst Chainlink deviation observed ≈ 2.3% (21/02/2025)."}
+    duration_hours: {hypothesis: true, value: [0.05, 1.0], why: "Set from the on-chain history: the longest stretch below $0.99 lasted ~7 min."}
   usde_severe_depeg:
     target: {id: usde}
     kind: market_depeg
-    annual_rate: {hypothesis: true, value: 0.1, why: "Jamais observé on-chain en ~2,5 ans (la règle de 3 donne une borne haute de ~1,2/an) : on retient une crise majeure de dollar synthétique tous les ~10 ans."}
-    severity: {hypothesis: true, value: [0.05, 0.30], why: "Au-delà de l'historique : de −5 % (seuil de liquidation de la position) à −30 % (scénario de démo du cadrage)."}
-    duration_hours: {hypothesis: true, value: [6, 168], why: "Une crise de confiance dure de quelques heures à plus d'une semaine."}
+    annual_rate: {hypothesis: true, value: 0.1, why: "Never observed on-chain in ~2.5 years (the rule of 3 gives an upper bound of ~1.2/year): we take one major synthetic-dollar crisis every ~10 years."}
+    severity: {hypothesis: true, value: [0.05, 0.30], why: "Beyond the history: from −5% (the position's liquidation threshold) to −30% (the framing note's demo scenario)."}
+    duration_hours: {hypothesis: true, value: [6, 168], why: "A confidence crisis lasts from a few hours to more than a week."}
   exchange_failure:
     target: {type: offchain_counterparty, role: hedging_venue}
     kind: counterparty_failure
-    annual_rate: {hypothesis: true, value: 0.01, why: "Ordre de grandeur : une faillite d'exchange majeur (FTX, 2022) en quelques années parmi les grands venues."}
-    severity: {hypothesis: true, value: [0.5, 1.0], why: "Part des fonds perdus chez l'exchange défaillant (exposition d'Ethena limitée au PnL non réglé, voir exchange_exposure_share)."}
-    panic_depeg: {hypothesis: true, value: [0.0, 0.05], why: "Décote de panique de l'USDe le temps que le marché comprenne l'exposition réelle."}
-    duration_hours: {hypothesis: true, value: [24, 168], why: "Une faillite d'exchange se règle en jours, pas en heures."}
+    annual_rate: {hypothesis: true, value: 0.01, why: "Order of magnitude: one major exchange failure (FTX, 2022) in a few years among the large venues."}
+    severity: {hypothesis: true, value: [0.5, 1.0], why: "Share of the funds lost at the failed exchange (Ethena's exposure limited to unsettled PnL, see exchange_exposure_share)."}
+    panic_depeg: {hypothesis: true, value: [0.0, 0.05], why: "Panic discount on USDe while the market works out the real exposure."}
+    duration_hours: {hypothesis: true, value: [24, 168], why: "An exchange failure is settled in days, not hours."}
   custodian_failure:
     target: {type: offchain_counterparty, role: custodian_off_exchange_settlement}
     kind: counterparty_failure
-    annual_rate: {hypothesis: true, value: 0.003, why: "Les custodians OES sont des entités régulées et ségrégées : défaillance jugée plus rare qu'un exchange."}
-    severity: {hypothesis: true, value: [0.1, 1.0], why: "Part des actifs bloqués/perdus chez le custodian défaillant."}
-    duration_hours: {hypothesis: true, value: [168, 168], why: "Choc durable (au moins l'horizon)."}
+    annual_rate: {hypothesis: true, value: 0.003, why: "OES custodians are regulated, segregated entities: failure deemed rarer than an exchange's."}
+    severity: {hypothesis: true, value: [0.1, 1.0], why: "Share of the assets frozen/lost at the failed custodian."}
+    duration_hours: {hypothesis: true, value: [168, 168], why: "Lasting shock (at least the horizon)."}
   ethena_failure:
     target: {id: ethena_labs}
     kind: issuer_failure
-    annual_rate: {hypothesis: true, value: 0.005, why: "Défaillance opérationnelle / contrat de l'émetteur, ordre de grandeur."}
-    severity: {hypothesis: true, value: [0.1, 0.5], why: "Perte de valeur de l'USDe si l'émetteur défaille."}
-    duration_hours: {hypothesis: true, value: [168, 168], why: "Choc durable."}
+    annual_rate: {hypothesis: true, value: 0.005, why: "Operational / contract failure of the issuer, order of magnitude."}
+    severity: {hypothesis: true, value: [0.1, 0.5], why: "USDe value loss if the issuer fails."}
+    duration_hours: {hypothesis: true, value: [168, 168], why: "Lasting shock."}
   pendle_exploit:
     target: {id: pendle}
     kind: issuer_failure
-    annual_rate: {hypothesis: true, value: 0.01, why: "Exploit de contrats DeFi majeurs : ordre de grandeur annuel faible mais non nul."}
-    severity: {hypothesis: true, value: [0.2, 1.0], why: "Perte de valeur des PT/SY touchés."}
-    duration_hours: {hypothesis: true, value: [168, 168], why: "Choc durable."}
+    annual_rate: {hypothesis: true, value: 0.01, why: "Exploit of major DeFi contracts: low but non-zero annual order of magnitude."}
+    severity: {hypothesis: true, value: [0.2, 1.0], why: "Value loss of the affected PT/SY."}
+    duration_hours: {hypothesis: true, value: [168, 168], why: "Lasting shock."}
   morpho_exploit:
     target: {id: morpho}
     kind: protocol_exploit
-    annual_rate: {hypothesis: true, value: 0.003, why: "Morpho Blue est un contrat immuable et audité : probabilité jugée plus faible."}
-    severity: {hypothesis: true, value: [0.2, 1.0], why: "Part du collatéral perdue dans l'exploit."}
-    duration_hours: {hypothesis: true, value: [168, 168], why: "Choc durable."}
+    annual_rate: {hypothesis: true, value: 0.003, why: "Morpho Blue is an immutable, audited contract: probability deemed lower."}
+    severity: {hypothesis: true, value: [0.2, 1.0], why: "Share of the collateral lost in the exploit."}
+    duration_hours: {hypothesis: true, value: [168, 168], why: "Lasting shock."}
   chainlink_feed_fault:
     target: {type: oracle, oracle_kind: chainlink_aggregator_proxy}
     kind: feed_fault
-    annual_rate: {hypothesis: true, value: 0.01, why: "Panne / mauvais prix d'un feed : rare, ordre de grandeur."}
-    severity: {hypothesis: true, value: [0.05, 0.5], why: "Écart du prix rapporté par rapport au vrai prix (vers le bas)."}
-    duration_hours: {hypothesis: true, value: [1, 48], why: "Panne corrigée en heures à jours."}
+    annual_rate: {hypothesis: true, value: 0.01, why: "Outage / wrong price of a feed: rare, order of magnitude."}
+    severity: {hypothesis: true, value: [0.05, 0.5], why: "Gap between the reported price and the true price (downwards)."}
+    duration_hours: {hypothesis: true, value: [1, 48], why: "Outage fixed within hours to days."}
   pool_liquidity_drain:
     target: {type: liquidity_venue}
     kind: liquidity_drain
-    annual_rate: {hypothesis: true, value: 0.05, why: "Retraits massifs de LP en période de stress : plus fréquent qu'un exploit."}
-    severity: {hypothesis: true, value: [0.5, 0.95], why: "Part de la liquidité du pool qui disparaît."}
-    duration_hours: {hypothesis: true, value: [24, 168], why: "Quelques jours."}
+    annual_rate: {hypothesis: true, value: 0.05, why: "Massive LP withdrawals during stress: more frequent than an exploit."}
+    severity: {hypothesis: true, value: [0.5, 0.95], why: "Share of the pool's liquidity that disappears."}
+    duration_hours: {hypothesis: true, value: [24, 168], why: "A few days."}
   usdc_depeg:
     target: {id: usdc}
     kind: market_depeg
-    annual_rate: {hypothesis: true, value: 0.01, why: "Depeg de l'USDC (précédent : mars 2023) : rare."}
-    severity: {hypothesis: true, value: [0.02, 0.12], why: "Ampleur d'un depeg de l'USDC."}
-    duration_hours: {hypothesis: true, value: [24, 72], why: "Quelques jours."}
+    annual_rate: {hypothesis: true, value: 0.01, why: "USDC depeg (precedent: March 2023): rare."}
+    severity: {hypothesis: true, value: [0.02, 0.12], why: "Size of a USDC depeg."}
+    duration_hours: {hypothesis: true, value: [24, 72], why: "A few days."}
 
 monte_carlo:
   samples:
     value: 200000
     hypothesis: true
-    why: "Assez de tirages pour stabiliser la perte attendue au dollar près ; graine fixe → résultat reproductible."
+    why: "Enough draws to stabilise the expected loss to the dollar; fixed seed → reproducible result."
   seed:
     value: 20261010
     hypothesis: true
-    why: "Graine fixe pour que deux exécutions donnent exactement le même rapport."
+    why: "Fixed seed so that two runs give exactly the same report."

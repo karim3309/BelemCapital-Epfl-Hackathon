@@ -1,9 +1,9 @@
-"""Chaîne de règlement : « sur quelle blockchain ce contrat s'exécute-t-il ? »
+"""Settlement chain: "which blockchain does this contract run on?"
 
-Preuve on-chain : eth_chainId = 1 (on parle bien à Ethereum mainnet) ET eth_getCode(adresse)
-non vide au bloc figé (il y a bien du code déployé à cette adresse sur cette chaîne).
-Si la chaîne est congestionnée ou s'arrête, les liquidations et rachats ne passent plus :
-c'est la dépendance la plus basse de la pile.
+On-chain evidence: eth_chainId = 1 (we are talking to Ethereum mainnet) AND eth_getCode(address)
+is non-empty at the pinned block (there really is code deployed at this address on this chain).
+If the chain is congested or halts, liquidations and redemptions stop going through:
+it is the lowest dependency in the stack.
 """
 from __future__ import annotations
 
@@ -30,7 +30,7 @@ def discover_chain(ctx: Ctx, chain_name: str, chain_id: int, onchain_nodes: list
             "snapshot_block_hash": "0x" + bytes(block["hash"]).hex(),
             "snapshot_timestamp": ts,
             "snapshot_time_iso": datetime.fromtimestamp(ts, tz=timezone.utc).isoformat(),
-            "note": "Toutes les lectures on-chain du graphe sont faites à ce bloc.",
+            "note": "Every on-chain read of the graph is made at this block.",
         },
     )])
     for n in onchain_nodes:
@@ -38,8 +38,8 @@ def discover_chain(ctx: Ctx, chain_name: str, chain_id: int, onchain_nodes: list
             continue
         size = len(ctx.code(n.address))
         if size == 0:
-            n.meta["warning_no_code"] = f"aucun code à {n.address} au bloc {ctx.block}"
-            d.notes.append(f"⚠ {n.label} ({n.address}) n'a pas de code : ce n'est pas un contrat")
+            n.meta["warning_no_code"] = f"no code at {n.address} at block {ctx.block}"
+            d.notes.append(f"⚠ {n.label} ({n.address}) has no code: it is not a contract")
             continue
         d.edges.append(Edge(n.key, key, "settled_on", "onchain",
                             f"eth_getCode({n.address}) = {size} octets #{ctx.block} ; eth_chainId = {chain_id}"))

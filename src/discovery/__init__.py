@@ -1,5 +1,5 @@
-"""StackTrace — Module de Découverte (hackathon Belem DeFi Risk).
+"""StackTrace — Discovery module (Belem DeFi Risk hackathon).
 
-Reconstruit le graphe de dépendances d'une position DeFi Ethereum, chaque arête étant prouvée
-(source onchain / api / curated + preuve concrète). Point d'entrée : `python -m discovery.build_graph`.
+Rebuilds the dependency graph of an Ethereum DeFi position, every edge being proven
+(source onchain / api / curated + concrete evidence). Entry point: `python -m discovery.build_graph`.
 """

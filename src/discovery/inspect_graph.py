@@ -1,11 +1,11 @@
-"""Explorer un graph.json dans le terminal (avec networkx) — idéal pour la démo et pour comprendre.
+"""Explore a graph.json in the terminal (with networkx) — ideal for the demo and for understanding.
 
-    python -m discovery.inspect_graph                      # arbre des dépendances depuis la position
-    python -m discovery.inspect_graph --impact usde        # qui est touché si USDe casse ? par quel chemin ?
-    python -m discovery.inspect_graph --evidence           # affiche aussi la preuve de chaque arête
+    python -m discovery.inspect_graph                      # dependency tree from the position
+    python -m discovery.inspect_graph --impact usde        # who is hit if USDe breaks? through which path?
+    python -m discovery.inspect_graph --evidence           # also prints the evidence of every edge
 
-Rappel de la convention : une flèche va du DÉPENDANT vers sa DÉPENDANCE,
-donc « qui est touché si X casse » = tous les ANCÊTRES de X dans le graphe.
+Reminder of the convention: an arrow goes from the DEPENDENT to its DEPENDENCY,
+so "who is hit if X breaks" = all the ANCESTORS of X in the graph.
 """
 from __future__ import annotations
 
@@ -44,10 +44,10 @@ def print_tree(g: nx.MultiDiGraph, root: str, show_evidence: bool, max_depth: in
         for i, (_, child, etype, data) in enumerate(children):
             last = i == len(children) - 1
             branch = "└─" if last else "├─"
-            again = " (déjà développé ↑)" if child in seen else ""
+            again = " (already expanded ↑)" if child in seen else ""
             print(f"{prefix}{branch} {etype} {SOURCE_TAG.get(data['source'], '?')} → {_describe(g, child)}{again}")
             if show_evidence:
-                print(f"{prefix}{'   ' if last else '│  '}   preuve : {data['evidence'][:160]}")
+                print(f"{prefix}{'   ' if last else '│  '}   evidence: {data['evidence'][:160]}")
             if child not in seen and depth < max_depth:
                 seen.add(child)
                 walk(child, prefix + ("   " if last else "│  "), depth + 1)
@@ -59,10 +59,10 @@ def print_tree(g: nx.MultiDiGraph, root: str, show_evidence: bool, max_depth: in
 
 def print_impact(g: nx.MultiDiGraph, root: str, target: str) -> None:
     if target not in g:
-        print(f"nœud inconnu : {target}. Ids disponibles : {', '.join(sorted(n for n in g if n != root))}")
+        print(f"unknown node: {target}. Available ids: {', '.join(sorted(n for n in g if n != root))}")
         return
     impacted = nx.ancestors(g, target)
-    print(f"Si « {target} » casse, {len(impacted)} élément(s) en dépendent (directement ou non) :")
+    print(f"If \"{target}\" breaks, {len(impacted)} element(s) depend on it (directly or not):")
     for n in sorted(impacted, key=lambda x: (x != root, x)):
         print("  ·", _describe(g, n))
     if root in impacted or root == target:
@@ -71,17 +71,17 @@ def print_impact(g: nx.MultiDiGraph, root: str, target: str) -> None:
         for a, b in zip(path, path[1:]):
             etype = next(iter(g.get_edge_data(a, b)))
             hops.append(f"{a} --{etype}--> {b}")
-        print("\nChemin le plus court depuis la position :\n  " + "\n  ".join(hops))
+        print("\nShortest path from the position:\n  " + "\n  ".join(hops))
     else:
-        print("\n→ la position n'en dépend pas.")
+        print("\n→ the position does not depend on it.")
 
 
 def main(argv: list[str] | None = None) -> int:
     utf8_console()
-    p = argparse.ArgumentParser(description="Explorer un graph.json StackTrace")
+    p = argparse.ArgumentParser(description="Explore a StackTrace graph.json")
     p.add_argument("graph", nargs="?", default="output/graph.json")
-    p.add_argument("--impact", help="id d'un nœud : qui est touché s'il casse ?")
-    p.add_argument("--evidence", action="store_true", help="afficher la preuve de chaque arête")
+    p.add_argument("--impact", help="node id: who is hit if it breaks?")
+    p.add_argument("--evidence", action="store_true", help="print the evidence of every edge")
     p.add_argument("--depth", type=int, default=20)
     args = p.parse_args(argv)
     graph = json.loads(Path(args.graph).read_text(encoding="utf-8"))
@@ -91,8 +91,8 @@ def main(argv: list[str] | None = None) -> int:
         print_impact(g, root, args.impact)
     else:
         print_tree(g, root, args.evidence, args.depth)
-        print(f"\n{g.number_of_nodes() - 1} nœuds, {g.number_of_edges()} arêtes · "
-              f"cycles : {'aucun' if nx.is_directed_acyclic_graph(g) else list(nx.simple_cycles(g))[:3]}")
+        print(f"\n{g.number_of_nodes() - 1} nodes, {g.number_of_edges()} edges · "
+              f"cycles: {'none' if nx.is_directed_acyclic_graph(g) else list(nx.simple_cycles(g))[:3]}")
     return 0
 
 

@@ -1,11 +1,11 @@
-"""Validateur de output/risk_report.json et output/risk_grid.json (comme discovery/validate.py).
+"""Validator of output/risk_report.json and output/risk_grid.json (like discovery/validate.py).
 
-Il vérifie que le rapport est COMPLET et HONNÊTE :
-  - toutes les sections de la fiche de risque sont là, sans NaN ni infini ;
-  - chaque paramètre a un statut (source / onchain / hypothesis) ;
-  - chaque chemin de contagion est fait d'arêtes qui EXISTENT dans graph.json, avec la même preuve
-    (pas de preuve perdue ou inventée en route) ;
-  - verdicts dans {STAY, PARTIAL, EXIT}, probabilités dans [0, 1], p* ≥ 0.
+It checks that the report is COMPLETE and HONEST:
+  - every section of the risk sheet is there, with no NaN or infinity;
+  - every parameter has a status (source / onchain / hypothesis);
+  - every contagion path is made of edges that EXIST in graph.json, with the same evidence
+    (no evidence lost or invented along the way);
+  - verdicts in {STAY, PARTIAL, EXIT}, probabilities in [0, 1], p* ≥ 0.
 """
 from __future__ import annotations
 
@@ -37,58 +37,58 @@ def validate_report(report: dict, grid: dict, gv: GraphView) -> list[str]:
     err = errors.append
     for k in REQUIRED:
         if k not in report:
-            err(f"section manquante : {k}")
+            err(f"missing section: {k}")
     if errors:
         return errors
     for p in _walk_numbers(report):
-        err(f"nombre invalide (NaN/inf) : {p}")
+        err(f"invalid number (NaN/inf): {p}")
     for p in report["params"]:
         st = p.get("status")
         if st not in ("source", "onchain", "hypothesis"):
-            err(f"paramètre sans statut : {p.get('name')}")
+            err(f"parameter without status: {p.get('name')}")
         if st == "hypothesis" and not p.get("why"):
-            err(f"hypothèse sans justification : {p['name']}")
+            err(f"hypothesis without justification: {p['name']}")
         if st == "source" and not (str(p.get("source", "")).startswith("https://") and p.get("as_of")):
-            err(f"paramètre sourcé sans URL/date : {p['name']}")
+            err(f"sourced parameter without URL/date: {p['name']}")
     h = report["headline"]
     if h["verdict"] not in VERDICTS:
-        err(f"verdict principal invalide : {h['verdict']}")
+        err(f"invalid main verdict: {h['verdict']}")
     if h["p_star"] is not None and h["p_star"] < 0:
-        err("p* négatif")
+        err("negative p*")
     if not h.get("sentence"):
-        err("phrase d'explication manquante")
+        err("missing explanatory sentence")
     for sc in report["scenarios"]:
         d = sc["decision"]
         if d["verdict"] not in VERDICTS:
-            err(f"{sc['id']}: verdict invalide")
+            err(f"{sc['id']}: invalid verdict")
         if not 0 <= d["p_default"] <= 1:
-            err(f"{sc['id']}: p_default hors [0,1]")
+            err(f"{sc['id']}: p_default outside [0,1]")
         for path in sc["contagion_paths"]:
             for e in path["edges"]:
                 real = gv.edge(e["from"], e["to"], e["type"])
                 if real is None:
-                    err(f"{sc['id']}: arête inexistante dans graph.json {e['from']} -{e['type']}-> {e['to']}")
+                    err(f"{sc['id']}: edge missing from graph.json {e['from']} -{e['type']}-> {e['to']}")
                 elif real["evidence"] != e["evidence"] or real["source"] != e["source"]:
-                    err(f"{sc['id']}: preuve modifiée sur {e['from']} -{e['type']}-> {e['to']}")
+                    err(f"{sc['id']}: evidence altered on {e['from']} -{e['type']}-> {e['to']}")
     for t in report["monte_carlo"].get("top_paths", []):
         if t.get("path"):
             for e in t["path"]["edges"]:
                 if gv.edge(e["from"], e["to"], e["type"]) is None:
-                    err(f"top_paths : arête inexistante {e['from']} -> {e['to']}")
+                    err(f"top_paths: missing edge {e['from']} -> {e['to']}")
     mc = report["monte_carlo"]
     if not mc["var95_usd"] <= mc["var99_usd"] + 1e-6:
-        err("VaR95 > VaR99 : incohérent")
+        err("VaR95 > VaR99: inconsistent")
     # grille
     for k in ("prices", "durations_hours", "cells", "p_grid"):
         if k not in grid:
-            err(f"risk_grid : clé manquante {k}")
+            err(f"risk_grid: missing key {k}")
     if not errors:
         if len(grid["cells"]) != len(grid["prices"]) or any(len(r) != len(grid["durations_hours"]) for r in grid["cells"]):
-            err("risk_grid : dimensions incohérentes")
+            err("risk_grid: inconsistent dimensions")
         for row in grid["cells"]:
             for c in row:
                 if len(c["fraction_by_p"]) != len(grid["p_grid"]):
-                    err("risk_grid : fraction_by_p incomplet")
+                    err("risk_grid: fraction_by_p incomplete")
                     break
     return errors
 
@@ -101,9 +101,9 @@ def main(argv: list[str] | None = None) -> int:
     grid = json.loads((REPO_ROOT / "output" / "risk_grid.json").read_text(encoding="utf-8"))
     errors = validate_report(report, grid, GraphView.load(REPO_ROOT / "output" / "graph.json"))
     if errors:
-        print(f"✗ {len(errors)} erreur(s)", *errors, sep="\n  - ")
+        print(f"✗ {len(errors)} error(s)", *errors, sep="\n  - ")
         return 1
-    print("✓ risk_report.json et risk_grid.json conformes")
+    print("✓ risk_report.json and risk_grid.json are compliant")
     return 0
 
 

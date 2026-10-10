@@ -1,16 +1,16 @@
-"""Lectures on-chain du moteur de risque → output/risk_inputs.json.
+"""On-chain reads of the risk engine → output/risk_inputs.json.
 
-C'est la SEULE partie du moteur qui parle à la blockchain. Elle réutilise la plomberie de la
-découverte (cache disque, bloc figé, preuves), et lit au MÊME bloc que graph.json :
+This is the ONLY part of the engine that talks to the blockchain. It reuses the discovery
+plumbing (disk cache, pinned block, evidence), and reads at the SAME block as graph.json:
 
-  1. Coût de sortie RÉEL : on demande au contrat RouterStatic de Pendle « si je vendais Q PT dans ce
-     pool, combien de SY recevrais-je ? » (fonction de simulation, aucune transaction).
-     Analogie : demander un devis au bureau de change pour plusieurs montants, sans rien échanger.
-  2. Historique du feed Chainlink USDe/USD : tous les « rounds » (mises à jour) depuis la création
-     du feed. Ça sert à calibrer la sévérité d'un depeg ET à rejouer octobre 2025.
-  3. Prix du gas : base fee du bloc + prix ETH/USD (feed Chainlink trouvé par ENS).
+  1. REAL exit cost: we ask Pendle's RouterStatic contract "if I sold Q PT into this
+     pool, how much SY would I get?" (simulation function, no transaction).
+     Analogy: asking the exchange office for a quote at several amounts, without trading.
+  2. History of the Chainlink USDe/USD feed: every "round" (update) since the feed
+     was created. Used to calibrate depeg severity AND to replay October 2025.
+  3. Gas price: block base fee + ETH/USD price (Chainlink feed found via ENS).
 
-    python -m risk.collect            # en ligne (ou hors ligne si tout est déjà en cache)
+    python -m risk.collect            # online (or offline if everything is already cached)
 """
 from __future__ import annotations
 
@@ -31,11 +31,11 @@ from discovery.rpc import make_web3
 from .graphview import GraphView
 
 SWAP_STATIC = "swapExactPtForSyStatic(address,uint256)"
-SWAP_STATIC_SOURCE = ("IPActionMarketCoreStatic.sol, paquet npm @pendle/core-v2@6.6.1 "
+SWAP_STATIC_SOURCE = ("IPActionMarketCoreStatic.sol, npm package @pendle/core-v2@6.6.1 "
                       "(https://cdn.jsdelivr.net/npm/@pendle/core-v2@6.6.1/contracts/interfaces/IPActionMarketCoreStatic.sol)")
 ROUND = ["uint80", "int256", "uint256", "uint256", "uint80"]
-# Tailles simulées, en multiples du collatéral de la position (1.0 = tout vendre).
-# Les grands multiples servent à approcher un pool plus petit (voir params: stressed_pool_scaling).
+# Simulated sizes, as multiples of the position's collateral (1.0 = sell everything).
+# Large multiples approximate a smaller pool (see params: stressed_pool_scaling).
 SIZE_MULTIPLES = [0.001, 0.01, 0.05, 0.1, 0.2, 0.3, 0.5, 0.75, 1.0, 1.5, 2.0, 3.0, 5.0, 7.5, 10.0, 20.0]
 OUTPUT = REPO_ROOT / "output" / "risk_inputs.json"
 
@@ -50,7 +50,7 @@ def _make_ctx(block: int, offline: bool | None = None) -> Ctx:
 def collect_exit_simulations(ctx: Ctx, gv: GraphView) -> dict:
     venue = gv.exit_venue_id()
     if venue is None:
-        return {"available": False, "reason": "aucun pool de sortie dans le graphe"}
+        return {"available": False, "reason": "no exit pool in the graph"}
     market = gv.node(venue)["address"]
     router = ctx.config.contracts["pendle_router_static"]
     ctx.labels[checksum(router)] = "PendleRouterStatic"
@@ -82,7 +82,7 @@ def collect_exit_simulations(ctx: Ctx, gv: GraphView) -> dict:
 
 
 def collect_chainlink_history(ctx: Ctx, gv: GraphView, workers: int = 8) -> dict:
-    """Tous les rounds de chaque feed Chainlink du graphe (phases successives du proxy)."""
+    """Every round of each Chainlink feed in the graph (successive phases of the proxy)."""
     out = {}
     for n in gv.of_type("oracle"):
         if n["meta"].get("oracle_kind") != "chainlink_aggregator_proxy":
@@ -116,7 +116,7 @@ def collect_chainlink_history(ctx: Ctx, gv: GraphView, workers: int = 8) -> dict
         out[n["id"]] = {
             "feed": proxy, "description": n["meta"].get("description"), "decimals": decimals,
             "phases": phases, "rounds": rounds,
-            "evidence": f"ChainlinkFeed.getRoundData(phase<<64|round) pour {len(rounds)} rounds @ {proxy} #{ctx.block}",
+            "evidence": f"ChainlinkFeed.getRoundData(phase<<64|round) for {len(rounds)} rounds @ {proxy} #{ctx.block}",
         }
     return out
 
@@ -133,7 +133,7 @@ def collect_gas(ctx: Ctx) -> dict:
             _, answer, _, _, _ = ctx.call(feed, "latestRoundData()", returns=ROUND)
             dec = ctx.call(feed, "decimals()", returns=["uint8"])
             gas["eth_usd"] = answer / 10**dec
-            gas["eth_usd_evidence"] = f"{proof} ; latestRoundData().answer = {answer} (déc. {dec})"
+            gas["eth_usd_evidence"] = f"{proof}; latestRoundData().answer = {answer} (dec. {dec})"
     return gas
 
 
@@ -154,14 +154,14 @@ def collect(graph_path: Path | None = None, offline: bool | None = None) -> dict
 
 def main(argv: list[str] | None = None) -> int:
     utf8_console()
-    ap = argparse.ArgumentParser(description="Lectures on-chain du moteur de risque")
+    ap = argparse.ArgumentParser(description="On-chain reads of the risk engine")
     ap.add_argument("--offline", action="store_true")
     args = ap.parse_args(argv)
     data = collect(offline=True if args.offline else None)
     OUTPUT.write_text(json.dumps(data, indent=1, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
     sims = data["exit_simulations"].get("points", [])
     hist = sum(len(v["rounds"]) for v in data["chainlink_history"].values())
-    print(f"✓ {OUTPUT} : {len(sims)} simulations de vente, {hist} rounds Chainlink, bloc #{data['snapshot_block']}")
+    print(f"✓ {OUTPUT}: {len(sims)} sale simulations, {hist} Chainlink rounds, block #{data['snapshot_block']}")
     return 0
 
 

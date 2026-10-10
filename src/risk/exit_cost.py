@@ -1,19 +1,19 @@
-"""Coût de sortie C_exit : combien coûte de sortir MAINTENANT, de façon certaine ?
+"""Exit cost C_exit: how much does it cost to exit NOW, for certain?
 
-Sortir d'une position à levier = « déboucler » : rembourser la dette USDC et vendre le PT.
-Le coût certain de cette sortie a 4 morceaux (brief : « slippage réel + gas + rendement abandonné ») :
+Exiting a leveraged position = "unwinding": repay the USDC debt and sell the PT.
+The certain cost of that exit has 4 parts (brief: "real slippage + gas + forgone yield"):
 
-  1. glissement sur le pool Pendle (PT → SY) : MESURÉ on-chain. On a demandé au RouterStatic de Pendle
-     un devis pour plusieurs tailles de vente (risk_inputs.json). Coût = écart entre ce qu'on reçoit
-     et le prix « spot » du pool (prix implicite de l'AMM). Il inclut les frais du pool.
-     Analogie : le bureau de change baisse son taux à mesure que vous vendez gros.
-  2. conversion sUSDe/USDe → USDC pour rembourser la dette : pools non découverts → hypothèse affichée.
-  3. gas : unités de gas (hypothèse) × base fee du bloc (on-chain) × prix de l'ETH (Chainlink, on-chain).
-  4. rendement abandonné sur l'horizon : rendement fixe du PT − coût de la dette (on-chain).
+  1. slippage on the Pendle pool (PT → SY): MEASURED on-chain. We asked Pendle's RouterStatic
+     for a quote at several sale sizes (risk_inputs.json). Cost = gap between what we receive
+     and the pool's "spot" price (the AMM's implied price). It includes the pool fees.
+     Analogy: the currency exchange office lowers its rate as you sell bigger amounts.
+  2. sUSDe/USDe → USDC conversion to repay the debt: pools not discovered → displayed hypothesis.
+  3. gas: gas units (hypothesis) × block base fee (on-chain) × ETH price (Chainlink, on-chain).
+  4. forgone yield over the horizon: PT fixed yield − cost of the debt (on-chain).
 
-Pool « stressé » (k fois moins de liquidité) : vendre Q dans ce pool ≈ vendre Q/k dans le pool actuel
-(approximation au 1er ordre d'un AMM, affichée comme hypothèse). Au-delà de la plus grosse vente
-simulée sans revert, la sortie est déclarée IMPOSSIBLE (le pool ne peut pas l'absorber).
+"Stressed" pool (k times less liquidity): selling Q in that pool ≈ selling Q/k in the current pool
+(first-order approximation of an AMM, displayed as a hypothesis). Beyond the largest sale
+simulated without a revert, the exit is declared IMPOSSIBLE (the pool cannot absorb it).
 """
 from __future__ import annotations
 
@@ -24,7 +24,7 @@ from .graphview import GraphView
 
 @dataclass
 class ExitModel:
-    points: list[tuple[float, float]]      # (quantité de PT, coût relatif vs spot)
+    points: list[tuple[float, float]]      # (PT quantity, relative cost vs spot)
     max_feasible_pt: float
     min_reverted_pt: float | None
     collateral_pt: float
@@ -44,8 +44,8 @@ class ExitModel:
         pool = gv.meta(venue) if venue else {}
         coll = gv.meta(gv.collateral_id())
         sy_node = gv.node(gv.targets(gv.collateral_id(), "redeemable_into")[0])
-        sy_rate = sy_node["meta"].get("exchange_rate")            # actif comptable (USDe) par SY
-        fair = pool.get("pt_price_implied_by_amm")                 # prix spot du PT en USDe
+        sy_rate = sy_node["meta"].get("exchange_rate")            # accounting asset (USDe) per SY
+        fair = pool.get("pt_price_implied_by_amm")                 # PT spot price in USDe
         points, evidence, max_ok, min_rev = [], [], 0.0, None
         for p in sims.get("points", []):
             if p.get("reverted"):
@@ -71,9 +71,9 @@ class ExitModel:
                    pt_usd=pt_usd, loan_usd=loan_usd, gas_usd=gas_usd, carry_per_year_usd=carry,
                    params=params, evidence=evidence)
 
-    # ------------------------------------------------------------------ glissement
+    # ------------------------------------------------------------------ slippage
     def slippage_rate(self, pt_amount: float, pool_factor: float = 1.0) -> float | None:
-        """Coût relatif de la vente de `pt_amount` PT ; None = impossible (pool trop petit)."""
+        """Relative cost of selling `pt_amount` PT; None = impossible (pool too small)."""
         if pt_amount <= 0:
             return 0.0
         q = pt_amount / max(pool_factor, 1e-9)
@@ -85,7 +85,7 @@ class ExitModel:
                 return c0 + (c1 - c0) * (q - q0) / (q1 - q0) if q1 > q0 else c1
         return self.points[-1][1]
 
-    # ------------------------------------------------------------------ coût total
+    # ------------------------------------------------------------------ total cost
     def cost(self, fraction: float, pool_factor: float = 1.0, horizon_days: float | None = None) -> dict:
         horizon_days = self.params["horizon_days"] if horizon_days is None else horizon_days
         q = fraction * self.collateral_pt
@@ -98,7 +98,7 @@ class ExitModel:
             return {"fraction": fraction, "feasible": False, "pt_sold": q, "notional_usd": notional,
                     "slippage_rate": None, "slippage_usd": None, "second_leg_usd": None,
                     "gas_usd": self.gas_usd, "carry_usd": None, "total_usd": None,
-                    "why_infeasible": "vente plus grosse que ce que le pool peut absorber (la simulation on-chain revert)"}
+                    "why_infeasible": "sale larger than what the pool can absorb (the on-chain simulation reverts)"}
         slippage_usd = slip * notional
         second = self.params["second_leg_cost_rate"] * (notional - slippage_usd)
         carry = fraction * self.carry_per_year_usd * horizon_days / 365

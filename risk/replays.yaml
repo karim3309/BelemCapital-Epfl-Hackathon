@@ -1,28 +1,28 @@
 # =====================================================================
-#  REPLAYS d'incidents RÉELS (démo, critère « données réelles » du brief)
+#  REPLAYS of REAL incidents (demo, the brief's "real data" criterion)
 # =====================================================================
-# Le chemin de prix ON-CHAIN vient de l'historique Chainlink lu au bloc figé (risk_inputs.json).
-# Le prix HORS CHAÎNE (carnet d'ordres d'un exchange) n'existe pas on-chain : il est CURÉ, avec URL + date.
+# The ON-CHAIN price path comes from the Chainlink history read at the pinned block (risk_inputs.json).
+# The OFF-CHAIN price (an exchange's order book) does not exist on-chain: it is CURATED, with URL + date.
 # =====================================================================
 replays:
   - id: R-OCT2025
-    title: "10 octobre 2025 : l'USDe à 0,65 $ sur Binance"
+    title: "10 October 2025: USDe at $0.65 on Binance"
     story: >
-      Krach du 10 octobre 2025 : sur le carnet d'ordres de Binance, l'USDe tombe à 0,65 $ pendant
-      une quarantaine de minutes, alors qu'on-chain il reste proche de 1 $. Binance valorisait ce
-      collatéral avec SON propre prix : des positions y ont été liquidées. Qu'aurait vécu la position A ?
+      Crash of 10 October 2025: on the Binance order book, USDe falls to $0.65 for about
+      forty minutes, while on-chain it stays close to $1. Binance valued this
+      collateral with ITS own price: positions were liquidated there. What would position A have lived through?
     window: {start: "2025-10-10T00:00:00+00:00", end: "2025-10-12T00:00:00+00:00"}
     offchain_path:
-      venue: Binance (carnet d'ordres spot)
+      venue: Binance (spot order book)
       low: 0.65
       duration_minutes: 40
       evidence_url: "https://www.21shares.com/it-eu/insights/why-did-ethenas-stablecoin-remain-stable-onchain-but-depegged-on-binance"
       as_of: "2026-10-10"
-      says: "USDe « briefly plunging to $0.65 » sur le spot de Binance, résorbé « within about 40 minutes » ; plus proche de 1 $ sur les venues décentralisées (Curve)."
+      says: "USDe \"briefly plunging to $0.65\" on Binance spot, recovered \"within about 40 minutes\"; closer to $1 on decentralised venues (Curve)."
 
   - id: R-FEB2025
-    title: "21 février 2025 : le pire écart jamais vu par le feed Chainlink USDe/USD"
+    title: "21 February 2025: the worst deviation ever seen by the Chainlink USDe/USD feed"
     story: >
-      Le jour où le feed Chainlink USDe/USD a enregistré son plus bas historique (0,977 $), pendant
-      quelques minutes. Rejoué sur la position A : l'oracle aurait-il basculé ? aurait-on été liquidé ?
+      The day the Chainlink USDe/USD feed recorded its all-time low ($0.977), for
+      a few minutes. Replayed on position A: would the oracle have switched? would we have been liquidated?
     window: {start: "2025-02-21T00:00:00+00:00", end: "2025-02-22T00:00:00+00:00"}

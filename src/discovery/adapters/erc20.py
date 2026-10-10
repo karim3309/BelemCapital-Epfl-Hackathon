@@ -1,12 +1,12 @@
-"""ERC-20 : le standard de base de tout token (symbol, decimals, totalSupply, balanceOf).
+"""ERC-20: the base standard of every token (symbol, decimals, totalSupply, balanceOf).
 
-Et la question centrale de la découverte : « ce token, c'est QUOI ? »
-On le SONDE (on appelle des fonctions caractéristiques et on regarde lesquelles répondent) :
-  - PT Pendle   : SY(), YT(), expiry()        → un Principal Token
-  - SY Pendle   : yieldToken(), assetInfo()   → un emballage Standardized Yield
-  - ERC-4626    : asset(), convertToAssets()  → un coffre à parts (ex. sUSDe)
-  - sinon       : simple ERC-20 (USDe, USDC...)
-L'ordre compte : un SY Pendle expose aussi asset(), donc on teste Pendle d'abord.
+And the central discovery question: "what IS this token?"
+We PROBE it (call characteristic functions and see which ones answer):
+  - Pendle PT    : SY(), YT(), expiry()        → a Principal Token
+  - Pendle SY    : yieldToken(), assetInfo()   → a Standardized Yield wrapper
+  - ERC-4626     : asset(), convertToAssets()  → a share vault (e.g. sUSDe)
+  - otherwise    : plain ERC-20 (USDe, USDC...)
+Order matters: a Pendle SY also exposes asset(), so Pendle is tested first.
 """
 from __future__ import annotations
 
@@ -23,7 +23,7 @@ ERC4626_PROBES = [("asset()", ["address"]), ("totalAssets()", ["uint256"])]
 
 
 def _text(ctx: Ctx, address: str, fn: str) -> str | None:
-    """symbol()/name() : normalement `string`, mais certains vieux tokens renvoient `bytes32`."""
+    """symbol()/name(): normally `string`, but some old tokens return `bytes32`."""
     v = ctx.try_call(address, f"{fn}()", returns=["string"])
     if v is None:
         raw = ctx.try_call(address, f"{fn}()", returns=["bytes32"])
@@ -33,7 +33,7 @@ def _text(ctx: Ctx, address: str, fn: str) -> str | None:
 
 
 def read_token(ctx: Ctx, address: str) -> dict | None:
-    """Lit les champs ERC-20. Renvoie None si ce n'est pas un token (pas de decimals/symbol)."""
+    """Reads the ERC-20 fields. Returns None if this is not a token (no decimals/symbol)."""
     symbol = _text(ctx, address, "symbol")
     decimals = ctx.try_call(address, "decimals()", returns=["uint8"])
     if symbol is None or decimals is None:

@@ -1,14 +1,14 @@
-"""Diagnostic en une commande : est-ce que tout ce dont le backend a besoin répond, EN DIRECT ?
+"""One-command diagnostic: does everything the backend needs answer, LIVE?
 
     PYTHONPATH=src python -m stacktrace.doctor
 
-Vérifie, dans l'ordre :
-  1. ETH_RPC_URL est défini dans .env (on n'affiche que l'hôte, jamais la clé) ;
-  2. le RPC répond, sur la bonne chaîne (chainId = 1 = Ethereum mainnet), et en combien de temps ;
-  3. le dernier bloc est récent (un nœud en retard donnerait une photo périmée) ;
-  4. le nœud est « archive » (il sait répondre pour un bloc ancien → rejeux d'incidents possibles) ;
-  5. les APIs Morpho et Pendle répondent (elles servent à LOCALISER, on re-prouve ensuite on-chain).
-Code de sortie 0 si tout l'indispensable est OK, 1 sinon.
+Checks, in order:
+  1. ETH_RPC_URL is set in .env (only the host is shown, never the key);
+  2. the RPC answers, on the right chain (chainId = 1 = Ethereum mainnet), and how fast;
+  3. the latest block is recent (a lagging node would give a stale snapshot);
+  4. the node is an "archive" node (it can answer for an old block → incident replays possible);
+  5. the Morpho and Pendle APIs answer (they are used to LOCATE; we then re-prove on-chain).
+Exit code 0 if everything essential is OK, 1 otherwise.
 """
 from __future__ import annotations
 
@@ -21,8 +21,8 @@ from discovery.console import utf8_console
 
 from .session import SessionError, mask_url, open_session
 
-ARCHIVE_LOOKBACK_BLOCKS = 216_000      # ≈ 30 jours à 12 s/bloc
-MAX_BLOCK_AGE_S = 120                  # au-delà, le nœud est probablement en retard
+ARCHIVE_LOOKBACK_BLOCKS = 216_000      # ≈ 30 days at 12 s/block
+MAX_BLOCK_AGE_S = 120                  # beyond that, the node is probably lagging
 
 
 def _api_check(name: str, fn) -> tuple[bool, str]:
@@ -31,12 +31,12 @@ def _api_check(name: str, fn) -> tuple[bool, str]:
         detail = fn()
         return True, f"{name} : OK ({(time.time() - t) * 1000:.0f} ms){detail}"
     except Exception as e:
-        return False, f"{name} : ÉCHEC ({type(e).__name__}: {str(e)[:120]})"
+        return False, f"{name}: FAILED ({type(e).__name__}: {str(e)[:120]})"
 
 
 def run() -> int:
     utf8_console()
-    lines: list[tuple[str, str]] = []           # (statut, texte)
+    lines: list[tuple[str, str]] = []           # (status, text)
     vital_ok = True
 
     try:
@@ -47,19 +47,19 @@ def run() -> int:
         print(f"✗ {e}")
         return 1
 
-    lines.append(("✓", f"ETH_RPC_URL trouvé · hôte {mask_url(s.config.rpc_url)}"))
-    lines.append(("✓", f"RPC sur chainId {s.chain_id} (Ethereum mainnet) · ouverture de session {latency:.0f} ms"))
+    lines.append(("✓", f"ETH_RPC_URL found · host {mask_url(s.config.rpc_url)}"))
+    lines.append(("✓", f"RPC on chainId {s.chain_id} (Ethereum mainnet) · session opened in {latency:.0f} ms"))
     age = time.time() - s.block_timestamp
     fresh = age < MAX_BLOCK_AGE_S
-    lines.append(("✓" if fresh else "!", f"bloc figé pour l'analyse : #{s.block} · âge {age:.0f} s"
-                  + ("" if fresh else " → le nœud semble en retard")))
+    lines.append(("✓" if fresh else "!", f"block pinned for the analysis: #{s.block} · age {age:.0f} s"
+                  + ("" if fresh else " → the node seems to be lagging")))
 
     old = s.block - ARCHIVE_LOOKBACK_BLOCKS
     try:
         s.w3.eth.get_balance("0x0000000000000000000000000000000000000000", block_identifier=old)
-        lines.append(("✓", f"nœud archive : lecture au bloc #{old} (~30 j) OK → rejeux d'incidents possibles"))
+        lines.append(("✓", f"archive node: read at block #{old} (~30 d) OK → incident replays possible"))
     except Exception:
-        lines.append(("!", "nœud NON archive : seul l'état récent est lisible (pas de rejeu historique)"))
+        lines.append(("!", "NON-archive node: only the recent state is readable (no historical replay)"))
 
     morpho_url = s.config.apis.get("morpho_graphql")
     pendle_url = s.config.apis.get("pendle_core")
@@ -68,7 +68,7 @@ def run() -> int:
         r = requests.post(morpho_url, json={"query": "{ __typename }"}, timeout=20)
         r.raise_for_status()
         if r.json().get("data", {}).get("__typename") != "Query":
-            raise RuntimeError("réponse inattendue")
+            raise RuntimeError("unexpected response")
         return ""
 
     def pendle():
@@ -76,19 +76,19 @@ def run() -> int:
         r.raise_for_status()
         return ""
 
-    for name, url, fn in (("API Morpho", morpho_url, morpho), ("API Pendle", pendle_url, pendle)):
+    for name, url, fn in (("Morpho API", morpho_url, morpho), ("Pendle API", pendle_url, pendle)):
         if not url:
-            lines.append(("!", f"{name} : URL absente de config.yaml (section apis)"))
+            lines.append(("!", f"{name}: URL missing from config.yaml (apis section)"))
             continue
         ok, txt = _api_check(name, fn)
         lines.append(("✓" if ok else "✗", txt))
-        vital_ok &= ok if name == "API Morpho" else True   # Morpho indispensable (scan des positions)
+        vital_ok &= ok if name == "Morpho API" else True   # Morpho is essential (position scan)
 
-    print("=== StackTrace · diagnostic en ligne ===")
+    print("=== StackTrace · live diagnostic ===")
     for status, txt in lines:
         print(f"  {status} {txt}")
-    print(f"  · appels RPC réseau pendant le test : {s.network_calls}")
-    print("→ prêt" if vital_ok else "→ PAS prêt : corrigez les lignes ✗ ci-dessus")
+    print(f"  · network RPC calls during the test: {s.network_calls}")
+    print("→ ready" if vital_ok else "→ NOT ready: fix the ✗ lines above")
     return 0 if vital_ok else 1
 
 

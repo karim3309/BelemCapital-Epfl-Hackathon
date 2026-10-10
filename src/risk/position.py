@@ -1,22 +1,22 @@
-"""Effet d'un choc sur LA position : santé, liquidation, et qui perd combien.
+"""Effect of a shock on THE position: health, liquidation, and who loses how much.
 
-Rappel (GUIDE_DEBUTANT §7) : prêteur sur gages. On a déposé C PT en gage et on doit D USDC.
-  health factor (HF) = C × prix_oracle × LLTV / D      (< 1 → liquidable)
+Reminder (BEGINNER_GUIDE §7): a pawnbroker loan. We pledged C PT and owe D USDC.
+  health factor (HF) = C × oracle_price × LLTV / D      (< 1 → liquidatable)
 
-Ce que fait le module, dans l'ordre :
-  1. valeur de MARCHÉ avant le choc : capital (« equity ») = C × prix_PT − D × prix_USDC ;
-  2. pendant le choc : prix vu par l'oracle (oracle_sim) → nouveau HF ;
-  3. si HF < 1 : un liquidateur rembourse la dette et saisit du PT avec un bonus (LIF, formule Morpho
-     sourcée). Il ne le fait QUE si c'est rentable après avoir revendu le PT saisi (glissement mesuré) ;
-     si le gage ne suffit pas → « dette irrécouvrable » chez les prêteurs ;
-  4. à l'horizon : si le choc est fini, les prix sont revenus (seules les pertes RÉALISÉES restent :
-     liquidation) ; s'il dure encore, on valorise au prix choqué (perte latente).
+What the module does, in order:
+  1. MARKET value before the shock: capital ("equity") = C × PT_price − D × USDC_price;
+  2. during the shock: price seen by the oracle (oracle_sim) → new HF;
+  3. if HF < 1: a liquidator repays the debt and seizes PT with a bonus (LIF, sourced Morpho
+     formula). It does so ONLY if profitable after reselling the seized PT (measured slippage);
+     if the collateral is not enough → "bad debt" for the lenders;
+  4. at the horizon: if the shock is over, prices are back (only REALISED losses remain:
+     liquidation); if it still lasts, we value at the shocked price (unrealised loss).
 
-Trois cas à retenir (le cadrage les cite) :
-  - oracle qui suit le marché + choc → liquidation : l'emprunteur perd (bonus + vente au plus bas) ;
-  - oracle FIXE + choc → pas de liquidation : l'emprunteur perd en valeur de marché, et si le gage ne
-    couvre plus la dette, ce sont les PRÊTEURS qui portent le trou (dette résiduelle) ;
-  - choc COURT + méta-oracle → ni bascule ni liquidation : rien n'est réalisé, les prix reviennent.
+Three cases to remember (the framing note cites them):
+  - oracle following the market + shock → liquidation: the borrower loses (bonus + sale at the low);
+  - FIXED oracle + shock → no liquidation: the borrower loses in market value, and if the collateral no longer
+    covers the debt, the LENDERS carry the hole (residual debt);
+  - SHORT shock + meta-oracle → neither switch nor liquidation: nothing is realised, prices come back.
 """
 from __future__ import annotations
 
@@ -39,10 +39,10 @@ def lif(lltv: float, params) -> float:
 @dataclass
 class Baseline:
     collateral: float          # PT
-    debt: float                # USDC (intérêts courus inclus)
-    oracle_price: float        # USDC par PT selon l'oracle, au bloc
+    debt: float                # USDC (accrued interest included)
+    oracle_price: float        # USDC per PT according to the oracle, at the block
     lltv: float
-    pt_usd: float              # valeur de marché d'un PT (prix spot de l'AMM × USDe/USD)
+    pt_usd: float              # market value of one PT (AMM spot price × USDe/USD)
     loan_usd: float
     borrow_apy: float
     equity_usd: float
@@ -67,7 +67,7 @@ class Baseline:
                    pt_days_to_expiry=gv.meta(gv.collateral_id()).get("days_to_expiry") or 0.0)
 
     def pt_usd_at(self, offset_days: float) -> float:
-        """Valeur du PT plus tard, sans choc : il « mûrit » au taux implicite et vaut 1 actif à l'échéance."""
+        """PT value later, without a shock: it "matures" at the implied rate and is worth 1 asset at maturity."""
         t = min(max(offset_days, 0.0), self.pt_days_to_expiry)
         return self.pt_usd * (1 + self.pt_implied_apy) ** (t / 365)
 
@@ -78,24 +78,24 @@ def evaluate_position(gv: GraphView, base: Baseline, world: World, oracle: Oracl
     coll_id, loan_id = gv.collateral_id(), gv.loan_id()
     trace: list[str] = []
 
-    # -- prix de marché pendant le choc
+    # -- market price during the shock
     extra = params["pt_extra_amm_discount_under_stress"] if world.mult(coll_id) < 1 else 0.0
-    pt_usd_now = base.pt_usd_at(ts_offset_days)          # S-TIME : le PT converge vers 1 à l'échéance
+    pt_usd_now = base.pt_usd_at(ts_offset_days)          # S-TIME: the PT converges to 1 at maturity
     pt_usd_shock = pt_usd_now * world.mult(coll_id) * (1 - extra)
     loan_usd_shock = base.loan_usd * world.mult(loan_id)
 
-    # -- dette à la date évaluée (S-TIME : la dette grossit au taux d'emprunt)
+    # -- debt at the evaluated date (S-TIME: the debt grows at the borrow rate)
     debt = base.debt * math.exp(base.borrow_apy * ts_offset_days / 365) if ts_offset_days else base.debt
 
-    # -- exploit du protocole de prêt : une part du collatéral disparaît
+    # -- exploit of the lending protocol: part of the collateral vanishes
     lost = max((world.protocol_loss.get(i, 0.0) for i in gv.targets(gv.market_id(), "issued_by")), default=0.0)
     coll = base.collateral * (1 - lost)
     if lost:
-        trace.append(f"exploit du marché : {pct(lost, 0)} du collatéral perdu")
+        trace.append(f"market exploit: {pct(lost, 0)} of the collateral lost")
 
     hf_before = base.hf
     hf_shock = coll * oracle.price * base.lltv / debt
-    trace.append(f"HF {hf_before:.4f} → {hf_shock:.4f} (prix oracle {oracle.price_normal:.6f} → {oracle.price:.6f}, mode {oracle.mode})")
+    trace.append(f"HF {hf_before:.4f} → {hf_shock:.4f} (oracle price {oracle.price_normal:.6f} → {oracle.price:.6f}, mode {oracle.mode})")
 
     # -- liquidation ?
     liquidated, liq_profitable, liq_time_h = False, None, None
@@ -111,41 +111,41 @@ def evaluate_position(gv: GraphView, base: Baseline, world: World, oracle: Oracl
         proceeds = seize * pt_usd_shock * (1 - slip) if slip is not None else 0.0
         profit = proceeds - repay_eff * loan_usd_shock
         liq_profitable = profit > 0
-        trace.append(f"liquidable (HF < 1) : bonus LIF = {factor:.4f} ; liquidateur rembourse {num(repay_eff)} USDC, "
-                     f"saisit {num(seize)} PT, revente {'impossible' if slip is None else f'à −{pct(slip, 2)}'} "
+        trace.append(f"liquidatable (HF < 1): LIF bonus = {factor:.4f}; liquidator repays {num(repay_eff)} USDC, "
+                     f"seizes {num(seize)} PT, resale {'impossible' if slip is None else f'at −{pct(slip, 2)}'} "
                      f"→ profit {usd(profit)}")
         if liq_profitable or not params["liquidator_requires_profit"]:
             liquidated = True
             seized, repaid = seize, repay_eff
             if seize >= coll and repay_eff < debt:
-                bad_debt = debt - repay_eff          # gage épuisé : le reste est irrécouvrable
-                trace.append(f"gage épuisé : {num(bad_debt)} USDC de dette irrécouvrable chez les prêteurs")
+                bad_debt = debt - repay_eff          # collateral exhausted: the rest is bad debt
+                trace.append(f"collateral exhausted: {num(bad_debt)} USDC of bad debt for the lenders")
         else:
-            trace.append("liquidation NON rentable → personne ne liquide : la dette reste exposée")
+            trace.append("liquidation NOT profitable → nobody liquidates: the debt stays exposed")
     elif hf_shock < 1 and world.chain_halted:
-        trace.append("liquidable mais la chaîne est à l'arrêt : liquidation retardée")
+        trace.append("liquidatable but the chain is halted: liquidation delayed")
 
-    # -- valorisation à l'horizon
+    # -- valuation at the horizon
     recovered = world.duration_hours is not None and world.duration_hours < horizon_h
     pt_final = pt_usd_now if recovered else pt_usd_shock
     loan_final = base.loan_usd if recovered else loan_usd_shock
     if recovered:
-        trace.append(f"le choc ({world.duration_hours:g} h) se termine avant l'horizon ({horizon_h:.0f} h) : prix revenus")
+        trace.append(f"the shock ({world.duration_hours:g} h) ends before the horizon ({horizon_h:.0f} h): prices are back")
     coll_left = coll - seized
     debt_left = 0.0 if bad_debt else debt - repaid
     final = coll_left * pt_final - debt_left * loan_final
     lender_exposure = 0.0
     if final < 0:
         lender_exposure = -final
-        trace.append(f"le gage ne couvre plus la dette : l'emprunteur abandonne, prêteurs exposés à {usd(lender_exposure)}")
+        trace.append(f"the collateral no longer covers the debt: the borrower walks away, lenders exposed to {usd(lender_exposure)}")
         final = 0.0
     borrower_loss = base.equity_usd - final
     lender_loss = bad_debt * loan_final + lender_exposure
     who = []
     if borrower_loss > 1:
-        who.append("emprunteur")
+        who.append("borrower")
     if lender_loss > 1:
-        who.append("prêteurs")
+        who.append("lenders")
     return {
         "hf_before": hf_before, "hf_after": hf_shock,
         "oracle_price_before": oracle.price_normal, "oracle_price_after": oracle.price,
@@ -157,6 +157,6 @@ def evaluate_position(gv: GraphView, base: Baseline, world: World, oracle: Oracl
         "equity_before_usd": base.equity_usd, "equity_after_usd": final,
         "borrower_loss_usd": borrower_loss, "lender_loss_usd": lender_loss,
         "lgi": max(borrower_loss, 0.0) / base.equity_usd if base.equity_usd > 0 else None,
-        "who_loses": who or ["personne"], "recovered_before_horizon": recovered,
+        "who_loses": who or ["nobody"], "recovered_before_horizon": recovered,
         "trace": trace,
     }

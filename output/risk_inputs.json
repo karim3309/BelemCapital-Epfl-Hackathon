@@ -7,7 +7,7 @@
   "router_static": "0x263833d47eA3fA4a30f269323aba6a107f9eB14C",
   "router_static_source": "https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/1-core.json",
   "function": "swapExactPtForSyStatic(address,uint256)",
-  "function_source": "IPActionMarketCoreStatic.sol, paquet npm @pendle/core-v2@6.6.1 (https://cdn.jsdelivr.net/npm/@pendle/core-v2@6.6.1/contracts/interfaces/IPActionMarketCoreStatic.sol)",
+  "function_source": "IPActionMarketCoreStatic.sol, npm package @pendle/core-v2@6.6.1 (https://cdn.jsdelivr.net/npm/@pendle/core-v2@6.6.1/contracts/interfaces/IPActionMarketCoreStatic.sol)",
   "market": "0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E",
   "collateral_pt": 413030.32398526685,
   "points": [
@@ -5940,13 +5940,13 @@
      "updated_at": 1791604751
     }
    ],
-   "evidence": "ChainlinkFeed.getRoundData(phase<<64|round) pour 960 rounds @ 0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961 #26162087"
+   "evidence": "ChainlinkFeed.getRoundData(phase<<64|round) for 960 rounds @ 0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961 #26162087"
   }
  },
  "gas": {
   "base_fee_gwei": 0.075506039,
   "base_fee_evidence": "eth_getBlockByNumber(26162087).baseFeePerGas = 0.0755 gwei",
   "eth_usd": 2494.63670555,
-  "eth_usd_evidence": "ENS eth-usd.data.eth → 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26162087 ; latestRoundData().answer = 249463670555 (déc. 8)"
+  "eth_usd_evidence": "ENS eth-usd.data.eth → 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26162087; latestRoundData().answer = 249463670555 (dec. 8)"
  }
 }

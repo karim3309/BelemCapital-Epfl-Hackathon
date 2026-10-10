@@ -1,8 +1,8 @@
-"""Appels HTTP (APIs Morpho / Pendle) passant par le cache disque data/cache/http/.
+"""HTTP calls (Morpho / Pendle APIs) going through the disk cache data/cache/http/.
 
-Différence avec le RPC : une API ne sait pas répondre « au bloc N ». La réponse cachée
-porte donc sa date (`fetched_at`) et c'est elle qu'on cite comme preuve.
-On n'utilise une API que pour LOCALISER quelque chose ; dès que possible, on re-prouve on-chain.
+Difference with RPC: an API cannot answer "at block N". The cached response
+therefore carries its date (`fetched_at`), and that date is what we cite as evidence.
+An API is only used to LOCATE something; whenever possible, we re-prove it on-chain.
 """
 from __future__ import annotations
 
@@ -26,7 +26,7 @@ class CachedHttp:
         self.session.headers["User-Agent"] = "StackTrace-discovery/0.1 (hackathon Belem DeFi Risk)"
 
     def get_json(self, url: str, params: dict | None = None) -> tuple[Any, str]:
-        """Renvoie (json, fetched_at)."""
+        """Returns (json, fetched_at)."""
         payload = {"method": "GET", "url": url, "params": params or {}}
         return self._cached(payload, lambda: self.session.get(url, params=params, timeout=self.timeout))
 
@@ -35,7 +35,7 @@ class CachedHttp:
         return self._cached(payload, lambda: self.session.post(url, json=body, timeout=self.timeout))
 
     def _cached(self, payload: dict, do_request) -> tuple[Any, str]:
-        entry = self.cache.get("http", payload)  # lève CacheMissError en offline
+        entry = self.cache.get("http", payload)  # raises CacheMissError when offline
         if entry is None:
             data = self._with_retries(do_request)
             entry = self.cache.put("http", payload, data)
@@ -56,7 +56,7 @@ class CachedHttp:
                 retriable = status is None or status == 429 or status >= 500
                 if not retriable or attempt >= self.max_retries:
                     raise
-                log.warning("API transitoire (%s), nouvel essai dans %.0fs", e, delay)
+                log.warning("Transient API error (%s), retrying in %.0fs", e, delay)
                 time.sleep(delay)
                 delay *= 2
         raise RuntimeError("unreachable")

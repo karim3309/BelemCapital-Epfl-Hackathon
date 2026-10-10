@@ -1,13 +1,13 @@
-"""ENS (Ethereum Name Service) : l'annuaire on-chain « nom → adresse ».
+"""ENS (Ethereum Name Service): the on-chain "name → address" directory.
 
-Pourquoi ici ? Chainlink enregistre ses feeds officiels sous le domaine `data.eth`
-(doc : https://docs.chain.link/data-feeds/ens). Si `usde-usd.data.eth` résout ON-CHAIN vers
-l'adresse du feed qu'utilise notre oracle, on a une preuve on-chain que c'est bien un feed Chainlink.
+Why here? Chainlink registers its official feeds under the `data.eth` domain
+(docs: https://docs.chain.link/data-feeds/ens). If `usde-usd.data.eth` resolves ON-CHAIN to
+the address of the feed our oracle uses, we have on-chain proof that it really is a Chainlink feed.
 
-Résolution (sans dépendre du module ENS de web3.py) :
-  node     = namehash(nom)                (hash récursif des labels, EIP-137)
+Resolution (without depending on web3.py's ENS module):
+  node     = namehash(name)               (recursive hash of the labels, EIP-137)
   resolver = Registry.resolver(node)
-  adresse  = Resolver.addr(node)
+  address  = Resolver.addr(node)
 """
 from __future__ import annotations
 
@@ -25,19 +25,19 @@ def namehash(name: str) -> bytes:
 
 
 def resolve(ctx: Ctx, name: str) -> tuple[str | None, str]:
-    """Renvoie (adresse ou None, preuve)."""
+    """Returns (address or None, evidence)."""
     registry = ctx.config.contracts["ens_registry"]
     node = namehash(name)
     resolver = ctx.try_call(registry, "resolver(bytes32)", [node], ["address"])
     if resolver is None or is_zero(resolver):
-        return None, f"ENS {name} : aucun resolver @ {registry} #{ctx.block}"
+        return None, f"ENS {name}: no resolver @ {registry} #{ctx.block}"
     addr = ctx.try_call(resolver, "addr(bytes32)", [node], ["address"])
     if addr is None or is_zero(addr):
-        return None, f"ENS {name} : pas d'adresse @ resolver {resolver} #{ctx.block}"
+        return None, f"ENS {name}: no address @ resolver {resolver} #{ctx.block}"
     return addr, f"ENS {name} → {addr} (Registry {registry} → resolver {resolver}) #{ctx.block}"
 
 
 def chainlink_ens_name(description: str) -> str:
-    """'USDe / USD' → 'usde-usd.data.eth' (convention de nommage Chainlink)."""
+    """'USDe / USD' → 'usde-usd.data.eth' (Chainlink naming convention)."""
     parts = [p.strip().lower() for p in description.split("/")]
     return "-".join(parts) + ".data.eth"

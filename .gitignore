@@ -1,4 +1,4 @@
-# Secrets : la clé RPC ne doit JAMAIS être commitée
+# Secrets: the RPC key must NEVER be committed
 .env
 
 # Python
@@ -9,7 +9,7 @@ __pycache__/
 .venv*/
 venv/
 
-# Fichiers temporaires du cache (écriture atomique)
+# Temporary cache files (atomic write)
 data/cache/**/*.tmp
 
 # IDE / OS
@@ -18,13 +18,13 @@ data/cache/**/*.tmp
 .DS_Store
 Thumbs.db
 
-# NB : data/cache/ est VOLONTAIREMENT commité → la démo tourne sans réseau.
+# NB: data/cache/ is committed ON PURPOSE → the demo runs without network.
 
-# Config locale de prévisualisation (chemin Python propre à chaque machine)
+# Local preview config (Python path specific to each machine)
 .claude/launch.json
 
-# Cache du mode EN LIGNE (backend v2) : journal local des réponses, jamais commité
+# ONLINE mode cache (backend v2): local log of responses, never committed
 data/cache_live/
 
-# Sorties du mode EN LIGNE (backend v2) : régénérées à chaque analyse
+# ONLINE mode outputs (backend v2): regenerated on every analysis
 output/live/

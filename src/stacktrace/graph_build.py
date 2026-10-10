@@ -1,17 +1,17 @@
-"""Étape 3 — le graphe de dépendances PROUVÉ d'une poche choisie dans le portefeuille d'un détenteur.
+"""Step 3 — the PROVEN dependency graph of a pocket picked from a holder's portfolio.
 
-    PYTHONPATH=src python -m stacktrace.graph_build 0xDétenteur "Belem RWA"     (morceau du nom de la poche)
-    PYTHONPATH=src python -m stacktrace.graph_build 0xDétenteur 3                (n° de la poche dans la liste)
+    PYTHONPATH=src python -m stacktrace.graph_build 0xHolder "Belem RWA"       (part of the pocket's name)
+    PYTHONPATH=src python -m stacktrace.graph_build 0xHolder 3                 (pocket number in the list)
 
-Déroulé (même moteur que discovery/build_graph.py, mais la racine dépend du TYPE de poche) :
-  1. session en ligne (bloc figé) + scan du portefeuille → on retrouve la poche demandée ;
-  2. racine selon le type :
-       morpho_vault_v2      → vault → adapters → marchés                (stacktrace/vault_v2.py)
-       morpho_market_borrow → marché + position (collatéral, dette, santé) (adaptateur existant)
-       morpho_market_supply → marché + position de prêt
-  3. exploration en largeur des dépendances (tokens, oracles, Pendle…) avec les adaptateurs existants ;
-  4. passes finales : émetteurs et hors-chaîne (curated.yaml), proxies, chaîne de règlement ;
-  5. validation stricte du contrat JSON → output/live/graph_<poche>.json
+Steps (same engine as discovery/build_graph.py, but the root depends on the pocket TYPE):
+  1. live session (pinned block) + portfolio scan → the requested pocket is found;
+  2. root by type:
+       morpho_vault_v2      → vault → adapters → markets                 (stacktrace/vault_v2.py)
+       morpho_market_borrow → market + position (collateral, debt, health) (existing adapter)
+       morpho_market_supply → market + lending position
+  3. breadth-first exploration of dependencies (tokens, oracles, Pendle…) with the existing adapters;
+  4. final passes: issuers and off-chain (curated.yaml), proxies, settlement chain;
+  5. strict validation of the JSON contract → output/live/graph_<pocket>.json
 """
 from __future__ import annotations
 
@@ -42,11 +42,11 @@ from .vault_v2 import discover_vault_v2
 
 log = logging.getLogger("stacktrace")
 SETTLED_ON_TYPES = ALLOWED_EDGE_SHAPES["settled_on"][0]
-SKIPPED_TASKS = {"vaults_lookup"}       # les autres prêteurs d'un marché ne sont pas des dépendances de NOTRE poche
+SKIPPED_TASKS = {"vaults_lookup"}       # a market's other lenders are not dependencies of OUR pocket
 
 
 def root_discovery(s: Session, h: Holding, holder: str) -> tuple[Discovery, str]:
-    """Racine du graphe selon le type de poche → (découverte, id de position du contrat JSON)."""
+    """Graph root by pocket type → (discovery, position id of the JSON contract)."""
     ctx = s.ctx
     if h.kind == "morpho_vault_v2":
         return discover_vault_v2(ctx, h.address, holder), f"morpho_vault_v2:{h.address}:{holder}"
@@ -61,7 +61,7 @@ def root_discovery(s: Session, h: Holding, holder: str) -> tuple[Discovery, str]
         else:
             d.edges.append(Edge(POSITION_KEY, market_key(m["market_id"]), "deployed_in", "onchain", h.evidence[0]))
         return d, position_id(m["market_id"], holder)
-    raise NotImplementedError(f"type de poche {h.kind!r} pas encore pris en charge (étape suivante)")
+    raise NotImplementedError(f"pocket type {h.kind!r} not supported yet (next step)")
 
 
 def build_position_graph(s: Session, h: Holding, holder: str) -> tuple[dict, Report]:
@@ -78,15 +78,15 @@ def build_position_graph(s: Session, h: Holding, holder: str) -> tuple[dict, Rep
             continue
         seen.add(sig)
         if len(g.nodes) > s.config.max_nodes:
-            raise RuntimeError(f"plus de {s.config.max_nodes} nœuds : boucle probable, on arrête")
+            raise RuntimeError(f"more than {s.config.max_nodes} nodes: probable loop, stopping")
         try:
             found = run_task(ctx, task)
         except requests.RequestException as e:
             if task.kind not in API_TASKS:
                 raise
-            found = Discovery(notes=[f"⚠ {task.kind} {task.target} non découvert (API indisponible : {e})"])
-        except ValueError as e:          # contrat illisible : on le DIT, on ne devine pas
-            found = Discovery(notes=[f"⚠ {task.kind} {task.target} non découvert : {e}"])
+            found = Discovery(notes=[f"⚠ {task.kind} {task.target} not discovered (API unavailable: {e})"])
+        except ValueError as e:          # unreadable contract: we SAY it, we do not guess
+            found = Discovery(notes=[f"⚠ {task.kind} {task.target} not discovered: {e}"])
         apply(g, found, queue, report)
         report.tasks_done += 1
 
@@ -99,7 +99,7 @@ def build_position_graph(s: Session, h: Holding, holder: str) -> tuple[dict, Rep
     graph = g.to_contract(pid, h.value_usd or 0.0)
     errors = validate(graph)
     if errors:
-        raise ValueError("contrat JSON invalide :\n  - " + "\n  - ".join(errors[:15]))
+        raise ValueError("invalid JSON contract:\n  - " + "\n  - ".join(errors[:15]))
     return graph, report
 
 
@@ -110,21 +110,21 @@ def pick(holdings: list[Holding], selector: str) -> Holding:
     hits = [h for h in holdings if sel in h.label.lower() or h.id.lower().startswith(sel)]
     if len(hits) != 1:
         names = "\n".join(f"  {i}. {h.label}" for i, h in enumerate(holdings, 1))
-        raise SystemExit(f"« {selector} » désigne {len(hits)} poche(s). Choisissez un numéro ou un nom plus précis :\n{names}")
+        raise SystemExit(f"\"{selector}\" matches {len(hits)} pocket(s). Pick a number or a more precise name:\n{names}")
     return hits[0]
 
 
 def _summary(graph: dict, report: Report, h: Holding) -> None:
     nodes, edges = graph["nodes"], graph["edges"]
-    print(f"\n=== Graphe de la poche « {h.label} » ({h.kind}) ===")
-    print(f"    {len(nodes)} nœuds {dict(Counter(n['type'] for n in nodes))}")
-    print(f"    {len(edges)} arêtes · sources {dict(Counter(e['source'] for e in edges))}")
+    print(f"\n=== Graph of pocket \"{h.label}\" ({h.kind}) ===")
+    print(f"    {len(nodes)} nodes {dict(Counter(n['type'] for n in nodes))}")
+    print(f"    {len(edges)} edges · sources {dict(Counter(e['source'] for e in edges))}")
     vault = next((n for n in nodes if n["type"] == "vault" and n["meta"].get("allocations")), None)
     if vault:
         m = vault["meta"]
         sym = m["asset_symbol"]
-        print(f"\n  Vault {vault['label']} : {m['total_assets_human']:,.0f} {sym} · détenteur = {m['holder_share_of_vault']:.1%} du vault")
-        print(f"  {'marché (id)':14s} {'collatéral':>18s} {'fourni':>16s} {'part':>7s} {'util.':>6s} {'retirable':>14s}")
+        print(f"\n  Vault {vault['label']}: {m['total_assets_human']:,.0f} {sym} · holder = {m['holder_share_of_vault']:.1%} of the vault")
+        print(f"  {'market (id)':14s} {'collateral':>18s} {'supplied':>16s} {'share':>7s} {'util.':>6s} {'withdrawable':>14s}")
         markets = {n["meta"].get("market_id"): n for n in nodes if n["type"] == "lending_market"}
         for a in sorted(m["allocations"], key=lambda a: -a["supplied"]):
             mk = markets.get(a["market_id"])
@@ -133,11 +133,11 @@ def _summary(graph: dict, report: Report, h: Holding) -> None:
                   f"{(a['market_utilization'] or 0):>6.0%} {a['withdrawable_now']:>14,.0f}")
         ex = m["exit_liquidity"]
         pen = [a["force_deallocate_penalty"] for a in m["adapters"]]
-        print(f"\n  Sortie : retirable maintenant ≈ {ex['withdrawable_now_human']:,.0f} {sym} pour TOUS les déposants "
-              f"→ couvre {ex['covers_holder_share']:.1%} de la poche · pénalité de retrait forcé {pen}")
+        print(f"\n  Exit: withdrawable now ≈ {ex['withdrawable_now_human']:,.0f} {sym} for ALL depositors "
+              f"→ covers {ex['covers_holder_share']:.1%} of the pocket · forced-withdrawal penalty {pen}")
     unresolved = [n for n in nodes if n["meta"].get("unresolved")]
     if unresolved:
-        print(f"\n  ⚠ {len(unresolved)} nœud(s) non résolu(s) (on ne devine pas) :")
+        print(f"\n  ⚠ {len(unresolved)} unresolved node(s) (we do not guess):")
         for n in unresolved:
             print(f"     - {n['id']} [{n['type']}] {n['label']}")
     if report.notes:
@@ -150,9 +150,9 @@ def main(argv: list[str] | None = None) -> int:
     from .session import SessionError, open_session
     utf8_console()
     logging.basicConfig(level=logging.WARNING, format="%(message)s")
-    ap = argparse.ArgumentParser(description="Graphe de dépendances prouvé d'une poche d'un détenteur.")
+    ap = argparse.ArgumentParser(description="Proven dependency graph of a holder's pocket.")
     ap.add_argument("holder")
-    ap.add_argument("position", help="numéro de la poche (liste de stacktrace.portfolio) ou morceau de son nom")
+    ap.add_argument("position", help="pocket number (stacktrace.portfolio list) or part of its name")
     args = ap.parse_args(argv)
     try:
         s = open_session()
@@ -167,7 +167,7 @@ def main(argv: list[str] | None = None) -> int:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     out = OUTPUT_DIR / f"graph_{slugify(h.label)[:40]}.json"
     out.write_text(json.dumps(graph, indent=1, ensure_ascii=False), encoding="utf-8")
-    print(f"\n✓ contrat JSON valide → {out.relative_to(REPO_ROOT)}  ({s.network_calls} appels RPC réseau)")
+    print(f"\n✓ valid JSON contract → {out.relative_to(REPO_ROOT)}  ({s.network_calls} network RPC calls)")
     return 0
 
 

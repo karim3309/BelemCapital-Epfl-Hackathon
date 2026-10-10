@@ -1,13 +1,13 @@
-"""Modèle de graphe : nœuds, arêtes, dédoublonnage, attribution des ids, export au contrat JSON.
+"""Graph model: nodes, edges, de-duplication, id assignment, export to the JSON contract.
 
-Pendant la découverte, on référence les nœuds par une CLÉ interne stable :
-  - contrat on-chain        → son adresse checksum           "0xB195..."
-  - marché Morpho           → "morpho_market:<marketId>"      (tous les marchés partagent l'adresse du singleton)
-  - entité hors chaîne      → "offchain:<slug>"  / émetteur → "issuer:<slug>"
-  - chaîne                  → "chain:<nom>"
+During discovery, nodes are referenced by a stable internal KEY:
+  - on-chain contract       → its checksum address          "0xB195..."
+  - Morpho market           → "morpho_market:<marketId>"     (all markets share the singleton's address)
+  - off-chain entity        → "offchain:<slug>"  / issuer → "issuer:<slug>"
+  - chain                   → "chain:<name>"
   - racine                  → "position"
-Les `id` lisibles du JSON (« pt_susde_26nov2026 ») ne sont calculés qu'à la fin (`to_contract`),
-en un seul endroit, ce qui rend les collisions impossibles à rater.
+The readable JSON `id`s ("pt_susde_26nov2026") are only computed at the end (`to_contract`),
+in a single place, which makes collisions impossible to miss.
 """
 from __future__ import annotations
 
@@ -34,7 +34,7 @@ class Node:
 
     def __post_init__(self):
         if self.type not in NODE_TYPES:
-            raise ValueError(f"type de nœud inconnu : {self.type!r} (voir vocab.NODE_TYPES)")
+            raise ValueError(f"unknown node type: {self.type!r} (see vocab.NODE_TYPES)")
 
 
 @dataclass
@@ -48,13 +48,13 @@ class Edge:
 
     def __post_init__(self):
         if self.type not in EDGE_TYPES:
-            raise ValueError(f"type d'arête inconnu : {self.type!r} (voir vocab.EDGE_TYPES)")
+            raise ValueError(f"unknown edge type: {self.type!r} (see vocab.EDGE_TYPES)")
         if self.source not in SOURCES:
-            raise ValueError(f"source inconnue : {self.source!r} (onchain | api | curated)")
+            raise ValueError(f"unknown source: {self.source!r} (onchain | api | curated)")
         if not self.evidence or not self.evidence.strip():
-            raise ValueError(f"arête {self.from_key} -{self.type}-> {self.to_key} sans preuve")
+            raise ValueError(f"edge {self.from_key} -{self.type}-> {self.to_key} without evidence")
         if not 0.0 <= float(self.weight) <= 1.0:
-            raise ValueError("weight doit être dans [0, 1]")
+            raise ValueError("weight must be in [0, 1]")
 
 
 class GraphBuilder:
@@ -62,30 +62,30 @@ class GraphBuilder:
         self.nodes: dict[str, Node] = {}
         self.edges: dict[tuple[str, str, str], Edge] = {}
 
-    # ------------------------------------------------------------- ajout
+    # ------------------------------------------------------------- adding
     def add_node(self, node: Node) -> str:
         existing = self.nodes.get(node.key)
         if existing is None:
             self.nodes[node.key] = node
             return node.key
         if existing.type != node.type:
-            raise ValueError(f"{node.key} déjà connu comme {existing.type}, pas {node.type}")
-        for k, v in node.meta.items():          # on complète, on n'écrase pas
+            raise ValueError(f"{node.key} already known as {existing.type}, not {node.type}")
+        for k, v in node.meta.items():          # complete, never overwrite
             existing.meta.setdefault(k, v)
         return node.key
 
     def add_edge(self, edge: Edge) -> None:
         if edge.from_key == edge.to_key:
-            raise ValueError(f"boucle sur soi-même interdite : {edge.from_key}")
+            raise ValueError(f"self-loop not allowed: {edge.from_key}")
         k = (edge.from_key, edge.to_key, edge.type)
-        self.edges.setdefault(k, edge)          # la première preuve gagne
+        self.edges.setdefault(k, edge)          # the first evidence wins
 
     def has(self, key: str) -> bool:
         return key in self.nodes
 
     # ------------------------------------------------------------- export
     def assign_ids(self) -> dict[str, str]:
-        """clé interne → id final. Tri par clé → résultat déterministe."""
+        """internal key → final id. Sorted by key → deterministic result."""
         ids: dict[str, str] = {}
         taken: set[str] = set()
         for key in sorted(self.nodes):
@@ -119,7 +119,7 @@ class GraphBuilder:
         edges = []
         for e in self.edges.values():
             if e.from_key not in ids or e.to_key not in ids:
-                raise ValueError(f"arête vers un nœud inexistant : {e.from_key} -{e.type}-> {e.to_key}")
+                raise ValueError(f"edge to a missing node: {e.from_key} -{e.type}-> {e.to_key}")
             edges.append({
                 "from": ids[e.from_key],
                 "to": ids[e.to_key],
@@ -140,7 +140,7 @@ class GraphBuilder:
 
 
 def to_networkx(graph: dict) -> nx.MultiDiGraph:
-    """Charge un graph.json (dict) dans networkx — pratique pour les analyses des autres équipes."""
+    """Loads a graph.json (dict) into networkx — handy for the other teams' analyses."""
     g = nx.MultiDiGraph()
     g.add_node(graph["position"]["id"], type="position", **{"value_usd": graph["position"]["value_usd"]})
     for n in graph["nodes"]:

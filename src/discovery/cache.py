@@ -1,12 +1,12 @@
-"""Cache disque de TOUS les appels réseau (RPC et API) — contrainte stricte de CLAUDE.md.
+"""Disk cache of ALL network calls (RPC and API) — a strict CLAUDE.md requirement.
 
-Principe :
-  - chaque requête est décrite par un dictionnaire (ex. {"method": "eth_call", "params": [...]}) ;
-  - on en tire une clé stable : sha256 du JSON trié  → même requête = même fichier ;
-  - la réponse est écrite dans data/cache/<namespace>/<2 premiers hex>/<clé>.json,
-    AVEC la requête d'origine (lisible par un humain → c'est aussi une preuve).
+Principle:
+  - each request is described by a dict (e.g. {"method": "eth_call", "params": [...]});
+  - a stable key is derived from it: sha256 of the sorted JSON → same request = same file;
+  - the response is written to data/cache/<namespace>/<first 2 hex>/<key>.json,
+    TOGETHER WITH the original request (human-readable → it is also evidence).
 
-Ces fichiers sont commités dans git : la démo rejoue tout sans réseau (mode offline).
+These files are committed to git: the demo replays everything without network (offline mode).
 """
 from __future__ import annotations
 
@@ -21,7 +21,7 @@ from typing import Any
 
 
 class CacheMissError(RuntimeError):
-    """Levée en mode offline quand une réponse n'est pas dans le cache."""
+    """Raised in offline mode when a response is not in the cache."""
 
 
 def canonical_json(obj: Any) -> str:
@@ -29,7 +29,7 @@ def canonical_json(obj: Any) -> str:
 
 
 def cache_key(payload: dict) -> str:
-    # 32 hex (128 bits) : largement unique, et garde les chemins courts sous Windows.
+    # 32 hex (128 bits): unique enough, and keeps paths short on Windows.
     return hashlib.sha256(canonical_json(payload).encode()).hexdigest()[:32]
 
 
@@ -55,13 +55,13 @@ class DiskCache:
     def _path(self, namespace: str, key: str) -> Path:
         path = (self.root / namespace / key[:2] / f"{key}.json").resolve()
         if os.name == "nt" and not str(path).startswith("\\\\?\\"):
-            # Windows limite les chemins à 260 caractères (MAX_PATH) : un dépôt cloné dans un dossier
-            # profond rendrait le cache « invisible ». Le préfixe \\?\ lève cette limite.
+            # Windows limits paths to 260 characters (MAX_PATH): a repo cloned into a deep folder
+            # would make the cache "invisible". The \\?\ prefix lifts that limit.
             path = Path("\\\\?\\" + str(path))
         return path
 
     def get(self, namespace: str, payload: dict) -> dict | None:
-        """Renvoie l'entrée {"request", "response", "fetched_at"} ou None."""
+        """Returns the {"request", "response", "fetched_at"} entry or None."""
         path = self._path(namespace, cache_key(payload))
         if path.exists():
             with open(path, encoding="utf-8") as f:
@@ -71,8 +71,8 @@ class DiskCache:
         self.stats.bump(namespace, "misses")
         if self.offline:
             raise CacheMissError(
-                f"[offline] pas de cache pour {namespace} {canonical_json(payload)[:200]} — "
-                "relancez une fois en ligne (ETH_RPC_URL) pour le remplir"
+                f"[offline] no cache for {namespace} {canonical_json(payload)[:200]} — "
+                "run once online (ETH_RPC_URL) to fill it"
             )
         return None
 
@@ -84,10 +84,10 @@ class DiskCache:
         }
         path = self._path(namespace, cache_key(payload))
         path.parent.mkdir(parents=True, exist_ok=True)
-        # Écriture atomique : on écrit un fichier temporaire puis on le renomme
-        # → jamais de fichier de cache à moitié écrit si le script est interrompu.
+        # Atomic write: write a temporary file then rename it
+        # → never a half-written cache file if the script is interrupted.
         fd, tmp = tempfile.mkstemp(dir=path.parent, suffix=".tmp")
-        with os.fdopen(fd, "w", encoding="utf-8", newline="\n") as f:   # LF partout (Windows compris)
+        with os.fdopen(fd, "w", encoding="utf-8", newline="\n") as f:   # LF everywhere (Windows included)
             json.dump(entry, f, indent=1, sort_keys=True)
         os.replace(tmp, path)
         self.stats.bump(namespace, "writes")

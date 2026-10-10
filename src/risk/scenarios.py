@@ -1,12 +1,12 @@
-"""Scénarios de stress : un incident défini dans risk/scenarios.yaml → son effet complet sur la position.
+"""Stress scenarios: an incident defined in risk/scenarios.yaml → its full effect on the position.
 
-Pour chaque scénario, le moteur enchaîne toujours les mêmes étapes (c'est ça qui le rend auditable) :
-  1. propagate      : le choc remonte le graphe (règle par type d'arête) ;
-  2. oracle_sim     : quel prix l'oracle du marché affiche pendant le choc (bascule ou non) ;
-  3. position       : nouveau HF, liquidation ou non, perte de l'emprunteur et des prêteurs ;
-  4. exit_cost      : coût certain de sortir maintenant (dans l'état de liquidité du scénario) ;
-  5. decide         : seuil p*, sortie partielle optimale, verdict et phrase d'explication ;
-  6. contagion      : le(s) chemin(s) du graphe par lequel le choc atteint la position, avec preuves.
+For each scenario, the engine always chains the same steps (that is what makes it auditable):
+  1. propagate      : the shock travels up the graph (one rule per edge type);
+  2. oracle_sim     : what price the market's oracle shows during the shock (switch or not);
+  3. position       : new HF, liquidation or not, loss of the borrower and of the lenders;
+  4. exit_cost      : certain cost of exiting now (in the scenario's liquidity state);
+  5. decide         : threshold p*, optimal partial exit, verdict and explanatory sentence;
+  6. contagion      : the graph path(s) through which the shock reaches the position, with evidence.
 """
 from __future__ import annotations
 
@@ -36,7 +36,7 @@ class Engine:
     def horizon_days(self) -> float:
         return self.params["horizon_days"]
 
-    # ------------------------------------------------------------------ cœur
+    # ------------------------------------------------------------------ core
     def run(self, shocks: list[Shock], ts_offset_days: float = 0.0) -> tuple[World, object, dict]:
         world = propagate(self.gv, shocks, self.params)
         oracle = evaluate_oracle(self.gv, self.gv.market_oracle_id(), world, self.params, ts_offset_days * 86400)
@@ -63,7 +63,7 @@ def expand_shocks(gv: GraphView, specs: list[dict]) -> list[Shock]:
     for s in specs:
         nodes = [s["node"]] if "node" in s else gv.select(s["select"])
         if not nodes:
-            raise ParamError(f"scénario : aucun nœud ne correspond à {s}")
+            raise ParamError(f"scenario: no node matches {s}")
         for n in nodes:
             shocks.append(Shock(node=n, kind=s["kind"], severity=float(s.get("severity", 0.0)),
                                 duration_hours=s.get("duration_hours"), panic=float(s.get("panic", 0.0))))
@@ -75,10 +75,10 @@ def load_scenarios(path: str | Path) -> dict:
     for sc in raw["scenarios"]:
         for k in ("id", "title", "why", "p_default", "shocks"):
             if k not in sc:
-                raise ParamError(f"scénario {sc.get('id')}: champ `{k}` obligatoire")
+                raise ParamError(f"scenario {sc.get('id')}: field `{k}` is required")
         pd = sc["p_default"]
         if not (pd.get("hypothesis") and pd.get("why")):
-            raise ParamError(f"scénario {sc['id']}: p_default doit être une hypothèse justifiée")
+            raise ParamError(f"scenario {sc['id']}: p_default must be a justified hypothesis")
     return raw
 
 
@@ -126,16 +126,16 @@ def scenario_params_used(sc: dict, shocks: list[Shock], world: World, oracle, ou
 
 
 def confidence_label(hypotheses: list[str], sc: dict) -> dict:
-    """Niveau de confiance lisible : combien d'hypothèses entrent dans le chiffre ?"""
+    """Readable confidence level: how many hypotheses go into the number?"""
     n = len(hypotheses)
-    level = "élevée" if n <= 3 else ("moyenne" if n <= 6 else "faible")
+    level = "high" if n <= 3 else ("medium" if n <= 6 else "low")
     return {"level": level, "hypotheses_in_number": hypotheses,
-            "note": ("La taille et la durée du choc sont un CHOIX de scénario ; le reste vient de la chaîne "
-                     "ou de docs officielles sauf les hypothèses listées.")}
+            "note": ("The size and duration of the shock are a scenario CHOICE; the rest comes from the chain "
+                     "or from official docs except the listed hypotheses.")}
 
 
 def evaluate_usde_grid(engine: Engine, grid: dict) -> dict:
-    """Grille prix USDe × durée pour le curseur du front (toutes les cellules calculées en Python)."""
+    """USDe price × duration grid for the front's slider (every cell computed in Python)."""
     gv = engine.gv
     usde = gv.feed_priced_asset(next(n["id"] for n in gv.of_type("oracle")
                                      if n["meta"].get("oracle_kind") == "chainlink_aggregator_proxy"))
@@ -148,7 +148,7 @@ def evaluate_usde_grid(engine: Engine, grid: dict) -> dict:
             sev = max(0.0, min(1.0, 1 - price / usde_now))
             shocks = [Shock(node=usde, kind="market_depeg", severity=sev, duration_hours=dur)] if sev > 0 else []
             world, oracle, out = engine.run(shocks)
-            dec = engine.decision(out["borrower_loss_usd"], 1.0, p, f"USDe à {price} $ pendant {dur or '∞'} h")
+            dec = engine.decision(out["borrower_loss_usd"], 1.0, p, f"USDe at ${price} for {dur or '∞'} h")
             state = ("switched" if oracle.switched else "challenge" if oracle.challenge_possible else "primary")
             row.append({
                 "usde_price": price, "duration_hours": dur, "severity": round(sev, 6),
@@ -160,8 +160,8 @@ def evaluate_usde_grid(engine: Engine, grid: dict) -> dict:
                 "verdict_default": dec["verdict"], "exit_fraction_default": dec["exit_fraction"],
                 "fraction_by_p": [t["exit_fraction"] for t in dec["table"]],
                 "sentence": dec["sentence"],
-                "status": ("LIQUIDÉ" if out["liquidated"] else
-                           "prêteurs exposés" if out["lender_loss_usd"] > 1 else "pas liquidé"),
+                "status": ("LIQUIDATED" if out["liquidated"] else
+                           "lenders exposed" if out["lender_loss_usd"] > 1 else "not liquidated"),
             })
         cells.append(row)
     return {"usde_node": usde, "usde_price_now": usde_now, "prices": grid["prices"],

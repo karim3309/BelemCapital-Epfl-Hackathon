@@ -1,10 +1,10 @@
-"""ERC-4626 : le standard des « coffres à parts » (tokenized vaults).
+"""ERC-4626: the standard for "share vaults" (tokenized vaults).
 
-Analogie : une tirelire collective. On dépose l'actif (`asset()`, ex. USDe) et on reçoit des parts
-(ex. sUSDe). Quand le coffre gagne des revenus, chaque part vaut plus d'actif :
-`convertToAssets(1 part)` monte. Ce taux est un TAUX INTERNE (comptable), pas un prix de marché.
+Analogy: a shared piggy bank. You deposit the asset (`asset()`, e.g. USDe) and receive shares
+(e.g. sUSDe). When the vault earns yield, each share is worth more of the asset:
+`convertToAssets(1 share)` goes up. That rate is an INTERNAL (accounting) RATE, not a market price.
 
-Dépendance : la part n'a de valeur que par l'actif sous-jacent → arête `redeemable_into`.
+Dependency: the share only has value through the underlying asset → `redeemable_into` edge.
 """
 from __future__ import annotations
 
@@ -29,7 +29,7 @@ def discover_erc4626(ctx: Ctx, info: dict) -> Discovery:
         "total_assets": jsonable(total_assets),
         "total_assets_human": scaled(total_assets, under_dec),
     }
-    # Spécifique Ethena (sUSDe) mais sondé génériquement : délai de retrait.
+    # Ethena-specific (sUSDe) but probed generically: withdrawal cooldown.
     cooldown = ctx.try_call(address, "cooldownDuration()", returns=["uint24"])
     if cooldown is not None:
         meta["cooldown_seconds"] = cooldown
@@ -42,7 +42,7 @@ def discover_erc4626(ctx: Ctx, info: dict) -> Discovery:
     d.edges.append(Edge(
         from_key=address, to_key=underlying, type="redeemable_into", source="onchain",
         evidence=ctx.ev(address, "asset()", result=underlying)
-        + f" ; convertToAssets(1e{dec}) = {rate} (taux interne)",
+        + f"; convertToAssets(1e{dec}) = {rate} (internal rate)",
     ))
     d.follow.append(Task("token", underlying))
     return d

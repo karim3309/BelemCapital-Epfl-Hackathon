@@ -1,4 +1,4 @@
-"""Console UTF-8 : sans ça, la console Windows (cp1252) plante sur les accents et les ✓."""
+"""UTF-8 console: without it, the Windows console (cp1252) crashes on accents and ✓."""
 import sys
 
 

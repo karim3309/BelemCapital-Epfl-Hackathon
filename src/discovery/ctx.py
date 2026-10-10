@@ -1,16 +1,16 @@
-"""Le « contexte » donné à chaque adaptateur : la SEULE porte d'accès à la blockchain et aux APIs.
+"""The "context" given to every adapter: the ONLY gateway to the blockchain and to the APIs.
 
-Un adaptateur n'importe jamais web3 directement : il appelle `ctx.call(...)`.
-Avantages : tout est caché, tout est lu au même bloc figé, et chaque lecture
-produit une preuve textuelle (`ctx.ev(...)`) qu'on met dans `evidence`.
+An adapter never imports web3 directly: it calls `ctx.call(...)`.
+Benefits: everything is cached, everything is read at the same pinned block, and each read
+produces a textual piece of evidence (`ctx.ev(...)`) that goes into `evidence`.
 
-Comment marche un appel de contrat (eth_call) ?
-  1. le « sélecteur » = 4 premiers octets de keccak256("symbol()")  → identifie la fonction ;
-  2. on y colle les arguments encodés en ABI (32 octets par argument simple) ;
-  3. le nœud exécute la fonction en lecture seule, au bloc demandé, et renvoie des octets ;
-  4. on décode ces octets selon les types de retour (ex. ["string"]).
-Si la fonction n'existe pas, le contrat « revert » → `try_call` renvoie None.
-C'est ainsi qu'on SONDE un contrat inconnu pour savoir ce qu'il est.
+How does a contract call (eth_call) work?
+  1. the "selector" = first 4 bytes of keccak256("symbol()") → identifies the function;
+  2. the ABI-encoded arguments are appended (32 bytes per simple argument);
+  3. the node runs the function read-only, at the requested block, and returns bytes;
+  4. those bytes are decoded according to the return types (e.g. ["string"]).
+If the function does not exist, the contract "reverts" → `try_call` returns None.
+That is how we PROBE an unknown contract to find out what it is.
 """
 from __future__ import annotations
 
@@ -46,7 +46,7 @@ def selector(signature: str) -> bytes:
 
 
 def _arg_types(signature: str) -> list[str]:
-    """'f(address,(uint128,uint128))' → ['address', '(uint128,uint128)'] (virgules de 1er niveau seulement)."""
+    """'f(address,(uint128,uint128))' → ['address', '(uint128,uint128)'] (top-level commas only)."""
     inner = signature[signature.index("(") + 1: signature.rindex(")")]
     types, depth, current = [], 0, ""
     for ch in inner:
@@ -91,13 +91,13 @@ class Ctx:
     block: int
     http: CachedHttp
     config: Config
-    labels: dict[str, str] = field(default_factory=dict)   # adresse checksum → nom lisible
+    labels: dict[str, str] = field(default_factory=dict)   # checksum address → readable name
     _ts: int | None = None
 
-    # ------------------------------------------------------------------ appels
+    # ------------------------------------------------------------------ calls
     def call(self, address: str, signature: str, args: Iterable[Any] = (),
              returns: Sequence[str] = ("uint256",)) -> Any:
-        """Appelle une fonction en lecture au bloc figé. Lève CallFailed si revert/vide."""
+        """Calls a read-only function at the pinned block. Raises CallFailed on revert/empty."""
         args = list(args)
         types = _arg_types(signature)
         data = selector(signature) + (encode(types, args) if types else b"")
@@ -105,16 +105,16 @@ class Ctx:
             raw = self.w3.eth.call({"to": checksum(address), "data": "0x" + data.hex()},
                                    block_identifier=self.block)
         except (CacheMissError, OfflineError, RpcError):
-            raise                      # problème d'infrastructure : on ne le confond JAMAIS avec un revert
-        except Exception as e:         # revert, fonction absente... (ContractLogicError, etc.)
+            raise                      # infrastructure problem: NEVER confused with a revert
+        except Exception as e:         # revert, missing function... (ContractLogicError, etc.)
             raise CallFailed(f"{signature} @ {address}: {e}") from e
         if not raw:
-            # Appeler une fonction sur une adresse sans code (EOA) renvoie "0x" : ce n'est PAS une réponse.
-            raise CallFailed(f"{signature} @ {address}: réponse vide")
+            # Calling a function on an address without code (EOA) returns "0x": that is NOT an answer.
+            raise CallFailed(f"{signature} @ {address}: empty response")
         try:
             values = _normalize(returns, decode(list(returns), bytes(raw)))
         except Exception as e:
-            raise CallFailed(f"{signature} @ {address}: décodage impossible en {returns}") from e
+            raise CallFailed(f"{signature} @ {address}: cannot decode as {returns}") from e
         return values[0] if len(values) == 1 else tuple(values)
 
     def try_call(self, address: str, signature: str, args: Iterable[Any] = (),
@@ -125,7 +125,7 @@ class Ctx:
             return None
 
     def has_functions(self, address: str, probes: Sequence[tuple[str, Sequence[str]]]) -> bool:
-        """True si TOUTES les fonctions sondées répondent (sonde = (signature, types de retour))."""
+        """True if ALL probed functions answer (probe = (signature, return types))."""
         return all(self.try_call(address, sig, (), ret) is not None for sig, ret in probes)
 
     def code(self, address: str) -> bytes:
@@ -140,12 +140,12 @@ class Ctx:
             self._ts = int(self.w3.eth.get_block(self.block)["timestamp"])
         return self._ts
 
-    # ------------------------------------------------------------------ preuves
+    # ------------------------------------------------------------------ evidence
     def label(self, address: str) -> str:
         return self.labels.get(checksum(address), "Contract")
 
     def ev(self, address: str, signature: str, args: Iterable[Any] = (), result: Any = None) -> str:
-        """Preuve on-chain lisible : `Label.fonction(args) = résultat @ 0xAdresse #bloc`."""
+        """Readable on-chain evidence: `Label.function(args) = result @ 0xAddress #block`."""
         name = signature[: signature.index("(")]
         arg_s = ",".join(fmt_value(a) for a in args)
         res = f" = {fmt_value(result)}" if result is not None else ""

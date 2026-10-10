@@ -1,14 +1,14 @@
-"""Replay d'incidents réels : la position A, telle qu'elle est aujourd'hui, revivant une vraie journée de crise.
+"""Replay of real incidents: position A, as it is today, living through a real day of crisis.
 
-Brief : « sur des données réelles ». On rejoue le chemin de prix de l'USDe d'un jour de crise :
-  - prix ON-CHAIN : les rounds du feed Chainlink USDe/USD de ce jour-là (lus au bloc figé) ;
-  - prix HORS CHAÎNE (carnet d'ordres de Binance) : curé, avec sa source (risk/replays.yaml).
+Brief: "on real data". We replay the USDe price path of a crisis day:
+  - ON-CHAIN price: the rounds of the Chainlink USDe/USD feed that day (read at the pinned block);
+  - OFF-CHAIN price (Binance order book): curated, with its source (risk/replays.yaml).
 
-Et on compare trois « designs » d'oracle face à la même journée :
-  1. NOTRE oracle réel (méta-oracle : primaire fixe, secours Chainlink, bascule après 16 h d'écart) ;
-  2. un oracle de marché branché sur Chainlink (sans méta-oracle) ;
-  3. un oracle de marché branché sur le prix de Binance (ce que faisait Binance pour son propre collatéral).
-Le message du cadrage (plan B) : « la SOURCE et la LOGIQUE de l'oracle comptent ».
+And we compare three oracle "designs" facing the same day:
+  1. OUR real oracle (meta-oracle: fixed primary, Chainlink fallback, switch after 16 h of deviation);
+  2. a market oracle plugged into Chainlink (without a meta-oracle);
+  3. a market oracle plugged into the Binance price (what Binance did for its own collateral).
+The framing note's message (plan B): "the SOURCE and the LOGIC of the oracle matter".
 """
 from __future__ import annotations
 
@@ -39,8 +39,8 @@ def chainlink_path(engine: Engine, start: int, end: int) -> tuple[str, list[tupl
 
 
 def meta_on_path(engine: Engine, path: list[tuple[int, float]], end: int) -> dict:
-    """Écart primaire/secours dans le temps. Primaire = décote fixe ; secours = décote × prix USDe :
-    écart = |1 − u| / ((1 + u) / 2), il ne dépend que du prix u de l'USDe."""
+    """Primary/fallback deviation over time. Primary = fixed discount; fallback = discount × USDe price:
+    deviation = |1 − u| / ((1 + u) / 2), it only depends on the USDe price u."""
     p = engine.params
     thr = p["meta_oracle_deviation_threshold"]
     needed = (p["challenger_delay_hours"] * 3600) + p["meta_oracle_challenge_timelock_seconds"]
@@ -57,13 +57,13 @@ def meta_on_path(engine: Engine, path: list[tuple[int, float]], end: int) -> dic
                 switched = True
         else:
             above_start = None
-    # prix de l'USDe sous lequel l'écart dépasse le seuil : 2(1−u)/(1+u) = seuil  ⇔  u = (2 − seuil)/(2 + seuil)
+    # USDe price below which the deviation exceeds the threshold: 2(1−u)/(1+u) = threshold  ⇔  u = (2 − threshold)/(2 + threshold)
     return {"max_deviation": max_dev, "threshold": thr, "challenge_price": (2 - thr) / (2 + thr), "longest_above_threshold_minutes": round(longest / 60, 1),
             "needed_minutes": needed / 60, "challenge_possible": max_dev > thr, "switched": switched}
 
 
 def _liquidation_outcome(engine: Engine, oracle_factor: float, duration_hours: float, market_mult: float = 1.0) -> dict:
-    """Effet d'un oracle qui affiche `oracle_factor` × prix normal, pendant que le marché on-chain vaut market_mult."""
+    """Effect of an oracle showing `oracle_factor` × normal price, while the on-chain market is worth market_mult."""
     base = engine.base
     world = World(duration_hours=duration_hours)
     if market_mult != 1.0:
@@ -86,33 +86,33 @@ def run_replays(engine: Engine, path: str | Path) -> list[dict]:
         u_min_t, u_min = min(cl[1:] or cl, key=lambda x: x[1])
         meta = meta_on_path(engine, cl, end)
         designs = []
-        # 1. notre oracle réel
+        # 1. our real oracle
         hf_real = engine.base.hf * (u_min / 1.0 if meta["switched"] else 1.0)
-        designs.append({"design": "Méta-oracle réel (primaire fixe + secours Chainlink)",
+        designs.append({"design": "Real meta-oracle (fixed primary + Chainlink fallback)",
                         "min_hf": hf_real, "liquidated": hf_real < 1, "borrower_loss_usd": 0.0 if hf_real >= 1 else None,
-                        "why": (f"écart max {pct(meta['max_deviation'], 2)} vs seuil {pct(meta['threshold'], 2)} ; "
-                                f"au-dessus du seuil pendant {num(meta['longest_above_threshold_minutes'], 1)} min "
-                                f"(il faut {num(meta['needed_minutes'])} min pour basculer) → "
-                                f"{'BASCULE' if meta['switched'] else 'pas de bascule, prix fixe'}")})
-        # 2. oracle de marché sur Chainlink
+                        "why": (f"max deviation {pct(meta['max_deviation'], 2)} vs threshold {pct(meta['threshold'], 2)}; "
+                                f"above the threshold for {num(meta['longest_above_threshold_minutes'], 1)} min "
+                                f"({num(meta['needed_minutes'])} min needed to switch) → "
+                                f"{'SWITCH' if meta['switched'] else 'no switch, fixed price'}")})
+        # 2. market oracle on Chainlink
         f_cl = u_min / u_ref
         o2 = _liquidation_outcome(engine, f_cl, 1.0)
-        designs.append({"design": "Oracle de marché sur Chainlink USDe/USD", "min_hf": engine.base.hf * f_cl,
+        designs.append({"design": "Market oracle on Chainlink USDe/USD", "min_hf": engine.base.hf * f_cl,
                         "liquidated": o2["liquidated"], "borrower_loss_usd": o2["borrower_loss_usd"],
-                        "why": f"Chainlink est descendu à {num(u_min, 4)} $ ({datetime.utcfromtimestamp(u_min_t).isoformat()} UTC)"})
+                        "why": f"Chainlink went down to ${num(u_min, 4)} ({datetime.utcfromtimestamp(u_min_t).isoformat()} UTC)"})
         item = {"id": r["id"], "title": r["title"], "story": r["story"].strip(), "available": True,
                 "feed": fid, "window": r["window"], "chainlink_path": [{"t": t, "price": u} for t, u in cl],
                 "chainlink_min": u_min, "chainlink_min_iso": datetime.utcfromtimestamp(u_min_t).isoformat() + "Z",
                 "meta_oracle": meta, "designs": designs,
                 "evidence": engine.inputs["chainlink_history"][fid]["evidence"]}
-        # 3. oracle de marché sur le prix de l'exchange (hors chaîne, curé)
+        # 3. market oracle on the exchange price (off-chain, curated)
         off = r.get("offchain_path")
         if off:
             o3 = _liquidation_outcome(engine, off["low"] / u_ref, off["duration_minutes"] / 60)
-            designs.append({"design": f"Oracle de marché sur le prix {off['venue']}", "min_hf": engine.base.hf * off["low"] / u_ref,
+            designs.append({"design": f"Market oracle on the {off['venue']} price", "min_hf": engine.base.hf * off["low"] / u_ref,
                             "liquidated": o3["liquidated"], "borrower_loss_usd": o3["borrower_loss_usd"],
-                            "why": (f"{off['venue']} à {num(off['low'], 2)} $ pendant ~{off['duration_minutes']} min (source curée) ; "
-                                    "on-chain le PT valait toujours ~1 : le liquidateur rachète le gage au rabais"),
+                            "why": (f"{off['venue']} at ${num(off['low'], 2)} for ~{off['duration_minutes']} min (curated source); "
+                                    "on-chain the PT was still worth ~1: the liquidator buys the collateral back at a discount"),
                             "trace": o3["trace"]})
             item["offchain_source"] = {k: off[k] for k in ("evidence_url", "as_of", "says")}
         out.append(item)

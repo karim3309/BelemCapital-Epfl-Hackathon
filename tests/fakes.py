@@ -1,9 +1,9 @@
-"""Faux contexte pour tester les adaptateurs SANS blockchain.
+"""Fake context to test the adapters WITHOUT a blockchain.
 
-On décrit à la main ce que « répondrait » chaque contrat :
-    responses[(adresse, "symbol()", ())] = "USDC"
-Toute fonction non décrite fait un « revert » (CallFailed), exactement comme un vrai contrat
-qui n'a pas cette fonction. C'est ce qui permet de tester la logique de SONDAGE.
+We describe by hand what each contract "would answer":
+    responses[(address, "symbol()", ())] = "USDC"
+Any function not described "reverts" (CallFailed), exactly like a real contract
+that does not have that function. This is what lets us test the PROBING logic.
 """
 from __future__ import annotations
 
@@ -14,7 +14,7 @@ from discovery.ctx import CallFailed, Ctx, checksum
 
 
 def addr(n: int) -> str:
-    """Adresse factice déterministe : addr(1) = 0x000...0001 (checksum)."""
+    """Deterministic dummy address: addr(1) = 0x000...0001 (checksum)."""
     return checksum("0x" + f"{n:040x}")
 
 
@@ -32,14 +32,14 @@ class FakeCtx(Ctx):
         key = (checksum(address), signature, tuple(args))
         self.calls.append(key)
         if key not in self.responses:
-            raise CallFailed(f"revert simulé : {signature} @ {address}")
+            raise CallFailed(f"simulated revert: {signature} @ {address}")
         return self.responses[key]
 
     def code(self, address: str) -> bytes:
-        return self.codes.get(checksum(address), b"\x60\x80")   # par défaut : « il y a du code »
+        return self.codes.get(checksum(address), b"\x60\x80")   # default: "there is code"
 
     def storage_at(self, address: str, slot: int) -> bytes:
-        return bytes(32)                                    # par défaut : pas un proxy
+        return bytes(32)                                    # default: not a proxy
 
     @property
     def block_timestamp(self) -> int:

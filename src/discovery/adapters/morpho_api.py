@@ -1,14 +1,14 @@
-"""API Morpho (GraphQL) : QUI prête au marché ? (les vaults qui y allouent des USDC)
+"""Morpho API (GraphQL): WHO lends to the market? (the vaults allocating USDC to it)
 
-Pourquoi l'API ? Pour lister les vaults qui allouent dans un marché on-chain, il faudrait
-indexer tous les vaults existants et lire leur config : c'est le travail d'un indexeur.
-L'API Morpho le fait déjà. On cite donc l'API comme source (`source: "api"`), et on relit
-on-chain ce qui peut l'être (nom, symbole, actif du vault, curateur).
+Why the API? Listing the vaults that allocate to an on-chain market would require
+indexing every existing vault and reading its config: that is an indexer's job.
+The Morpho API already does it. So we cite the API as the source (`source: "api"`), and re-read
+on-chain whatever can be (vault name, symbol, asset, curator).
 
-Dépendance : un vault qui prête au marché dépend du marché (si le collatéral fait défaut, le vault
-encaisse la dette irrécouvrable) → arête vault --deployed_in--> marché.
-Pour l'emprunteur, c'est un lien indirect : si les vaults retirent leurs USDC, l'utilisation
-monte et le taux d'emprunt explose (modèle de taux adaptatif).
+Dependency: a vault lending to the market depends on the market (if the collateral defaults, the vault
+takes the bad debt) → edge vault --deployed_in--> market.
+For the borrower it is an indirect link: if the vaults pull their USDC, utilisation
+rises and the borrow rate spikes (adaptive rate model).
 """
 from __future__ import annotations
 
@@ -32,14 +32,14 @@ def discover_supplying_vaults(ctx: Ctx, market_id: str, chain_id: int = 1) -> Di
     data, fetched_at = ctx.http.post_json(url, {"query": QUERY, "variables": {"id": market_id, "chainId": chain_id}})
     d = Discovery()
     if data.get("errors"):
-        d.notes.append(f"API Morpho : erreur {data['errors'][0].get('message')} → vaults non découverts")
+        d.notes.append(f"Morpho API: error {data['errors'][0].get('message')} → vaults not discovered")
         return d
     market = (data.get("data") or {}).get("marketById") or {}
     vaults = [("MetaMorpho (v1)", v) for v in market.get("supplyingVaults") or []] + \
              [("Morpho Vault V2", v) for v in market.get("supplyingVaultV2s") or []]
     for version, v in vaults:
         addr = checksum(v["address"])
-        # Relecture on-chain : on ne fait pas confiance au nom renvoyé par l'API.
+        # On-chain re-read: we do not trust the name returned by the API.
         name = ctx.try_call(addr, "name()", returns=["string"]) or v.get("name") or addr
         symbol = ctx.try_call(addr, "symbol()", returns=["string"]) or v.get("symbol")
         meta = {
@@ -54,9 +54,9 @@ def discover_supplying_vaults(ctx: Ctx, market_id: str, chain_id: int = 1) -> Di
         d.nodes.append(Node(key=addr, type="vault", label=name, id_hint=f"vault_{slugify(symbol or name)}",
                             address=addr, meta=meta))
         d.edges.append(Edge(addr, market_key(market_id), "deployed_in", "api",
-                            f"API Morpho {url} marketById({market_id}).{'supplyingVaultV2s' if 'V2' in version else 'supplyingVaults'} "
-                            f"contient {addr} (fetched {fetched_at})"))
+                            f"Morpho API {url} marketById({market_id}).{'supplyingVaultV2s' if 'V2' in version else 'supplyingVaults'} "
+                            f"contains {addr} (fetched {fetched_at})"))
     if not vaults:
-        d.notes.append("API Morpho : aucun vault ne prête à ce marché (prêteurs directs uniquement ?)")
+        d.notes.append("Morpho API: no vault lends to this market (direct lenders only?)")
     return d
 

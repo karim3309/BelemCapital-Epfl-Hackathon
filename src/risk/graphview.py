@@ -1,10 +1,10 @@
-"""Lecture pratique de graph.json pour le moteur de risque.
+"""Convenient reading of graph.json for the risk engine.
 
-Le moteur ne code JAMAIS en dur « le nœud usde » : il cherche les nœuds par leur rôle dans le graphe
-(« le collatéral du marché », « l'oracle du marché », « le feed qui mesure le prix de tel actif »...).
-Ainsi, le jour où la découverte produit le graphe d'une autre position, le moteur s'adapte.
+The engine NEVER hard-codes "the usde node": it finds nodes by their role in the graph
+("the market's collateral", "the market's oracle", "the feed measuring the price of such asset"...).
+So the day discovery produces the graph of another position, the engine adapts.
 
-Rappel de convention : une arête va du DÉPENDANT (`from`) vers sa DÉPENDANCE (`to`).
+Convention reminder: an edge goes from the DEPENDENT (`from`) to its DEPENDENCY (`to`).
 """
 from __future__ import annotations
 
@@ -37,7 +37,7 @@ class GraphView:
             gv.in_edges.setdefault(e["to"], []).append(e)
         return gv
 
-    # ------------------------------------------------------------------ accès
+    # ------------------------------------------------------------------ access
     @property
     def position_id(self) -> str:
         return self.raw["position"]["id"]
@@ -72,7 +72,7 @@ class GraphView:
         return None
 
     def select(self, selector: dict) -> list[str]:
-        """Sélecteur de params.yaml : {id: x} ou {type: t, role/oracle_kind/asset_kind: v}."""
+        """params.yaml selector: {id: x} or {type: t, role/oracle_kind/asset_kind: v}."""
         if "id" in selector:
             return [selector["id"]] if selector["id"] in self.nodes else []
         out = []
@@ -83,7 +83,7 @@ class GraphView:
                 out.append(n["id"])
         return out
 
-    # ------------------------------------------------------------------ rôles de la position
+    # ------------------------------------------------------------------ position roles
     def market_id(self) -> str:
         return self.targets(self.position_id, "deployed_in")[0]
 
@@ -101,7 +101,7 @@ class GraphView:
         return venues[0] if venues else None
 
     def feed_priced_asset(self, feed_id: str) -> str | None:
-        """Actif dont un feed mesure le prix de marché (meta.priced_asset = adresse)."""
+        """Asset whose market price a feed measures (meta.priced_asset = address)."""
         node = self.by_address(self.meta(feed_id).get("priced_asset"))
         return node["id"] if node else None
 
@@ -116,10 +116,10 @@ class GraphView:
         return to_networkx(self.raw)
 
     def paths_from_position(self, target: str, max_paths: int = 3, cutoff: int = 12) -> list[list[dict]]:
-        """Chemins de contagion : de la position jusqu'au nœud choqué, arêtes réelles avec leurs preuves."""
+        """Contagion paths: from the position to the shocked node, real edges with their evidence."""
         g = nx.DiGraph()
         for e in self.raw["edges"]:
-            if e["type"] != "settled_on":          # la chaîne est sous tout : on ne l'utilise pas comme chemin
+            if e["type"] != "settled_on":          # the chain is under everything: not used as a path
                 g.add_edge(e["from"], e["to"])
         root = self.position_id
         if target not in g or root not in g:

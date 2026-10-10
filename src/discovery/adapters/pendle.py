@@ -1,15 +1,15 @@
-"""Pendle : découpe un actif à rendement (sUSDe) en PT (le principal) + YT (le rendement).
+"""Pendle: splits a yield-bearing asset (sUSDe) into PT (the principal) + YT (the yield).
 
-  SY  (Standardized Yield) : emballage standard autour de sUSDe.        SY.yieldToken() → sUSDe
-  PT  (Principal Token)    : vaut 1 « actif comptable » à l'échéance.     PT.SY(), PT.expiry()
-  YT  (Yield Token)        : touche le rendement jusqu'à l'échéance.
-  Pool (PendleMarket)      : AMM PT ↔ SY, où l'on achète/vend du PT avant l'échéance.
+  SY  (Standardized Yield) : standard wrapper around sUSDe.               SY.yieldToken() → sUSDe
+  PT  (Principal Token)    : worth 1 "accounting asset" at maturity.     PT.SY(), PT.expiry()
+  YT  (Yield Token)        : receives the yield until maturity.
+  Pool (PendleMarket)      : PT ↔ SY AMM, where PT is bought/sold before maturity.
 
-Analogie : une obligation zéro-coupon achetée 0,95 et remboursée 1,00 à l'échéance.
+Analogy: a zero-coupon bond bought at 0.95 and repaid at 1.00 at maturity.
 
-Le PT ne connaît PAS l'adresse de son pool. On le LOCALISE via l'API Pendle, puis on le
-PROUVE on-chain : pool.readTokens() doit contenir notre PT, et la factory Pendle doit
-confirmer isValidMarket(pool). L'API ne sert qu'à trouver ; la preuve reste on-chain.
+The PT does NOT know its pool's address. We LOCATE it through the Pendle API, then
+PROVE it on-chain: pool.readTokens() must contain our PT, and the Pendle factory must
+confirm isValidMarket(pool). The API is only used to find; the evidence stays on-chain.
 """
 from __future__ import annotations
 
@@ -43,7 +43,7 @@ def discover_pt(ctx: Ctx, info: dict) -> Discovery:
         "is_expired": is_expired,
         "days_to_expiry": round((expiry - ctx.block_timestamp) / 86400, 2),
         "factory": factory,
-        "redemption_note": "à l'échéance, 1 PT se rachète contre la valeur de 1 actif comptable du SY (voir SY.assetInfo)",
+        "redemption_note": "at maturity, 1 PT redeems for the value of 1 SY accounting asset (see SY.assetInfo)",
     }
     d = Discovery()
     d.nodes.append(token_node(info, "pendle_pt", meta))
@@ -79,7 +79,7 @@ def discover_sy(ctx: Ctx, info: dict) -> Discovery:
 
 
 def find_market_via_api(ctx: Ctx, pt: str, chain_id: int = 1, page_size: int = 100, max_pages: int = 30):
-    """Parcourt GET {pendle_core}/v2/markets/all (paginé) et renvoie (entrée, url, fetched_at) ou None."""
+    """Walks GET {pendle_core}/v2/markets/all (paginated) and returns (entry, url, fetched_at) or None."""
     base = ctx.config.apis["pendle_core"].rstrip("/")
     url = f"{base}/v2/markets/all"
     wanted = f"{chain_id}-{pt.lower()}"
@@ -101,7 +101,7 @@ def discover_pendle_market(ctx: Ctx, market: str, pt: str, api_entry: dict | Non
     ctx.labels[market] = "PendleMarket"
     sy, pt_onchain, yt = ctx.call(market, "readTokens()", returns=["address", "address", "address"])
     if pt_onchain != checksum(pt):
-        raise ValueError(f"Le pool {market} ne contient pas le PT {pt} (readTokens → {pt_onchain}) : on refuse l'API")
+        raise ValueError(f"Pool {market} does not contain PT {pt} (readTokens → {pt_onchain}): API rejected")
     factory = ctx.call(market, "factory()", returns=["address"])
     ctx.labels[factory] = "PendleMarketFactory"
     is_valid = ctx.try_call(factory, "isValidMarket(address)", [market], ["bool"])
@@ -117,7 +117,7 @@ def discover_pendle_market(ctx: Ctx, market: str, pt: str, api_entry: dict | Non
         "expiry": expiry, "expiry_iso": _iso(expiry),
         "lp_total_supply": jsonable(ctx.try_call(market, "totalSupply()", returns=["uint256"])),
     }
-    # État interne de l'AMM : réserves PT et SY + dernier taux implicite (ln, échelle 1e18).
+    # Internal AMM state: PT and SY reserves + last implied rate (ln, 1e18 scale).
     storage = ctx.try_call(market, "_storage()", returns=["int128", "int128", "uint96", "uint16", "uint16", "uint16"])
     if storage is not None:
         total_pt, total_sy, last_ln_rate, _, obs_card, _ = storage
@@ -139,19 +139,19 @@ def discover_pendle_market(ctx: Ctx, market: str, pt: str, api_entry: dict | Non
     proof = (ctx.ev(market, "readTokens()", result=(sy, pt_onchain, yt))
              + " ; " + ctx.ev(factory, "isValidMarket(address)", [market], is_valid))
     if api_url:
-        proof += f" ; pool localisé via l'API Pendle {api_url} (fetched {fetched_at})"
+        proof += f"; pool located via the Pendle API {api_url} (fetched {fetched_at})"
 
     d = Discovery()
     d.nodes.append(Node(key=market, type="liquidity_venue", label=f"Pendle pool {lp_symbol}",
                         id_hint=f"pendle_{slugify(lp_symbol)}", address=market, meta=meta))
     d.edges.append(Edge(pt_onchain, market, "deployed_in", "onchain", proof))
     if api_entry and api_url and str(api_entry.get("sy", "")).lower().endswith(sy.lower()):
-        # Le SY n'a pas de factory() : c'est l'API officielle de Pendle qui le rattache à Pendle,
-        # et on vérifie que c'est bien le même SY que celui lu on-chain dans readTokens().
+        # The SY has no factory(): Pendle's official API links it to Pendle,
+        # and we check it is the same SY as the one read on-chain in readTokens().
         d.edges.append(Edge(sy, PENDLE_ISSUER_KEY, "issued_by", "api",
-                            f"API Pendle {api_url} (fetched {fetched_at}) : le marché {market} liste sy={sy}, "
-                            f"identique à readTokens() on-chain #{ctx.block}"))
-    d.notes.append(f"Pendle: pool {market} prouvé on-chain pour le PT {pt_onchain} (isValidMarket={is_valid})")
+                            f"Pendle API {api_url} (fetched {fetched_at}): market {market} lists sy={sy}, "
+                            f"identical to on-chain readTokens() #{ctx.block}"))
+    d.notes.append(f"Pendle: pool {market} proven on-chain for PT {pt_onchain} (isValidMarket={is_valid})")
     return d
 
 

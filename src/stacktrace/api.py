@@ -1,22 +1,22 @@
-"""API HTTP du backend StackTrace v2 (pour le front) — FastAPI, lecture seule, données réelles en ligne.
+"""HTTP API of the StackTrace v2 backend (for the front) — FastAPI, read-only, real live data.
 
     PYTHONPATH=src python -m stacktrace.api                  # http://127.0.0.1:8000  (doc interactive : /docs)
 
-Routes (contrat détaillé + exemples : docs/API.md) :
-    GET  /health                                         diagnostic RPC + APIs, bloc courant
-    GET  /holders/{holder}/pockets                       les poches du détenteur (montants prouvés on-chain)
-    GET  /holders/{holder}/pockets/{pocket}/graph        graphe de dépendances prouvé (contrat graph.json)
-    GET  /holders/{holder}/pockets/{pocket}/risk         verdict STAY/EXIT, perte attendue, sortie, p*, incidents
-    POST /holders/{holder}/pockets/{pocket}/incident     mode incident {incident, severity?, p?} → décision
-    GET  /holders/{holder}/book                          tout le portefeuille + dépendances partagées
+Routes (detailed contract + examples: docs/API.md):
+    GET  /health                                         RPC + APIs diagnostic, current block
+    GET  /holders/{holder}/pockets                       the holder's pockets (amounts proven on-chain)
+    GET  /holders/{holder}/pockets/{pocket}/graph        proven dependency graph (graph.json contract)
+    GET  /holders/{holder}/pockets/{pocket}/risk         STAY/EXIT verdict, expected loss, exit, p*, incidents
+    POST /holders/{holder}/pockets/{pocket}/incident     incident mode {incident, severity?, p?} → decision
+    GET  /holders/{holder}/book                          the whole portfolio + shared dependencies
 
-`{pocket}` = id de la poche (ex. morpho_vault_v2:0xD6d4…) OU son numéro dans la liste (1, 2, …).
+`{pocket}` = the pocket's id (e.g. morpho_vault_v2:0xD6d4…) OR its number in the list (1, 2, …).
 
-Fonctionnement :
-  - une SESSION en ligne partagée (RPC + bloc figé) ; renouvelée quand son bloc a plus de SESSION_TTL_S secondes ;
-  - tous les résultats sont mis en cache POUR CE BLOC : rappeler une route est instantané, et toutes les réponses
-    d'un même bloc sont cohérentes entre elles (chaque réponse indique son `block`) ;
-  - les calculs sont faits un par un (verrou) : une analyse complète prend du temps (centaines d'appels RPC).
+How it works:
+  - one shared live SESSION (RPC + pinned block); renewed when its block is older than SESSION_TTL_S seconds;
+  - every result is cached FOR THAT BLOCK: calling a route again is instant, and all responses
+    of the same block are consistent with each other (each response states its `block`);
+  - computations run one at a time (lock): a full analysis takes time (hundreds of RPC calls).
 """
 from __future__ import annotations
 
@@ -40,8 +40,8 @@ SESSION_TTL_S = 120
 API_VERSION = "2.0"
 
 app = FastAPI(title="StackTrace API", version=API_VERSION,
-              description="Dépendances prouvées d'une position DeFi, impact d'un incident, décision STAY / EXIT.")
-# Lecture seule, aucune donnée privée : on autorise le front (dev local) à appeler l'API depuis le navigateur.
+              description="Proven dependencies of a DeFi position, impact of an incident, STAY / EXIT decision.")
+# Read-only, no private data: the front (local dev) is allowed to call the API from the browser.
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["GET", "POST"], allow_headers=["*"])
 
 
@@ -57,9 +57,9 @@ class _State:
             try:
                 self.session = open_session()
             except SessionError as e:
-                raise HTTPException(503, detail=f"RPC indisponible : {e}") from e
+                raise HTTPException(503, detail=f"RPC unavailable: {e}") from e
             self.opened_at = time.time()
-            self.cache.clear()                 # nouveau bloc → nouveaux résultats
+            self.cache.clear()                 # new block → new results
         return self.session
 
     def memo(self, key: tuple, fn):
@@ -72,7 +72,7 @@ STATE = _State()
 
 
 def _json(x: Any) -> Any:
-    """Convertit les nombres numpy & co. en types JSON standard."""
+    """Converts numpy & co. numbers into standard JSON types."""
     return json.loads(json.dumps(x, default=float, ensure_ascii=False))
 
 
@@ -84,7 +84,7 @@ def _portfolio(s: Session, holder: str) -> Portfolio:
     try:
         return STATE.memo(("portfolio", s.block, holder.lower()), lambda: scan_holder(s.ctx, holder, s.chain_id))
     except ValueError as e:
-        raise HTTPException(400, detail=f"adresse invalide : {e}") from e
+        raise HTTPException(400, detail=f"invalid address: {e}") from e
 
 
 def _pocket(p: Portfolio, key: str) -> Holding:
@@ -93,7 +93,7 @@ def _pocket(p: Portfolio, key: str) -> Holding:
     for h in p.holdings:
         if h.id.lower() == key.lower():
             return h
-    raise HTTPException(404, detail={"error": f"poche « {key} » introuvable",
+    raise HTTPException(404, detail={"error": f"pocket \"{key}\" not found",
                                      "pockets": [{"index": i, "id": h.id, "label": h.label}
                                                  for i, h in enumerate(p.holdings, 1)]})
 
@@ -123,9 +123,9 @@ def health() -> dict:
               "pendle": lambda u: requests.get(f"{u}/v2/markets/all", params={"skip": 0, "limit": 1}, timeout=15)}
     for name, key in (("morpho", "morpho_graphql"), ("pendle", "pendle_core")):
         try:
-            out["apis"][name] = "ok" if checks[name](s.config.apis[key]).ok else "erreur"
+            out["apis"][name] = "ok" if checks[name](s.config.apis[key]).ok else "error"
         except Exception as e:
-            out["apis"][name] = f"injoignable ({type(e).__name__})"
+            out["apis"][name] = f"unreachable ({type(e).__name__})"
     if out["apis"].get("morpho") != "ok":
         out["status"] = "degraded"
     return out
@@ -151,7 +151,7 @@ def graph(holder: str, pocket: str) -> dict:
         h = _pocket(port, pocket)
 
         def build():
-            # si l'analyse de risque a déjà construit ce graphe, on le réutilise
+            # if the risk analysis already built this graph, reuse it
             for k, v in STATE.cache.items():
                 if k[0] == "risk" and k[1] == s.block and k[3] == h.id:
                     return v["_graph"]
@@ -172,9 +172,9 @@ def risk(holder: str, pocket: str, horizon: float | None = Query(None, gt=0, le=
 
 
 class IncidentIn(BaseModel):
-    incident: str = Field(..., description="id (ou début d'id) d'un incident listé par /risk → incidents[].id")
-    severity: float | None = Field(None, ge=0, le=1, description="sévérité 0–1 (défaut : milieu de la plage)")
-    p: float | None = Field(None, ge=0, le=1, description="probabilité estimée par le manager (défaut : hypothèse)")
+    incident: str = Field(..., description="id (or start of id) of an incident listed by /risk → incidents[].id")
+    severity: float | None = Field(None, ge=0, le=1, description="severity 0–1 (default: middle of the range)")
+    p: float | None = Field(None, ge=0, le=1, description="probability estimated by the manager (default: hypothesis)")
     horizon: float | None = Field(None, gt=0, le=365)
 
 
@@ -186,7 +186,7 @@ def incident(holder: str, pocket: str, body: IncidentIn) -> dict:
         try:
             inc = incident_decision(r, load_params(), body.incident, body.severity, body.p)
         except UnknownIncident:
-            raise HTTPException(404, detail={"error": f"incident « {body.incident} » inconnu",
+            raise HTTPException(404, detail={"error": f"incident \"{body.incident}\" unknown",
                                              "incidents": [x["id"] for x in r["incidents"]]})
         return _json({**_meta(s), "pocket": r["pocket"], "baseline_decision": r["decision"], "incident_mode": inc})
 
