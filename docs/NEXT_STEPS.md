@@ -7,8 +7,8 @@
   - un Monte Carlo et un replay du 10/10/2025 ;
   - p\* et la sortie partielle ;
   - chaque chiffre avec son statut.
-- **Front « Rayon X »** : `web/`, hors ligne.
-- **97 tests** au total.
+- **Front** : `front/` (deck sur l'API v2, réponses enregistrées hors ligne).
+- **126 tests** au total.
 
 Les prompts S1 à S8 plus bas restent valables (approfondir la découverte). Les nouveaux prompts R1 à R5 sont juste en dessous.
 

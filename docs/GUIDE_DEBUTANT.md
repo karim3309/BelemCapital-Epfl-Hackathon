@@ -2,7 +2,7 @@
 
 > **Pour qui ?** Pour nous trois, en partant de zéro.
 > **Comment le lire ?** Dans l'ordre, chapitre par chapitre. Chaque mot technique est expliqué la première fois qu'il apparaît, et il est aussi dans le **glossaire** à la fin.
-> **Temps de lecture :** environ 1 heure (45 min pour les chapitres 1-12, 15 min pour le risque et le Rayon X). Prenez votre temps : tout le reste du projet repose là-dessus.
+> **Temps de lecture :** environ 1 heure (45 min pour les chapitres 1-12, 15 min pour le risque et le front). Prenez votre temps : tout le reste du projet repose là-dessus.
 
 ---
 
@@ -20,7 +20,7 @@
 11. [Notre mission : jouer les détectives](#11-notre-mission--jouer-les-détectives)
 12. [Lire notre fichier graph.json sans paniquer](#12-lire-notre-fichier-graphjson-sans-paniquer)
 13. [Comment on mesure le risque](#13-comment-on-mesure-le-risque)
-14. [Comment lire le Rayon X](#14-comment-lire-le-rayon-x)
+14. [Comment lire le front](#14-comment-lire-le-front)
 15. [Glossaire](#15-glossaire)
 16. [Petit quiz pour vérifier qu'on a compris](#16-petit-quiz-pour-vérifier-quon-a-compris)
 
@@ -503,51 +503,27 @@ Morale : **la source de l'oracle compte**.
 
 ---
 
-## 14. Comment lire le Rayon X
+## 14. Comment lire le front
 
-Le **Rayon X** est la page web qui montre tout cela visuellement. Pour la lancer :
+Le front (`front/`) est un **deck de diapositives** qui suit les questions d'une risk manager à 3 h du matin. Pour le lancer :
 ```bash
-PYTHONPATH=src python -m risk.export_web
+cd front && npm install && npm run dev
 ```
-```bash
-python -m http.server 8000 -d web
-```
-puis ouvrez http://localhost:8000 dans un navigateur. Pas besoin d'Internet.
+puis ouvrez http://localhost:5173. Sans backend, il affiche des réponses réelles enregistrées (`docs/api_examples/`) : pas
+besoin d'Internet. ← → change de poche, ↑ ↓ change de question.
 
-### Les zones de l'écran
-| Zone | Ce qu'elle montre |
-|---|---|
-| **Barre du haut** | le nom de la position (« patient »), le numéro de bloc de la photo, les 4 modes |
-| **Constantes vitales** | comme chez le médecin : santé (HF), endettement (LTV / LLTV), marge avant liquidation, valeur, dette, capital, coût de sortie, verdict « sans alerte » |
-| **Le film** (au centre) | le **squelette** de la position : une couche par rangée, de la position (en haut) jusqu'à Ethereum (en bas) |
-| **Le panneau** (à droite) | la fiche du nœud cliqué, du scénario choisi, ou la fiche de risque |
-| **Le dock** (en bas) | les cartes de scénarios, ou les curseurs du mode Scénario |
+| # | Diapositive | Ce qu'elle montre |
+|---|---|---|
+| 1 | Portefeuille | les poches du détenteur, leur poids, leur verdict |
+| 2 | Verdict | **STAY / EXIT** en grand, ce que la sortie éviterait contre ce qu'elle coûte, le seuil p\* |
+| 3 | Par quel chemin ? | le graphe prouvé ; clic sur une arête = sa preuve |
+| 4 | Combien je perds ? | Monte Carlo et incidents classés, avec leur règle |
+| 5 | Combien coûte la sortie ? | coût certain, part sortable maintenant |
+| 6 | Et si ça arrive ? | votre probabilité contre p\* : le verdict bascule |
+| 7 | Concentration | les dépendances partagées par plusieurs poches |
 
-### Les codes visuels
-- **Trait cyan plein** : lien prouvé on-chain. **Pointillés cyan** : lien donné par une API. **Trait ambre fin + ▤** : lien curé (doc officielle datée).
-- **Pastille de couleur** sur un oracle : blanc = prix fixé, vert d'eau = prix de marché, violet = taux interne, ambre = hybride (arbitre).
-- **Magenta, pointillés qui avancent** : une **fracture**, c'est-à-dire le chemin par lequel un choc atteint la position.
-- **Grisé** : ce qui n'est pas concerné par ce qu'on regarde.
-
-### Les 4 modes
-1. **Squelette** : cliquez un nœud pour voir sa « fiche de l'os ». Elle contient une explication simple, ses chiffres et **toutes ses preuves** (avec lien Etherscan). En bas, les cartes de scénarios : cliquez-en une pour voir la fracture.
-2. **Scénario** : trois curseurs (prix de l'USDe, durée du choc, votre probabilité). L'arbitre s'affiche (expert « catalogue » / challenge / basculé), avec la santé, le statut (LIQUIDÉ / pas liquidé / prêteurs exposés) et le verdict.
-   **Essayez :** 0,93 $ pendant 15 h, puis pendant 16 h.
-3. **Impact** : cliquez n'importe quel nœud (Binance, Copper, Chainlink…) pour voir tout ce qui en dépend, et le chemin jusqu'à la position.
-4. **Explique-moi** : un parcours guidé en 7 étapes, l'histoire d'Alice. C'est la version « démo jury ».
-
-### Lire la fiche de risque
-De haut en bas :
-1. le **verdict** et sa phrase ;
-2. la **question de 3 h du matin** ;
-3. le seuil **p\*** en gros ;
-4. le risque d'une semaine normale (Monte Carlo) ;
-5. les **3 chemins les plus coûteux** (cliquables) ;
-6. les **replays** d'incidents réels ;
-7. la **confiance**, les **hypothèses** et la **sensibilité**.
-
-> Important : la page **ne calcule rien**. Elle affiche ce que le moteur Python a calculé (`output/risk_report.json` et
-> `output/risk_grid.json`). Si les chiffres semblent faux, c'est dans `src/risk/` qu'il faut regarder.
+> Important : le front **ne calcule rien**. Il affiche ce que l'API Python a calculé. Si les chiffres semblent faux,
+> c'est dans `src/stacktrace/` qu'il faut regarder.
 
 ---
 

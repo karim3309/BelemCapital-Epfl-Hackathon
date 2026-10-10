@@ -1,14 +1,12 @@
-# StackTrace · rayon X de position DeFi
+# StackTrace · dépendances et risque d'une position DeFi
 
 > Hackathon **Belem DeFi Risk** (EPFL). Une position DeFi en entrée, une **fiche de risque actionnable** en sortie :
 > 1. **Découverte** : le graphe de dépendances, chaque arête **prouvée** (on-chain, API ou source officielle curée) ;
 > 2. **Impact** : un moteur qui propage un choc dans ce graphe jusqu'à la position, en $ ;
 > 3. **Décision** : STAY / PARTIAL x % / EXIT, avec le seuil de probabilité **p\*** du brief ;
-> 4. **Rayon X** : un front qui montre tout ça, 100 % hors ligne.
+> 4. **Front** (`front/`) : un deck de diapositives qui montre tout ça, poche par poche.
 >
 > Aucune adresse, aucun lien, aucun paramètre n'est deviné.
-
-![Le squelette de la position A](docs/screens/01-squelette-desktop.jpg)
 
 ## La fiche de risque en 30 secondes (bloc #26162087)
 | | |
@@ -57,27 +55,14 @@ POSITION (value_usd=409 819,73)
 
 Pour l'explication complète, couche par couche, et les scénarios de depeg chiffrés : [docs/POSITION_A.md](docs/POSITION_A.md).
 
-## Moteur de risque et Rayon X
-Commandes, une par ligne :
+## Moteur de risque de la position A (hors ligne)
 ```bash
 PYTHONPATH=src python -m risk.run
 ```
-```bash
-PYTHONPATH=src python -m risk.export_web
-```
-```bash
-python -m http.server 8000 -d web
-```
-- `risk.run` lit `graph.json` et `risk_inputs.json` (hors ligne) et écrit `output/risk_report.json` et `risk_grid.json`.
-- `risk.export_web` copie les données du front dans `web/data/`.
-- `http.server` sert le front : ouvrez ensuite http://localhost:8000.
+`risk.run` lit `output/graph.json` et `output/risk_inputs.json` (hors ligne) et écrit `output/risk_report.json` et
+`output/risk_grid.json`. **Ne supprimez pas `output/`** : ce sont les entrées du moteur et des tests.
 
 Pour **rafraîchir toute la photo** (découverte + lectures du moteur, au même bloc), en ligne : `PYTHONPATH=src python -m risk.refresh`.
-
-| Scénario (Rayon X) | Impact (« si Binance casse ») |
-|---|---|
-| ![USDe 0,93 $ pendant 24 h](docs/screens/03-scenario-usde-093-24h.jpg) | ![Impact Binance](docs/screens/04-impact-binance.jpg) |
-| ![Exploit Pendle](docs/screens/02-scenario-pendle-exploit.jpg) | ![Mobile](docs/screens/05-mobile-375.jpg) |
 
 ## Backend v2 : n'importe quel détenteur réel, en ligne → STAY / EXIT
 
@@ -116,7 +101,7 @@ pip install -r requirements.txt
 python -m pytest
 ```
 
-Les 97 tests (découverte + moteur de risque + données du front) tournent en ~10 s, sans réseau, et incluent la position A rejouée depuis le cache.
+Les tests (découverte + moteur de risque + backend v2 + API) tournent en ~10 s, sans réseau, et incluent la position A rejouée depuis le cache.
 
 **Démo hors ligne** (aucun appel réseau, tout vient de `data/cache/`). Sous PowerShell :
 
@@ -191,9 +176,9 @@ src/risk/              MOTEUR DE RISQUE (parties 2 et 3) — ne lit que graph.js
   exit_cost.py decide.py  coût de sortie mesuré, seuil p*, sortie partielle, verdict
   montecarlo.py           200 000 semaines simulées → perte attendue, VaR, chemins les plus coûteux
   replay.py               incidents réels rejoués (10/10/2025, 21/02/2025)
-  run.py export_web.py    rapport + grille + validateur ; données du front
+  run.py                  rapport + grille + validateur
 risk/                  params.yaml, scenarios.yaml, replays.yaml (tout chiffre a un statut)
-web/                   front « Rayon X » statique, sans build, hors ligne
+front/                 front en diapositives (React), lit l'API v2 ou ses réponses enregistrées
 data/cache/            réponses RPC/API figées (commitées : la démo survit à une coupure réseau)
 output/                graph.json (découverte), risk_inputs.json, risk_report.json, risk_grid.json
 ```
@@ -215,7 +200,7 @@ output/                graph.json (découverte), risk_inputs.json, risk_report.j
 | [docs/PARTS_2_3.md](docs/PARTS_2_3.md) | parties 2 et 3 : brief → ce qu'on a fait → où c'est |
 | [docs/RISK_CONTRACT.md](docs/RISK_CONTRACT.md) | format de `risk_report.json` / `risk_grid.json` |
 | [docs/DEMO.md](docs/DEMO.md) | **script de démo de 5 minutes** (PowerShell et bash) |
-| [web/README.md](web/README.md) | le front Rayon X (lancement, principes, accessibilité) |
+| [front/README.md](front/README.md) | le front en diapositives (lancement, sources de données, architecture) |
 | [docs/GUIDE_DEBUTANT.md](docs/GUIDE_DEBUTANT.md) | **commencer ici** : tout expliqué en partant de zéro |
 | [CLAUDE.md](CLAUDE.md) | règles du projet + **vocabulaire figé** + conventions |
 | [docs/CONTRACT.md](docs/CONTRACT.md) | **pour les autres équipes** : comment lire `graph.json` |

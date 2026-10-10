@@ -6,75 +6,64 @@ Fil rouge : les questions de Léa, risk manager d'astreinte (cadrage §1).
 3. Combien coûte la sortie ?
 4. Je sors tout, une partie, ou j'attends ?
 
-Chiffres : bloc #26162087 (10/10/2026, 12:39 UTC), rejoué **sans réseau**.
+Chiffres : réponses réelles enregistrées au bloc **#26162868** (`docs/api_examples/`), rejouées **sans réseau**.
 
 ## Avant la démo (une fois)
-PowerShell :
-```powershell
-$env:PYTHONPATH="src"; python -m pytest -q; python -m risk.run; python -m risk.export_web
-```
-bash :
 ```bash
-PYTHONPATH=src python -m pytest -q && PYTHONPATH=src python -m risk.run && PYTHONPATH=src python -m risk.export_web
+python -m pytest -q
 ```
-Puis, dans un terminal laissé ouvert :
 ```bash
-python -m http.server 8000 -d web
+cd front && npm install && npm run dev
 ```
-Ouvrir http://localhost:8000 (en plein écran, 1280 px ou plus). **Coupez le Wi-Fi** : tout doit marcher.
+Ouvrir http://localhost:5173 en plein écran (1280 px ou plus). La pastille en haut à droite doit dire **Enregistré**.
+**Coupez le Wi-Fi** : tout doit marcher.
+
+Option « en direct » (RPC requis, `/book` prend ~1 min 30 au premier appel) : `PYTHONPATH=src python -m stacktrace.api`,
+puis choisir « direct » dans la pastille. À ne faire qu'après avoir préchauffé l'API.
 
 ---
 
-## 0:00 — Le problème (20 s)
-**Écran :** la page se charge, la ligne de scan descend et révèle les couches.
-**À dire :** « Une position DeFi, c'est une ligne dans un portefeuille. Celle-ci : un PT Pendle en gage sur Morpho, un emprunt
-en USDC. Passons-la aux rayons X. »
+## 0:00 — Le portefeuille (30 s)
+**Écran :** diapositive 1, 11 poches, 26,4 M$.
+**À dire :** « On part d'une seule adresse réelle. L'outil trouve toutes ses poches, et chaque montant est prouvé on-chain
+au même bloc. Le brief parle d'un book en dix poches : en voici un vrai. »
 
-## 0:20 — Le graphe prouvé (60 s) — *Découverte, 30 %*
-**Écran :** le squelette. Survolez la légende : trait plein = on-chain, pointillé = API, ambre ▤ = curé.
-**Action :** cliquez sur le nœud **USDe**, puis faites défiler la fiche jusqu'aux preuves.
-**À dire :** « 28 nœuds et 45 arêtes, découverts par le code à partir d'un seul identifiant de marché. Chaque arête porte sa
-preuve : contrat, fonction, résultat, numéro de bloc. Ce qui n'est pas on-chain (les coffres et les exchanges d'Ethena) est
-curé : lien officiel et date. Rien n'est dessiné à la main. »
+## 0:30 — Le verdict d'une poche (40 s) — *Décision, 25 %*
+**Action :** poche **Belem RWA EURCV**, diapositive 2.
+**À dire :** « STAY. Sortir maintenant coûte 643 $, mais seuls 22 % de la poche sont retirables tout de suite. Le seuil :
+sortez si vous croyez à plus de 0,6 % au risque principal. »
 
-## 1:20 — Le cœur : l'oracle et la durée (70 s) — *Impact, 30 %*
-**Action :** bouton **Scénario**. Curseur prix sur **0,93 $** et durée sur **6 h**, puis sur **24 h**.
-**À dire :** « L'oracle du marché est un méta-oracle. En temps normal, il donne un prix fixé par une formule. Il ne passe au prix
-de marché que si l'écart dépasse 0,75 % pendant 16 heures : ces deux paramètres sont lus on-chain. À 0,93 $ pendant 6 h, rien ne
-se passe. Le même prix pendant 24 h, et on est liquidé : 37 000 $ perdus. **La durée compte autant que l'ampleur.** »
-**Action :** carte **S-PENDLE-EXPLOIT** (mode Squelette, en bas).
-**À dire :** « L'inverse : un exploit Pendle. L'oracle fixe ne voit rien, personne n'est liquidé… et ce sont les prêteurs qui
-portent un trou de 152 000 $. C'est exactement le risque caché que Belem cherche. »
+## 1:10 — Par quel chemin ? (60 s) — *Découverte, 30 %*
+**Action :** diapositive 3, survoler le marché mGLOeuro, cliquer une arête pour afficher sa preuve.
+**À dire :** « Le graphe est construit par le code : vault, adapters, marchés, collatéraux, oracles. Chaque arête porte sa
+preuve : contrat, fonction, résultat, bloc. Et il révèle la concentration cachée : 85,8 % du vault est prêté contre un seul
+collatéral, mGLOeuro, dont le prix est posé par un administrateur. Il ne suit pas le marché. »
 
-## 2:30 — Le replay d'un vrai incident (40 s) — *Démo sur données réelles, 15 %*
-**Action :** dans le dock, **Replay 10 octobre 2025**.
-**À dire :** « Le 10 octobre 2025, l'USDe est tombé à 0,65 $ sur Binance pendant une quarantaine de minutes. On-chain, Chainlink
-n'est jamais descendu sous 0,9929 $ : on l'a relu round par round. Notre oracle tient, un oracle branché sur Chainlink aussi. Un
-oracle branché sur le prix de Binance nous aurait liquidés. **La source de l'oracle compte.** »
+## 2:10 — Combien je perds, combien coûte la sortie (50 s) — *Impact, 30 %*
+**Action :** diapositives 4 et 5.
+**À dire :** « Si mGLOeuro perd de la valeur, son oracle ne bouge pas : personne n'est liquidé à temps, et c'est la dette
+irrécouvrable des emprunteurs que paient les prêteurs, calculée emprunteur par emprunteur. »
+**Action :** passer (→) à la poche **Emprunt USDC contre PST**, diapositive 5.
+**À dire :** « Ici, la sortie coûte 13 % du capital, et au-delà de 25 % de la dette le marché ne peut plus absorber la
+vente. C'est l'arbitrage du brief : sortir coûte cher et c'est certain ; rester coûte peu, mais c'est incertain. »
 
-## 3:10 — La décision (70 s) — *Décision, 25 %*
-**Action :** bouton **Squelette**, puis lien **Fiche de risque**.
-**À dire :** « Alerte : l'USDe perd 30 % durablement. Sortir maintenant coûte 854 $ : c'est certain, mesuré en simulant la vente
-sur le vrai pool Pendle. Rester coûte 53 000 $ si l'incident arrive, toute la poche, et les prêteurs perdent 78 000 $ de plus.
-Le seuil vaut **p\* = 1,6 %**. »
-**Action :** cliquez sur un des **3 chemins les plus coûteux** : la fracture se dessine.
-**Action :** mode **Scénario**, curseur « votre probabilité » de 1 % à 5 % : le verdict passe de STAY à PARTIAL puis EXIT.
-**À dire :** « On ne demande pas à Léa d'estimer une perte : on lui demande si elle croit à plus de 1,6 %. Et la réponse n'est
-pas toujours tout ou rien : le glissement croît plus vite que la taille, donc on sort parfois une partie. »
+## 3:00 — Et si ça arrive ? (70 s) — *Décision, 25 %*
+**Action :** revenir à **Belem RWA EURCV**, diapositive 6, incident « Chute du collatéral mGLOeuro », sévérité 30 %.
+Monter « votre probabilité » de 0 à 20 %.
+**À dire :** « On ne demande pas à Léa d'estimer une perte : on lui demande si elle croit à plus de p\*. Au-dessus du seuil,
+le verdict bascule en EXIT, et seulement pour la part sortable maintenant : 22 %. »
 
-## 4:20 — La rigueur (30 s)
-**Action :** fiche de risque, sections **Hypothèses** et **Sensibilité**.
-**À dire :** « Chaque chiffre a un statut : sourcé, on-chain, ou hypothèse assumée. Le dataset de hacks étant payant, nos
-fréquences d'exploit sont des hypothèses, et on le dit. C'est pour ça que la décision repose sur p\*, qui n'en dépend pas. »
+## 4:10 — La concentration (30 s)
+**Action :** diapositive 7.
+**À dire :** « Morpho est présent dans les 11 poches, Chainlink ETH/USD dans 4, Circle dans 4 : une même dépendance
+cachée dans plusieurs poches. »
 
-## 4:50 — Phrase de fin (10 s)
-« À 3 h du matin, Léa n'a qu'une question à se poser : est-ce que je crois à plus de 1,6 % de risque ? »
+## 4:40 — Phrase de fin (20 s)
+« Chaque chiffre a un statut : sourcé, on-chain, ou hypothèse affichée. Nos probabilités sont des hypothèses : c'est pour
+ça que la décision repose sur p\*. À 3 h du matin, Léa n'a qu'une question : est-ce que je crois à plus de p\* ? »
 
 ---
 
 ## Plan B si quelque chose plante
-- La page ne charge pas → `python -m risk.export_web`, puis rechargez. N'ouvrez pas `index.html` en double-clic (le navigateur
-  bloque les fichiers locaux) : passez par `http.server`.
-- Plus rien ne marche → montrez `docs/screens/` (captures) et lancez dans le terminal :
-  `PYTHONPATH=src python -m discovery.inspect_graph --impact binance`, puis `PYTHONPATH=src python -m risk.run`.
-- Parcours guidé automatique : bouton **Explique-moi** (7 étapes, l'histoire d'Alice).
+- Page blanche → vérifier que `npm run dev` tourne, recharger ; forcer `http://localhost:5173/?source=recorded`.
+- Plus rien ne marche → en terminal : `PYTHONPATH=src python -m risk.run` (fiche de risque de la position A, hors ligne).

@@ -1,0 +1,5952 @@
+{
+ "snapshot_block": 26162087,
+ "snapshot_time_iso": "2026-10-10T12:38:59+00:00",
+ "position_id": "morpho:0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05:0x03BAbEB24619902253FDB0D5675A816879115d98",
+ "exit_simulations": {
+  "available": true,
+  "router_static": "0x263833d47eA3fA4a30f269323aba6a107f9eB14C",
+  "router_static_source": "https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/1-core.json",
+  "function": "swapExactPtForSyStatic(address,uint256)",
+  "function_source": "IPActionMarketCoreStatic.sol, paquet npm @pendle/core-v2@6.6.1 (https://cdn.jsdelivr.net/npm/@pendle/core-v2@6.6.1/contracts/interfaces/IPActionMarketCoreStatic.sol)",
+  "market": "0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E",
+  "collateral_pt": 413030.32398526685,
+  "points": [
+   {
+    "size_multiple": 0.001,
+    "pt_in": 413.0303239852669,
+    "reverted": false,
+    "sy_out": 327.7162318118701,
+    "sy_fee": 0.040842233822513646,
+    "price_impact": 1.251530210615e-06,
+    "exchange_rate_after": 1.0062461518973338,
+    "evidence": "PendleRouterStatic.swapExactPtForSyStatic(0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E,413030323985266900992) = (327716231811870100342,40842233822513651,1251530210615,1006246151897333892) @ 0x263833d47eA3fA4a30f269323aba6a107f9eB14C #26162087"
+   },
+   {
+    "size_multiple": 0.01,
+    "pt_in": 4130.303239852668,
+    "reverted": false,
+    "sy_out": 3277.1254570009414,
+    "sy_fee": 0.4084177443410247,
+    "price_impact": 1.2499547528058e-05,
+    "exchange_rate_after": 1.0062574521738192,
+    "evidence": "PendleRouterStatic.swapExactPtForSyStatic(0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E,4130303239852668223488) = (3277125457000941401007,408417744341024728,12499547528058,1006257452173819120) @ 0x263833d47eA3fA4a30f269323aba6a107f9eB14C #26162087"
+   },
+   {
+    "size_multiple": 0.05,
+    "pt_in": 20651.516199263344,
+    "reverted": false,
+    "sy_out": 16384.81372822753,
+    "sy_fee": 2.0419873307061565,
+    "price_impact": 6.2153267110292e-05,
+    "exchange_rate_after": 1.006307334702703,
+    "evidence": "PendleRouterStatic.swapExactPtForSyStatic(0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E,20651516199263344263168) = (16384813728227532545746,2041987330706156210,62153267110292,1006307334702702870) @ 0x263833d47eA3fA4a30f269323aba6a107f9eB14C #26162087"
+   },
+   {
+    "size_multiple": 0.1,
+    "pt_in": 41303.03239852669,
+    "reverted": false,
+    "sy_out": 32767.61836268044,
+    "sy_fee": 4.083724274431903,
+    "price_impact": 0.000123470468260747,
+    "exchange_rate_after": 1.0063689301208192,
+    "evidence": "PendleRouterStatic.swapExactPtForSyStatic(0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E,41303032398526688526336) = (32767618362680441310464,4083724274431902960,123470468260747,1006368930120819125) @ 0x263833d47eA3fA4a30f269323aba6a107f9eB14C #26162087"
+   },
+   {
+    "size_multiple": 0.2,
+    "pt_in": 82606.06479705338,
+    "reverted": false,
+    "sy_out": 65527.35576259899,
+    "sy_fee": 8.166466369488411,
+    "price_impact": 0.000243755130083625,
+    "exchange_rate_after": 1.0064897460266797,
+    "evidence": "PendleRouterStatic.swapExactPtForSyStatic(0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E,82606064797053377052672) = (65527355762598993587423,8166466369488411503,243755130083625,1006489746026679733) @ 0x263833d47eA3fA4a30f269323aba6a107f9eB14C #26162087"
+   },
+   {
+    "size_multiple": 0.3,
+    "pt_in": 123909.09719558005,
+    "reverted": false,
+    "sy_out": 98279.4989959499,
+    "sy_fee": 12.248262027668945,
+    "price_impact": 0.000361149497128984,
+    "exchange_rate_after": 1.0066076392779972,
+    "evidence": "PendleRouterStatic.swapExactPtForSyStatic(0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E,123909097195580040413184) = (98279498995949917010437,12248262027668945386,361149497128984,1006607639277997266) @ 0x263833d47eA3fA4a30f269323aba6a107f9eB14C #26162087"
+   },
+   {
+    "size_multiple": 0.5,
+    "pt_in": 206515.16199263342,
+    "reverted": false,
+    "sy_out": 163761.9796677948,
+    "sy_fee": 20.409135757027045,
+    "price_impact": 0.000588300848084219,
+    "exchange_rate_after": 1.0068356961316378,
+    "evidence": "PendleRouterStatic.swapExactPtForSyStatic(0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E,206515161992633417465856) = (163761979667794820235412,20409135757027046768,588300848084219,1006835696131637810) @ 0x263833d47eA3fA4a30f269323aba6a107f9eB14C #26162087"
+   },
+   {
+    "size_multiple": 0.75,
+    "pt_in": 309772.7429889501,
+    "reverted": false,
+    "sy_out": 245576.23947345576,
+    "sy_fee": 30.60538728391786,
+    "price_impact": 0.000860189063783854,
+    "exchange_rate_after": 1.0071085522117729,
+    "evidence": "PendleRouterStatic.swapExactPtForSyStatic(0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E,309772742988950109421568) = (245576239473455757162538,30605387283917860384,860189063783854,1007108552211772891) @ 0x263833d47eA3fA4a30f269323aba6a107f9eB14C #26162087"
+   },
+   {
+    "size_multiple": 1.0,
+    "pt_in": 413030.32398526685,
+    "reverted": false,
+    "sy_out": 327349.5626280158,
+    "sy_fee": 40.796537005912015,
+    "price_impact": 0.00112136801916551,
+    "exchange_rate_after": 1.0073705244578641,
+    "evidence": "PendleRouterStatic.swapExactPtForSyStatic(0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E,413030323985266834931712) = (327349562628015794910458,40796537005912011491,1121368019165510,1007370524457864200) @ 0x263833d47eA3fA4a30f269323aba6a107f9eB14C #26162087"
+   },
+   {
+    "size_multiple": 1.5,
+    "pt_in": 619545.4859779002,
+    "reverted": false,
+    "sy_out": 490779.54637547594,
+    "sy_fee": 61.16429716511937,
+    "price_impact": 0.001620720684776687,
+    "exchange_rate_after": 1.0078709453517054,
+    "evidence": "PendleRouterStatic.swapExactPtForSyStatic(0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E,619545485977900218843136) = (490779546375475923910044,61164297165119374852,1620720684776687,1007870945351705335) @ 0x263833d47eA3fA4a30f269323aba6a107f9eB14C #26162087"
+   },
+   {
+    "size_multiple": 2.0,
+    "pt_in": 826060.6479705337,
+    "reverted": false,
+    "sy_out": 654058.7692645435,
+    "sy_fee": 81.5132684770496,
+    "price_impact": 0.002101515517132287,
+    "exchange_rate_after": 1.0083520735297051,
+    "evidence": "PendleRouterStatic.swapExactPtForSyStatic(0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E,826060647970533669863424) = (654058769264543453934721,81513268477049597115,2101515517132287,1008352073529705121) @ 0x263833d47eA3fA4a30f269323aba6a107f9eB14C #26162087"
+   },
+   {
+    "size_multiple": 3.0,
+    "pt_in": 1239090.9719558004,
+    "reverted": false,
+    "sy_out": 980155.3734545163,
+    "sy_fee": 122.15365324963001,
+    "price_impact": 0.003055181354394231,
+    "exchange_rate_after": 1.0093035457675577,
+    "evidence": "PendleRouterStatic.swapExactPtForSyStatic(0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E,1239090971955800437686272) = (980155373454516401262155,122153653249630015895,3055181354394231,1009303545767557715) @ 0x263833d47eA3fA4a30f269323aba6a107f9eB14C #26162087"
+   },
+   {
+    "size_multiple": 5.0,
+    "pt_in": 2065151.6199263344,
+    "reverted": false,
+    "sy_out": 1629910.1980423776,
+    "sy_fee": 203.13053476204144,
+    "price_impact": 0.00532115926461024,
+    "exchange_rate_after": 1.0115340828475763,
+    "evidence": "PendleRouterStatic.swapExactPtForSyStatic(0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E,2065151619926334241767424) = (1629910198042377490508191,203130534762041454696,5321159264610240,1011534082847576164) @ 0x263833d47eA3fA4a30f269323aba6a107f9eB14C #26162087"
+   },
+   {
+    "size_multiple": 7.5,
+    "pt_in": 3097727.4298895015,
+    "reverted": true,
+    "evidence": "PendleRouterStatic.swapExactPtForSyStatic(0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E,3097727429889501765304320) → revert #26162087"
+   },
+   {
+    "size_multiple": 10.0,
+    "pt_in": 4130303.2398526687,
+    "reverted": true,
+    "evidence": "PendleRouterStatic.swapExactPtForSyStatic(0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E,4130303239852668483534848) → revert #26162087"
+   },
+   {
+    "size_multiple": 20.0,
+    "pt_in": 8260606.479705337,
+    "reverted": true,
+    "evidence": "PendleRouterStatic.swapExactPtForSyStatic(0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E,8260606479705336967069696) → revert #26162087"
+   }
+  ]
+ },
+ "chainlink_history": {
+  "feed_usde_usd": {
+   "feed": "0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961",
+   "description": "USDe / USD",
+   "decimals": 8,
+   "phases": [
+    {
+     "phase": 1,
+     "aggregator": "0xB735cC58d71dEAc4cfC46dE68d3b04988F7D7b2d",
+     "rounds": 111
+    },
+    {
+     "phase": 2,
+     "aggregator": "0xcC16f670129f965b396f2e81312F6e339FFDB18e",
+     "rounds": 849
+    }
+   ],
+   "rounds": [
+    {
+     "phase": 1,
+     "round": 1,
+     "answer": 0.9991009,
+     "updated_at": 1713820595
+    },
+    {
+     "phase": 1,
+     "round": 2,
+     "answer": 0.99865219,
+     "updated_at": 1713906995
+    },
+    {
+     "phase": 1,
+     "round": 3,
+     "answer": 0.99889802,
+     "updated_at": 1713993407
+    },
+    {
+     "phase": 1,
+     "round": 4,
+     "answer": 0.99941246,
+     "updated_at": 1714079831
+    },
+    {
+     "phase": 1,
+     "round": 5,
+     "answer": 0.99872415,
+     "updated_at": 1714166243
+    },
+    {
+     "phase": 1,
+     "round": 6,
+     "answer": 0.99931383,
+     "updated_at": 1714252667
+    },
+    {
+     "phase": 1,
+     "round": 7,
+     "answer": 0.99892416,
+     "updated_at": 1714339091
+    },
+    {
+     "phase": 1,
+     "round": 8,
+     "answer": 0.99867983,
+     "updated_at": 1714425503
+    },
+    {
+     "phase": 1,
+     "round": 9,
+     "answer": 0.99877063,
+     "updated_at": 1714511927
+    },
+    {
+     "phase": 1,
+     "round": 10,
+     "answer": 0.99838794,
+     "updated_at": 1714598339
+    },
+    {
+     "phase": 1,
+     "round": 11,
+     "answer": 0.99887858,
+     "updated_at": 1714684763
+    },
+    {
+     "phase": 1,
+     "round": 12,
+     "answer": 0.99879979,
+     "updated_at": 1714771187
+    },
+    {
+     "phase": 1,
+     "round": 13,
+     "answer": 0.99924083,
+     "updated_at": 1714857611
+    },
+    {
+     "phase": 1,
+     "round": 14,
+     "answer": 0.99880742,
+     "updated_at": 1714944035
+    },
+    {
+     "phase": 1,
+     "round": 15,
+     "answer": 0.9992829,
+     "updated_at": 1715030471
+    },
+    {
+     "phase": 1,
+     "round": 16,
+     "answer": 0.9993807,
+     "updated_at": 1715116907
+    },
+    {
+     "phase": 1,
+     "round": 17,
+     "answer": 1.00009748,
+     "updated_at": 1715203331
+    },
+    {
+     "phase": 1,
+     "round": 18,
+     "answer": 1.00122004,
+     "updated_at": 1715289791
+    },
+    {
+     "phase": 1,
+     "round": 19,
+     "answer": 1.001,
+     "updated_at": 1715376215
+    },
+    {
+     "phase": 1,
+     "round": 20,
+     "answer": 1.00032834,
+     "updated_at": 1715462639
+    },
+    {
+     "phase": 1,
+     "round": 21,
+     "answer": 1.00069563,
+     "updated_at": 1715549063
+    },
+    {
+     "phase": 1,
+     "round": 22,
+     "answer": 1.0011,
+     "updated_at": 1715635535
+    },
+    {
+     "phase": 1,
+     "round": 23,
+     "answer": 1.00078137,
+     "updated_at": 1715721959
+    },
+    {
+     "phase": 1,
+     "round": 24,
+     "answer": 1.00131415,
+     "updated_at": 1715808395
+    },
+    {
+     "phase": 1,
+     "round": 25,
+     "answer": 1.00085997,
+     "updated_at": 1715894819
+    },
+    {
+     "phase": 1,
+     "round": 26,
+     "answer": 1.00162859,
+     "updated_at": 1715981255
+    },
+    {
+     "phase": 1,
+     "round": 27,
+     "answer": 1.00133148,
+     "updated_at": 1716067679
+    },
+    {
+     "phase": 1,
+     "round": 28,
+     "answer": 1.00143416,
+     "updated_at": 1716154103
+    },
+    {
+     "phase": 1,
+     "round": 29,
+     "answer": 1.0020475,
+     "updated_at": 1716240515
+    },
+    {
+     "phase": 1,
+     "round": 30,
+     "answer": 1.00106952,
+     "updated_at": 1716326939
+    },
+    {
+     "phase": 1,
+     "round": 31,
+     "answer": 1.00131077,
+     "updated_at": 1716413363
+    },
+    {
+     "phase": 1,
+     "round": 32,
+     "answer": 1.00071299,
+     "updated_at": 1716499775
+    },
+    {
+     "phase": 1,
+     "round": 33,
+     "answer": 1.0012,
+     "updated_at": 1716586199
+    },
+    {
+     "phase": 1,
+     "round": 34,
+     "answer": 1.00123811,
+     "updated_at": 1716672623
+    },
+    {
+     "phase": 1,
+     "round": 35,
+     "answer": 1.0011,
+     "updated_at": 1716759035
+    },
+    {
+     "phase": 1,
+     "round": 36,
+     "answer": 1.00035492,
+     "updated_at": 1716845459
+    },
+    {
+     "phase": 1,
+     "round": 37,
+     "answer": 1.00027573,
+     "updated_at": 1716931943
+    },
+    {
+     "phase": 1,
+     "round": 38,
+     "answer": 1.00079999,
+     "updated_at": 1717018355
+    },
+    {
+     "phase": 1,
+     "round": 39,
+     "answer": 1.0012,
+     "updated_at": 1717104779
+    },
+    {
+     "phase": 1,
+     "round": 40,
+     "answer": 1.00026953,
+     "updated_at": 1717191191
+    },
+    {
+     "phase": 1,
+     "round": 41,
+     "answer": 1.00101011,
+     "updated_at": 1717277615
+    },
+    {
+     "phase": 1,
+     "round": 42,
+     "answer": 1.00229077,
+     "updated_at": 1717364039
+    },
+    {
+     "phase": 1,
+     "round": 43,
+     "answer": 1.0013,
+     "updated_at": 1717450463
+    },
+    {
+     "phase": 1,
+     "round": 44,
+     "answer": 1.00118766,
+     "updated_at": 1717536875
+    },
+    {
+     "phase": 1,
+     "round": 45,
+     "answer": 1.00152598,
+     "updated_at": 1717623287
+    },
+    {
+     "phase": 1,
+     "round": 46,
+     "answer": 1.0012,
+     "updated_at": 1717709711
+    },
+    {
+     "phase": 1,
+     "round": 47,
+     "answer": 1.0013,
+     "updated_at": 1717796147
+    },
+    {
+     "phase": 1,
+     "round": 48,
+     "answer": 1.00116583,
+     "updated_at": 1717882571
+    },
+    {
+     "phase": 1,
+     "round": 49,
+     "answer": 1.0012,
+     "updated_at": 1717968995
+    },
+    {
+     "phase": 1,
+     "round": 50,
+     "answer": 1.0003,
+     "updated_at": 1718055419
+    },
+    {
+     "phase": 1,
+     "round": 51,
+     "answer": 1.00114966,
+     "updated_at": 1718141843
+    },
+    {
+     "phase": 1,
+     "round": 52,
+     "answer": 1.00095561,
+     "updated_at": 1718228279
+    },
+    {
+     "phase": 1,
+     "round": 53,
+     "answer": 1.00103499,
+     "updated_at": 1718314703
+    },
+    {
+     "phase": 1,
+     "round": 54,
+     "answer": 1.0008,
+     "updated_at": 1718401127
+    },
+    {
+     "phase": 1,
+     "round": 55,
+     "answer": 1.00060214,
+     "updated_at": 1718487551
+    },
+    {
+     "phase": 1,
+     "round": 56,
+     "answer": 1.0004,
+     "updated_at": 1718573975
+    },
+    {
+     "phase": 1,
+     "round": 57,
+     "answer": 1.0012,
+     "updated_at": 1718660387
+    },
+    {
+     "phase": 1,
+     "round": 58,
+     "answer": 1.00090962,
+     "updated_at": 1718746811
+    },
+    {
+     "phase": 1,
+     "round": 59,
+     "answer": 1.00072229,
+     "updated_at": 1718833235
+    },
+    {
+     "phase": 1,
+     "round": 60,
+     "answer": 1.00061458,
+     "updated_at": 1718919659
+    },
+    {
+     "phase": 1,
+     "round": 61,
+     "answer": 1.0009,
+     "updated_at": 1719006083
+    },
+    {
+     "phase": 1,
+     "round": 62,
+     "answer": 1.00124312,
+     "updated_at": 1719092495
+    },
+    {
+     "phase": 1,
+     "round": 63,
+     "answer": 1.00065778,
+     "updated_at": 1719178919
+    },
+    {
+     "phase": 1,
+     "round": 64,
+     "answer": 1.00015551,
+     "updated_at": 1719265343
+    },
+    {
+     "phase": 1,
+     "round": 65,
+     "answer": 1.0009284,
+     "updated_at": 1719351767
+    },
+    {
+     "phase": 1,
+     "round": 66,
+     "answer": 1.0004123,
+     "updated_at": 1719438191
+    },
+    {
+     "phase": 1,
+     "round": 67,
+     "answer": 0.99949999,
+     "updated_at": 1719524603
+    },
+    {
+     "phase": 1,
+     "round": 68,
+     "answer": 0.99953843,
+     "updated_at": 1719611027
+    },
+    {
+     "phase": 1,
+     "round": 69,
+     "answer": 0.99899772,
+     "updated_at": 1719697463
+    },
+    {
+     "phase": 1,
+     "round": 70,
+     "answer": 0.99914245,
+     "updated_at": 1719783887
+    },
+    {
+     "phase": 1,
+     "round": 71,
+     "answer": 0.99900196,
+     "updated_at": 1719870311
+    },
+    {
+     "phase": 1,
+     "round": 72,
+     "answer": 0.99874825,
+     "updated_at": 1719956735
+    },
+    {
+     "phase": 1,
+     "round": 73,
+     "answer": 0.99859999,
+     "updated_at": 1720043147
+    },
+    {
+     "phase": 1,
+     "round": 74,
+     "answer": 0.99845818,
+     "updated_at": 1720129559
+    },
+    {
+     "phase": 1,
+     "round": 75,
+     "answer": 0.99891495,
+     "updated_at": 1720215983
+    },
+    {
+     "phase": 1,
+     "round": 76,
+     "answer": 0.99897275,
+     "updated_at": 1720302407
+    },
+    {
+     "phase": 1,
+     "round": 77,
+     "answer": 0.99884524,
+     "updated_at": 1720388819
+    },
+    {
+     "phase": 1,
+     "round": 78,
+     "answer": 0.99890871,
+     "updated_at": 1720475255
+    },
+    {
+     "phase": 1,
+     "round": 79,
+     "answer": 0.99880566,
+     "updated_at": 1720561667
+    },
+    {
+     "phase": 1,
+     "round": 80,
+     "answer": 0.99878777,
+     "updated_at": 1720648103
+    },
+    {
+     "phase": 1,
+     "round": 81,
+     "answer": 0.9987,
+     "updated_at": 1720734527
+    },
+    {
+     "phase": 2,
+     "round": 1,
+     "answer": 0.99894945,
+     "updated_at": 1720771295
+    },
+    {
+     "phase": 1,
+     "round": 82,
+     "answer": 0.99916278,
+     "updated_at": 1720820939
+    },
+    {
+     "phase": 2,
+     "round": 2,
+     "answer": 0.99902183,
+     "updated_at": 1720857719
+    },
+    {
+     "phase": 1,
+     "round": 83,
+     "answer": 0.99891925,
+     "updated_at": 1720907363
+    },
+    {
+     "phase": 2,
+     "round": 3,
+     "answer": 0.99887706,
+     "updated_at": 1720944155
+    },
+    {
+     "phase": 1,
+     "round": 84,
+     "answer": 0.99937142,
+     "updated_at": 1720993763
+    },
+    {
+     "phase": 2,
+     "round": 4,
+     "answer": 0.99913192,
+     "updated_at": 1721030591
+    },
+    {
+     "phase": 1,
+     "round": 85,
+     "answer": 0.9989228,
+     "updated_at": 1721080187
+    },
+    {
+     "phase": 2,
+     "round": 5,
+     "answer": 0.99924897,
+     "updated_at": 1721117015
+    },
+    {
+     "phase": 1,
+     "round": 86,
+     "answer": 0.99890159,
+     "updated_at": 1721166611
+    },
+    {
+     "phase": 2,
+     "round": 6,
+     "answer": 0.99883606,
+     "updated_at": 1721203427
+    },
+    {
+     "phase": 1,
+     "round": 87,
+     "answer": 0.99887454,
+     "updated_at": 1721253035
+    },
+    {
+     "phase": 2,
+     "round": 7,
+     "answer": 0.99902323,
+     "updated_at": 1721289839
+    },
+    {
+     "phase": 1,
+     "round": 88,
+     "answer": 0.99895379,
+     "updated_at": 1721339447
+    },
+    {
+     "phase": 2,
+     "round": 8,
+     "answer": 0.99983635,
+     "updated_at": 1721376275
+    },
+    {
+     "phase": 1,
+     "round": 89,
+     "answer": 1.00012083,
+     "updated_at": 1721425871
+    },
+    {
+     "phase": 2,
+     "round": 9,
+     "answer": 0.99964903,
+     "updated_at": 1721462687
+    },
+    {
+     "phase": 1,
+     "round": 90,
+     "answer": 1.00039631,
+     "updated_at": 1721512307
+    },
+    {
+     "phase": 2,
+     "round": 10,
+     "answer": 1.00059479,
+     "updated_at": 1721549111
+    },
+    {
+     "phase": 1,
+     "round": 91,
+     "answer": 1.00026947,
+     "updated_at": 1721598719
+    },
+    {
+     "phase": 2,
+     "round": 11,
+     "answer": 1.00024499,
+     "updated_at": 1721635535
+    },
+    {
+     "phase": 1,
+     "round": 92,
+     "answer": 1.00023601,
+     "updated_at": 1721685131
+    },
+    {
+     "phase": 2,
+     "round": 12,
+     "answer": 1.00006271,
+     "updated_at": 1721721947
+    },
+    {
+     "phase": 1,
+     "round": 93,
+     "answer": 0.99993175,
+     "updated_at": 1721771555
+    },
+    {
+     "phase": 2,
+     "round": 13,
+     "answer": 0.99948574,
+     "updated_at": 1721808359
+    },
+    {
+     "phase": 1,
+     "round": 94,
+     "answer": 0.9997797,
+     "updated_at": 1721857979
+    },
+    {
+     "phase": 2,
+     "round": 14,
+     "answer": 0.99860067,
+     "updated_at": 1721894771
+    },
+    {
+     "phase": 1,
+     "round": 95,
+     "answer": 0.99871124,
+     "updated_at": 1721944403
+    },
+    {
+     "phase": 2,
+     "round": 15,
+     "answer": 0.99859893,
+     "updated_at": 1721981183
+    },
+    {
+     "phase": 1,
+     "round": 96,
+     "answer": 0.99878221,
+     "updated_at": 1722030827
+    },
+    {
+     "phase": 2,
+     "round": 16,
+     "answer": 0.99881296,
+     "updated_at": 1722067619
+    },
+    {
+     "phase": 1,
+     "round": 97,
+     "answer": 0.99880375,
+     "updated_at": 1722117251
+    },
+    {
+     "phase": 2,
+     "round": 17,
+     "answer": 0.99870981,
+     "updated_at": 1722154031
+    },
+    {
+     "phase": 1,
+     "round": 98,
+     "answer": 0.99884866,
+     "updated_at": 1722203675
+    },
+    {
+     "phase": 2,
+     "round": 18,
+     "answer": 0.99859248,
+     "updated_at": 1722240443
+    },
+    {
+     "phase": 1,
+     "round": 99,
+     "answer": 0.99879682,
+     "updated_at": 1722290087
+    },
+    {
+     "phase": 2,
+     "round": 19,
+     "answer": 0.998674,
+     "updated_at": 1722326879
+    },
+    {
+     "phase": 1,
+     "round": 100,
+     "answer": 0.99913623,
+     "updated_at": 1722376523
+    },
+    {
+     "phase": 2,
+     "round": 20,
+     "answer": 0.99925152,
+     "updated_at": 1722413303
+    },
+    {
+     "phase": 1,
+     "round": 101,
+     "answer": 0.99971334,
+     "updated_at": 1722462947
+    },
+    {
+     "phase": 2,
+     "round": 21,
+     "answer": 0.99855102,
+     "updated_at": 1722499727
+    },
+    {
+     "phase": 1,
+     "round": 102,
+     "answer": 0.99879249,
+     "updated_at": 1722549359
+    },
+    {
+     "phase": 2,
+     "round": 22,
+     "answer": 0.99837777,
+     "updated_at": 1722586163
+    },
+    {
+     "phase": 1,
+     "round": 103,
+     "answer": 0.99930243,
+     "updated_at": 1722635771
+    },
+    {
+     "phase": 2,
+     "round": 23,
+     "answer": 0.99892838,
+     "updated_at": 1722672575
+    },
+    {
+     "phase": 1,
+     "round": 104,
+     "answer": 0.99943624,
+     "updated_at": 1722722183
+    },
+    {
+     "phase": 2,
+     "round": 24,
+     "answer": 0.99947924,
+     "updated_at": 1722758987
+    },
+    {
+     "phase": 1,
+     "round": 105,
+     "answer": 0.99874405,
+     "updated_at": 1722808607
+    },
+    {
+     "phase": 2,
+     "round": 25,
+     "answer": 0.99864476,
+     "updated_at": 1722845411
+    },
+    {
+     "phase": 1,
+     "round": 106,
+     "answer": 0.99955314,
+     "updated_at": 1722886979
+    },
+    {
+     "phase": 2,
+     "round": 26,
+     "answer": 0.99898905,
+     "updated_at": 1722931847
+    },
+    {
+     "phase": 2,
+     "round": 27,
+     "answer": 1.00031681,
+     "updated_at": 1723018295
+    },
+    {
+     "phase": 2,
+     "round": 28,
+     "answer": 1.0006174,
+     "updated_at": 1723104707
+    },
+    {
+     "phase": 2,
+     "round": 29,
+     "answer": 1.0009,
+     "updated_at": 1723191131
+    },
+    {
+     "phase": 2,
+     "round": 30,
+     "answer": 1.00085877,
+     "updated_at": 1723277567
+    },
+    {
+     "phase": 2,
+     "round": 31,
+     "answer": 1.00044019,
+     "updated_at": 1723364003
+    },
+    {
+     "phase": 2,
+     "round": 32,
+     "answer": 1.00014002,
+     "updated_at": 1723450427
+    },
+    {
+     "phase": 1,
+     "round": 107,
+     "answer": 0.99992525,
+     "updated_at": 1723491803
+    },
+    {
+     "phase": 2,
+     "round": 33,
+     "answer": 0.9998,
+     "updated_at": 1723536911
+    },
+    {
+     "phase": 2,
+     "round": 34,
+     "answer": 0.99909236,
+     "updated_at": 1723623335
+    },
+    {
+     "phase": 2,
+     "round": 35,
+     "answer": 0.99908976,
+     "updated_at": 1723709783
+    },
+    {
+     "phase": 2,
+     "round": 36,
+     "answer": 0.99904861,
+     "updated_at": 1723796207
+    },
+    {
+     "phase": 2,
+     "round": 37,
+     "answer": 0.99919387,
+     "updated_at": 1723882631
+    },
+    {
+     "phase": 2,
+     "round": 38,
+     "answer": 0.99897872,
+     "updated_at": 1723969103
+    },
+    {
+     "phase": 2,
+     "round": 39,
+     "answer": 0.99903601,
+     "updated_at": 1724055527
+    },
+    {
+     "phase": 1,
+     "round": 108,
+     "answer": 0.99907686,
+     "updated_at": 1724096615
+    },
+    {
+     "phase": 2,
+     "round": 40,
+     "answer": 0.9991,
+     "updated_at": 1724141951
+    },
+    {
+     "phase": 2,
+     "round": 41,
+     "answer": 0.99891338,
+     "updated_at": 1724228363
+    },
+    {
+     "phase": 2,
+     "round": 42,
+     "answer": 0.99926096,
+     "updated_at": 1724314787
+    },
+    {
+     "phase": 2,
+     "round": 43,
+     "answer": 0.99892102,
+     "updated_at": 1724401199
+    },
+    {
+     "phase": 2,
+     "round": 44,
+     "answer": 0.99925276,
+     "updated_at": 1724487623
+    },
+    {
+     "phase": 2,
+     "round": 45,
+     "answer": 0.99934965,
+     "updated_at": 1724574047
+    },
+    {
+     "phase": 2,
+     "round": 46,
+     "answer": 0.99915834,
+     "updated_at": 1724660471
+    },
+    {
+     "phase": 1,
+     "round": 109,
+     "answer": 0.99900375,
+     "updated_at": 1724701427
+    },
+    {
+     "phase": 2,
+     "round": 47,
+     "answer": 0.99883981,
+     "updated_at": 1724746895
+    },
+    {
+     "phase": 2,
+     "round": 48,
+     "answer": 0.99905446,
+     "updated_at": 1724833307
+    },
+    {
+     "phase": 2,
+     "round": 49,
+     "answer": 0.99904381,
+     "updated_at": 1724919731
+    },
+    {
+     "phase": 2,
+     "round": 50,
+     "answer": 0.99888507,
+     "updated_at": 1725006155
+    },
+    {
+     "phase": 2,
+     "round": 51,
+     "answer": 0.99890055,
+     "updated_at": 1725092591
+    },
+    {
+     "phase": 2,
+     "round": 52,
+     "answer": 0.99866208,
+     "updated_at": 1725179003
+    },
+    {
+     "phase": 2,
+     "round": 53,
+     "answer": 0.99883178,
+     "updated_at": 1725265415
+    },
+    {
+     "phase": 1,
+     "round": 110,
+     "answer": 0.9988857,
+     "updated_at": 1725306251
+    },
+    {
+     "phase": 2,
+     "round": 54,
+     "answer": 0.99891512,
+     "updated_at": 1725351839
+    },
+    {
+     "phase": 2,
+     "round": 55,
+     "answer": 0.99895798,
+     "updated_at": 1725438263
+    },
+    {
+     "phase": 2,
+     "round": 56,
+     "answer": 0.9992614,
+     "updated_at": 1725524687
+    },
+    {
+     "phase": 2,
+     "round": 57,
+     "answer": 0.99923072,
+     "updated_at": 1725611111
+    },
+    {
+     "phase": 2,
+     "round": 58,
+     "answer": 0.9990392,
+     "updated_at": 1725697523
+    },
+    {
+     "phase": 2,
+     "round": 59,
+     "answer": 0.99895917,
+     "updated_at": 1725783947
+    },
+    {
+     "phase": 2,
+     "round": 60,
+     "answer": 0.99910914,
+     "updated_at": 1725870371
+    },
+    {
+     "phase": 1,
+     "round": 111,
+     "answer": 0.99939094,
+     "updated_at": 1725911063
+    },
+    {
+     "phase": 2,
+     "round": 61,
+     "answer": 0.99901282,
+     "updated_at": 1725956795
+    },
+    {
+     "phase": 2,
+     "round": 62,
+     "answer": 0.99881463,
+     "updated_at": 1726043207
+    },
+    {
+     "phase": 2,
+     "round": 63,
+     "answer": 0.9989,
+     "updated_at": 1726129619
+    },
+    {
+     "phase": 2,
+     "round": 64,
+     "answer": 0.99873378,
+     "updated_at": 1726216043
+    },
+    {
+     "phase": 2,
+     "round": 65,
+     "answer": 0.99894709,
+     "updated_at": 1726302467
+    },
+    {
+     "phase": 2,
+     "round": 66,
+     "answer": 0.99909999,
+     "updated_at": 1726388891
+    },
+    {
+     "phase": 2,
+     "round": 67,
+     "answer": 0.999,
+     "updated_at": 1726475315
+    },
+    {
+     "phase": 2,
+     "round": 68,
+     "answer": 0.99881421,
+     "updated_at": 1726561727
+    },
+    {
+     "phase": 2,
+     "round": 69,
+     "answer": 0.99892032,
+     "updated_at": 1726648139
+    },
+    {
+     "phase": 2,
+     "round": 70,
+     "answer": 0.99878755,
+     "updated_at": 1726734563
+    },
+    {
+     "phase": 2,
+     "round": 71,
+     "answer": 0.99879298,
+     "updated_at": 1726820975
+    },
+    {
+     "phase": 2,
+     "round": 72,
+     "answer": 0.99904083,
+     "updated_at": 1726907387
+    },
+    {
+     "phase": 2,
+     "round": 73,
+     "answer": 0.99913835,
+     "updated_at": 1726993823
+    },
+    {
+     "phase": 2,
+     "round": 74,
+     "answer": 0.99906909,
+     "updated_at": 1727080235
+    },
+    {
+     "phase": 2,
+     "round": 75,
+     "answer": 0.99913856,
+     "updated_at": 1727166659
+    },
+    {
+     "phase": 2,
+     "round": 76,
+     "answer": 0.99906419,
+     "updated_at": 1727253083
+    },
+    {
+     "phase": 2,
+     "round": 77,
+     "answer": 0.99898228,
+     "updated_at": 1727339507
+    },
+    {
+     "phase": 2,
+     "round": 78,
+     "answer": 0.99918861,
+     "updated_at": 1727425919
+    },
+    {
+     "phase": 2,
+     "round": 79,
+     "answer": 0.99955447,
+     "updated_at": 1727512331
+    },
+    {
+     "phase": 2,
+     "round": 80,
+     "answer": 0.99955974,
+     "updated_at": 1727598755
+    },
+    {
+     "phase": 2,
+     "round": 81,
+     "answer": 0.9991486,
+     "updated_at": 1727685179
+    },
+    {
+     "phase": 2,
+     "round": 82,
+     "answer": 0.99940551,
+     "updated_at": 1727771591
+    },
+    {
+     "phase": 2,
+     "round": 83,
+     "answer": 0.99964214,
+     "updated_at": 1727858003
+    },
+    {
+     "phase": 2,
+     "round": 84,
+     "answer": 0.99964174,
+     "updated_at": 1727944463
+    },
+    {
+     "phase": 2,
+     "round": 85,
+     "answer": 0.99943257,
+     "updated_at": 1728030899
+    },
+    {
+     "phase": 2,
+     "round": 86,
+     "answer": 0.99955092,
+     "updated_at": 1728117335
+    },
+    {
+     "phase": 2,
+     "round": 87,
+     "answer": 0.99898329,
+     "updated_at": 1728203759
+    },
+    {
+     "phase": 2,
+     "round": 88,
+     "answer": 0.99878058,
+     "updated_at": 1728290171
+    },
+    {
+     "phase": 2,
+     "round": 89,
+     "answer": 0.99876955,
+     "updated_at": 1728376595
+    },
+    {
+     "phase": 2,
+     "round": 90,
+     "answer": 0.99847951,
+     "updated_at": 1728463019
+    },
+    {
+     "phase": 2,
+     "round": 91,
+     "answer": 0.99858651,
+     "updated_at": 1728549443
+    },
+    {
+     "phase": 2,
+     "round": 92,
+     "answer": 0.99841891,
+     "updated_at": 1728635867
+    },
+    {
+     "phase": 2,
+     "round": 93,
+     "answer": 0.99878924,
+     "updated_at": 1728722291
+    },
+    {
+     "phase": 2,
+     "round": 94,
+     "answer": 0.99889024,
+     "updated_at": 1728808703
+    },
+    {
+     "phase": 2,
+     "round": 95,
+     "answer": 0.99841646,
+     "updated_at": 1728895139
+    },
+    {
+     "phase": 2,
+     "round": 96,
+     "answer": 0.99869893,
+     "updated_at": 1728981563
+    },
+    {
+     "phase": 2,
+     "round": 97,
+     "answer": 0.99905119,
+     "updated_at": 1729067987
+    },
+    {
+     "phase": 2,
+     "round": 98,
+     "answer": 0.99911019,
+     "updated_at": 1729154423
+    },
+    {
+     "phase": 2,
+     "round": 99,
+     "answer": 0.99941072,
+     "updated_at": 1729240847
+    },
+    {
+     "phase": 2,
+     "round": 100,
+     "answer": 0.99983169,
+     "updated_at": 1729327247
+    },
+    {
+     "phase": 2,
+     "round": 101,
+     "answer": 1.0000986,
+     "updated_at": 1729413683
+    },
+    {
+     "phase": 2,
+     "round": 102,
+     "answer": 1.00012325,
+     "updated_at": 1729500095
+    },
+    {
+     "phase": 2,
+     "round": 103,
+     "answer": 1.0003,
+     "updated_at": 1729586531
+    },
+    {
+     "phase": 2,
+     "round": 104,
+     "answer": 1.00059925,
+     "updated_at": 1729672943
+    },
+    {
+     "phase": 2,
+     "round": 105,
+     "answer": 0.9999,
+     "updated_at": 1729759367
+    },
+    {
+     "phase": 2,
+     "round": 106,
+     "answer": 1.00059993,
+     "updated_at": 1729845791
+    },
+    {
+     "phase": 2,
+     "round": 107,
+     "answer": 0.99965774,
+     "updated_at": 1729932227
+    },
+    {
+     "phase": 2,
+     "round": 108,
+     "answer": 0.99952718,
+     "updated_at": 1730018639
+    },
+    {
+     "phase": 2,
+     "round": 109,
+     "answer": 0.99965938,
+     "updated_at": 1730105063
+    },
+    {
+     "phase": 2,
+     "round": 110,
+     "answer": 1.00062116,
+     "updated_at": 1730191475
+    },
+    {
+     "phase": 2,
+     "round": 111,
+     "answer": 1.0009843,
+     "updated_at": 1730277887
+    },
+    {
+     "phase": 2,
+     "round": 112,
+     "answer": 1.0010224,
+     "updated_at": 1730364299
+    },
+    {
+     "phase": 2,
+     "round": 113,
+     "answer": 1.00020332,
+     "updated_at": 1730450711
+    },
+    {
+     "phase": 2,
+     "round": 114,
+     "answer": 1.00066102,
+     "updated_at": 1730537123
+    },
+    {
+     "phase": 2,
+     "round": 115,
+     "answer": 1.0008261,
+     "updated_at": 1730623547
+    },
+    {
+     "phase": 2,
+     "round": 116,
+     "answer": 1.0004439,
+     "updated_at": 1730709971
+    },
+    {
+     "phase": 2,
+     "round": 117,
+     "answer": 1.0005612,
+     "updated_at": 1730796383
+    },
+    {
+     "phase": 2,
+     "round": 118,
+     "answer": 1.00101545,
+     "updated_at": 1730882795
+    },
+    {
+     "phase": 2,
+     "round": 119,
+     "answer": 1.00128564,
+     "updated_at": 1730969219
+    },
+    {
+     "phase": 2,
+     "round": 120,
+     "answer": 1.00079798,
+     "updated_at": 1731055631
+    },
+    {
+     "phase": 2,
+     "round": 121,
+     "answer": 1.00091598,
+     "updated_at": 1731142043
+    },
+    {
+     "phase": 2,
+     "round": 122,
+     "answer": 1.001,
+     "updated_at": 1731228467
+    },
+    {
+     "phase": 2,
+     "round": 123,
+     "answer": 1.0017986,
+     "updated_at": 1731314891
+    },
+    {
+     "phase": 2,
+     "round": 124,
+     "answer": 1.00179325,
+     "updated_at": 1731401315
+    },
+    {
+     "phase": 2,
+     "round": 125,
+     "answer": 1.002336,
+     "updated_at": 1731487739
+    },
+    {
+     "phase": 2,
+     "round": 126,
+     "answer": 1.00155321,
+     "updated_at": 1731574175
+    },
+    {
+     "phase": 2,
+     "round": 127,
+     "answer": 1.0018,
+     "updated_at": 1731660587
+    },
+    {
+     "phase": 2,
+     "round": 128,
+     "answer": 1.0017148,
+     "updated_at": 1731746999
+    },
+    {
+     "phase": 2,
+     "round": 129,
+     "answer": 1.00108776,
+     "updated_at": 1731833423
+    },
+    {
+     "phase": 2,
+     "round": 130,
+     "answer": 1.00145036,
+     "updated_at": 1731919835
+    },
+    {
+     "phase": 2,
+     "round": 131,
+     "answer": 1.00175208,
+     "updated_at": 1732006259
+    },
+    {
+     "phase": 2,
+     "round": 132,
+     "answer": 1.0022323,
+     "updated_at": 1732092695
+    },
+    {
+     "phase": 2,
+     "round": 133,
+     "answer": 1.00168012,
+     "updated_at": 1732179119
+    },
+    {
+     "phase": 2,
+     "round": 134,
+     "answer": 1.0022119,
+     "updated_at": 1732265519
+    },
+    {
+     "phase": 2,
+     "round": 135,
+     "answer": 1.00230266,
+     "updated_at": 1732351931
+    },
+    {
+     "phase": 2,
+     "round": 136,
+     "answer": 1.0022466,
+     "updated_at": 1732438355
+    },
+    {
+     "phase": 2,
+     "round": 137,
+     "answer": 1.00205732,
+     "updated_at": 1732524779
+    },
+    {
+     "phase": 2,
+     "round": 138,
+     "answer": 1.00117944,
+     "updated_at": 1732611215
+    },
+    {
+     "phase": 2,
+     "round": 139,
+     "answer": 1.00088168,
+     "updated_at": 1732697627
+    },
+    {
+     "phase": 2,
+     "round": 140,
+     "answer": 1.00122169,
+     "updated_at": 1732784051
+    },
+    {
+     "phase": 2,
+     "round": 141,
+     "answer": 1.00123129,
+     "updated_at": 1732870475
+    },
+    {
+     "phase": 2,
+     "round": 142,
+     "answer": 1.00129333,
+     "updated_at": 1732956899
+    },
+    {
+     "phase": 2,
+     "round": 143,
+     "answer": 1.0017,
+     "updated_at": 1733043335
+    },
+    {
+     "phase": 2,
+     "round": 144,
+     "answer": 1.00134609,
+     "updated_at": 1733129747
+    },
+    {
+     "phase": 2,
+     "round": 145,
+     "answer": 1.0011,
+     "updated_at": 1733216147
+    },
+    {
+     "phase": 2,
+     "round": 146,
+     "answer": 1.0015492,
+     "updated_at": 1733302559
+    },
+    {
+     "phase": 2,
+     "round": 147,
+     "answer": 1.00201292,
+     "updated_at": 1733388983
+    },
+    {
+     "phase": 2,
+     "round": 148,
+     "answer": 1.0015,
+     "updated_at": 1733475419
+    },
+    {
+     "phase": 2,
+     "round": 149,
+     "answer": 1.0022836,
+     "updated_at": 1733561843
+    },
+    {
+     "phase": 2,
+     "round": 150,
+     "answer": 1.00165535,
+     "updated_at": 1733648267
+    },
+    {
+     "phase": 2,
+     "round": 151,
+     "answer": 1.00125671,
+     "updated_at": 1733734679
+    },
+    {
+     "phase": 2,
+     "round": 152,
+     "answer": 1.00172421,
+     "updated_at": 1733821103
+    },
+    {
+     "phase": 2,
+     "round": 153,
+     "answer": 1.00166352,
+     "updated_at": 1733907515
+    },
+    {
+     "phase": 2,
+     "round": 154,
+     "answer": 1.00152275,
+     "updated_at": 1733993927
+    },
+    {
+     "phase": 2,
+     "round": 155,
+     "answer": 1.00151953,
+     "updated_at": 1734080339
+    },
+    {
+     "phase": 2,
+     "round": 156,
+     "answer": 1.00134896,
+     "updated_at": 1734166751
+    },
+    {
+     "phase": 2,
+     "round": 157,
+     "answer": 1.0011,
+     "updated_at": 1734253187
+    },
+    {
+     "phase": 2,
+     "round": 158,
+     "answer": 1.00079023,
+     "updated_at": 1734339599
+    },
+    {
+     "phase": 2,
+     "round": 159,
+     "answer": 1.00116375,
+     "updated_at": 1734426011
+    },
+    {
+     "phase": 2,
+     "round": 160,
+     "answer": 1.0011,
+     "updated_at": 1734512423
+    },
+    {
+     "phase": 2,
+     "round": 161,
+     "answer": 1.0004645,
+     "updated_at": 1734598847
+    },
+    {
+     "phase": 2,
+     "round": 162,
+     "answer": 0.99746544,
+     "updated_at": 1734685283
+    },
+    {
+     "phase": 2,
+     "round": 163,
+     "answer": 0.99952772,
+     "updated_at": 1734771707
+    },
+    {
+     "phase": 2,
+     "round": 164,
+     "answer": 0.99968678,
+     "updated_at": 1734858143
+    },
+    {
+     "phase": 2,
+     "round": 165,
+     "answer": 0.9991669,
+     "updated_at": 1734944567
+    },
+    {
+     "phase": 2,
+     "round": 166,
+     "answer": 0.99857333,
+     "updated_at": 1735030979
+    },
+    {
+     "phase": 2,
+     "round": 167,
+     "answer": 0.99938961,
+     "updated_at": 1735117403
+    },
+    {
+     "phase": 2,
+     "round": 168,
+     "answer": 0.99847486,
+     "updated_at": 1735203827
+    },
+    {
+     "phase": 2,
+     "round": 169,
+     "answer": 0.99773123,
+     "updated_at": 1735290263
+    },
+    {
+     "phase": 2,
+     "round": 170,
+     "answer": 0.99744622,
+     "updated_at": 1735376687
+    },
+    {
+     "phase": 2,
+     "round": 171,
+     "answer": 0.99741984,
+     "updated_at": 1735463099
+    },
+    {
+     "phase": 2,
+     "round": 172,
+     "answer": 0.99714958,
+     "updated_at": 1735549511
+    },
+    {
+     "phase": 2,
+     "round": 173,
+     "answer": 0.99740777,
+     "updated_at": 1735635923
+    },
+    {
+     "phase": 2,
+     "round": 174,
+     "answer": 0.9975396,
+     "updated_at": 1735722335
+    },
+    {
+     "phase": 2,
+     "round": 175,
+     "answer": 0.99725842,
+     "updated_at": 1735808759
+    },
+    {
+     "phase": 2,
+     "round": 176,
+     "answer": 0.99827573,
+     "updated_at": 1735895183
+    },
+    {
+     "phase": 2,
+     "round": 177,
+     "answer": 0.99853964,
+     "updated_at": 1735981607
+    },
+    {
+     "phase": 2,
+     "round": 178,
+     "answer": 0.99880252,
+     "updated_at": 1736068019
+    },
+    {
+     "phase": 2,
+     "round": 179,
+     "answer": 0.99876422,
+     "updated_at": 1736154431
+    },
+    {
+     "phase": 2,
+     "round": 180,
+     "answer": 0.99909999,
+     "updated_at": 1736240843
+    },
+    {
+     "phase": 2,
+     "round": 181,
+     "answer": 0.99879232,
+     "updated_at": 1736327255
+    },
+    {
+     "phase": 2,
+     "round": 182,
+     "answer": 0.99904856,
+     "updated_at": 1736413679
+    },
+    {
+     "phase": 2,
+     "round": 183,
+     "answer": 0.99924112,
+     "updated_at": 1736500103
+    },
+    {
+     "phase": 2,
+     "round": 184,
+     "answer": 0.99929999,
+     "updated_at": 1736586527
+    },
+    {
+     "phase": 2,
+     "round": 185,
+     "answer": 0.99918515,
+     "updated_at": 1736672939
+    },
+    {
+     "phase": 2,
+     "round": 186,
+     "answer": 0.99988889,
+     "updated_at": 1736759363
+    },
+    {
+     "phase": 2,
+     "round": 187,
+     "answer": 0.99978975,
+     "updated_at": 1736845763
+    },
+    {
+     "phase": 2,
+     "round": 188,
+     "answer": 0.99980904,
+     "updated_at": 1736932187
+    },
+    {
+     "phase": 2,
+     "round": 189,
+     "answer": 1.00022045,
+     "updated_at": 1737018611
+    },
+    {
+     "phase": 2,
+     "round": 190,
+     "answer": 0.99973677,
+     "updated_at": 1737105023
+    },
+    {
+     "phase": 2,
+     "round": 191,
+     "answer": 0.99958136,
+     "updated_at": 1737191459
+    },
+    {
+     "phase": 2,
+     "round": 192,
+     "answer": 0.99844943,
+     "updated_at": 1737277871
+    },
+    {
+     "phase": 2,
+     "round": 193,
+     "answer": 0.99773916,
+     "updated_at": 1737364283
+    },
+    {
+     "phase": 2,
+     "round": 194,
+     "answer": 0.99816105,
+     "updated_at": 1737450707
+    },
+    {
+     "phase": 2,
+     "round": 195,
+     "answer": 0.99955945,
+     "updated_at": 1737537131
+    },
+    {
+     "phase": 2,
+     "round": 196,
+     "answer": 0.99949638,
+     "updated_at": 1737623543
+    },
+    {
+     "phase": 2,
+     "round": 197,
+     "answer": 0.9999489,
+     "updated_at": 1737709967
+    },
+    {
+     "phase": 2,
+     "round": 198,
+     "answer": 1.00039145,
+     "updated_at": 1737796391
+    },
+    {
+     "phase": 2,
+     "round": 199,
+     "answer": 1.00054237,
+     "updated_at": 1737882815
+    },
+    {
+     "phase": 2,
+     "round": 200,
+     "answer": 0.99988519,
+     "updated_at": 1737969239
+    },
+    {
+     "phase": 2,
+     "round": 201,
+     "answer": 1.00049766,
+     "updated_at": 1738055651
+    },
+    {
+     "phase": 2,
+     "round": 202,
+     "answer": 1.0009049,
+     "updated_at": 1738142063
+    },
+    {
+     "phase": 2,
+     "round": 203,
+     "answer": 1.0011,
+     "updated_at": 1738228475
+    },
+    {
+     "phase": 2,
+     "round": 204,
+     "answer": 1.00093762,
+     "updated_at": 1738314887
+    },
+    {
+     "phase": 2,
+     "round": 205,
+     "answer": 1.00096082,
+     "updated_at": 1738401311
+    },
+    {
+     "phase": 2,
+     "round": 206,
+     "answer": 1.00032927,
+     "updated_at": 1738487735
+    },
+    {
+     "phase": 2,
+     "round": 207,
+     "answer": 0.99931375,
+     "updated_at": 1738574147
+    },
+    {
+     "phase": 2,
+     "round": 208,
+     "answer": 0.99971078,
+     "updated_at": 1738660559
+    },
+    {
+     "phase": 2,
+     "round": 209,
+     "answer": 0.99988988,
+     "updated_at": 1738746983
+    },
+    {
+     "phase": 2,
+     "round": 210,
+     "answer": 1.0005312,
+     "updated_at": 1738833395
+    },
+    {
+     "phase": 2,
+     "round": 211,
+     "answer": 0.99989999,
+     "updated_at": 1738919807
+    },
+    {
+     "phase": 2,
+     "round": 212,
+     "answer": 1.00015146,
+     "updated_at": 1739006231
+    },
+    {
+     "phase": 2,
+     "round": 213,
+     "answer": 1.00035054,
+     "updated_at": 1739092655
+    },
+    {
+     "phase": 2,
+     "round": 214,
+     "answer": 1.0,
+     "updated_at": 1739179079
+    },
+    {
+     "phase": 2,
+     "round": 215,
+     "answer": 1.00038558,
+     "updated_at": 1739265491
+    },
+    {
+     "phase": 2,
+     "round": 216,
+     "answer": 0.99930462,
+     "updated_at": 1739351915
+    },
+    {
+     "phase": 2,
+     "round": 217,
+     "answer": 0.99957608,
+     "updated_at": 1739438327
+    },
+    {
+     "phase": 2,
+     "round": 218,
+     "answer": 1.00007448,
+     "updated_at": 1739524739
+    },
+    {
+     "phase": 2,
+     "round": 219,
+     "answer": 0.99982672,
+     "updated_at": 1739611163
+    },
+    {
+     "phase": 2,
+     "round": 220,
+     "answer": 0.99939917,
+     "updated_at": 1739697599
+    },
+    {
+     "phase": 2,
+     "round": 221,
+     "answer": 0.99945323,
+     "updated_at": 1739784011
+    },
+    {
+     "phase": 2,
+     "round": 222,
+     "answer": 0.99905133,
+     "updated_at": 1739870483
+    },
+    {
+     "phase": 2,
+     "round": 223,
+     "answer": 0.99871391,
+     "updated_at": 1739956919
+    },
+    {
+     "phase": 2,
+     "round": 224,
+     "answer": 0.99947433,
+     "updated_at": 1740043331
+    },
+    {
+     "phase": 2,
+     "round": 225,
+     "answer": 0.99991843,
+     "updated_at": 1740129755
+    },
+    {
+     "phase": 2,
+     "round": 226,
+     "answer": 0.99484071,
+     "updated_at": 1740151943
+    },
+    {
+     "phase": 2,
+     "round": 227,
+     "answer": 0.98240092,
+     "updated_at": 1740152447
+    },
+    {
+     "phase": 2,
+     "round": 228,
+     "answer": 0.97721024,
+     "updated_at": 1740152711
+    },
+    {
+     "phase": 2,
+     "round": 229,
+     "answer": 0.9826089,
+     "updated_at": 1740152867
+    },
+    {
+     "phase": 2,
+     "round": 230,
+     "answer": 0.99189441,
+     "updated_at": 1740152891
+    },
+    {
+     "phase": 2,
+     "round": 231,
+     "answer": 0.99748951,
+     "updated_at": 1740154751
+    },
+    {
+     "phase": 2,
+     "round": 232,
+     "answer": 0.99938,
+     "updated_at": 1740241175
+    },
+    {
+     "phase": 2,
+     "round": 233,
+     "answer": 1.0005048,
+     "updated_at": 1740327587
+    },
+    {
+     "phase": 2,
+     "round": 234,
+     "answer": 1.0005283,
+     "updated_at": 1740414011
+    },
+    {
+     "phase": 2,
+     "round": 235,
+     "answer": 0.99909067,
+     "updated_at": 1740500423
+    },
+    {
+     "phase": 2,
+     "round": 236,
+     "answer": 0.99933138,
+     "updated_at": 1740586847
+    },
+    {
+     "phase": 2,
+     "round": 237,
+     "answer": 0.9997433,
+     "updated_at": 1740673283
+    },
+    {
+     "phase": 2,
+     "round": 238,
+     "answer": 0.9990138,
+     "updated_at": 1740759719
+    },
+    {
+     "phase": 2,
+     "round": 239,
+     "answer": 0.99899187,
+     "updated_at": 1740846131
+    },
+    {
+     "phase": 2,
+     "round": 240,
+     "answer": 0.99911504,
+     "updated_at": 1740932555
+    },
+    {
+     "phase": 2,
+     "round": 241,
+     "answer": 0.99871593,
+     "updated_at": 1741018991
+    },
+    {
+     "phase": 2,
+     "round": 242,
+     "answer": 0.99869682,
+     "updated_at": 1741105415
+    },
+    {
+     "phase": 2,
+     "round": 243,
+     "answer": 0.99933655,
+     "updated_at": 1741191839
+    },
+    {
+     "phase": 2,
+     "round": 244,
+     "answer": 0.99900928,
+     "updated_at": 1741278263
+    },
+    {
+     "phase": 2,
+     "round": 245,
+     "answer": 0.99885747,
+     "updated_at": 1741364675
+    },
+    {
+     "phase": 2,
+     "round": 246,
+     "answer": 0.99921795,
+     "updated_at": 1741451099
+    },
+    {
+     "phase": 2,
+     "round": 247,
+     "answer": 0.99947257,
+     "updated_at": 1741537511
+    },
+    {
+     "phase": 2,
+     "round": 248,
+     "answer": 0.99965995,
+     "updated_at": 1741623983
+    },
+    {
+     "phase": 2,
+     "round": 249,
+     "answer": 0.99948635,
+     "updated_at": 1741710419
+    },
+    {
+     "phase": 2,
+     "round": 250,
+     "answer": 0.99928408,
+     "updated_at": 1741796831
+    },
+    {
+     "phase": 2,
+     "round": 251,
+     "answer": 0.99962914,
+     "updated_at": 1741883255
+    },
+    {
+     "phase": 2,
+     "round": 252,
+     "answer": 0.99974565,
+     "updated_at": 1741969667
+    },
+    {
+     "phase": 2,
+     "round": 253,
+     "answer": 0.99973024,
+     "updated_at": 1742056079
+    },
+    {
+     "phase": 2,
+     "round": 254,
+     "answer": 0.99960218,
+     "updated_at": 1742142515
+    },
+    {
+     "phase": 2,
+     "round": 255,
+     "answer": 0.9995997,
+     "updated_at": 1742228951
+    },
+    {
+     "phase": 2,
+     "round": 256,
+     "answer": 0.9996002,
+     "updated_at": 1742315435
+    },
+    {
+     "phase": 2,
+     "round": 257,
+     "answer": 0.99979372,
+     "updated_at": 1742401859
+    },
+    {
+     "phase": 2,
+     "round": 258,
+     "answer": 0.99968102,
+     "updated_at": 1742488283
+    },
+    {
+     "phase": 2,
+     "round": 259,
+     "answer": 0.99969167,
+     "updated_at": 1742574695
+    },
+    {
+     "phase": 2,
+     "round": 260,
+     "answer": 0.99956276,
+     "updated_at": 1742661119
+    },
+    {
+     "phase": 2,
+     "round": 261,
+     "answer": 0.99967918,
+     "updated_at": 1742747603
+    },
+    {
+     "phase": 2,
+     "round": 262,
+     "answer": 0.99960645,
+     "updated_at": 1742834039
+    },
+    {
+     "phase": 2,
+     "round": 263,
+     "answer": 0.99937217,
+     "updated_at": 1742920451
+    },
+    {
+     "phase": 2,
+     "round": 264,
+     "answer": 0.99966574,
+     "updated_at": 1743006887
+    },
+    {
+     "phase": 2,
+     "round": 265,
+     "answer": 0.99915803,
+     "updated_at": 1743093311
+    },
+    {
+     "phase": 2,
+     "round": 266,
+     "answer": 0.99909476,
+     "updated_at": 1743179723
+    },
+    {
+     "phase": 2,
+     "round": 267,
+     "answer": 0.999579,
+     "updated_at": 1743266147
+    },
+    {
+     "phase": 2,
+     "round": 268,
+     "answer": 0.99997268,
+     "updated_at": 1743352571
+    },
+    {
+     "phase": 2,
+     "round": 269,
+     "answer": 0.99991938,
+     "updated_at": 1743439055
+    },
+    {
+     "phase": 2,
+     "round": 270,
+     "answer": 1.00000387,
+     "updated_at": 1743525479
+    },
+    {
+     "phase": 2,
+     "round": 271,
+     "answer": 0.99991116,
+     "updated_at": 1743611891
+    },
+    {
+     "phase": 2,
+     "round": 272,
+     "answer": 0.999546,
+     "updated_at": 1743698327
+    },
+    {
+     "phase": 2,
+     "round": 273,
+     "answer": 0.9992801,
+     "updated_at": 1743784811
+    },
+    {
+     "phase": 2,
+     "round": 274,
+     "answer": 0.99901585,
+     "updated_at": 1743871223
+    },
+    {
+     "phase": 2,
+     "round": 275,
+     "answer": 0.99909781,
+     "updated_at": 1743957671
+    },
+    {
+     "phase": 2,
+     "round": 276,
+     "answer": 0.99887624,
+     "updated_at": 1744044107
+    },
+    {
+     "phase": 2,
+     "round": 277,
+     "answer": 0.99912954,
+     "updated_at": 1744130543
+    },
+    {
+     "phase": 2,
+     "round": 278,
+     "answer": 0.99866833,
+     "updated_at": 1744216979
+    },
+    {
+     "phase": 2,
+     "round": 279,
+     "answer": 0.99867319,
+     "updated_at": 1744303403
+    },
+    {
+     "phase": 2,
+     "round": 280,
+     "answer": 0.99888553,
+     "updated_at": 1744389827
+    },
+    {
+     "phase": 2,
+     "round": 281,
+     "answer": 0.9989879,
+     "updated_at": 1744476239
+    },
+    {
+     "phase": 2,
+     "round": 282,
+     "answer": 0.99886523,
+     "updated_at": 1744562663
+    },
+    {
+     "phase": 2,
+     "round": 283,
+     "answer": 0.99909008,
+     "updated_at": 1744649075
+    },
+    {
+     "phase": 2,
+     "round": 284,
+     "answer": 0.99918748,
+     "updated_at": 1744735499
+    },
+    {
+     "phase": 2,
+     "round": 285,
+     "answer": 0.99928546,
+     "updated_at": 1744821923
+    },
+    {
+     "phase": 2,
+     "round": 286,
+     "answer": 0.99921631,
+     "updated_at": 1744908347
+    },
+    {
+     "phase": 2,
+     "round": 287,
+     "answer": 0.99921565,
+     "updated_at": 1744994771
+    },
+    {
+     "phase": 2,
+     "round": 288,
+     "answer": 0.99916864,
+     "updated_at": 1745081195
+    },
+    {
+     "phase": 2,
+     "round": 289,
+     "answer": 0.99940823,
+     "updated_at": 1745167607
+    },
+    {
+     "phase": 2,
+     "round": 290,
+     "answer": 0.99937312,
+     "updated_at": 1745254043
+    },
+    {
+     "phase": 2,
+     "round": 291,
+     "answer": 0.99968462,
+     "updated_at": 1745340455
+    },
+    {
+     "phase": 2,
+     "round": 292,
+     "answer": 0.99935521,
+     "updated_at": 1745426867
+    },
+    {
+     "phase": 2,
+     "round": 293,
+     "answer": 0.99964353,
+     "updated_at": 1745513279
+    },
+    {
+     "phase": 2,
+     "round": 294,
+     "answer": 0.99980785,
+     "updated_at": 1745599691
+    },
+    {
+     "phase": 2,
+     "round": 295,
+     "answer": 0.99944437,
+     "updated_at": 1745686115
+    },
+    {
+     "phase": 2,
+     "round": 296,
+     "answer": 0.99945002,
+     "updated_at": 1745772539
+    },
+    {
+     "phase": 2,
+     "round": 297,
+     "answer": 0.99966339,
+     "updated_at": 1745858975
+    },
+    {
+     "phase": 2,
+     "round": 298,
+     "answer": 0.99962858,
+     "updated_at": 1745945399
+    },
+    {
+     "phase": 2,
+     "round": 299,
+     "answer": 0.99965358,
+     "updated_at": 1746031811
+    },
+    {
+     "phase": 2,
+     "round": 300,
+     "answer": 1.00045021,
+     "updated_at": 1746118235
+    },
+    {
+     "phase": 2,
+     "round": 301,
+     "answer": 1.00090288,
+     "updated_at": 1746204671
+    },
+    {
+     "phase": 2,
+     "round": 302,
+     "answer": 1.00059648,
+     "updated_at": 1746291071
+    },
+    {
+     "phase": 2,
+     "round": 303,
+     "answer": 1.00048234,
+     "updated_at": 1746377483
+    },
+    {
+     "phase": 2,
+     "round": 304,
+     "answer": 1.0003458,
+     "updated_at": 1746463895
+    },
+    {
+     "phase": 2,
+     "round": 305,
+     "answer": 1.00029923,
+     "updated_at": 1746550331
+    },
+    {
+     "phase": 2,
+     "round": 306,
+     "answer": 1.0005496,
+     "updated_at": 1746636743
+    },
+    {
+     "phase": 2,
+     "round": 307,
+     "answer": 1.00013007,
+     "updated_at": 1746723167
+    },
+    {
+     "phase": 2,
+     "round": 308,
+     "answer": 1.00028993,
+     "updated_at": 1746809579
+    },
+    {
+     "phase": 2,
+     "round": 309,
+     "answer": 1.00024382,
+     "updated_at": 1746896003
+    },
+    {
+     "phase": 2,
+     "round": 310,
+     "answer": 1.0001768,
+     "updated_at": 1746982427
+    },
+    {
+     "phase": 2,
+     "round": 311,
+     "answer": 1.00060844,
+     "updated_at": 1747068851
+    },
+    {
+     "phase": 2,
+     "round": 312,
+     "answer": 1.00078799,
+     "updated_at": 1747155275
+    },
+    {
+     "phase": 2,
+     "round": 313,
+     "answer": 1.0006,
+     "updated_at": 1747241675
+    },
+    {
+     "phase": 2,
+     "round": 314,
+     "answer": 1.00049364,
+     "updated_at": 1747328087
+    },
+    {
+     "phase": 2,
+     "round": 315,
+     "answer": 1.0011436,
+     "updated_at": 1747414511
+    },
+    {
+     "phase": 2,
+     "round": 316,
+     "answer": 1.00062808,
+     "updated_at": 1747500923
+    },
+    {
+     "phase": 2,
+     "round": 317,
+     "answer": 1.00037281,
+     "updated_at": 1747587359
+    },
+    {
+     "phase": 2,
+     "round": 318,
+     "answer": 1.00041108,
+     "updated_at": 1747673795
+    },
+    {
+     "phase": 2,
+     "round": 319,
+     "answer": 1.0007847,
+     "updated_at": 1747760219
+    },
+    {
+     "phase": 2,
+     "round": 320,
+     "answer": 1.0010253,
+     "updated_at": 1747846643
+    },
+    {
+     "phase": 2,
+     "round": 321,
+     "answer": 1.00046097,
+     "updated_at": 1747933067
+    },
+    {
+     "phase": 2,
+     "round": 322,
+     "answer": 1.00038533,
+     "updated_at": 1748019491
+    },
+    {
+     "phase": 2,
+     "round": 323,
+     "answer": 1.0007559,
+     "updated_at": 1748105903
+    },
+    {
+     "phase": 2,
+     "round": 324,
+     "answer": 1.00054623,
+     "updated_at": 1748192327
+    },
+    {
+     "phase": 2,
+     "round": 325,
+     "answer": 1.00069381,
+     "updated_at": 1748278751
+    },
+    {
+     "phase": 2,
+     "round": 326,
+     "answer": 1.00061077,
+     "updated_at": 1748365163
+    },
+    {
+     "phase": 2,
+     "round": 327,
+     "answer": 1.00087387,
+     "updated_at": 1748451599
+    },
+    {
+     "phase": 2,
+     "round": 328,
+     "answer": 0.9995315,
+     "updated_at": 1748538023
+    },
+    {
+     "phase": 2,
+     "round": 329,
+     "answer": 0.99979,
+     "updated_at": 1748624435
+    },
+    {
+     "phase": 2,
+     "round": 330,
+     "answer": 1.00105557,
+     "updated_at": 1748710847
+    },
+    {
+     "phase": 2,
+     "round": 331,
+     "answer": 1.00118992,
+     "updated_at": 1748797283
+    },
+    {
+     "phase": 2,
+     "round": 332,
+     "answer": 1.00094935,
+     "updated_at": 1748883707
+    },
+    {
+     "phase": 2,
+     "round": 333,
+     "answer": 1.0013207,
+     "updated_at": 1748970131
+    },
+    {
+     "phase": 2,
+     "round": 334,
+     "answer": 1.00131472,
+     "updated_at": 1749056543
+    },
+    {
+     "phase": 2,
+     "round": 335,
+     "answer": 1.00099335,
+     "updated_at": 1749142955
+    },
+    {
+     "phase": 2,
+     "round": 336,
+     "answer": 1.0013717,
+     "updated_at": 1749229367
+    },
+    {
+     "phase": 2,
+     "round": 337,
+     "answer": 1.00118909,
+     "updated_at": 1749315791
+    },
+    {
+     "phase": 2,
+     "round": 338,
+     "answer": 1.00107821,
+     "updated_at": 1749402203
+    },
+    {
+     "phase": 2,
+     "round": 339,
+     "answer": 1.00084337,
+     "updated_at": 1749488615
+    },
+    {
+     "phase": 2,
+     "round": 340,
+     "answer": 1.00083708,
+     "updated_at": 1749575051
+    },
+    {
+     "phase": 2,
+     "round": 341,
+     "answer": 1.00076657,
+     "updated_at": 1749661487
+    },
+    {
+     "phase": 2,
+     "round": 342,
+     "answer": 1.0005176,
+     "updated_at": 1749747923
+    },
+    {
+     "phase": 2,
+     "round": 343,
+     "answer": 1.00055978,
+     "updated_at": 1749834359
+    },
+    {
+     "phase": 2,
+     "round": 344,
+     "answer": 1.00025841,
+     "updated_at": 1749920795
+    },
+    {
+     "phase": 2,
+     "round": 345,
+     "answer": 0.99997668,
+     "updated_at": 1750007219
+    },
+    {
+     "phase": 2,
+     "round": 346,
+     "answer": 1.00003627,
+     "updated_at": 1750093631
+    },
+    {
+     "phase": 2,
+     "round": 347,
+     "answer": 0.99952865,
+     "updated_at": 1750180043
+    },
+    {
+     "phase": 2,
+     "round": 348,
+     "answer": 1.00006042,
+     "updated_at": 1750266467
+    },
+    {
+     "phase": 2,
+     "round": 349,
+     "answer": 1.00006994,
+     "updated_at": 1750352903
+    },
+    {
+     "phase": 2,
+     "round": 350,
+     "answer": 1.00043022,
+     "updated_at": 1750439387
+    },
+    {
+     "phase": 2,
+     "round": 351,
+     "answer": 1.00043022,
+     "updated_at": 1750439603
+    },
+    {
+     "phase": 2,
+     "round": 352,
+     "answer": 1.00047367,
+     "updated_at": 1750526015
+    },
+    {
+     "phase": 2,
+     "round": 353,
+     "answer": 1.00034726,
+     "updated_at": 1750612439
+    },
+    {
+     "phase": 2,
+     "round": 354,
+     "answer": 1.0004459,
+     "updated_at": 1750698851
+    },
+    {
+     "phase": 2,
+     "round": 355,
+     "answer": 1.00055004,
+     "updated_at": 1750785275
+    },
+    {
+     "phase": 2,
+     "round": 356,
+     "answer": 1.00011433,
+     "updated_at": 1750871687
+    },
+    {
+     "phase": 2,
+     "round": 357,
+     "answer": 1.00005684,
+     "updated_at": 1750958111
+    },
+    {
+     "phase": 2,
+     "round": 358,
+     "answer": 1.00020135,
+     "updated_at": 1751044523
+    },
+    {
+     "phase": 2,
+     "round": 359,
+     "answer": 1.0002703,
+     "updated_at": 1751130947
+    },
+    {
+     "phase": 2,
+     "round": 360,
+     "answer": 1.00032022,
+     "updated_at": 1751217371
+    },
+    {
+     "phase": 2,
+     "round": 361,
+     "answer": 1.0001,
+     "updated_at": 1751303795
+    },
+    {
+     "phase": 2,
+     "round": 362,
+     "answer": 1.00009719,
+     "updated_at": 1751390207
+    },
+    {
+     "phase": 2,
+     "round": 363,
+     "answer": 1.00025331,
+     "updated_at": 1751476631
+    },
+    {
+     "phase": 2,
+     "round": 364,
+     "answer": 1.0001992,
+     "updated_at": 1751563055
+    },
+    {
+     "phase": 2,
+     "round": 365,
+     "answer": 1.0001321,
+     "updated_at": 1751649467
+    },
+    {
+     "phase": 2,
+     "round": 366,
+     "answer": 1.00026399,
+     "updated_at": 1751735891
+    },
+    {
+     "phase": 2,
+     "round": 367,
+     "answer": 0.99999645,
+     "updated_at": 1751822315
+    },
+    {
+     "phase": 2,
+     "round": 368,
+     "answer": 1.00000501,
+     "updated_at": 1751908739
+    },
+    {
+     "phase": 2,
+     "round": 369,
+     "answer": 1.00031472,
+     "updated_at": 1751995151
+    },
+    {
+     "phase": 2,
+     "round": 370,
+     "answer": 1.00080037,
+     "updated_at": 1752081563
+    },
+    {
+     "phase": 2,
+     "round": 371,
+     "answer": 1.00076646,
+     "updated_at": 1752167987
+    },
+    {
+     "phase": 2,
+     "round": 372,
+     "answer": 1.00071255,
+     "updated_at": 1752254399
+    },
+    {
+     "phase": 2,
+     "round": 373,
+     "answer": 1.00033272,
+     "updated_at": 1752340823
+    },
+    {
+     "phase": 2,
+     "round": 374,
+     "answer": 1.00065527,
+     "updated_at": 1752427259
+    },
+    {
+     "phase": 2,
+     "round": 375,
+     "answer": 1.0004568,
+     "updated_at": 1752513683
+    },
+    {
+     "phase": 2,
+     "round": 376,
+     "answer": 1.0004528,
+     "updated_at": 1752600107
+    },
+    {
+     "phase": 2,
+     "round": 377,
+     "answer": 1.00083813,
+     "updated_at": 1752686543
+    },
+    {
+     "phase": 2,
+     "round": 378,
+     "answer": 1.00077167,
+     "updated_at": 1752772967
+    },
+    {
+     "phase": 2,
+     "round": 379,
+     "answer": 1.00161831,
+     "updated_at": 1752859391
+    },
+    {
+     "phase": 2,
+     "round": 380,
+     "answer": 1.00109464,
+     "updated_at": 1752945803
+    },
+    {
+     "phase": 2,
+     "round": 381,
+     "answer": 1.0011796,
+     "updated_at": 1753032227
+    },
+    {
+     "phase": 2,
+     "round": 382,
+     "answer": 1.00168684,
+     "updated_at": 1753118663
+    },
+    {
+     "phase": 2,
+     "round": 383,
+     "answer": 1.00144345,
+     "updated_at": 1753205075
+    },
+    {
+     "phase": 2,
+     "round": 384,
+     "answer": 1.00128552,
+     "updated_at": 1753291487
+    },
+    {
+     "phase": 2,
+     "round": 385,
+     "answer": 1.00115102,
+     "updated_at": 1753377923
+    },
+    {
+     "phase": 2,
+     "round": 386,
+     "answer": 1.00107724,
+     "updated_at": 1753464359
+    },
+    {
+     "phase": 2,
+     "round": 387,
+     "answer": 1.00109914,
+     "updated_at": 1753550771
+    },
+    {
+     "phase": 2,
+     "round": 388,
+     "answer": 1.00108778,
+     "updated_at": 1753637195
+    },
+    {
+     "phase": 2,
+     "round": 389,
+     "answer": 1.00086034,
+     "updated_at": 1753723619
+    },
+    {
+     "phase": 2,
+     "round": 390,
+     "answer": 1.00084066,
+     "updated_at": 1753810031
+    },
+    {
+     "phase": 2,
+     "round": 391,
+     "answer": 1.00084438,
+     "updated_at": 1753896455
+    },
+    {
+     "phase": 2,
+     "round": 392,
+     "answer": 1.00069299,
+     "updated_at": 1753982867
+    },
+    {
+     "phase": 2,
+     "round": 393,
+     "answer": 1.00053508,
+     "updated_at": 1754069339
+    },
+    {
+     "phase": 2,
+     "round": 394,
+     "answer": 1.00045722,
+     "updated_at": 1754155751
+    },
+    {
+     "phase": 2,
+     "round": 395,
+     "answer": 1.00083067,
+     "updated_at": 1754242175
+    },
+    {
+     "phase": 2,
+     "round": 396,
+     "answer": 1.00079756,
+     "updated_at": 1754328587
+    },
+    {
+     "phase": 2,
+     "round": 397,
+     "answer": 1.00058576,
+     "updated_at": 1754414999
+    },
+    {
+     "phase": 2,
+     "round": 398,
+     "answer": 1.00083427,
+     "updated_at": 1754501423
+    },
+    {
+     "phase": 2,
+     "round": 399,
+     "answer": 1.00076461,
+     "updated_at": 1754587835
+    },
+    {
+     "phase": 2,
+     "round": 400,
+     "answer": 1.00090647,
+     "updated_at": 1754606675
+    },
+    {
+     "phase": 2,
+     "round": 401,
+     "answer": 1.00066289,
+     "updated_at": 1754689499
+    },
+    {
+     "phase": 2,
+     "round": 402,
+     "answer": 1.00101794,
+     "updated_at": 1754772335
+    },
+    {
+     "phase": 2,
+     "round": 403,
+     "answer": 1.00084162,
+     "updated_at": 1754855147
+    },
+    {
+     "phase": 2,
+     "round": 404,
+     "answer": 1.00049314,
+     "updated_at": 1754937971
+    },
+    {
+     "phase": 2,
+     "round": 405,
+     "answer": 1.0008634,
+     "updated_at": 1755020783
+    },
+    {
+     "phase": 2,
+     "round": 406,
+     "answer": 1.0007153,
+     "updated_at": 1755103607
+    },
+    {
+     "phase": 2,
+     "round": 407,
+     "answer": 1.00062907,
+     "updated_at": 1755186443
+    },
+    {
+     "phase": 2,
+     "round": 408,
+     "answer": 1.00076497,
+     "updated_at": 1755269279
+    },
+    {
+     "phase": 2,
+     "round": 409,
+     "answer": 1.00122087,
+     "updated_at": 1755352091
+    },
+    {
+     "phase": 2,
+     "round": 410,
+     "answer": 1.00113545,
+     "updated_at": 1755434903
+    },
+    {
+     "phase": 2,
+     "round": 411,
+     "answer": 1.00131105,
+     "updated_at": 1755517715
+    },
+    {
+     "phase": 2,
+     "round": 412,
+     "answer": 1.0010689,
+     "updated_at": 1755600527
+    },
+    {
+     "phase": 2,
+     "round": 413,
+     "answer": 1.00061056,
+     "updated_at": 1755683339
+    },
+    {
+     "phase": 2,
+     "round": 414,
+     "answer": 1.00077717,
+     "updated_at": 1755766163
+    },
+    {
+     "phase": 2,
+     "round": 415,
+     "answer": 1.00052831,
+     "updated_at": 1755848975
+    },
+    {
+     "phase": 2,
+     "round": 416,
+     "answer": 1.00046326,
+     "updated_at": 1755931787
+    },
+    {
+     "phase": 2,
+     "round": 417,
+     "answer": 1.00041921,
+     "updated_at": 1756014599
+    },
+    {
+     "phase": 2,
+     "round": 418,
+     "answer": 1.00050459,
+     "updated_at": 1756097435
+    },
+    {
+     "phase": 2,
+     "round": 419,
+     "answer": 1.00068579,
+     "updated_at": 1756180247
+    },
+    {
+     "phase": 2,
+     "round": 420,
+     "answer": 1.00084304,
+     "updated_at": 1756263071
+    },
+    {
+     "phase": 2,
+     "round": 421,
+     "answer": 1.00075541,
+     "updated_at": 1756345883
+    },
+    {
+     "phase": 2,
+     "round": 422,
+     "answer": 1.00083278,
+     "updated_at": 1756428695
+    },
+    {
+     "phase": 2,
+     "round": 423,
+     "answer": 1.00051409,
+     "updated_at": 1756511507
+    },
+    {
+     "phase": 2,
+     "round": 424,
+     "answer": 1.00059503,
+     "updated_at": 1756594331
+    },
+    {
+     "phase": 2,
+     "round": 425,
+     "answer": 1.00087889,
+     "updated_at": 1756677131
+    },
+    {
+     "phase": 2,
+     "round": 426,
+     "answer": 1.00073045,
+     "updated_at": 1756759955
+    },
+    {
+     "phase": 2,
+     "round": 427,
+     "answer": 1.00077539,
+     "updated_at": 1756842779
+    },
+    {
+     "phase": 2,
+     "round": 428,
+     "answer": 1.00098743,
+     "updated_at": 1756925591
+    },
+    {
+     "phase": 2,
+     "round": 429,
+     "answer": 1.00081119,
+     "updated_at": 1757008403
+    },
+    {
+     "phase": 2,
+     "round": 430,
+     "answer": 1.00083291,
+     "updated_at": 1757091227
+    },
+    {
+     "phase": 2,
+     "round": 431,
+     "answer": 1.00086533,
+     "updated_at": 1757174039
+    },
+    {
+     "phase": 2,
+     "round": 432,
+     "answer": 1.00091216,
+     "updated_at": 1757256851
+    },
+    {
+     "phase": 2,
+     "round": 433,
+     "answer": 1.000722,
+     "updated_at": 1757339675
+    },
+    {
+     "phase": 2,
+     "round": 434,
+     "answer": 1.00100876,
+     "updated_at": 1757422499
+    },
+    {
+     "phase": 2,
+     "round": 435,
+     "answer": 1.00077046,
+     "updated_at": 1757505311
+    },
+    {
+     "phase": 2,
+     "round": 436,
+     "answer": 1.0008146,
+     "updated_at": 1757588135
+    },
+    {
+     "phase": 2,
+     "round": 437,
+     "answer": 1.00089132,
+     "updated_at": 1757670947
+    },
+    {
+     "phase": 2,
+     "round": 438,
+     "answer": 1.00117118,
+     "updated_at": 1757753759
+    },
+    {
+     "phase": 2,
+     "round": 439,
+     "answer": 1.00127218,
+     "updated_at": 1757836583
+    },
+    {
+     "phase": 2,
+     "round": 440,
+     "answer": 1.0012104,
+     "updated_at": 1757919407
+    },
+    {
+     "phase": 2,
+     "round": 441,
+     "answer": 1.0010682,
+     "updated_at": 1758002243
+    },
+    {
+     "phase": 2,
+     "round": 442,
+     "answer": 1.00107795,
+     "updated_at": 1758085055
+    },
+    {
+     "phase": 2,
+     "round": 443,
+     "answer": 1.00108114,
+     "updated_at": 1758167867
+    },
+    {
+     "phase": 2,
+     "round": 444,
+     "answer": 1.00111161,
+     "updated_at": 1758250691
+    },
+    {
+     "phase": 2,
+     "round": 445,
+     "answer": 1.00125332,
+     "updated_at": 1758333539
+    },
+    {
+     "phase": 2,
+     "round": 446,
+     "answer": 1.00077122,
+     "updated_at": 1758416351
+    },
+    {
+     "phase": 2,
+     "round": 447,
+     "answer": 1.00034309,
+     "updated_at": 1758499163
+    },
+    {
+     "phase": 2,
+     "round": 448,
+     "answer": 1.00115069,
+     "updated_at": 1758581987
+    },
+    {
+     "phase": 2,
+     "round": 449,
+     "answer": 1.00067895,
+     "updated_at": 1758664799
+    },
+    {
+     "phase": 2,
+     "round": 450,
+     "answer": 1.00084835,
+     "updated_at": 1758747635
+    },
+    {
+     "phase": 2,
+     "round": 451,
+     "answer": 0.99927122,
+     "updated_at": 1758830459
+    },
+    {
+     "phase": 2,
+     "round": 452,
+     "answer": 0.99995434,
+     "updated_at": 1758913283
+    },
+    {
+     "phase": 2,
+     "round": 453,
+     "answer": 0.99998528,
+     "updated_at": 1758996095
+    },
+    {
+     "phase": 2,
+     "round": 454,
+     "answer": 1.00044028,
+     "updated_at": 1759078919
+    },
+    {
+     "phase": 2,
+     "round": 455,
+     "answer": 1.00087738,
+     "updated_at": 1759161743
+    },
+    {
+     "phase": 2,
+     "round": 456,
+     "answer": 1.00094483,
+     "updated_at": 1759244567
+    },
+    {
+     "phase": 2,
+     "round": 457,
+     "answer": 1.00096121,
+     "updated_at": 1759327379
+    },
+    {
+     "phase": 2,
+     "round": 458,
+     "answer": 1.00092776,
+     "updated_at": 1759410203
+    },
+    {
+     "phase": 2,
+     "round": 459,
+     "answer": 1.00037781,
+     "updated_at": 1759493027
+    },
+    {
+     "phase": 2,
+     "round": 460,
+     "answer": 1.00048614,
+     "updated_at": 1759575839
+    },
+    {
+     "phase": 2,
+     "round": 461,
+     "answer": 0.99998416,
+     "updated_at": 1759658663
+    },
+    {
+     "phase": 2,
+     "round": 462,
+     "answer": 1.00005553,
+     "updated_at": 1759741487
+    },
+    {
+     "phase": 2,
+     "round": 463,
+     "answer": 1.00006089,
+     "updated_at": 1759824287
+    },
+    {
+     "phase": 2,
+     "round": 464,
+     "answer": 0.99999892,
+     "updated_at": 1759907111
+    },
+    {
+     "phase": 2,
+     "round": 465,
+     "answer": 1.00024884,
+     "updated_at": 1759989923
+    },
+    {
+     "phase": 2,
+     "round": 466,
+     "answer": 1.00021067,
+     "updated_at": 1760072759
+    },
+    {
+     "phase": 2,
+     "round": 467,
+     "answer": 0.99293808,
+     "updated_at": 1760137451
+    },
+    {
+     "phase": 2,
+     "round": 468,
+     "answer": 0.99865662,
+     "updated_at": 1760137535
+    },
+    {
+     "phase": 2,
+     "round": 469,
+     "answer": 1.00006811,
+     "updated_at": 1760220347
+    },
+    {
+     "phase": 2,
+     "round": 470,
+     "answer": 1.00009425,
+     "updated_at": 1760303159
+    },
+    {
+     "phase": 2,
+     "round": 471,
+     "answer": 1.00034055,
+     "updated_at": 1760385995
+    },
+    {
+     "phase": 2,
+     "round": 472,
+     "answer": 0.99998508,
+     "updated_at": 1760468819
+    },
+    {
+     "phase": 2,
+     "round": 473,
+     "answer": 1.00005508,
+     "updated_at": 1760551643
+    },
+    {
+     "phase": 2,
+     "round": 474,
+     "answer": 0.99948435,
+     "updated_at": 1760634455
+    },
+    {
+     "phase": 2,
+     "round": 475,
+     "answer": 0.99925207,
+     "updated_at": 1760717267
+    },
+    {
+     "phase": 2,
+     "round": 476,
+     "answer": 0.99944388,
+     "updated_at": 1760800091
+    },
+    {
+     "phase": 2,
+     "round": 477,
+     "answer": 0.99948607,
+     "updated_at": 1760882903
+    },
+    {
+     "phase": 2,
+     "round": 478,
+     "answer": 0.99941106,
+     "updated_at": 1760965727
+    },
+    {
+     "phase": 2,
+     "round": 479,
+     "answer": 0.99937089,
+     "updated_at": 1761048551
+    },
+    {
+     "phase": 2,
+     "round": 480,
+     "answer": 0.99948313,
+     "updated_at": 1761131363
+    },
+    {
+     "phase": 2,
+     "round": 481,
+     "answer": 0.99935902,
+     "updated_at": 1761214187
+    },
+    {
+     "phase": 2,
+     "round": 482,
+     "answer": 0.99938306,
+     "updated_at": 1761297023
+    },
+    {
+     "phase": 2,
+     "round": 483,
+     "answer": 0.99928569,
+     "updated_at": 1761379847
+    },
+    {
+     "phase": 2,
+     "round": 484,
+     "answer": 0.99933276,
+     "updated_at": 1761462671
+    },
+    {
+     "phase": 2,
+     "round": 485,
+     "answer": 0.99921484,
+     "updated_at": 1761545483
+    },
+    {
+     "phase": 2,
+     "round": 486,
+     "answer": 0.99920582,
+     "updated_at": 1761628295
+    },
+    {
+     "phase": 2,
+     "round": 487,
+     "answer": 0.99931229,
+     "updated_at": 1761711131
+    },
+    {
+     "phase": 2,
+     "round": 488,
+     "answer": 0.99932819,
+     "updated_at": 1761793943
+    },
+    {
+     "phase": 2,
+     "round": 489,
+     "answer": 0.99922016,
+     "updated_at": 1761876779
+    },
+    {
+     "phase": 2,
+     "round": 490,
+     "answer": 0.99890677,
+     "updated_at": 1761959663
+    },
+    {
+     "phase": 2,
+     "round": 491,
+     "answer": 0.99879628,
+     "updated_at": 1762042547
+    },
+    {
+     "phase": 2,
+     "round": 492,
+     "answer": 0.99906048,
+     "updated_at": 1762125383
+    },
+    {
+     "phase": 2,
+     "round": 493,
+     "answer": 0.99914074,
+     "updated_at": 1762208195
+    },
+    {
+     "phase": 2,
+     "round": 494,
+     "answer": 0.9989147,
+     "updated_at": 1762291031
+    },
+    {
+     "phase": 2,
+     "round": 495,
+     "answer": 0.99909545,
+     "updated_at": 1762373855
+    },
+    {
+     "phase": 2,
+     "round": 496,
+     "answer": 0.99890473,
+     "updated_at": 1762456667
+    },
+    {
+     "phase": 2,
+     "round": 497,
+     "answer": 0.99875079,
+     "updated_at": 1762539491
+    },
+    {
+     "phase": 2,
+     "round": 498,
+     "answer": 0.99898408,
+     "updated_at": 1762622315
+    },
+    {
+     "phase": 2,
+     "round": 499,
+     "answer": 0.99904046,
+     "updated_at": 1762705127
+    },
+    {
+     "phase": 2,
+     "round": 500,
+     "answer": 0.99908891,
+     "updated_at": 1762787951
+    },
+    {
+     "phase": 2,
+     "round": 501,
+     "answer": 0.99914833,
+     "updated_at": 1762870763
+    },
+    {
+     "phase": 2,
+     "round": 502,
+     "answer": 0.99908365,
+     "updated_at": 1762953587
+    },
+    {
+     "phase": 2,
+     "round": 503,
+     "answer": 0.99915146,
+     "updated_at": 1763036423
+    },
+    {
+     "phase": 2,
+     "round": 504,
+     "answer": 0.99884049,
+     "updated_at": 1763119247
+    },
+    {
+     "phase": 2,
+     "round": 505,
+     "answer": 0.99862557,
+     "updated_at": 1763202071
+    },
+    {
+     "phase": 2,
+     "round": 506,
+     "answer": 0.99865248,
+     "updated_at": 1763284895
+    },
+    {
+     "phase": 2,
+     "round": 507,
+     "answer": 0.99854905,
+     "updated_at": 1763367707
+    },
+    {
+     "phase": 2,
+     "round": 508,
+     "answer": 0.99828454,
+     "updated_at": 1763450531
+    },
+    {
+     "phase": 2,
+     "round": 509,
+     "answer": 0.99850662,
+     "updated_at": 1763533355
+    },
+    {
+     "phase": 2,
+     "round": 510,
+     "answer": 0.99846236,
+     "updated_at": 1763616179
+    },
+    {
+     "phase": 2,
+     "round": 511,
+     "answer": 0.99826521,
+     "updated_at": 1763699015
+    },
+    {
+     "phase": 2,
+     "round": 512,
+     "answer": 0.99862586,
+     "updated_at": 1763781827
+    },
+    {
+     "phase": 2,
+     "round": 513,
+     "answer": 0.99878381,
+     "updated_at": 1763864651
+    },
+    {
+     "phase": 2,
+     "round": 514,
+     "answer": 0.99906907,
+     "updated_at": 1763947463
+    },
+    {
+     "phase": 2,
+     "round": 515,
+     "answer": 0.99893372,
+     "updated_at": 1764030275
+    },
+    {
+     "phase": 2,
+     "round": 516,
+     "answer": 0.99898773,
+     "updated_at": 1764113099
+    },
+    {
+     "phase": 2,
+     "round": 517,
+     "answer": 0.999298,
+     "updated_at": 1764195911
+    },
+    {
+     "phase": 2,
+     "round": 518,
+     "answer": 0.99925,
+     "updated_at": 1764278735
+    },
+    {
+     "phase": 2,
+     "round": 519,
+     "answer": 0.99933797,
+     "updated_at": 1764361559
+    },
+    {
+     "phase": 2,
+     "round": 520,
+     "answer": 0.99943952,
+     "updated_at": 1764444383
+    },
+    {
+     "phase": 2,
+     "round": 521,
+     "answer": 0.99922026,
+     "updated_at": 1764527195
+    },
+    {
+     "phase": 2,
+     "round": 522,
+     "answer": 0.99920084,
+     "updated_at": 1764610019
+    },
+    {
+     "phase": 2,
+     "round": 523,
+     "answer": 0.99937381,
+     "updated_at": 1764692843
+    },
+    {
+     "phase": 2,
+     "round": 524,
+     "answer": 0.9993652,
+     "updated_at": 1764775655
+    },
+    {
+     "phase": 2,
+     "round": 525,
+     "answer": 0.99929856,
+     "updated_at": 1764858491
+    },
+    {
+     "phase": 2,
+     "round": 526,
+     "answer": 0.99930937,
+     "updated_at": 1764858563
+    },
+    {
+     "phase": 2,
+     "round": 527,
+     "answer": 0.99935223,
+     "updated_at": 1764941387
+    },
+    {
+     "phase": 2,
+     "round": 528,
+     "answer": 0.99940127,
+     "updated_at": 1765024199
+    },
+    {
+     "phase": 2,
+     "round": 529,
+     "answer": 0.99948947,
+     "updated_at": 1765107023
+    },
+    {
+     "phase": 2,
+     "round": 530,
+     "answer": 0.99924847,
+     "updated_at": 1765189847
+    },
+    {
+     "phase": 2,
+     "round": 531,
+     "answer": 0.99924142,
+     "updated_at": 1765272659
+    },
+    {
+     "phase": 2,
+     "round": 532,
+     "answer": 0.9992163,
+     "updated_at": 1765355483
+    },
+    {
+     "phase": 2,
+     "round": 533,
+     "answer": 0.99922277,
+     "updated_at": 1765438295
+    },
+    {
+     "phase": 2,
+     "round": 534,
+     "answer": 0.99932185,
+     "updated_at": 1765521119
+    },
+    {
+     "phase": 2,
+     "round": 535,
+     "answer": 0.99930269,
+     "updated_at": 1765603931
+    },
+    {
+     "phase": 2,
+     "round": 536,
+     "answer": 0.99934268,
+     "updated_at": 1765686743
+    },
+    {
+     "phase": 2,
+     "round": 537,
+     "answer": 0.99931139,
+     "updated_at": 1765769543
+    },
+    {
+     "phase": 2,
+     "round": 538,
+     "answer": 0.99922968,
+     "updated_at": 1765852355
+    },
+    {
+     "phase": 2,
+     "round": 539,
+     "answer": 0.99912064,
+     "updated_at": 1765935179
+    },
+    {
+     "phase": 2,
+     "round": 540,
+     "answer": 0.99919426,
+     "updated_at": 1766017991
+    },
+    {
+     "phase": 2,
+     "round": 541,
+     "answer": 0.99895572,
+     "updated_at": 1766100815
+    },
+    {
+     "phase": 2,
+     "round": 542,
+     "answer": 0.99886628,
+     "updated_at": 1766183627
+    },
+    {
+     "phase": 2,
+     "round": 543,
+     "answer": 0.99902576,
+     "updated_at": 1766266463
+    },
+    {
+     "phase": 2,
+     "round": 544,
+     "answer": 0.99911133,
+     "updated_at": 1766349275
+    },
+    {
+     "phase": 2,
+     "round": 545,
+     "answer": 0.99887637,
+     "updated_at": 1766432135
+    },
+    {
+     "phase": 2,
+     "round": 546,
+     "answer": 0.99887644,
+     "updated_at": 1766514959
+    },
+    {
+     "phase": 2,
+     "round": 547,
+     "answer": 0.99881083,
+     "updated_at": 1766597783
+    },
+    {
+     "phase": 2,
+     "round": 548,
+     "answer": 0.99879166,
+     "updated_at": 1766680595
+    },
+    {
+     "phase": 2,
+     "round": 549,
+     "answer": 0.99867937,
+     "updated_at": 1766763419
+    },
+    {
+     "phase": 2,
+     "round": 550,
+     "answer": 0.9988231,
+     "updated_at": 1766846243
+    },
+    {
+     "phase": 2,
+     "round": 551,
+     "answer": 0.99860671,
+     "updated_at": 1766929103
+    },
+    {
+     "phase": 2,
+     "round": 552,
+     "answer": 0.99855442,
+     "updated_at": 1767011939
+    },
+    {
+     "phase": 2,
+     "round": 553,
+     "answer": 0.99863827,
+     "updated_at": 1767094751
+    },
+    {
+     "phase": 2,
+     "round": 554,
+     "answer": 0.99858832,
+     "updated_at": 1767177563
+    },
+    {
+     "phase": 2,
+     "round": 555,
+     "answer": 0.99842612,
+     "updated_at": 1767260387
+    },
+    {
+     "phase": 2,
+     "round": 556,
+     "answer": 0.99870885,
+     "updated_at": 1767343211
+    },
+    {
+     "phase": 2,
+     "round": 557,
+     "answer": 0.9995426,
+     "updated_at": 1767426023
+    },
+    {
+     "phase": 2,
+     "round": 558,
+     "answer": 0.99961677,
+     "updated_at": 1767508847
+    },
+    {
+     "phase": 2,
+     "round": 559,
+     "answer": 0.99931477,
+     "updated_at": 1767591659
+    },
+    {
+     "phase": 2,
+     "round": 560,
+     "answer": 0.9995966,
+     "updated_at": 1767674471
+    },
+    {
+     "phase": 2,
+     "round": 561,
+     "answer": 0.9992864,
+     "updated_at": 1767757319
+    },
+    {
+     "phase": 2,
+     "round": 562,
+     "answer": 0.99962164,
+     "updated_at": 1767840131
+    },
+    {
+     "phase": 2,
+     "round": 563,
+     "answer": 0.99951696,
+     "updated_at": 1767922943
+    },
+    {
+     "phase": 2,
+     "round": 564,
+     "answer": 0.99905657,
+     "updated_at": 1768005779
+    },
+    {
+     "phase": 2,
+     "round": 565,
+     "answer": 0.99919537,
+     "updated_at": 1768088591
+    },
+    {
+     "phase": 2,
+     "round": 566,
+     "answer": 0.999039,
+     "updated_at": 1768171415
+    },
+    {
+     "phase": 2,
+     "round": 567,
+     "answer": 0.99959698,
+     "updated_at": 1768254239
+    },
+    {
+     "phase": 2,
+     "round": 568,
+     "answer": 1.00016739,
+     "updated_at": 1768337063
+    },
+    {
+     "phase": 2,
+     "round": 569,
+     "answer": 1.0002161,
+     "updated_at": 1768419887
+    },
+    {
+     "phase": 2,
+     "round": 570,
+     "answer": 0.99999286,
+     "updated_at": 1768502699
+    },
+    {
+     "phase": 2,
+     "round": 571,
+     "answer": 0.99988243,
+     "updated_at": 1768585523
+    },
+    {
+     "phase": 2,
+     "round": 572,
+     "answer": 0.99980257,
+     "updated_at": 1768668335
+    },
+    {
+     "phase": 2,
+     "round": 573,
+     "answer": 0.9998284,
+     "updated_at": 1768751159
+    },
+    {
+     "phase": 2,
+     "round": 574,
+     "answer": 0.99946764,
+     "updated_at": 1768833971
+    },
+    {
+     "phase": 2,
+     "round": 575,
+     "answer": 0.99923873,
+     "updated_at": 1768916783
+    },
+    {
+     "phase": 2,
+     "round": 576,
+     "answer": 0.99926595,
+     "updated_at": 1768999595
+    },
+    {
+     "phase": 2,
+     "round": 577,
+     "answer": 0.99946582,
+     "updated_at": 1769082419
+    },
+    {
+     "phase": 2,
+     "round": 578,
+     "answer": 0.998662,
+     "updated_at": 1769165243
+    },
+    {
+     "phase": 2,
+     "round": 579,
+     "answer": 0.99847391,
+     "updated_at": 1769248055
+    },
+    {
+     "phase": 2,
+     "round": 580,
+     "answer": 0.99844829,
+     "updated_at": 1769330879
+    },
+    {
+     "phase": 2,
+     "round": 581,
+     "answer": 0.99863196,
+     "updated_at": 1769413691
+    },
+    {
+     "phase": 2,
+     "round": 582,
+     "answer": 0.99884525,
+     "updated_at": 1769496515
+    },
+    {
+     "phase": 2,
+     "round": 583,
+     "answer": 0.99862174,
+     "updated_at": 1769579327
+    },
+    {
+     "phase": 2,
+     "round": 584,
+     "answer": 0.99847692,
+     "updated_at": 1769662139
+    },
+    {
+     "phase": 2,
+     "round": 585,
+     "answer": 0.99844504,
+     "updated_at": 1769744951
+    },
+    {
+     "phase": 2,
+     "round": 586,
+     "answer": 0.99831607,
+     "updated_at": 1769827775
+    },
+    {
+     "phase": 2,
+     "round": 587,
+     "answer": 0.9986189,
+     "updated_at": 1769910647
+    },
+    {
+     "phase": 2,
+     "round": 588,
+     "answer": 0.99871637,
+     "updated_at": 1769993471
+    },
+    {
+     "phase": 2,
+     "round": 589,
+     "answer": 0.99882884,
+     "updated_at": 1770076307
+    },
+    {
+     "phase": 2,
+     "round": 590,
+     "answer": 0.99832484,
+     "updated_at": 1770159131
+    },
+    {
+     "phase": 2,
+     "round": 591,
+     "answer": 0.99784678,
+     "updated_at": 1770241967
+    },
+    {
+     "phase": 2,
+     "round": 592,
+     "answer": 0.99787033,
+     "updated_at": 1770319607
+    },
+    {
+     "phase": 2,
+     "round": 593,
+     "answer": 0.99848724,
+     "updated_at": 1770402419
+    },
+    {
+     "phase": 2,
+     "round": 594,
+     "answer": 0.99852772,
+     "updated_at": 1770485231
+    },
+    {
+     "phase": 2,
+     "round": 595,
+     "answer": 0.9985988,
+     "updated_at": 1770568055
+    },
+    {
+     "phase": 2,
+     "round": 596,
+     "answer": 0.99870941,
+     "updated_at": 1770650879
+    },
+    {
+     "phase": 2,
+     "round": 597,
+     "answer": 0.99855302,
+     "updated_at": 1770733691
+    },
+    {
+     "phase": 2,
+     "round": 598,
+     "answer": 0.99877799,
+     "updated_at": 1770816515
+    },
+    {
+     "phase": 2,
+     "round": 599,
+     "answer": 0.99877915,
+     "updated_at": 1770899387
+    },
+    {
+     "phase": 2,
+     "round": 600,
+     "answer": 0.99852119,
+     "updated_at": 1770982211
+    },
+    {
+     "phase": 2,
+     "round": 601,
+     "answer": 0.99872632,
+     "updated_at": 1771065035
+    },
+    {
+     "phase": 2,
+     "round": 602,
+     "answer": 0.9989245,
+     "updated_at": 1771147847
+    },
+    {
+     "phase": 2,
+     "round": 603,
+     "answer": 0.99870608,
+     "updated_at": 1771230671
+    },
+    {
+     "phase": 2,
+     "round": 604,
+     "answer": 0.9989994,
+     "updated_at": 1771313507
+    },
+    {
+     "phase": 2,
+     "round": 605,
+     "answer": 0.99916413,
+     "updated_at": 1771396319
+    },
+    {
+     "phase": 2,
+     "round": 606,
+     "answer": 0.99933372,
+     "updated_at": 1771479167
+    },
+    {
+     "phase": 2,
+     "round": 607,
+     "answer": 0.99897476,
+     "updated_at": 1771561991
+    },
+    {
+     "phase": 2,
+     "round": 608,
+     "answer": 0.99902432,
+     "updated_at": 1771644827
+    },
+    {
+     "phase": 2,
+     "round": 609,
+     "answer": 0.9990046,
+     "updated_at": 1771727639
+    },
+    {
+     "phase": 2,
+     "round": 610,
+     "answer": 0.99901497,
+     "updated_at": 1771810463
+    },
+    {
+     "phase": 2,
+     "round": 611,
+     "answer": 0.999089,
+     "updated_at": 1771893287
+    },
+    {
+     "phase": 2,
+     "round": 612,
+     "answer": 0.99930571,
+     "updated_at": 1771976099
+    },
+    {
+     "phase": 2,
+     "round": 613,
+     "answer": 0.99951978,
+     "updated_at": 1772058971
+    },
+    {
+     "phase": 2,
+     "round": 614,
+     "answer": 0.99936583,
+     "updated_at": 1772141795
+    },
+    {
+     "phase": 2,
+     "round": 615,
+     "answer": 0.99920432,
+     "updated_at": 1772224631
+    },
+    {
+     "phase": 2,
+     "round": 616,
+     "answer": 0.99926012,
+     "updated_at": 1772307455
+    },
+    {
+     "phase": 2,
+     "round": 617,
+     "answer": 0.99925171,
+     "updated_at": 1772390279
+    },
+    {
+     "phase": 2,
+     "round": 618,
+     "answer": 0.99926932,
+     "updated_at": 1772473139
+    },
+    {
+     "phase": 2,
+     "round": 619,
+     "answer": 0.99961366,
+     "updated_at": 1772555963
+    },
+    {
+     "phase": 2,
+     "round": 620,
+     "answer": 0.99951351,
+     "updated_at": 1772638775
+    },
+    {
+     "phase": 2,
+     "round": 621,
+     "answer": 0.99947899,
+     "updated_at": 1772721623
+    },
+    {
+     "phase": 2,
+     "round": 622,
+     "answer": 0.99946541,
+     "updated_at": 1772804447
+    },
+    {
+     "phase": 2,
+     "round": 623,
+     "answer": 0.9992382,
+     "updated_at": 1772887271
+    },
+    {
+     "phase": 2,
+     "round": 624,
+     "answer": 0.99931237,
+     "updated_at": 1772970095
+    },
+    {
+     "phase": 2,
+     "round": 625,
+     "answer": 0.99909522,
+     "updated_at": 1773052907
+    },
+    {
+     "phase": 2,
+     "round": 626,
+     "answer": 0.99969311,
+     "updated_at": 1773135731
+    },
+    {
+     "phase": 2,
+     "round": 627,
+     "answer": 0.99951033,
+     "updated_at": 1773218555
+    },
+    {
+     "phase": 2,
+     "round": 628,
+     "answer": 0.99947442,
+     "updated_at": 1773301367
+    },
+    {
+     "phase": 2,
+     "round": 629,
+     "answer": 0.99982405,
+     "updated_at": 1773384179
+    },
+    {
+     "phase": 2,
+     "round": 630,
+     "answer": 1.00027357,
+     "updated_at": 1773466991
+    },
+    {
+     "phase": 2,
+     "round": 631,
+     "answer": 1.00013474,
+     "updated_at": 1773549815
+    },
+    {
+     "phase": 2,
+     "round": 632,
+     "answer": 1.00003921,
+     "updated_at": 1773632627
+    },
+    {
+     "phase": 2,
+     "round": 633,
+     "answer": 0.99992126,
+     "updated_at": 1773715451
+    },
+    {
+     "phase": 2,
+     "round": 634,
+     "answer": 1.0001573,
+     "updated_at": 1773798275
+    },
+    {
+     "phase": 2,
+     "round": 635,
+     "answer": 0.99965725,
+     "updated_at": 1773881099
+    },
+    {
+     "phase": 2,
+     "round": 636,
+     "answer": 0.99956422,
+     "updated_at": 1773963911
+    },
+    {
+     "phase": 2,
+     "round": 637,
+     "answer": 0.99994962,
+     "updated_at": 1774046723
+    },
+    {
+     "phase": 2,
+     "round": 638,
+     "answer": 0.99976792,
+     "updated_at": 1774129535
+    },
+    {
+     "phase": 2,
+     "round": 639,
+     "answer": 0.999555,
+     "updated_at": 1774212371
+    },
+    {
+     "phase": 2,
+     "round": 640,
+     "answer": 0.99928705,
+     "updated_at": 1774295183
+    },
+    {
+     "phase": 2,
+     "round": 641,
+     "answer": 0.99925823,
+     "updated_at": 1774378019
+    },
+    {
+     "phase": 2,
+     "round": 642,
+     "answer": 0.99949733,
+     "updated_at": 1774460831
+    },
+    {
+     "phase": 2,
+     "round": 643,
+     "answer": 0.99943123,
+     "updated_at": 1774543655
+    },
+    {
+     "phase": 2,
+     "round": 644,
+     "answer": 0.99954592,
+     "updated_at": 1774626479
+    },
+    {
+     "phase": 2,
+     "round": 645,
+     "answer": 0.99932705,
+     "updated_at": 1774709303
+    },
+    {
+     "phase": 2,
+     "round": 646,
+     "answer": 0.99915199,
+     "updated_at": 1774792127
+    },
+    {
+     "phase": 2,
+     "round": 647,
+     "answer": 0.99923952,
+     "updated_at": 1774874951
+    },
+    {
+     "phase": 2,
+     "round": 648,
+     "answer": 0.9991769,
+     "updated_at": 1774957775
+    },
+    {
+     "phase": 2,
+     "round": 649,
+     "answer": 0.999359,
+     "updated_at": 1775040611
+    },
+    {
+     "phase": 2,
+     "round": 650,
+     "answer": 0.999478,
+     "updated_at": 1775123423
+    },
+    {
+     "phase": 2,
+     "round": 651,
+     "answer": 0.99945564,
+     "updated_at": 1775206235
+    },
+    {
+     "phase": 2,
+     "round": 652,
+     "answer": 0.99950344,
+     "updated_at": 1775289059
+    },
+    {
+     "phase": 2,
+     "round": 653,
+     "answer": 0.99954699,
+     "updated_at": 1775371895
+    },
+    {
+     "phase": 2,
+     "round": 654,
+     "answer": 0.99965468,
+     "updated_at": 1775454731
+    },
+    {
+     "phase": 2,
+     "round": 655,
+     "answer": 0.99994971,
+     "updated_at": 1775537567
+    },
+    {
+     "phase": 2,
+     "round": 656,
+     "answer": 0.99997723,
+     "updated_at": 1775620391
+    },
+    {
+     "phase": 2,
+     "round": 657,
+     "answer": 0.99989928,
+     "updated_at": 1775703215
+    },
+    {
+     "phase": 2,
+     "round": 658,
+     "answer": 0.99954037,
+     "updated_at": 1775786027
+    },
+    {
+     "phase": 2,
+     "round": 659,
+     "answer": 0.99973066,
+     "updated_at": 1775868851
+    },
+    {
+     "phase": 2,
+     "round": 660,
+     "answer": 0.99978495,
+     "updated_at": 1775951663
+    },
+    {
+     "phase": 2,
+     "round": 661,
+     "answer": 0.99954285,
+     "updated_at": 1776034475
+    },
+    {
+     "phase": 2,
+     "round": 662,
+     "answer": 1.00022109,
+     "updated_at": 1776117287
+    },
+    {
+     "phase": 2,
+     "round": 663,
+     "answer": 0.99993089,
+     "updated_at": 1776200123
+    },
+    {
+     "phase": 2,
+     "round": 664,
+     "answer": 1.00019349,
+     "updated_at": 1776282947
+    },
+    {
+     "phase": 2,
+     "round": 665,
+     "answer": 0.99989742,
+     "updated_at": 1776365759
+    },
+    {
+     "phase": 2,
+     "round": 666,
+     "answer": 0.99976636,
+     "updated_at": 1776448595
+    },
+    {
+     "phase": 2,
+     "round": 667,
+     "answer": 0.99998985,
+     "updated_at": 1776531407
+    },
+    {
+     "phase": 2,
+     "round": 668,
+     "answer": 0.99984241,
+     "updated_at": 1776614219
+    },
+    {
+     "phase": 2,
+     "round": 669,
+     "answer": 0.9997558,
+     "updated_at": 1776697043
+    },
+    {
+     "phase": 2,
+     "round": 670,
+     "answer": 0.99937591,
+     "updated_at": 1776779867
+    },
+    {
+     "phase": 2,
+     "round": 671,
+     "answer": 0.99935542,
+     "updated_at": 1776862691
+    },
+    {
+     "phase": 2,
+     "round": 672,
+     "answer": 0.99955522,
+     "updated_at": 1776945503
+    },
+    {
+     "phase": 2,
+     "round": 673,
+     "answer": 0.99941728,
+     "updated_at": 1777028339
+    },
+    {
+     "phase": 2,
+     "round": 674,
+     "answer": 0.99944658,
+     "updated_at": 1777111151
+    },
+    {
+     "phase": 2,
+     "round": 675,
+     "answer": 0.99948783,
+     "updated_at": 1777193963
+    },
+    {
+     "phase": 2,
+     "round": 676,
+     "answer": 0.99937133,
+     "updated_at": 1777276787
+    },
+    {
+     "phase": 2,
+     "round": 677,
+     "answer": 0.9991763,
+     "updated_at": 1777359623
+    },
+    {
+     "phase": 2,
+     "round": 678,
+     "answer": 0.99911984,
+     "updated_at": 1777442435
+    },
+    {
+     "phase": 2,
+     "round": 679,
+     "answer": 0.99899146,
+     "updated_at": 1777525247
+    },
+    {
+     "phase": 2,
+     "round": 680,
+     "answer": 0.99905391,
+     "updated_at": 1777608071
+    },
+    {
+     "phase": 2,
+     "round": 681,
+     "answer": 0.99907419,
+     "updated_at": 1777690907
+    },
+    {
+     "phase": 2,
+     "round": 682,
+     "answer": 0.99915577,
+     "updated_at": 1777773719
+    },
+    {
+     "phase": 2,
+     "round": 683,
+     "answer": 0.99930712,
+     "updated_at": 1777856531
+    },
+    {
+     "phase": 2,
+     "round": 684,
+     "answer": 0.99913011,
+     "updated_at": 1777939367
+    },
+    {
+     "phase": 2,
+     "round": 685,
+     "answer": 0.99931804,
+     "updated_at": 1778022179
+    },
+    {
+     "phase": 2,
+     "round": 686,
+     "answer": 0.999618,
+     "updated_at": 1778104991
+    },
+    {
+     "phase": 2,
+     "round": 687,
+     "answer": 0.999215,
+     "updated_at": 1778187803
+    },
+    {
+     "phase": 2,
+     "round": 688,
+     "answer": 0.999622,
+     "updated_at": 1778270615
+    },
+    {
+     "phase": 2,
+     "round": 689,
+     "answer": 0.99939075,
+     "updated_at": 1778353439
+    },
+    {
+     "phase": 2,
+     "round": 690,
+     "answer": 0.99973423,
+     "updated_at": 1778436251
+    },
+    {
+     "phase": 2,
+     "round": 691,
+     "answer": 0.99932601,
+     "updated_at": 1778519063
+    },
+    {
+     "phase": 2,
+     "round": 692,
+     "answer": 0.99959224,
+     "updated_at": 1778601875
+    },
+    {
+     "phase": 2,
+     "round": 693,
+     "answer": 0.99988304,
+     "updated_at": 1778684699
+    },
+    {
+     "phase": 2,
+     "round": 694,
+     "answer": 1.00034244,
+     "updated_at": 1778767523
+    },
+    {
+     "phase": 2,
+     "round": 695,
+     "answer": 1.00029917,
+     "updated_at": 1778850335
+    },
+    {
+     "phase": 2,
+     "round": 696,
+     "answer": 0.9998874,
+     "updated_at": 1778933171
+    },
+    {
+     "phase": 2,
+     "round": 697,
+     "answer": 0.9999779,
+     "updated_at": 1779015995
+    },
+    {
+     "phase": 2,
+     "round": 698,
+     "answer": 0.9997613,
+     "updated_at": 1779098807
+    },
+    {
+     "phase": 2,
+     "round": 699,
+     "answer": 0.99963872,
+     "updated_at": 1779181619
+    },
+    {
+     "phase": 2,
+     "round": 700,
+     "answer": 0.99949606,
+     "updated_at": 1779264431
+    },
+    {
+     "phase": 2,
+     "round": 701,
+     "answer": 0.99924979,
+     "updated_at": 1779347255
+    },
+    {
+     "phase": 2,
+     "round": 702,
+     "answer": 0.99919739,
+     "updated_at": 1779430079
+    },
+    {
+     "phase": 2,
+     "round": 703,
+     "answer": 0.99910796,
+     "updated_at": 1779512915
+    },
+    {
+     "phase": 2,
+     "round": 704,
+     "answer": 0.99932478,
+     "updated_at": 1779595751
+    },
+    {
+     "phase": 2,
+     "round": 705,
+     "answer": 0.99867844,
+     "updated_at": 1779678575
+    },
+    {
+     "phase": 2,
+     "round": 706,
+     "answer": 0.99929907,
+     "updated_at": 1779761399
+    },
+    {
+     "phase": 2,
+     "round": 707,
+     "answer": 0.99898982,
+     "updated_at": 1779844211
+    },
+    {
+     "phase": 2,
+     "round": 708,
+     "answer": 0.99904213,
+     "updated_at": 1779927023
+    },
+    {
+     "phase": 2,
+     "round": 709,
+     "answer": 0.99892725,
+     "updated_at": 1780009847
+    },
+    {
+     "phase": 2,
+     "round": 710,
+     "answer": 0.99897148,
+     "updated_at": 1780092659
+    },
+    {
+     "phase": 2,
+     "round": 711,
+     "answer": 0.99896376,
+     "updated_at": 1780175471
+    },
+    {
+     "phase": 2,
+     "round": 712,
+     "answer": 0.99861212,
+     "updated_at": 1780258307
+    },
+    {
+     "phase": 2,
+     "round": 713,
+     "answer": 0.99881254,
+     "updated_at": 1780341119
+    },
+    {
+     "phase": 2,
+     "round": 714,
+     "answer": 0.99868224,
+     "updated_at": 1780423931
+    },
+    {
+     "phase": 2,
+     "round": 715,
+     "answer": 0.99874268,
+     "updated_at": 1780506731
+    },
+    {
+     "phase": 2,
+     "round": 716,
+     "answer": 0.99890066,
+     "updated_at": 1780589543
+    },
+    {
+     "phase": 2,
+     "round": 717,
+     "answer": 0.9995605,
+     "updated_at": 1780672355
+    },
+    {
+     "phase": 2,
+     "round": 718,
+     "answer": 0.99947807,
+     "updated_at": 1780755179
+    },
+    {
+     "phase": 2,
+     "round": 719,
+     "answer": 0.99944278,
+     "updated_at": 1780837991
+    },
+    {
+     "phase": 2,
+     "round": 720,
+     "answer": 0.99925125,
+     "updated_at": 1780920803
+    },
+    {
+     "phase": 2,
+     "round": 721,
+     "answer": 0.99931159,
+     "updated_at": 1781003615
+    },
+    {
+     "phase": 2,
+     "round": 722,
+     "answer": 0.9992698,
+     "updated_at": 1781086439
+    },
+    {
+     "phase": 2,
+     "round": 723,
+     "answer": 0.99877255,
+     "updated_at": 1781169251
+    },
+    {
+     "phase": 2,
+     "round": 724,
+     "answer": 0.99893556,
+     "updated_at": 1781252075
+    },
+    {
+     "phase": 2,
+     "round": 725,
+     "answer": 0.99957127,
+     "updated_at": 1781334887
+    },
+    {
+     "phase": 2,
+     "round": 726,
+     "answer": 0.9995507,
+     "updated_at": 1781417759
+    },
+    {
+     "phase": 2,
+     "round": 727,
+     "answer": 0.99938859,
+     "updated_at": 1781500583
+    },
+    {
+     "phase": 2,
+     "round": 728,
+     "answer": 0.99957884,
+     "updated_at": 1781583395
+    },
+    {
+     "phase": 2,
+     "round": 729,
+     "answer": 0.99956942,
+     "updated_at": 1781666219
+    },
+    {
+     "phase": 2,
+     "round": 730,
+     "answer": 0.99921425,
+     "updated_at": 1781749043
+    },
+    {
+     "phase": 2,
+     "round": 731,
+     "answer": 0.99914958,
+     "updated_at": 1781831855
+    },
+    {
+     "phase": 2,
+     "round": 732,
+     "answer": 0.9991941,
+     "updated_at": 1781914679
+    },
+    {
+     "phase": 2,
+     "round": 733,
+     "answer": 0.99915789,
+     "updated_at": 1781997503
+    },
+    {
+     "phase": 2,
+     "round": 734,
+     "answer": 0.99895182,
+     "updated_at": 1782080315
+    },
+    {
+     "phase": 2,
+     "round": 735,
+     "answer": 0.9987817,
+     "updated_at": 1782163151
+    },
+    {
+     "phase": 2,
+     "round": 736,
+     "answer": 0.99882757,
+     "updated_at": 1782245963
+    },
+    {
+     "phase": 2,
+     "round": 737,
+     "answer": 0.9984969,
+     "updated_at": 1782328823
+    },
+    {
+     "phase": 2,
+     "round": 738,
+     "answer": 0.99818244,
+     "updated_at": 1782411659
+    },
+    {
+     "phase": 2,
+     "round": 739,
+     "answer": 0.99813809,
+     "updated_at": 1782494471
+    },
+    {
+     "phase": 2,
+     "round": 740,
+     "answer": 0.99809017,
+     "updated_at": 1782577283
+    },
+    {
+     "phase": 2,
+     "round": 741,
+     "answer": 0.99815035,
+     "updated_at": 1782660107
+    },
+    {
+     "phase": 2,
+     "round": 742,
+     "answer": 0.99801287,
+     "updated_at": 1782742931
+    },
+    {
+     "phase": 2,
+     "round": 743,
+     "answer": 0.99781232,
+     "updated_at": 1782825791
+    },
+    {
+     "phase": 2,
+     "round": 744,
+     "answer": 0.99822385,
+     "updated_at": 1782908615
+    },
+    {
+     "phase": 2,
+     "round": 745,
+     "answer": 0.99822637,
+     "updated_at": 1782991451
+    },
+    {
+     "phase": 2,
+     "round": 746,
+     "answer": 0.99841645,
+     "updated_at": 1783074275
+    },
+    {
+     "phase": 2,
+     "round": 747,
+     "answer": 0.9988154,
+     "updated_at": 1783157099
+    },
+    {
+     "phase": 2,
+     "round": 748,
+     "answer": 0.99859952,
+     "updated_at": 1783239923
+    },
+    {
+     "phase": 2,
+     "round": 749,
+     "answer": 0.99838338,
+     "updated_at": 1783322735
+    },
+    {
+     "phase": 2,
+     "round": 750,
+     "answer": 0.99858584,
+     "updated_at": 1783405559
+    },
+    {
+     "phase": 2,
+     "round": 751,
+     "answer": 0.99859513,
+     "updated_at": 1783488383
+    },
+    {
+     "phase": 2,
+     "round": 752,
+     "answer": 0.99852816,
+     "updated_at": 1783571207
+    },
+    {
+     "phase": 2,
+     "round": 753,
+     "answer": 0.99962613,
+     "updated_at": 1783654019
+    },
+    {
+     "phase": 2,
+     "round": 754,
+     "answer": 0.99980523,
+     "updated_at": 1783736831
+    },
+    {
+     "phase": 2,
+     "round": 755,
+     "answer": 0.99982769,
+     "updated_at": 1783819643
+    },
+    {
+     "phase": 2,
+     "round": 756,
+     "answer": 0.99974873,
+     "updated_at": 1783902467
+    },
+    {
+     "phase": 2,
+     "round": 757,
+     "answer": 0.9997441,
+     "updated_at": 1783985291
+    },
+    {
+     "phase": 2,
+     "round": 758,
+     "answer": 0.99987049,
+     "updated_at": 1784068115
+    },
+    {
+     "phase": 2,
+     "round": 759,
+     "answer": 0.99988319,
+     "updated_at": 1784150939
+    },
+    {
+     "phase": 2,
+     "round": 760,
+     "answer": 0.99983951,
+     "updated_at": 1784233763
+    },
+    {
+     "phase": 2,
+     "round": 761,
+     "answer": 0.99986775,
+     "updated_at": 1784316575
+    },
+    {
+     "phase": 2,
+     "round": 762,
+     "answer": 0.9998687,
+     "updated_at": 1784399387
+    },
+    {
+     "phase": 2,
+     "round": 763,
+     "answer": 0.9998706,
+     "updated_at": 1784482199
+    },
+    {
+     "phase": 2,
+     "round": 764,
+     "answer": 0.99983407,
+     "updated_at": 1784565023
+    },
+    {
+     "phase": 2,
+     "round": 765,
+     "answer": 0.9999254,
+     "updated_at": 1784647835
+    },
+    {
+     "phase": 2,
+     "round": 766,
+     "answer": 0.99987126,
+     "updated_at": 1784730647
+    },
+    {
+     "phase": 2,
+     "round": 767,
+     "answer": 0.99987349,
+     "updated_at": 1784813459
+    },
+    {
+     "phase": 2,
+     "round": 768,
+     "answer": 0.99981076,
+     "updated_at": 1784896283
+    },
+    {
+     "phase": 2,
+     "round": 769,
+     "answer": 0.999778,
+     "updated_at": 1784979095
+    },
+    {
+     "phase": 2,
+     "round": 770,
+     "answer": 0.999841,
+     "updated_at": 1785061919
+    },
+    {
+     "phase": 2,
+     "round": 771,
+     "answer": 0.99985486,
+     "updated_at": 1785144743
+    },
+    {
+     "phase": 2,
+     "round": 772,
+     "answer": 0.99978752,
+     "updated_at": 1785227555
+    },
+    {
+     "phase": 2,
+     "round": 773,
+     "answer": 0.99975443,
+     "updated_at": 1785310367
+    },
+    {
+     "phase": 2,
+     "round": 774,
+     "answer": 0.99963967,
+     "updated_at": 1785393179
+    },
+    {
+     "phase": 2,
+     "round": 775,
+     "answer": 0.99977015,
+     "updated_at": 1785475991
+    },
+    {
+     "phase": 2,
+     "round": 776,
+     "answer": 0.99979528,
+     "updated_at": 1785558803
+    },
+    {
+     "phase": 2,
+     "round": 777,
+     "answer": 0.99975382,
+     "updated_at": 1785641615
+    },
+    {
+     "phase": 2,
+     "round": 778,
+     "answer": 0.99973899,
+     "updated_at": 1785724439
+    },
+    {
+     "phase": 2,
+     "round": 779,
+     "answer": 0.9997564,
+     "updated_at": 1785807263
+    },
+    {
+     "phase": 2,
+     "round": 780,
+     "answer": 0.99987128,
+     "updated_at": 1785890075
+    },
+    {
+     "phase": 2,
+     "round": 781,
+     "answer": 0.99990283,
+     "updated_at": 1785972899
+    },
+    {
+     "phase": 2,
+     "round": 782,
+     "answer": 0.99983716,
+     "updated_at": 1786055711
+    },
+    {
+     "phase": 2,
+     "round": 783,
+     "answer": 0.99992484,
+     "updated_at": 1786138535
+    },
+    {
+     "phase": 2,
+     "round": 784,
+     "answer": 0.99998656,
+     "updated_at": 1786221371
+    },
+    {
+     "phase": 2,
+     "round": 785,
+     "answer": 0.99997225,
+     "updated_at": 1786304183
+    },
+    {
+     "phase": 2,
+     "round": 786,
+     "answer": 0.99983753,
+     "updated_at": 1786387019
+    },
+    {
+     "phase": 2,
+     "round": 787,
+     "answer": 0.99975177,
+     "updated_at": 1786469831
+    },
+    {
+     "phase": 2,
+     "round": 788,
+     "answer": 0.99969289,
+     "updated_at": 1786552655
+    },
+    {
+     "phase": 2,
+     "round": 789,
+     "answer": 0.99979419,
+     "updated_at": 1786635467
+    },
+    {
+     "phase": 2,
+     "round": 790,
+     "answer": 0.99985144,
+     "updated_at": 1786718303
+    },
+    {
+     "phase": 2,
+     "round": 791,
+     "answer": 0.99988121,
+     "updated_at": 1786801115
+    },
+    {
+     "phase": 2,
+     "round": 792,
+     "answer": 0.99982727,
+     "updated_at": 1786883927
+    },
+    {
+     "phase": 2,
+     "round": 793,
+     "answer": 0.9998552,
+     "updated_at": 1786966739
+    },
+    {
+     "phase": 2,
+     "round": 794,
+     "answer": 0.9997633,
+     "updated_at": 1787049551
+    },
+    {
+     "phase": 2,
+     "round": 795,
+     "answer": 0.99982124,
+     "updated_at": 1787132387
+    },
+    {
+     "phase": 2,
+     "round": 796,
+     "answer": 0.9998083,
+     "updated_at": 1787215259
+    },
+    {
+     "phase": 2,
+     "round": 797,
+     "answer": 0.99984894,
+     "updated_at": 1787298083
+    },
+    {
+     "phase": 2,
+     "round": 798,
+     "answer": 0.99995994,
+     "updated_at": 1787380919
+    },
+    {
+     "phase": 2,
+     "round": 799,
+     "answer": 0.99994728,
+     "updated_at": 1787463767
+    },
+    {
+     "phase": 2,
+     "round": 800,
+     "answer": 0.99993352,
+     "updated_at": 1787546579
+    },
+    {
+     "phase": 2,
+     "round": 801,
+     "answer": 0.99981948,
+     "updated_at": 1787629415
+    },
+    {
+     "phase": 2,
+     "round": 802,
+     "answer": 0.99990457,
+     "updated_at": 1787712251
+    },
+    {
+     "phase": 2,
+     "round": 803,
+     "answer": 0.99988345,
+     "updated_at": 1787795075
+    },
+    {
+     "phase": 2,
+     "round": 804,
+     "answer": 0.99988033,
+     "updated_at": 1787877875
+    },
+    {
+     "phase": 2,
+     "round": 805,
+     "answer": 0.99990936,
+     "updated_at": 1787960687
+    },
+    {
+     "phase": 2,
+     "round": 806,
+     "answer": 0.99995682,
+     "updated_at": 1788043511
+    },
+    {
+     "phase": 2,
+     "round": 807,
+     "answer": 0.9998747,
+     "updated_at": 1788126323
+    },
+    {
+     "phase": 2,
+     "round": 808,
+     "answer": 0.9998044,
+     "updated_at": 1788209147
+    },
+    {
+     "phase": 2,
+     "round": 809,
+     "answer": 0.99962713,
+     "updated_at": 1788291983
+    },
+    {
+     "phase": 2,
+     "round": 810,
+     "answer": 0.99956444,
+     "updated_at": 1788374795
+    },
+    {
+     "phase": 2,
+     "round": 811,
+     "answer": 0.99993028,
+     "updated_at": 1788457619
+    },
+    {
+     "phase": 2,
+     "round": 812,
+     "answer": 0.99989034,
+     "updated_at": 1788540455
+    },
+    {
+     "phase": 2,
+     "round": 813,
+     "answer": 0.9998521,
+     "updated_at": 1788623267
+    },
+    {
+     "phase": 2,
+     "round": 814,
+     "answer": 0.99984519,
+     "updated_at": 1788706079
+    },
+    {
+     "phase": 2,
+     "round": 815,
+     "answer": 0.99982806,
+     "updated_at": 1788788915
+    },
+    {
+     "phase": 2,
+     "round": 816,
+     "answer": 0.99965976,
+     "updated_at": 1788871739
+    },
+    {
+     "phase": 2,
+     "round": 817,
+     "answer": 0.99978519,
+     "updated_at": 1788954563
+    },
+    {
+     "phase": 2,
+     "round": 818,
+     "answer": 0.99966355,
+     "updated_at": 1789037375
+    },
+    {
+     "phase": 2,
+     "round": 819,
+     "answer": 0.99960013,
+     "updated_at": 1789120187
+    },
+    {
+     "phase": 2,
+     "round": 820,
+     "answer": 0.99979927,
+     "updated_at": 1789203011
+    },
+    {
+     "phase": 2,
+     "round": 821,
+     "answer": 0.99976373,
+     "updated_at": 1789285835
+    },
+    {
+     "phase": 2,
+     "round": 822,
+     "answer": 0.999583,
+     "updated_at": 1789368647
+    },
+    {
+     "phase": 2,
+     "round": 823,
+     "answer": 0.99975264,
+     "updated_at": 1789451471
+    },
+    {
+     "phase": 2,
+     "round": 824,
+     "answer": 0.99922072,
+     "updated_at": 1789534283
+    },
+    {
+     "phase": 2,
+     "round": 825,
+     "answer": 0.99944533,
+     "updated_at": 1789617107
+    },
+    {
+     "phase": 2,
+     "round": 826,
+     "answer": 0.99946998,
+     "updated_at": 1789699943
+    },
+    {
+     "phase": 2,
+     "round": 827,
+     "answer": 0.99981538,
+     "updated_at": 1789782767
+    },
+    {
+     "phase": 2,
+     "round": 828,
+     "answer": 0.99976477,
+     "updated_at": 1789865579
+    },
+    {
+     "phase": 2,
+     "round": 829,
+     "answer": 0.99984576,
+     "updated_at": 1789948403
+    },
+    {
+     "phase": 2,
+     "round": 830,
+     "answer": 1.000022,
+     "updated_at": 1790031215
+    },
+    {
+     "phase": 2,
+     "round": 831,
+     "answer": 0.99976616,
+     "updated_at": 1790114027
+    },
+    {
+     "phase": 2,
+     "round": 832,
+     "answer": 0.99985382,
+     "updated_at": 1790196839
+    },
+    {
+     "phase": 2,
+     "round": 833,
+     "answer": 0.99981864,
+     "updated_at": 1790279663
+    },
+    {
+     "phase": 2,
+     "round": 834,
+     "answer": 0.99981676,
+     "updated_at": 1790362475
+    },
+    {
+     "phase": 2,
+     "round": 835,
+     "answer": 0.9996129,
+     "updated_at": 1790445287
+    },
+    {
+     "phase": 2,
+     "round": 836,
+     "answer": 0.99977885,
+     "updated_at": 1790528111
+    },
+    {
+     "phase": 2,
+     "round": 837,
+     "answer": 0.99986494,
+     "updated_at": 1790610935
+    },
+    {
+     "phase": 2,
+     "round": 838,
+     "answer": 1.0,
+     "updated_at": 1790693747
+    },
+    {
+     "phase": 2,
+     "round": 839,
+     "answer": 0.99977937,
+     "updated_at": 1790776559
+    },
+    {
+     "phase": 2,
+     "round": 840,
+     "answer": 0.99979864,
+     "updated_at": 1790859383
+    },
+    {
+     "phase": 2,
+     "round": 841,
+     "answer": 0.99980738,
+     "updated_at": 1790942195
+    },
+    {
+     "phase": 2,
+     "round": 842,
+     "answer": 0.99971712,
+     "updated_at": 1791025007
+    },
+    {
+     "phase": 2,
+     "round": 843,
+     "answer": 0.99969393,
+     "updated_at": 1791107819
+    },
+    {
+     "phase": 2,
+     "round": 844,
+     "answer": 0.9997251,
+     "updated_at": 1791190655
+    },
+    {
+     "phase": 2,
+     "round": 845,
+     "answer": 0.99963266,
+     "updated_at": 1791273467
+    },
+    {
+     "phase": 2,
+     "round": 846,
+     "answer": 0.99951436,
+     "updated_at": 1791356291
+    },
+    {
+     "phase": 2,
+     "round": 847,
+     "answer": 0.99957811,
+     "updated_at": 1791439115
+    },
+    {
+     "phase": 2,
+     "round": 848,
+     "answer": 0.99947809,
+     "updated_at": 1791521939
+    },
+    {
+     "phase": 2,
+     "round": 849,
+     "answer": 0.99959682,
+     "updated_at": 1791604751
+    }
+   ],
+   "evidence": "ChainlinkFeed.getRoundData(phase<<64|round) pour 960 rounds @ 0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961 #26162087"
+  }
+ },
+ "gas": {
+  "base_fee_gwei": 0.075506039,
+  "base_fee_evidence": "eth_getBlockByNumber(26162087).baseFeePerGas = 0.0755 gwei",
+  "eth_usd": 2494.63670555,
+  "eth_usd_evidence": "ENS eth-usd.data.eth → 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26162087 ; latestRoundData().answer = 249463670555 (déc. 8)"
+ }
+}

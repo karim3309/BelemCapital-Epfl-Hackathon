@@ -38,7 +38,7 @@ Barème du brief : **Découverte 30 %** (partie 1, déjà faite) · **Estimation
 |---|---|
 | Adresses mainnet réelles, appels live avec cache | tout le graphe + les lectures du moteur sont faits au **même bloc** (#26162087), mis en cache, puis rejoués hors ligne (`python -m risk.refresh`, puis `risk.run`) |
 | Replay d'un vrai incident | **10 octobre 2025** (plan B du cadrage) : USDe à 0,65 $ sur Binance pendant ~40 min (source curée), on-chain ≥ 0,9929 $ (lu sur Chainlink). Notre oracle tient, un oracle branché sur Binance nous liquidait. Bonus : 21 février 2025 |
-| Une app qui tourne | front « Rayon X » statique, 100 % hors ligne (`web/`) |
+| Une app qui tourne | front en diapositives (`front/`), sur l'API v2 ou ses réponses enregistrées |
 
 ## Ce qui n'est PAS fait (et pourquoi)
 - **Replay xUSD / deUSD (novembre 2025)** : il faudrait retrouver un vault exposé et ses allocations d'avant la crise (blocs historiques, donc un RPC archive). Plan B du cadrage réalisé à la place.
