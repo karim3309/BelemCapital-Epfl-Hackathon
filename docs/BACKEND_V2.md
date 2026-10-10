@@ -9,6 +9,21 @@ It replaces the single position hard-coded in `config.yaml` (position A) with **
 ## What is a "position"?
 It is **one row of a holder's portfolio**, a "pocket" in the sense of the brief ("a book split across ten pockets"). We start from **the holder's address**, and the tool finds all of its pockets. The test address comes from the Dune dashboard provided by Belem ([RockawayX vaults](https://dune.com/rockawayxvault/rockawayx-dashboard)): `0x4F87…0545`, main depositor of the "Belem RWA EURCV" vault. ⚠ **Whether this address belongs to Belem is still to be confirmed with them.**
 
+### Curator view: a whole vault, or a curator's book
+Belem shared the Dune dashboard with "*the different vaults that we are curating*". A **curator** decides where a
+vault's money goes (which markets, which collateral, which caps). Its question is not "should this depositor leave?"
+but "**can a market of my vault make my depositors lose money, and should I pull the vault out of it?**". So the
+input can also be:
+- `vault:0x…`: one Morpho Vault V2 **taken as a whole**. Amount = `totalAssets()` (all depositors together),
+  position id `morpho_vault_v2:<vault>:<vault>` (the vault is its own "holder": no change to the JSON contract);
+- `book:<key>`: **every vault of a curator book** listed in `config.yaml` → `curator_books` (each address with its
+  source, to tick in `VERIFY.md`). `book:rockawayx` = the RockawayX-curated vaults we already proved on-chain.
+
+What changes in the reading: EXIT = **pull the vault's money out of its markets** (the exit cost is the same
+withdrawal model: what is withdrawable now, forced-deallocation penalty, forgone yield, gas), and the "book" is the
+curator's set of vaults, so `shared_dependencies` shows its **hidden concentration** (Morpho, Chainlink, EURCV…).
+A vault whose asset has no USD price in the Morpho API is **left out with the reason**, never priced by guess.
+
 Supported pocket types:
 - `morpho_vault_v2`: deposit in a Morpho V2 vault (we are a **lender**);
 - `morpho_market_borrow`: borrowing on a Morpho market (we are a **borrower**, with leverage);
@@ -36,10 +51,16 @@ $env:PYTHONPATH="src"
 .venv313\Scripts\python -m stacktrace.graph_build 0x4F87De7d21aeF48090958f7342E1F69Dff790545 "Belem RWA"
 .venv313\Scripts\python -m stacktrace.analyze 0x4F87De7d21aeF48090958f7342E1F69Dff790545          # the whole portfolio
 .venv313\Scripts\python -m stacktrace.analyze 0x4F87De7d21aeF48090958f7342E1F69Dff790545 --pocket "Belem RWA" --incident rwa_credit_event:mgloeuro --severity 0.3 --p 0.2
+.venv313\Scripts\python -m stacktrace.portfolio book:rockawayx                  # the curator book (config.yaml)
+.venv313\Scripts\python -m stacktrace.analyze book:rockawayx                    # every vault, curator view
+.venv313\Scripts\python -m stacktrace.analyze vault:0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec   # one whole vault
 .venv313\Scripts\python -m stacktrace.api                                      # API on http://127.0.0.1:8000
+.venv313\Scripts\python -m stacktrace.record book:rockawayx                     # record it all for the offline demo
 ```
 
 Outputs go to `output/live/` (ignored by git). The online cache goes to `data/cache_live/` (ignored too).
+`stacktrace.record` is the exception: it writes every API answer of a holder into
+`docs/api_examples/recordings/<holder>/`, **to commit**; the front then replays it with no network.
 
 ## The model, in plain words
 

@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
 import { useBook, usePockets } from '../api/hooks'
-import { RECORDED_HOLDER } from '../api/recorded'
+import { RECORDED_HOLDER, bundles } from '../api/recorded'
 import { useSource } from '../api/source'
 import Slide from '../components/Slide'
 import { Failure, Pending, Unrecorded } from '../components/States'
 import { verdictColor } from '../lib/colors'
-import { kindLabel, pct, pctAuto, shortAddress, usd, usdShort, verdictText } from '../lib/format'
+import { holderLabel, kindLabel, pct, pctAuto, usd, usdShort, verdictText } from '../lib/format'
 import { useSelection } from '../state/selection'
+
+/** One-click starting points: every recorded holder, plus the curator book of config.yaml. */
+const PRESETS = Array.from(new Set([...bundles.map((b) => b.holder), 'book:rockawayx']))
 
 /** Slide 1: the whole book at a glance, and the way into any pocket. */
 export default function BookSlide() {
@@ -22,6 +25,24 @@ export default function BookSlide() {
   const exits = book.data?.pockets.filter((p) => p.verdict === 'EXIT') ?? []
   const stays = book.data ? book.data.pockets.length - exits.length : 0
   const maxShare = Math.max(0.0001, ...holdings.map((h) => h.share_of_book))
+
+  const presets = (
+    <div className="flex flex-wrap gap-2" aria-label="Quick picks">
+      {PRESETS.map((p) => (
+        <button
+          key={p}
+          type="button"
+          onClick={() => setHolder(p)}
+          aria-pressed={p.toLowerCase() === holder.toLowerCase()}
+          className={`rounded-full px-4 py-2 text-caption font-semibold ${
+            p.toLowerCase() === holder.toLowerCase() ? 'bg-accent text-chalk' : 'bg-surface text-neutral1 hover:text-chalk'
+          }`}
+        >
+          {holderLabel(p)}
+        </button>
+      ))}
+    </div>
+  )
 
   const form = (
     <form
@@ -40,7 +61,7 @@ export default function BookSlide() {
         onChange={(e) => setDraft(e.target.value)}
         spellCheck={false}
         autoComplete="off"
-        placeholder="Holder's Ethereum address (0x…)"
+        placeholder="Address 0x…, vault:0x… (whole vault) or book:rockawayx (curator book)"
         className="min-w-0 flex-1 rounded-xl bg-surface px-5 py-4 text-body text-chalk outline-none"
       />
       <button type="submit" className="shrink-0 rounded-xl bg-accent px-6 py-4 text-body font-semibold text-chalk hover:opacity-90">
@@ -52,7 +73,7 @@ export default function BookSlide() {
   return (
     <Slide
       id="portfolio"
-      eyebrow={`Portfolio · ${shortAddress(holder)} · Ethereum`}
+      eyebrow={`Portfolio · ${holderLabel(holder)} · Ethereum`}
       title={
         pockets.data
           ? `${holdings.length} pockets, ${usdShort(pockets.data.total_value_usd)}.`
@@ -108,7 +129,7 @@ export default function BookSlide() {
               </button>
             }
           >
-            No recorded response for {shortAddress(holder)}.
+            No recorded response for {holderLabel(holder)}.
           </Unrecorded>
         )}
 
@@ -169,6 +190,7 @@ export default function BookSlide() {
 
       <div className="mt-8 flex flex-col gap-3">
         {form}
+        {presets}
         <p className="text-caption font-normal text-neutral1">
           Pockets located by the Morpho API, amounts proven on-chain. ← → to move from one pocket to the next, ↑ ↓ for
           the questions.

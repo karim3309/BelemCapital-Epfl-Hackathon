@@ -69,6 +69,14 @@ export function shortAddress(address: string): string {
   return address.length > 12 ? `${address.slice(0, 6)}…${address.slice(-4)}` : address
 }
 
+/** Readable name of what is analysed: a holder address, a whole vault or a curator book. */
+export function holderLabel(holder: string): string {
+  const h = holder.trim()
+  if (/^book:/i.test(h)) return `Curator book · ${h.slice(5)}`
+  if (/^vault:/i.test(h)) return `Whole vault · ${shortAddress(h.slice(6))}`
+  return shortAddress(h)
+}
+
 export function blockNumber(block: number): string {
   return `#${int.format(block)}`
 }

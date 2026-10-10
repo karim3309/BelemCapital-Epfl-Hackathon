@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { useGraph, useIncident } from '../api/hooks'
-import { recorded } from '../api/recorded'
+import { recordedExample } from '../api/recorded'
 import { useSource } from '../api/source'
 import type { Incident, IncidentMode, IncidentRequest } from '../api/types'
 import GraphCanvas from '../components/GraphCanvas'
@@ -92,7 +92,7 @@ export default function IncidentSlide() {
   const convexExit = v.holding?.kind === 'morpho_market_borrow'
 
   const highlight = graph && incident ? (exact?.contagion_edges?.length ? pathFromEdges(exact.contagion_edges) : pathTo(graph, incident.target)) : null
-  const example = recorded.incidents.find((r) => r.pocket.id === pocketId)?.incident_mode
+  const example = recordedExample(holder, pocketId)
 
   const pickList = (
     <ul className="thin-scroll flex max-h-[48vh] flex-col gap-1 overflow-y-auto">

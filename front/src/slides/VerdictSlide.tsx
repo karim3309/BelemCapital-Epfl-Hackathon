@@ -22,7 +22,7 @@ function Big({ label, value, note, tone }: { label: string; value: string; note?
 
 /** Slide 2: the answer. Largest type in the deck, nothing competing with it. */
 export default function VerdictSlide() {
-  const { stepPocket, goTo, setIncidentId } = useSelection()
+  const { holder, stepPocket, goTo, setIncidentId } = useSelection()
   const { source } = useSource()
   const v = usePocketView()
   const d = v.decision
@@ -31,7 +31,7 @@ export default function VerdictSlide() {
   const scale = Math.max(avoided ?? 0, v.exitCost ?? 0, 1)
   const top = v.topRisk
   const days = v.risk?.monte_carlo.horizon_days ?? DEFAULT_HORIZON_DAYS
-  const fullAnalysis = v.risk !== null || (source.mode === 'recorded' && v.holding && recordedCoverage(v.holding.id).risk)
+  const fullAnalysis = v.risk !== null || (source.mode === 'recorded' && v.holding && recordedCoverage(holder, v.holding.id).risk)
 
   return (
     <Slide

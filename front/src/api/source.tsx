@@ -1,12 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { api, normaliseBaseUrl } from './client'
-import {
-  isRecordedHolder,
-  recorded,
-  recordedGraph,
-  recordedIncident,
-  recordedRisk,
-} from './recorded'
+import { bundleFor, recordedGraph, recordedIncident, recordedRisk } from './recorded'
 import type {
   BookResponse,
   GraphResponse,
@@ -47,16 +41,14 @@ function liveSource(apiUrl: string): DataSource {
 }
 
 function recordedSource(apiUrl: string): DataSource {
-  const forHolder = <T,>(holder: string, value: () => T | null) =>
-    Promise.resolve(isRecordedHolder(holder) ? value() : null)
   return {
     mode: 'recorded',
     apiUrl,
-    pockets: (h) => forHolder(h, () => recorded.pockets),
-    book: (h) => forHolder(h, () => recorded.book),
-    risk: (h, p) => forHolder(h, () => recordedRisk(p)),
-    graph: (h, p) => forHolder(h, () => recordedGraph(p)),
-    incident: (h, p, r) => forHolder(h, () => recordedIncident(p, r)),
+    pockets: (h) => Promise.resolve(bundleFor(h)?.pockets ?? null),
+    book: (h) => Promise.resolve(bundleFor(h)?.book ?? null),
+    risk: (h, p) => Promise.resolve(recordedRisk(h, p)),
+    graph: (h, p) => Promise.resolve(recordedGraph(h, p)),
+    incident: (h, p, r) => Promise.resolve(recordedIncident(h, p, r)),
   }
 }
 

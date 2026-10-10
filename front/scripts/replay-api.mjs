@@ -8,7 +8,7 @@
  *
  * --latency (ms) delays each first call per route, to rehearse the slow first analysis.
  */
-import { readFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { createServer } from 'node:http'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -22,38 +22,63 @@ const PORT = opt('port', 8000)
 const LATENCY = opt('latency', 0)
 
 const dir = join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'docs', 'api_examples')
-const load = (name) => JSON.parse(readFileSync(join(dir, name), 'utf8'))
+const load = (name, folder = dir) => JSON.parse(readFileSync(join(folder, name), 'utf8'))
 const health = load('health.json')
-const pockets = load('pockets.json')
-const book = load('book.json')
-const graphs = [load('graph_vault.json')]
-const risks = [load('risk_vault.json'), load('risk_borrow.json')]
-const incidents = [load('incident.json')]
 
 const same = (a, b) => String(a).toLowerCase() === String(b).toLowerCase()
 const close = (a, b) => typeof a === 'number' && typeof b === 'number' && Math.abs(a - b) < 1e-9
 
-function resolvePocket(key) {
+// One bundle per holder: the original example, plus every docs/api_examples/recordings/<holder>/ folder
+// written by `python -m stacktrace.record` (a new recording of the original holder replaces it).
+const bundles = []
+const recordings = join(dir, 'recordings')
+if (existsSync(recordings)) {
+  for (const name of readdirSync(recordings)) {
+    const folder = join(recordings, name)
+    if (!existsSync(join(folder, 'pockets.json'))) continue
+    const files = readdirSync(folder)
+    const pick = (prefix) => files.filter((f) => f.startsWith(prefix)).map((f) => load(f, folder))
+    bundles.push({
+      pockets: load('pockets.json', folder),
+      book: files.includes('book.json') ? load('book.json', folder) : null,
+      graphs: pick('graph_'),
+      risks: pick('risk_'),
+      incidents: pick('incident'),
+    })
+  }
+}
+const original = {
+  pockets: load('pockets.json'),
+  book: load('book.json'),
+  graphs: [load('graph_vault.json')],
+  risks: [load('risk_vault.json'), load('risk_borrow.json')],
+  incidents: [load('incident.json')],
+}
+if (!bundles.some((b) => same(b.pockets.holder, original.pockets.holder))) bundles.push(original)
+
+function resolvePocket(pockets, key) {
   const hs = pockets.holdings
   if (/^\d+$/.test(key)) return hs[Number(key) - 1] ?? null
   return hs.find((h) => same(h.id, key)) ?? null
 }
 
 const notRecorded = (what) => [422, { detail: `response not recorded (replay server): ${what}` }]
-const pocketList = () => pockets.holdings.map((h) => ({ index: h.index, id: h.id, label: h.label }))
+const pocketList = (pockets) => pockets.holdings.map((h) => ({ index: h.index, id: h.id, label: h.label }))
 
 function route(method, parts, body) {
   if (method === 'GET' && parts.length === 1 && parts[0] === 'health') return [200, health]
   if (parts[0] !== 'holders' || parts.length < 3) return [404, { detail: 'Not Found' }]
   const holder = decodeURIComponent(parts[1])
-  if (!same(holder, pockets.holder)) return notRecorded(`holder ${holder}`)
-  if (method === 'GET' && parts.length === 3 && parts[2] === 'book') return [200, book]
+  const bundle = bundles.find((b) => same(b.pockets.holder, holder))
+  if (!bundle) return notRecorded(`holder ${holder}`)
+  const { pockets, book, graphs, risks, incidents } = bundle
+  if (method === 'GET' && parts.length === 3 && parts[2] === 'book') return book ? [200, book] : notRecorded('book')
   if (method === 'GET' && parts.length === 3 && parts[2] === 'pockets') return [200, pockets]
   if (parts[2] !== 'pockets' || parts.length !== 5) return [404, { detail: 'Not Found' }]
 
   const key = decodeURIComponent(parts[3])
-  const pocket = resolvePocket(key)
-  if (!pocket) return [404, { detail: { error: `pocket "${key}" not found`, pockets: pocketList() } }]
+  const pocket = resolvePocket(pockets, key)
+  if (!pocket) return [404, { detail: { error: `pocket "${key}" not found`, pockets: pocketList(pockets) } }]
   const risk = risks.find((r) => same(r.pocket.id, pocket.id))
 
   if (method === 'GET' && parts[4] === 'risk') return risk ? [200, risk] : notRecorded(`risk of ${pocket.label}`)
@@ -116,5 +141,6 @@ createServer((req, res) => {
     }, delay)
   })
 }).listen(PORT, '127.0.0.1', () => {
-  console.log(`StackTrace replay server on http://127.0.0.1:${PORT} (block #${pockets.block}, recorded responses)`)
+  console.log(`StackTrace replay server on http://127.0.0.1:${PORT} (recorded responses of ${bundles.length} holder(s): ` +
+    `${bundles.map((b) => `${b.pockets.holder} #${b.pockets.block}`).join(', ')})`)
 })

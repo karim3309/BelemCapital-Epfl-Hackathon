@@ -20,6 +20,19 @@ Legend: ✅ already proven automatically on every build · 🔎 to be checked by
 | ☐ | Pendle API | `https://api-v2.pendle.finance/core` (`GET /v2/markets/all`) | [Pendle API docs](https://docs.pendle.finance/pendle-v2-dev/Backend/ApiOverview) | ✅ the pool found is re-proven on-chain | docs (limits: 200 CU/min) |
 | ☐ | Example public RPC (`.env.example`) | PublicNode | [main.net guide](https://main.net/guides/ethereum-mainnet-rpc-public-vs-private) | — | **Use your own RPC instead** (Alchemy/Infura); for an old block, you need an archive node |
 
+## A bis. `config.yaml` → `curator_books.rockawayx` (curator view, backend v2)
+Located by the Morpho API (`userByAddress` of `0x4F87…0545`) and proven on-chain (`name()`, `balanceOf`) at block
+#26162868 (`docs/api_examples/pockets.json`). The curator itself is re-read on-chain (`curator()`) at every analysis.
+**Check each one against the RockawayX Dune dashboard shared by Belem**, and add the vaults that are missing.
+| ☐ | Vault | Address | How to verify |
+|---|---|---|---|
+| ☐ | Belem RWA EURCV | `0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec` | Dune dashboard + Etherscan `name()` + Morpho app vault page (curator) |
+| ☐ | RockawayX f(x) Protocol Ecosystem USDC | `0x2cA22cb25558fa2018ecb1CE4eD8AF92Ee7ea423` | same |
+| ☐ | RockawayX USDC Yield | `0xE0181090c22579B6A217f1522cbf8c9f1F0C1965` | same |
+| ☐ | RockawayX wETH | `0x64C18DCC4Ccb3b8D27877a4aeBB4C3126CB39cB9` | same |
+| ☐ | RockawayX Tori Ecosystem | `0x3BD9AdAE6643dDcddD02746b8B60075E56DF9478` | same |
+| ☐ | Vaults of the Dune dashboard missing from this list (e.g. RockawayX USDC Prime) | — | add them to `config.yaml` with their source; Kamino (Solana) vaults are out of scope |
+
 ## B. `curated.yaml` (the off-chain part)
 | ☐ | Claim | Source | How to verify |
 |---|---|---|---|

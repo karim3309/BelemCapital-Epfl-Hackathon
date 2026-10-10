@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { usePockets } from '../api/hooks'
-import { RECORDED_BLOCK, RECORDED_TIMESTAMP } from '../api/recorded'
+import { recordedBlock, recordedTimestamp } from '../api/recorded'
 import { useSource } from '../api/source'
 import { ago, blockNumber, blockTime } from '../lib/format'
 import { useSelection } from '../state/selection'
@@ -47,7 +47,7 @@ export default function SourcePill() {
       : pockets.isError
         ? 'Live · API error'
         : 'Live · connecting…'
-    : `Recorded · block ${blockNumber(RECORDED_BLOCK)}`
+    : `Recorded · block ${blockNumber(recordedBlock(holder))}`
 
   return (
     <div ref={ref} className="relative flex items-center gap-4">
@@ -91,7 +91,7 @@ export default function SourcePill() {
                 <span className="text-caption font-normal text-neutral1">
                   {m === 'live'
                     ? 'Ethereum mainnet, block refreshed every 2 minutes.'
-                    : `Mainnet at block ${blockNumber(RECORDED_BLOCK)}, ${blockTime(RECORDED_TIMESTAMP)}. No network needed.`}
+                    : `Mainnet at block ${blockNumber(recordedBlock(holder))}, ${blockTime(recordedTimestamp(holder))}. No network needed.`}
                 </span>
               </button>
             ))}

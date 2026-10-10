@@ -69,6 +69,9 @@ To **refresh the whole snapshot** (discovery + engine reads, at the same block),
 v2 starts from **the address of a real holder** (e.g. the Belem RWA EURCV vault from the RockawayX Dune dashboard). It finds
 all its pockets, builds the proven graph of each one, prices the impact of incidents, measures the exit cost and
 returns a **STAY / EXIT** verdict with the threshold **p\***. An HTTP API is provided for the front.
+**Curator view**: `book:rockawayx` analyses every vault of the RockawayX curator book (`config.yaml`), each one as a
+whole (all its depositors), and `vault:0x…` one whole vault. `python -m stacktrace.record book:rockawayx` records it
+all for the offline demo.
 → [docs/BACKEND_V2.md](docs/BACKEND_V2.md) (pipeline, model, limits) · [docs/API.md](docs/API.md) (API contract + real examples)
 
 ## Slide-deck front: backend v2 on screen (`front/`)

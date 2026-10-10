@@ -33,12 +33,16 @@ npm run build        # type check + production build
 The front looks for the API in the background (`/health`) and offers to go live; the choice is remembered. The pill in
 the top-right corner always says where the numbers come from (block, age) and lets you change the API address.
 
-Force a source: `?source=recorded`, `?source=live`, `?api=http://host:8000`, `?holder=0x…`, or at build time
+Force a source: `?source=recorded`, `?source=live`, `?api=http://host:8000`, `?holder=0x…` (or `?holder=book:rockawayx`, the curator book; `?holder=vault:0x…`, one whole vault), or at build time
 `VITE_SOURCE=recorded|live` and `VITE_API_URL=…`.
 
 In recorded mode, only the recorded pockets have their full details (Belem RWA EURCV: graph, risk, incident; the
 PST/USDC borrow: risk). For the others, the front shows the portfolio row and says the details are computed live:
 it never makes up a response.
+
+More recordings: `PYTHONPATH=src python -m stacktrace.record book:rockawayx` (from the repo root, live RPC) writes every
+answer into `docs/api_examples/recordings/<holder>/`. Commit it: the front and the replay server pick up every
+folder there by themselves, and the portfolio slide offers each recorded holder as a one-click choice.
 
 ### Live
 

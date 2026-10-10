@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useGraph, usePockets } from '../api/hooks'
-import { recorded } from '../api/recorded'
+import { recordedGraphPocket as recordedGraphOf } from '../api/recorded'
 import { useSource } from '../api/source'
 import GraphCanvas from '../components/GraphCanvas'
 import NodeSheet from '../components/NodeSheet'
@@ -50,7 +50,7 @@ export default function GraphSlide() {
   const counts = graph ? sourceCounts(graph) : {}
   const risky = graph ? nonMarketOracles(graph) : []
   const chainEdges = graph ? graph.edges.filter((e) => e.type === 'settled_on').length : 0
-  const recordedGraphPocket = recorded.graphs[0]?.pocket
+  const recordedGraphPocket = recordedGraphOf(holder)
 
   return (
     <Slide

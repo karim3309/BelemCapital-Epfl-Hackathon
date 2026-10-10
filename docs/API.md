@@ -26,12 +26,18 @@ It needs `ETH_RPC_URL` in `.env`. CORS is open: the front can call it from the b
   | `/book` (11 pockets) | ~1 min 30 s | instant |
 
 - **Requests are processed one at a time** on the server side. There is no point in launching ten in parallel.
+- **`{holder}`**: a holder address (`0x…`), **or** `vault:0x…` (one whole vault, curator view), **or**
+  `book:<key>` (every vault of a curator book of `config.yaml`, e.g. `book:rockawayx`). See `GET /books`.
 - **`{pocket}`**: the pocket's `id` (`morpho_vault_v2:0xD6d4…`) **or** its `index` number (1, 2, …) in the `/pockets` list.
 
 ## Routes
 
 ### `GET /health`
 Diagnostics: current block, block age, status of the Morpho and Pendle APIs. `status` is `ok` or `degraded`. → [example](api_examples/health.json)
+
+### `GET /books`
+The curator books listed in `config.yaml` (`curator_books`): `holder` to use (`book:<key>`), label, number of vaults,
+source. Needs no RPC.
 
 ### `GET /holders/{holder}/pockets?min_usd=1`
 The holder's pockets. They are located via the Morpho API, then **every amount is proven on-chain**. → [example](api_examples/pockets.json)
@@ -89,6 +95,12 @@ The whole portfolio. → [example](api_examples/book.json)
 - `pockets[]`: one row per pocket, with verdict, expected loss, exit cost, exitable share, sentence and main risk;
 - `shared_dependencies[]`: **the dependencies shared by several pockets**, i.e. the hidden concentration (for example Chainlink ETH/USD in 4 pockets);
 - `skipped[]`: the pockets not supported, with the reason.
+
+## Recording for the offline demo
+`PYTHONPATH=src python -m stacktrace.record <holder>` calls every route above for one holder (pockets, book, risk and
+graph of every pocket, one incident example at p = 20%) and writes the answers into
+`docs/api_examples/recordings/<holder>/`. Commit the folder: the front (recorded mode) and the replay server
+(`npm run replay-api`) pick it up by themselves.
 
 ## Errors
 
