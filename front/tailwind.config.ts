@@ -47,6 +47,9 @@ export default {
         headline: ['64px', { lineHeight: '68px', letterSpacing: '-0.03em' }],
         display: ['80px', { lineHeight: '84px', letterSpacing: '-0.035em' }],
         verdict: ['96px', { lineHeight: '96px', letterSpacing: '-0.04em' }],
+        lead: ['24px', { lineHeight: '34px', letterSpacing: '-0.01em' }],
+        // The answer to the only question that matters at 3 a.m.
+        giant: ['clamp(104px, 19vw, 248px)', { lineHeight: '0.88', letterSpacing: '-0.055em' }],
       },
       fontWeight: {
         normal: '400',
@@ -71,6 +74,10 @@ export default {
         stage: '1320px',
       },
       keyframes: {
+        'progress-slide': {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(250%)' },
+        },
         // Incident ring — pure CSS keyframes, no animation library.
         'pulse-ring': {
           '0%': { transform: 'scale(0.72)', opacity: '0.9' },
@@ -83,6 +90,7 @@ export default {
         },
       },
       animation: {
+        progress: 'progress-slide 1400ms cubic-bezier(0.4, 0, 0.2, 1) infinite',
         'pulse-ring': 'pulse-ring 1800ms cubic-bezier(0.22, 0.61, 0.36, 1) infinite',
         'pulse-core': 'pulse-core 1800ms ease-in-out infinite',
       },

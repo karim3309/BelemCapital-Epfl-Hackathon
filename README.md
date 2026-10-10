@@ -86,6 +86,24 @@ toutes ses poches, construit le graphe prouvé de chacune, chiffre l'impact des 
 rend un verdict **STAY / EXIT** avec le seuil **p\***. Une API HTTP est fournie pour le front.
 → [docs/BACKEND_V2.md](docs/BACKEND_V2.md) (pipeline, modèle, limites) · [docs/API.md](docs/API.md) (contrat de l'API + exemples réels)
 
+## Front en diapositives : le backend v2 à l'écran (`front/`)
+
+Un deck de 7 diapositives qui suit les questions de Léa à 3 h du matin : le portefeuille, **le verdict STAY / EXIT** de
+chaque poche (en très grand), par quel chemin je suis exposée (graphe prouvé, preuve de chaque arête au clic), combien je
+peux perdre, combien coûte la sortie, et le mode incident (« croyez-vous à plus de p\* ? »), puis la concentration cachée
+du portefeuille. ← → change de poche, ↑ ↓ change de question. Le front **ne calcule aucun risque** : il lit l'API.
+
+```bash
+cd front && npm install && npm run dev        # http://localhost:5173
+```
+
+- **Sans backend** : il démarre sur les réponses réelles enregistrées dans `docs/api_examples/` (mainnet, bloc #26162868).
+  Aucun réseau requis.
+- **En direct** : lancez l'API (`PYTHONPATH=src python -m stacktrace.api`, avec `ETH_RPC_URL` dans `.env`) ; le front la
+  détecte et propose de passer en direct. Ou `http://localhost:5173/?source=live`.
+
+Détails, architecture et serveur de rejeu : [front/README.md](front/README.md).
+
 ## Démarrage rapide
 
 Il faut Python **3.11**. Avec Anaconda, par exemple : `conda create -p .venv311 python=3.11 pip`, puis utilisez `.venv311/python`.

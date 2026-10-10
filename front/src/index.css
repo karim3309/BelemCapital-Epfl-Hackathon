@@ -7,6 +7,16 @@
     background-color: #000000;
     color-scheme: dark;
     -webkit-text-size-adjust: 100%;
+    /* The deck: every question is one screen. */
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+  }
+
+  /* Small or short screens: let tall slides scroll freely between snaps. */
+  @media (max-width: 767px), (max-height: 639px) {
+    html {
+      scroll-snap-type: y proximity;
+    }
   }
 
   body {
@@ -110,9 +120,35 @@
   }
 }
 
+@layer components {
+  .slide {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .mono {
+    font-family: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12px;
+    line-height: 18px;
+    overflow-wrap: anywhere;
+  }
+
+  .thin-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #2c2c2e transparent;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   .animate-pulse-ring,
-  .animate-pulse-core {
+  .animate-pulse-core,
+  .animate-progress {
     animation: none !important;
   }
 }

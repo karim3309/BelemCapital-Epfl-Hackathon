@@ -1,133 +1,96 @@
-# Dependency Risk — stay or exit
+# StackTrace · front en diapositives
 
-A single-screen tool for one question a portfolio manager asks at 3am during an
-incident: **should we stay in this position, or exit?**
+Le front du backend v2 (`src/stacktrace/api.py`). Une seule question par écran, dans l'ordre où une risk manager les pose
+à 3 h du matin, et le verdict **STAY / EXIT** toujours visible.
 
-It discovers what a DeFi position actually depends on, prices the loss that
-dependency set implies, and turns the two numbers into a signal.
+| # | Diapositive | Ce qu'elle montre | Route de l'API |
+|---|---|---|---|
+| 1 | Portefeuille | les poches du détenteur, leur poids, leur verdict, la perte attendue totale | `/pockets`, `/book` |
+| 2 | Verdict | **STAY / EXIT** en très grand, la phrase du backend, ce que la sortie éviterait contre ce qu'elle coûte, la question p\* | `/risk` |
+| 3 | Par quel chemin ? | le graphe prouvé ; survol = chemin de contagion, clic = preuves de chaque arête ; oracles hors marché en ambre | `/graph` |
+| 4 | Combien je perds ? | Monte Carlo (perte attendue, VaR), incidents classés avec leur règle et leur chemin | `/risk` |
+| 5 | Combien coûte la sortie ? | coût certain, part sortable maintenant, détail coffre ou devis de glissement, marchés | `/risk` |
+| 6 | Et si ça arrive ? | votre estimation de probabilité contre p\*, la sévérité (en direct), le verdict qui bascule, le chemin surligné | `/incident` |
+| 7 | Concentration | les dépendances partagées par plusieurs poches | `/book` |
 
-Built for the BelemCapital EPFL Hackathon 2026 — *DeFi Risk Dependency Challenge*.
+**Clavier** : ← → poche précédente / suivante, ↑ ↓ ou molette : diapositive suivante.
 
----
-
-## Run it
+## Lancer
 
 ```bash
 npm install
-npm run dev      # http://localhost:5173
+npm run dev          # http://localhost:5173
+npm run build        # vérification des types + build de production
 ```
+
+### Deux sources de données
+
+| Source | Quand | Ce qui s'affiche |
+|---|---|---|
+| **Enregistrée** | par défaut, et dès que l'API ne répond pas | les réponses réelles de `docs/api_examples/` (mainnet, bloc #26162868), importées directement : une seule copie |
+| **En direct** | l'API tourne et vous la choisissez | n'importe quel détenteur, le bloc courant (renouvelé toutes les 2 min) |
+
+Le front cherche l'API en arrière-plan (`/health`) et propose de passer en direct ; le choix est mémorisé. La pastille en
+haut à droite dit toujours d'où viennent les chiffres (bloc, âge) et permet de changer d'adresse d'API.
+
+Forcer une source : `?source=recorded`, `?source=live`, `?api=http://hote:8000`, `?holder=0x…`, ou à la compilation
+`VITE_SOURCE=recorded|live` et `VITE_API_URL=…`.
+
+En enregistré, seules les poches enregistrées ont tout leur détail (Belem RWA EURCV : graphe, risque, incident ; l'emprunt
+PST/USDC : risque). Pour les autres, le front affiche la ligne du portefeuille et dit que le détail se calcule en direct :
+il n'invente jamais une réponse.
+
+### En direct
+
+À la racine du dépôt, avec `ETH_RPC_URL` dans `.env` :
 
 ```bash
-npm run build    # typecheck + production bundle
-npm run preview  # serve the build
+PYTHONPATH=src python -m stacktrace.api          # http://127.0.0.1:8000
 ```
 
-Node 20+. No API keys, no backend — the dataset ships with the app and renders
-immediately.
+Le premier calcul d'un bloc est lent (docs/API.md) : `/pockets` ~5 s, `/risk` 10 à 30 s, `/book` ~1 min 30. Le front
+ordonne ses appels pour que la poche affichée arrive d'abord : poches → risque de la poche → graphe et portefeuille.
 
----
+### Serveur de rejeu (mode direct sans RPC)
 
-## The screen
-
-One idea per section, top to bottom.
-
-**A — Analyse a position.** Paste a contract address or pick one of three
-presets: Pendle PT-sUSDE (Ethereum), Aave USDC supply (Ethereum), Kamino SOL
-vault (Solana). Three real addresses resolve; anything else falls back to the
-current position and says so.
-
-**B — Dependency graph.** Five layers deep, laid out along the depth axis —
-settlement chain at the start, your position at the end. Node colour is the
-layer, node size is the capital at risk inside that dependency, and arrows
-follow the direction risk travels. A live incident gets a pulsing red ring.
-Click any node for its probability, its loss-given-incident and what it
-contributes to the total.
-
-**C — The decision.** Expected loss and where it comes from on the left; STAY or
-EXIT, the one-line reason and the confidence on the right. The scenario toggle
-opens four stress levers that re-run the model as you drag them.
-
----
-
-## How the loss number is built
-
-Nothing in the UI is a hand-written total. Every dependency carries two inputs:
-
-| input | meaning |
-| --- | --- |
-| `incident_prob` | probability of a loss-causing incident over 30 days |
-| `loss_given_incident` | share of position value lost if it happens |
-
-A node contributes `p × LGD`. Expected loss is the sum across the dependency
-set. The stacked bar is that sum grouped by layer, so the bar and the headline
-can never disagree.
-
-The decision rule is a comparison, not a score:
-
-```
-EXIT  when  expected loss  >  execution cost to exit
-STAY  otherwise
+```bash
+npm run replay-api -- --port 8000 --latency 1500
 ```
 
-Execution cost is slippage + market impact + gas. The **break-even threshold**
-is the exit cost expressed as a multiple of today's expected loss — how much
-worse things have to get before the verdict flips. Because expected loss is
-linear in oracle failure probability, the app also solves for the exact oracle
-probability that reaches break-even, and says so in plain English.
+Il répond aux vraies routes de l'API avec les réponses enregistrées (mêmes codes d'erreur : 404 avec la liste des poches,
+422 de validation). Une requête non enregistrée reçoit un 422 explicite, jamais une réponse fabriquée. `--latency` simule
+la lenteur du premier appel.
 
-Confidence is derived, not asserted: it comes from the margin between expected
-loss and exit cost, capped by the confidence published with the dataset, and
-drops one tier whenever a scenario lever has been moved by hand.
+## Ce que le front calcule, et ce qu'il ne calcule pas
 
-### Scenario levers
+Il ne calcule **aucun risque**. Tout chiffre de perte, de coût, de seuil ou de verdict vient de l'API. Il fait seulement :
 
-| lever | range | what it scales |
-| --- | --- | --- |
-| Oracle failure probability | 0–100% | layer 3 incident probability |
-| Liquidation cascade factor | 1×–5× | layer 5 incident probability |
-| Slippage on exit | 0–30% | the slippage component of exit cost |
-| TVL drain speed | Slow / Fast | layers 1, 2 and 4 incident probability |
-
-The **Stress** preset doubles every one of them, so expected loss lands at
-exactly 2× the base case — by construction, not by a magic multiplier.
-
----
-
-## Data
-
-`src/data/mock.ts` is a 09 Oct 2026 snapshot: dependency sets, TVL, incident
-probabilities and exit-cost decompositions for the three positions, with the
-transmission path written out for every node. The module is the contract —
-swapping it for an indexer adapter runs the same engine on live chain state
-without touching a component.
-
----
+- des parcours du graphe : disposition en couches, chemin entre la poche et un nœud (« qui est touché si X casse »), part
+  de la poche qui passe par un nœud (produit des poids d'arêtes du chemin le plus large) ;
+- la comparaison de votre estimation au seuil **p\*** que le backend publie (« sortez si vous croyez à plus de p\* ») tant
+  que le calcul exact `/incident` n'est pas revenu, ou en mode enregistré. Le texte dit alors que c'est la règle du seuil.
 
 ## Structure
 
 ```
 src/
-  data/mock.ts                 positions, dependency edges, per-node risk inputs
-  lib/risk.ts                  the engine: scenarios in, assessment out
-  components/
-    PositionInput.tsx          section A
-    DependencyGraph.tsx        section B
-    NodePanel.tsx              node detail drawer
-    RiskSignal.tsx             section C, left — impact breakdown
-    VerdictPanel.tsx           section C, right — stay / exit
-    ScenarioDrawer.tsx         stress levers
-  App.tsx
+  api/types.ts          contrat de l'API (docs/API.md)
+  api/client.ts         appels HTTP, délais, erreurs FastAPI
+  api/recorded.ts       réponses enregistrées (docs/api_examples/)
+  api/source.tsx        source en direct ou enregistrée, détection de l'API
+  api/hooks.ts          requêtes React Query et ordre des appels
+  state/selection.tsx   détenteur, poche, incident ; vue combinée d'une poche
+  lib/graph.ts          disposition et chemins du graphe (aucun risque)
+  lib/format.ts         nombres à la française (« 643 $ », « 0,6 % »)
+  components/           en-tête, pastille de source, rail, graphe, fiche de preuves, états
+  slides/               les 7 diapositives
+scripts/replay-api.mjs  serveur de rejeu
 ```
 
-React 18 · TypeScript · Vite · Tailwind CSS v3 · react-force-graph-2d ·
-Framer Motion (drawer transitions only).
-
----
+React 18, TypeScript, Vite, Tailwind CSS 3, react-force-graph-2d, Framer Motion, TanStack Query.
 
 ## Design
 
-Dark, Apple-minimal, deliberately plain. Black ground, one accent blue, and
-three status colours — green, amber, red — that only ever mean safe, warning and
-risk. Two font weights. No borders, no shadows, no gradients: whitespace does
-the separating. The verdict is the largest thing on the page because it is the
-only thing that matters at 3am.
+Fond noir, un seul bleu d'accent, trois couleurs d'état qui ne servent qu'à ça : vert STAY, rouge EXIT, ambre pour ce qui
+ne suit pas le marché. Deux graisses. Pas de bordures ni d'ombres : l'espace sépare. Le verdict est le plus grand texte du
+deck.
