@@ -1,0 +1,130 @@
+# =====================================================================
+#  StackTrace v2 — PARAMÈTRES DU MOTEUR DE RISQUE (poches d'un détenteur réel, en ligne)
+# =====================================================================
+# Même discipline que risk/params.yaml : chaque paramètre a OBLIGATOIREMENT un statut
+#   source: https://...  + as_of: AAAA-MM-JJ     → valeur lue dans une doc officielle
+#   hypothesis: true     + why: "<1 phrase>"      → choix de modélisation de NOTRE équipe, assumé et affiché
+# `range` = valeurs testées en sensibilité. Le chargeur (src/stacktrace/params.py) refuse tout le reste.
+#
+# Les probabilités d'incident sont des ORDRES DE GRANDEUR (on n'a pas de base d'incidents payante).
+# C'est pour ça que la décision affiche aussi p* : le seuil de probabilité au-delà duquel sortir est
+# rentable, qui lui NE dépend PAS de ces probabilités — seulement de la perte et du coût de sortie mesurés.
+# =====================================================================
+version: 2
+
+horizon_days:
+  value: 7
+  hypothesis: true
+  why: "Horizon de décision d'une astreinte risque (cadrage : 24 h ou 7 jours, question ouverte aux mentors)."
+  range: [1, 30]
+
+monte_carlo:
+  samples: {value: 100000, hypothesis: true, why: "Assez de tirages pour stabiliser la perte attendue ; graine fixe → reproductible."}
+  seed: {value: 20261010, hypothesis: true, why: "Graine fixe : deux exécutions au même bloc donnent le même rapport."}
+
+# ---------------------------------------------------------------- Morpho : liquidation (formule officielle)
+morpho_lif_beta:
+  value: 0.3
+  source: "https://docs.morpho.org/learn/concepts/liquidation/"
+  as_of: "2026-10-10"
+morpho_lif_max:
+  value: 1.15
+  source: "https://docs.morpho.org/learn/concepts/liquidation/"
+  as_of: "2026-10-10"
+liquidation_repaid_fraction:
+  value: 1.0
+  hypothesis: true
+  why: "Un liquidateur Morpho peut rembourser 100 % de la dette en une fois : pire cas pour l'emprunteur."
+  range: [0.5, 1.0]
+
+# Glissement subi quand le collatéral saisi est revendu (liquidation) — par classe de collatéral.
+liquidation_slippage:
+  volatile:          {value: 0.02, hypothesis: true, why: "Actifs majeurs (BTC/ETH et dérivés liquides) : marchés profonds.", range: [0.005, 0.05]}
+  pendle_pt:         {value: 0.03, hypothesis: true, why: "PT revendu sur un pool Pendle de taille limitée.", range: [0.01, 0.10]}
+  rwa_or_synthetic:  {value: 0.10, hypothesis: true, why: "RWA / dollars synthétiques : liquidité secondaire mince, rachat souvent différé chez l'émetteur.", range: [0.03, 0.30]}
+
+# ---------------------------------------------------------------- sortie
+exit_gas_units:
+  vault:  {value: 400000, hypothesis: true, why: "Retrait d'un vault V2 (+ forceDeallocate sur quelques marchés) : quelques centaines de milliers de gas.", range: [200000, 1500000]}
+  borrow: {value: 1500000, hypothesis: true, why: "Débouclage : flash-loan + remboursement + retrait + swap ; ordre de grandeur, non mesuré.", range: [500000, 3000000]}
+exit_swap_slippage_fallback:
+  value: 0.05
+  hypothesis: true
+  why: "Si l'agrégateur DEX ne trouve aucune route pour revendre le collatéral : glissement supposé, signalé comme non mesuré."
+  range: [0.01, 0.30]
+exit_max_acceptable_slippage:
+  value: 0.25
+  hypothesis: true
+  why: "Au-delà de 25 % de glissement mesuré, vendre le collatéral détruit plus de valeur que la plupart des risques évités : la part correspondante est considérée NON sortable par le marché."
+  range: [0.05, 0.5]
+borrow_net_carry_annual:
+  value: 0.05
+  hypothesis: true
+  why: "Rendement net visé d'une position à levier (rendement du collatéral − coût d'emprunt) : abandonné si l'on sort. Le rendement du collatéral n'est pas lisible on-chain de façon générique."
+  range: [0.0, 0.15]
+borrow_market_beta_excluded:
+  value: true
+  hypothesis: true
+  why: "Belem gère des stratégies market-neutral : la baisse d'un actif volatil (ETH, BTC) est une exposition de marché choisie, couverte ailleurs ou non, PAS un risque de dépendance. Pour une poche « emprunt », une chute d'actif volatil ne compte que par la LIQUIDATION qu'elle déclenche (pénalité). Un défaut / depeg d'un RWA compte en entier."
+exit_quote_api:
+  value: "https://aggregator-api.kyberswap.com/ethereum/api/v1/routes"
+  source: "https://docs.kyberswap.com/kyberswap-solutions/kyberswap-aggregator/aggregator-api-specification/evm-swaps"
+  as_of: "2026-10-10"
+
+# ---------------------------------------------------------------- incidents (taux annuel λ, sévérité, vitesse)
+# speed : gradual = les liquidations ont le temps de se faire si l'oracle suit le marché
+#         jump    = choc instantané (faille, marquage brutal d'une NAV) : pas le temps de liquider
+events:
+  stable_depeg:
+    applies_to: "actif prêté du vault / de l'emprunt (stablecoin fiat)"
+    annual_rate: {value: 0.02, hypothesis: true, why: "Depeg significatif d'un stablecoin fiat majeur : rare (précédent USDC, mars 2023).", range: [0.005, 0.05]}
+    severity: {value: [0.02, 0.12], hypothesis: true, why: "Ampleur d'un depeg de stablecoin fiat (précédent : ~12 % en mars 2023)."}
+    speed: gradual
+  volatile_crash:
+    applies_to: "collatéral volatil (pricé au marché : BTC, ETH, LST…)"
+    annual_rate: {value: 0.5, hypothesis: true, why: "Chute de 15 à 40 % en quelques jours : environ une fois tous les deux ans sur les cryptos majeures.", range: [0.2, 1.0]}
+    severity: {value: [0.15, 0.40], hypothesis: true, why: "Krachs crypto historiques de quelques jours (ordre de grandeur)."}
+    speed: gradual
+  rwa_credit_event:
+    applies_to: "collatéral pricé par un taux interne, une NAV ou un prix fixé (RWA, dollar synthétique, LST pricé au taux de change, PT)"
+    annual_rate: {value: 0.05, hypothesis: true, why: "Défaut / fraude / marquage brutal d'un actif RWA ou dollar synthétique : rare mais non négligeable (précédent : cascade xUSD, nov. 2025).", range: [0.01, 0.15]}
+    severity: {value: [0.05, 0.50], hypothesis: true, why: "De la décote modérée au défaut partiel."}
+    speed: jump
+    oracle_tracks: false
+    oracle_tracks_why: "Un taux publié par l'émetteur (NAV, taux interne) ou posé par un admin RETARDE sur la réalité en cas de crise : pas de liquidation à temps."
+  oracle_fault:
+    applies_to: "feed de prix de marché (Chainlink, RedStone marché…)"
+    annual_rate: {value: 0.01, hypothesis: true, why: "Panne / mauvais prix d'un feed de marché : rare.", range: [0.002, 0.05]}
+    severity: {value: [0.05, 0.50], hypothesis: true, why: "Écart du prix rapporté (vers le haut OU vers le bas, 50/50)."}
+    speed: jump
+  admin_feed_compromise:
+    applies_to: "feed dont le prix est posé par un administrateur (ex. Midas)"
+    annual_rate: {value: 0.02, hypothesis: true, why: "Clé d'admin compromise ou erreur de saisie : plus fréquent qu'une panne Chainlink, borné par min/max on-chain.", range: [0.005, 0.05]}
+    severity: {value: "bornes on-chain", hypothesis: true, why: "L'admin ne peut pas sortir de [minAnswer, maxAnswer] (lu on-chain) : la sévérité est l'écart jusqu'à ces bornes."}
+    speed: jump
+  internal_rate_fault:
+    applies_to: "feed de taux interne / NAV (adaptateurs, RedStone fundamental, Chainlink exchange rate)"
+    annual_rate: {value: 0.01, hypothesis: true, why: "Erreur de calcul / manipulation du taux interne d'un token : rare.", range: [0.002, 0.05]}
+    severity: {value: [0.05, 0.30], hypothesis: true, why: "Écart du taux rapporté (haut ou bas)."}
+    speed: jump
+  issuer_failure:
+    applies_to: "émetteur (issuer) d'un actif du graphe"
+    annual_rate: {value: 0.005, hypothesis: true, why: "Défaillance opérationnelle d'un émetteur établi : rare.", range: [0.001, 0.02]}
+    severity: {value: [0.10, 1.0], hypothesis: true, why: "Perte de valeur des actifs émis."}
+    speed: jump
+  protocol_exploit:
+    applies_to: "protocole de prêt (Morpho Blue) — touche tous les fonds déposés"
+    annual_rate: {value: 0.003, hypothesis: true, why: "Morpho Blue est immuable et audité : faille jugée rare.", range: [0.001, 0.01]}
+    severity: {value: [0.05, 0.50], hypothesis: true, why: "Part des fonds perdue dans une faille."}
+    speed: jump
+  curator_failure:
+    applies_to: "curateur d'un vault V2"
+    annual_rate: {value: 0.005, hypothesis: true, why: "Mauvaise allocation / clé compromise, limitée par les plafonds et délais (timelocks) du vault.", range: [0.001, 0.02]}
+    severity: {value: [0.0, 0.20], hypothesis: true, why: "Les plafonds par marché bornent la perte possible."}
+    speed: jump
+
+incident_p_default:
+  value: 0.5
+  hypothesis: true
+  why: "Mode incident : sans avis du manager, on suppose 1 chance sur 2 que l'incident signalé se matérialise ; la décision affiche surtout p*."
+  range: [0.1, 0.9]

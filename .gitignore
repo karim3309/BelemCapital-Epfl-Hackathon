@@ -22,3 +22,9 @@ Thumbs.db
 
 # Config locale de prévisualisation (chemin Python propre à chaque machine)
 .claude/launch.json
+
+# Cache du mode EN LIGNE (backend v2) : journal local des réponses, jamais commité
+data/cache_live/
+
+# Sorties du mode EN LIGNE (backend v2) : régénérées à chaque analyse
+output/live/

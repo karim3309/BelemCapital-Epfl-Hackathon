@@ -79,6 +79,13 @@ Pour **rafraîchir toute la photo** (découverte + lectures du moteur, au même 
 | ![USDe 0,93 $ pendant 24 h](docs/screens/03-scenario-usde-093-24h.jpg) | ![Impact Binance](docs/screens/04-impact-binance.jpg) |
 | ![Exploit Pendle](docs/screens/02-scenario-pendle-exploit.jpg) | ![Mobile](docs/screens/05-mobile-375.jpg) |
 
+## Backend v2 : n'importe quel détenteur réel, en ligne → STAY / EXIT
+
+La v2 part de **l'adresse d'un détenteur réel** (ex. le vault Belem RWA EURCV du tableau Dune RockawayX). Elle trouve
+toutes ses poches, construit le graphe prouvé de chacune, chiffre l'impact des incidents, mesure le coût de sortie et
+rend un verdict **STAY / EXIT** avec le seuil **p\***. Une API HTTP est fournie pour le front.
+→ [docs/BACKEND_V2.md](docs/BACKEND_V2.md) (pipeline, modèle, limites) · [docs/API.md](docs/API.md) (contrat de l'API + exemples réels)
+
 ## Démarrage rapide
 
 Il faut Python **3.11**. Avec Anaconda, par exemple : `conda create -p .venv311 python=3.11 pip`, puis utilisez `.venv311/python`.

@@ -24,7 +24,10 @@ POSITION_KEYS = {"id", "value_usd"}
 NODE_KEYS = {"id", "type", "label", "address", "chain", "meta"}
 EDGE_KEYS = {"from", "to", "type", "weight", "source", "evidence"}
 
-POSITION_ID_RE = re.compile(r"^morpho:0x[0-9a-f]{64}:0x[0-9a-fA-F]{40}$")
+# Formats d'id de position acceptés (backend v2 : la position est choisie dans le portefeuille d'un détenteur)
+#   morpho:<marketId>:<user>                       emprunt / prêt direct sur un marché Morpho Blue
+#   morpho_vault_v1|v2:<vaultAddress>:<holder>     dépôt dans un vault MetaMorpho (v1) ou Morpho Vault V2
+POSITION_ID_RE = re.compile(r"^(morpho:0x[0-9a-f]{64}|morpho_vault_v[12]:0x[0-9a-fA-F]{40}):0x[0-9a-fA-F]{40}$")
 NODE_ID_RE = re.compile(r"^[a-z0-9_]+$")
 ADDRESS_RE = re.compile(r"^0x[0-9a-fA-F]{40}$")
 PLACEHOLDER_RE = re.compile(r"0x\.\.\.|TO_VERIFY|à vérifier|TODO", re.IGNORECASE)
@@ -47,7 +50,7 @@ def validate(graph: dict) -> list[str]:
     if set(pos) != POSITION_KEYS:
         err(f"position: clés {sorted(pos)} ≠ {sorted(POSITION_KEYS)}")
     if not POSITION_ID_RE.match(str(pos.get("id", ""))):
-        err(f"position.id {pos.get('id')!r} ne suit pas morpho:<marketId>:<user>")
+        err(f"position.id {pos.get('id')!r} ne suit pas morpho:<marketId>:<user> ni morpho_vault_v1|v2:<vault>:<holder>")
     if not isinstance(pos.get("value_usd"), (int, float)) or pos.get("value_usd", -1) < 0:
         err("position.value_usd doit être un nombre ≥ 0")
 
