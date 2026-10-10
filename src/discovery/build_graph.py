@@ -222,7 +222,7 @@ def main(argv: list[str] | None = None) -> int:
         graph, report, cache = build(config)
     except (ConfigError, OfflineError, CacheMissError, RpcError) as e:
         # "Expected" errors (config, network, incomplete cache): a clear message rather than a traceback.
-        print(f"✗ {type(e).__name__} : {e}", file=sys.stderr)
+        print(f"✗ {type(e).__name__}: {e}", file=sys.stderr)
         return 2
     errors = validate(graph)
     out = Path(args.out) if args.out else config.output_file

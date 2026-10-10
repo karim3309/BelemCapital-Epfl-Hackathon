@@ -1433,7 +1433,7 @@
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_usde_usd follows the usde market: 0.99960 → 0.69972",
-     "feed_constant_c3866d : constant (1.0)"
+     "feed_constant_c3866d: constant (1.0)"
     ],
     "children": [
      {
@@ -1483,7 +1483,7 @@
       "trace": [
        "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
        "feed_usde_usd follows the usde market: 0.99960 → 0.69972",
-       "feed_constant_c3866d : constant (1.0)"
+       "feed_constant_c3866d: constant (1.0)"
       ],
       "children": [
        {
@@ -1530,7 +1530,7 @@
         "challenge_possible": false,
         "timeline": [],
         "trace": [
-         "feed_constant_c3866d : constant (1.0)"
+         "feed_constant_c3866d: constant (1.0)"
         ],
         "children": []
        }
@@ -2362,7 +2362,7 @@
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_usde_usd follows the usde market: 0.99960 → 0.92963",
-     "feed_constant_c3866d : constant (1.0)"
+     "feed_constant_c3866d: constant (1.0)"
     ],
     "children": [
      {
@@ -2412,7 +2412,7 @@
       "trace": [
        "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
        "feed_usde_usd follows the usde market: 0.99960 → 0.92963",
-       "feed_constant_c3866d : constant (1.0)"
+       "feed_constant_c3866d: constant (1.0)"
       ],
       "children": [
        {
@@ -2459,7 +2459,7 @@
         "challenge_possible": false,
         "timeline": [],
         "trace": [
-         "feed_constant_c3866d : constant (1.0)"
+         "feed_constant_c3866d: constant (1.0)"
         ],
         "children": []
        }
@@ -3280,7 +3280,7 @@
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_usde_usd follows the usde market: 0.99960 → 0.92963",
-     "feed_constant_c3866d : constant (1.0)"
+     "feed_constant_c3866d: constant (1.0)"
     ],
     "children": [
      {
@@ -3330,7 +3330,7 @@
       "trace": [
        "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
        "feed_usde_usd follows the usde market: 0.99960 → 0.92963",
-       "feed_constant_c3866d : constant (1.0)"
+       "feed_constant_c3866d: constant (1.0)"
       ],
       "children": [
        {
@@ -3377,7 +3377,7 @@
         "challenge_possible": false,
         "timeline": [],
         "trace": [
-         "feed_constant_c3866d : constant (1.0)"
+         "feed_constant_c3866d: constant (1.0)"
         ],
         "children": []
        }
@@ -4204,7 +4204,7 @@
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_usde_usd follows the usde market: 0.99960 → 0.95022",
-     "feed_constant_c3866d : constant (1.0)"
+     "feed_constant_c3866d: constant (1.0)"
     ],
     "children": [
      {
@@ -4254,7 +4254,7 @@
       "trace": [
        "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
        "feed_usde_usd follows the usde market: 0.99960 → 0.95022",
-       "feed_constant_c3866d : constant (1.0)"
+       "feed_constant_c3866d: constant (1.0)"
       ],
       "children": [
        {
@@ -4301,7 +4301,7 @@
         "challenge_possible": false,
         "timeline": [],
         "trace": [
-         "feed_constant_c3866d : constant (1.0)"
+         "feed_constant_c3866d: constant (1.0)"
         ],
         "children": []
        }
@@ -5237,7 +5237,7 @@
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_usde_usd follows the usde market: 0.99960 → 0.84673",
-     "feed_constant_c3866d : constant (1.0)"
+     "feed_constant_c3866d: constant (1.0)"
     ],
     "children": [
      {
@@ -5287,7 +5287,7 @@
       "trace": [
        "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
        "feed_usde_usd follows the usde market: 0.99960 → 0.84673",
-       "feed_constant_c3866d : constant (1.0)"
+       "feed_constant_c3866d: constant (1.0)"
       ],
       "children": [
        {
@@ -5334,7 +5334,7 @@
         "challenge_possible": false,
         "timeline": [],
         "trace": [
-         "feed_constant_c3866d : constant (1.0)"
+         "feed_constant_c3866d: constant (1.0)"
         ],
         "children": []
        }
@@ -6542,7 +6542,7 @@
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_usde_usd follows the usde market: 0.99960 → 0.66643",
-     "feed_constant_c3866d : constant (1.0)"
+     "feed_constant_c3866d: constant (1.0)"
     ],
     "children": [
      {
@@ -6592,7 +6592,7 @@
       "trace": [
        "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
        "feed_usde_usd follows the usde market: 0.99960 → 0.66643",
-       "feed_constant_c3866d : constant (1.0)"
+       "feed_constant_c3866d: constant (1.0)"
       ],
       "children": [
        {
@@ -6639,7 +6639,7 @@
         "challenge_possible": false,
         "timeline": [],
         "trace": [
-         "feed_constant_c3866d : constant (1.0)"
+         "feed_constant_c3866d: constant (1.0)"
         ],
         "children": []
        }
@@ -7556,7 +7556,7 @@
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_usde_usd follows the usde market: 0.99960 → 0.99960",
      "feed_usde_usd BROKEN: reports 0.89964 whatever the market",
-     "feed_constant_c3866d : constant (1.0)"
+     "feed_constant_c3866d: constant (1.0)"
     ],
     "children": [
      {
@@ -7607,7 +7607,7 @@
        "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
        "feed_usde_usd follows the usde market: 0.99960 → 0.99960",
        "feed_usde_usd BROKEN: reports 0.89964 whatever the market",
-       "feed_constant_c3866d : constant (1.0)"
+       "feed_constant_c3866d: constant (1.0)"
       ],
       "children": [
        {
@@ -7655,7 +7655,7 @@
         "challenge_possible": false,
         "timeline": [],
         "trace": [
-         "feed_constant_c3866d : constant (1.0)"
+         "feed_constant_c3866d: constant (1.0)"
         ],
         "children": []
        }
@@ -8463,7 +8463,7 @@
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_usde_usd: FROZEN, does not see the shock",
-     "feed_constant_c3866d : constant (1.0)"
+     "feed_constant_c3866d: constant (1.0)"
     ],
     "children": [
      {
@@ -8513,7 +8513,7 @@
       "trace": [
        "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
        "feed_usde_usd: FROZEN, does not see the shock",
-       "feed_constant_c3866d : constant (1.0)"
+       "feed_constant_c3866d: constant (1.0)"
       ],
       "children": [
        {
@@ -8560,7 +8560,7 @@
         "challenge_possible": false,
         "timeline": [],
         "trace": [
-         "feed_constant_c3866d : constant (1.0)"
+         "feed_constant_c3866d: constant (1.0)"
         ],
         "children": []
        }
@@ -9403,7 +9403,7 @@
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_usde_usd follows the usde market: 0.99960 → 0.99960",
-     "feed_constant_c3866d : constant (1.0)"
+     "feed_constant_c3866d: constant (1.0)"
     ],
     "children": [
      {
@@ -9453,7 +9453,7 @@
       "trace": [
        "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
        "feed_usde_usd follows the usde market: 0.99960 → 0.99960",
-       "feed_constant_c3866d : constant (1.0)"
+       "feed_constant_c3866d: constant (1.0)"
       ],
       "children": [
        {
@@ -9500,7 +9500,7 @@
         "challenge_possible": false,
         "timeline": [],
         "trace": [
-         "feed_constant_c3866d : constant (1.0)"
+         "feed_constant_c3866d: constant (1.0)"
         ],
         "children": []
        }
@@ -10275,7 +10275,7 @@
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_usde_usd follows the usde market: 0.99960 → 0.99960",
-     "feed_constant_c3866d : constant (1.0)"
+     "feed_constant_c3866d: constant (1.0)"
     ],
     "children": [
      {
@@ -10325,7 +10325,7 @@
       "trace": [
        "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
        "feed_usde_usd follows the usde market: 0.99960 → 0.99960",
-       "feed_constant_c3866d : constant (1.0)"
+       "feed_constant_c3866d: constant (1.0)"
       ],
       "children": [
        {
@@ -10372,7 +10372,7 @@
         "challenge_possible": false,
         "timeline": [],
         "trace": [
-         "feed_constant_c3866d : constant (1.0)"
+         "feed_constant_c3866d: constant (1.0)"
         ],
         "children": []
        }
@@ -11150,7 +11150,7 @@
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_usde_usd follows the usde market: 0.99960 → 0.99960",
-     "feed_constant_c3866d : constant (1.0)"
+     "feed_constant_c3866d: constant (1.0)"
     ],
     "children": [
      {
@@ -11200,7 +11200,7 @@
       "trace": [
        "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
        "feed_usde_usd follows the usde market: 0.99960 → 0.99960",
-       "feed_constant_c3866d : constant (1.0)"
+       "feed_constant_c3866d: constant (1.0)"
       ],
       "children": [
        {
@@ -11247,7 +11247,7 @@
         "challenge_possible": false,
         "timeline": [],
         "trace": [
-         "feed_constant_c3866d : constant (1.0)"
+         "feed_constant_c3866d: constant (1.0)"
         ],
         "children": []
        }
@@ -12018,7 +12018,7 @@
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_usde_usd follows the usde market: 0.99960 → 0.99960",
-     "feed_constant_c3866d : constant (1.0)"
+     "feed_constant_c3866d: constant (1.0)"
     ],
     "children": [
      {
@@ -12068,7 +12068,7 @@
       "trace": [
        "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
        "feed_usde_usd follows the usde market: 0.99960 → 0.99960",
-       "feed_constant_c3866d : constant (1.0)"
+       "feed_constant_c3866d: constant (1.0)"
       ],
       "children": [
        {
@@ -12115,7 +12115,7 @@
         "challenge_possible": false,
         "timeline": [],
         "trace": [
-         "feed_constant_c3866d : constant (1.0)"
+         "feed_constant_c3866d: constant (1.0)"
         ],
         "children": []
        }
@@ -12940,7 +12940,7 @@
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_usde_usd follows the usde market: 0.99960 → 0.99960",
-     "feed_constant_c3866d : constant (1.0)"
+     "feed_constant_c3866d: constant (1.0)"
     ],
     "children": [
      {
@@ -12990,7 +12990,7 @@
       "trace": [
        "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
        "feed_usde_usd follows the usde market: 0.99960 → 0.99960",
-       "feed_constant_c3866d : constant (1.0)"
+       "feed_constant_c3866d: constant (1.0)"
       ],
       "children": [
        {
@@ -13037,7 +13037,7 @@
         "challenge_possible": false,
         "timeline": [],
         "trace": [
-         "feed_constant_c3866d : constant (1.0)"
+         "feed_constant_c3866d: constant (1.0)"
         ],
         "children": []
        }
@@ -13828,7 +13828,7 @@
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
      "feed_usde_usd follows the usde market: 0.99960 → 0.89964",
-     "feed_constant_c3866d : constant (1.0)"
+     "feed_constant_c3866d: constant (1.0)"
     ],
     "children": [
      {
@@ -13878,7 +13878,7 @@
       "trace": [
        "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (0.992361)",
        "feed_usde_usd follows the usde market: 0.99960 → 0.89964",
-       "feed_constant_c3866d : constant (1.0)"
+       "feed_constant_c3866d: constant (1.0)"
       ],
       "children": [
        {
@@ -13925,7 +13925,7 @@
         "challenge_possible": false,
         "timeline": [],
         "trace": [
-         "feed_constant_c3866d : constant (1.0)"
+         "feed_constant_c3866d: constant (1.0)"
         ],
         "children": []
        }
@@ -14710,7 +14710,7 @@
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (1.000000)",
      "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (1.000000)",
      "feed_usde_usd follows the usde market: 0.99960 → 0.99960",
-     "feed_constant_c3866d : constant (1.0)"
+     "feed_constant_c3866d: constant (1.0)"
     ],
     "children": [
      {
@@ -14760,7 +14760,7 @@
       "trace": [
        "feed_pt_susde_26nov2026_linear_discount: discount formula, blind to the market (1.000000)",
        "feed_usde_usd follows the usde market: 0.99960 → 0.99960",
-       "feed_constant_c3866d : constant (1.0)"
+       "feed_constant_c3866d: constant (1.0)"
       ],
       "children": [
        {
@@ -14807,7 +14807,7 @@
         "challenge_possible": false,
         "timeline": [],
         "trace": [
-         "feed_constant_c3866d : constant (1.0)"
+         "feed_constant_c3866d: constant (1.0)"
         ],
         "children": []
        }

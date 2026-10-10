@@ -41,7 +41,7 @@ we fix things, then start again until the audit finds nothing important.
 | Finding | Fix |
 |---|---|
 | In a deep folder, a cache file's path exceeded **260 characters** (Windows MAX_PATH): the cache became invisible | `\?\` prefix on Windows in `cache.py`; fresh clone re-tested: 67 tests green, 0 misses, `graph.json` byte-for-byte identical |
-| `validate` crashed in a Windows console (cp1252 encoding); expected errors were shown as raw tracebacks | `console.utf8_console()` for the 3 CLIs; `✗ OfflineError : …` messages and exit code 2 |
+| `validate` crashed in a Windows console (cp1252 encoding); expected errors were shown as raw tracebacks | `console.utf8_console()` for the 3 CLIs; `✗ OfflineError: …` messages and exit code 2 |
 
 ## Audit 5: risk engine (parts 2 and 3) — steps (a) and (b)
 | Finding | Fix |

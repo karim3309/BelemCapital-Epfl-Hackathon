@@ -101,7 +101,7 @@ and risk/params.yaml.
   - output/risk_grid.json: the USDe grid (price × duration) precomputed, to feed the front end's slider.
   - A synthetic risk score ONLY if the brief asks for it. Otherwise, do not make one up: expose
     clear metrics.
-  - CLI: `python -m risk.run` (reads output/graph.json, writes output/risk*.json, prints a summary in French).
+  - CLI: `python -m risk.run` (reads output/graph.json, writes output/risk*.json, prints a summary in English).
   - risk.json validator (like discovery/validate.py) run on every run.
 
 2.5 Tests (tests/risk/)

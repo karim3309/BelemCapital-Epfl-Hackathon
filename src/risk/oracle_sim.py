@@ -61,7 +61,7 @@ def _feed(gv: GraphView, fid: str, world: World, ts_offset: float) -> tuple[floa
         normal = _linear_answer(meta, now + ts_offset)
         return normal, normal, "fixed", [f"{fid}: discount formula, blind to the market ({normal:.6f})"]
     if kind == "constant_feed":
-        return meta["answer"], meta["answer"], "fixed", [f"{fid} : constant ({meta['answer']})"]
+        return meta["answer"], meta["answer"], "fixed", [f"{fid}: constant ({meta['answer']})"]
     normal = meta.get("answer") or 1.0
     override = world.feed_override.get(fid)
     if override and override[0] == "frozen":

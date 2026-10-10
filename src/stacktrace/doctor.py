@@ -29,7 +29,7 @@ def _api_check(name: str, fn) -> tuple[bool, str]:
     t = time.time()
     try:
         detail = fn()
-        return True, f"{name} : OK ({(time.time() - t) * 1000:.0f} ms){detail}"
+        return True, f"{name}: OK ({(time.time() - t) * 1000:.0f} ms){detail}"
     except Exception as e:
         return False, f"{name}: FAILED ({type(e).__name__}: {str(e)[:120]})"
 
