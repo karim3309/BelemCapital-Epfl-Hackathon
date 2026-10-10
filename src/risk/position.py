@@ -27,6 +27,7 @@ from .exit_cost import ExitModel
 from .graphview import GraphView
 from .oracle_sim import OracleEval
 from .propagate import World
+from .fmt import num, pct, usd
 
 
 def lif(lltv: float, params) -> float:
@@ -90,7 +91,7 @@ def evaluate_position(gv: GraphView, base: Baseline, world: World, oracle: Oracl
     lost = max((world.protocol_loss.get(i, 0.0) for i in gv.targets(gv.market_id(), "issued_by")), default=0.0)
     coll = base.collateral * (1 - lost)
     if lost:
-        trace.append(f"exploit du marché : {lost:.0%} du collatéral perdu")
+        trace.append(f"exploit du marché : {pct(lost, 0)} du collatéral perdu")
 
     hf_before = base.hf
     hf_shock = coll * oracle.price * base.lltv / debt
@@ -110,15 +111,15 @@ def evaluate_position(gv: GraphView, base: Baseline, world: World, oracle: Oracl
         proceeds = seize * pt_usd_shock * (1 - slip) if slip is not None else 0.0
         profit = proceeds - repay_eff * loan_usd_shock
         liq_profitable = profit > 0
-        trace.append(f"liquidable (HF < 1) : bonus LIF = {factor:.4f} ; liquidateur rembourse {repay_eff:,.0f} USDC, "
-                     f"saisit {seize:,.0f} PT, revente {'impossible' if slip is None else f'à −{slip:.2%}'} "
-                     f"→ profit {profit:,.0f} $")
+        trace.append(f"liquidable (HF < 1) : bonus LIF = {factor:.4f} ; liquidateur rembourse {num(repay_eff)} USDC, "
+                     f"saisit {num(seize)} PT, revente {'impossible' if slip is None else f'à −{pct(slip, 2)}'} "
+                     f"→ profit {usd(profit)}")
         if liq_profitable or not params["liquidator_requires_profit"]:
             liquidated = True
             seized, repaid = seize, repay_eff
             if seize >= coll and repay_eff < debt:
                 bad_debt = debt - repay_eff          # gage épuisé : le reste est irrécouvrable
-                trace.append(f"gage épuisé : {bad_debt:,.0f} USDC de dette irrécouvrable chez les prêteurs")
+                trace.append(f"gage épuisé : {num(bad_debt)} USDC de dette irrécouvrable chez les prêteurs")
         else:
             trace.append("liquidation NON rentable → personne ne liquide : la dette reste exposée")
     elif hf_shock < 1 and world.chain_halted:
@@ -136,7 +137,7 @@ def evaluate_position(gv: GraphView, base: Baseline, world: World, oracle: Oracl
     lender_exposure = 0.0
     if final < 0:
         lender_exposure = -final
-        trace.append(f"le gage ne couvre plus la dette : l'emprunteur abandonne, prêteurs exposés à {lender_exposure:,.0f} $")
+        trace.append(f"le gage ne couvre plus la dette : l'emprunteur abandonne, prêteurs exposés à {usd(lender_exposure)}")
         final = 0.0
     borrower_loss = base.equity_usd - final
     lender_loss = bad_debt * loan_final + lender_exposure

@@ -22,6 +22,7 @@ from dataclasses import dataclass, field
 
 from .graphview import GraphView
 from .propagate import World
+from .fmt import pct
 
 YEAR = 365 * 86400
 
@@ -140,9 +141,9 @@ def _meta(gv: GraphView, oid: str, world: World, params, ts_offset: float) -> Or
     lasts = duration is None or duration >= needed
     start_backup = meta.get("current_role") == "backup"
 
-    tl = [{"t_hours": 0, "event": f"choc : écart primaire/secours = {dev:.2%} (seuil {thr:.2%})",
+    tl = [{"t_hours": 0, "event": f"choc : écart primaire/secours = {pct(dev, 2)} (seuil {pct(thr, 2)})",
            "role": "backup" if start_backup else "primary"}]
-    trace = [f"écart = |{primary.price:.6f} − {backup.price:.6f}| / moyenne = {dev:.3%} ; seuil = {thr:.3%}"]
+    trace = [f"écart = |{primary.price:.6f} − {backup.price:.6f}| / moyenne = {pct(dev, 3)} ; seuil = {pct(thr, 3)}"]
     switched = start_backup
     if not start_backup and possible and world.chain_halted:
         trace.append("chaîne à l'arrêt : personne ne peut appeler challenge() → pas de bascule")

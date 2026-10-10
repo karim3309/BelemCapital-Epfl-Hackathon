@@ -21,6 +21,7 @@ from .oracle_sim import OracleEval, deviation
 from .position import evaluate_position
 from .propagate import World
 from .scenarios import Engine
+from .fmt import pct
 
 
 def _ts(iso: str) -> int:
@@ -88,7 +89,7 @@ def run_replays(engine: Engine, path: str | Path) -> list[dict]:
         hf_real = engine.base.hf * (u_min / 1.0 if meta["switched"] else 1.0)
         designs.append({"design": "Méta-oracle réel (primaire fixe + secours Chainlink)",
                         "min_hf": hf_real, "liquidated": hf_real < 1, "borrower_loss_usd": 0.0 if hf_real >= 1 else None,
-                        "why": (f"écart max {meta['max_deviation']:.2%} vs seuil {meta['threshold']:.2%} ; "
+                        "why": (f"écart max {pct(meta['max_deviation'], 2)} vs seuil {pct(meta['threshold'], 2)} ; "
                                 f"au-dessus du seuil pendant {meta['longest_above_threshold_minutes']} min "
                                 f"(il faut {meta['needed_minutes']:.0f} min pour basculer) → "
                                 f"{'BASCULE' if meta['switched'] else 'pas de bascule, prix fixe'}")})

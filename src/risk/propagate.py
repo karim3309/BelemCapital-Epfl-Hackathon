@@ -28,6 +28,7 @@ from dataclasses import dataclass, field
 import networkx as nx
 
 from .graphview import GraphView
+from .fmt import pct
 
 RULES = {
     "deployed_in": "les fonds placés dans « {to} » subissent sa défaillance (ou sa liquidité, pour un pool)",
@@ -106,27 +107,27 @@ def propagate(gv: GraphView, shocks: list[Shock], params) -> World:
             raise ValueError(f"choc sur un nœud absent du graphe : {s.node}")
         if s.kind == "market_depeg":
             own_mult[s.node] = own_mult.get(s.node, 1.0) * (1 - s.severity)
-            w.trace.append(f"{s.node} perd {s.severity:.1%} de sa valeur de marché (choc direct)")
+            w.trace.append(f"{s.node} perd {pct(s.severity, 1)} de sa valeur de marché (choc direct)")
         elif s.kind == "counterparty_failure":
             cp_loss[s.node] = max(cp_loss.get(s.node, 0.0), s.severity)
             for issuer in gv.sources(s.node, "deployed_in"):
                 panic[issuer] = max(panic.get(issuer, 0.0), s.panic)
-            w.trace.append(f"{s.node} fait défaut : {s.severity:.0%} des fonds qui y sont placés sont perdus")
+            w.trace.append(f"{s.node} fait défaut : {pct(s.severity, 0)} des fonds qui y sont placés sont perdus")
         elif s.kind == "issuer_failure":
             issuer_own[s.node] = issuer_own.get(s.node, 1.0) * (1 - s.severity)
-            w.trace.append(f"l'émetteur {s.node} perd {s.severity:.0%} de sa valeur (exploit / défaillance)")
+            w.trace.append(f"l'émetteur {s.node} perd {pct(s.severity, 0)} de sa valeur (exploit / défaillance)")
         elif s.kind == "protocol_exploit":
             w.protocol_loss[s.node] = max(w.protocol_loss.get(s.node, 0.0), s.severity)
-            w.trace.append(f"exploit du protocole {s.node} : {s.severity:.0%} des fonds déposés perdus")
+            w.trace.append(f"exploit du protocole {s.node} : {pct(s.severity, 0)} des fonds déposés perdus")
         elif s.kind == "feed_fault":
             w.feed_override[s.node] = ("fault", 1 - s.severity)
-            w.trace.append(f"le feed {s.node} rapporte un prix FAUX, {s.severity:.0%} sous le vrai prix")
+            w.trace.append(f"le feed {s.node} rapporte un prix FAUX, {pct(s.severity, 0)} sous le vrai prix")
         elif s.kind == "feed_frozen":
             w.feed_override[s.node] = ("frozen", None)
             w.trace.append(f"le feed {s.node} est FIGÉ : il ne voit plus le marché")
         elif s.kind == "liquidity_drain":
             w.pool_factor[s.node] = min(w.pool_factor.get(s.node, 1.0), 1 - s.severity)
-            w.trace.append(f"le pool {s.node} perd {s.severity:.0%} de sa liquidité")
+            w.trace.append(f"le pool {s.node} perd {pct(s.severity, 0)} de sa liquidité")
         elif s.kind == "chain_halt":
             w.chain_halted = True
             w.trace.append(f"la chaîne {s.node} est à l'arrêt : ni liquidation ni sortie possibles")
@@ -139,10 +140,10 @@ def propagate(gv: GraphView, shocks: list[Shock], params) -> World:
                 share, pname = counterparty_share(gv.meta(cp).get("role"), params)
                 h *= 1 - share * cp_loss[cp]
                 w.trace.append(RULES["deployed_in"].format(to=cp)
-                               + f" → {issuer} perd {share * cp_loss[cp]:.2%} de ses réserves (part exposée : {pname} = {share:g})")
+                               + f" → {issuer} perd {pct(share * cp_loss[cp], 2)} de ses réserves (part exposée : {pname} = {share:g})")
         if panic.get(issuer):
             h *= 1 - panic[issuer]
-            w.trace.append(f"panique sur les jetons de {issuer} : décote supplémentaire de {panic[issuer]:.1%}")
+            w.trace.append(f"panique sur les jetons de {issuer} : décote supplémentaire de {pct(panic[issuer], 1)}")
         if h != 1.0:
             w.issuer_health[issuer] = h
 

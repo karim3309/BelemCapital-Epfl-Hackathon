@@ -28,6 +28,7 @@ from .params import load_params
 from .position import Baseline, lif
 from .replay import run_replays
 from .scenarios import Engine, evaluate_scenario, evaluate_usde_grid, load_scenarios
+from .fmt import pct, usd
 
 GRAPH = REPO_ROOT / "output" / "graph.json"
 INPUTS = REPO_ROOT / "output" / "risk_inputs.json"
@@ -132,15 +133,15 @@ def build_report(engine: Engine, mc_samples: int | None = None, sens_samples: in
             "lender_loss_usd": headline["outcome"]["lender_loss_usd"],
             "exit_cost_usd": exit_full["total_usd"], "exit_cost_pct_equity": (exit_full["total_usd"] or 0) / eq,
             "sentence": headline["decision"]["sentence"],
-            "three_am_question": (f"Est-ce que je crois à plus de {headline['decision']['p_star']:.1%} de chances que "
+            "three_am_question": (f"Est-ce que je crois à plus de {pct(headline['decision']['p_star'], 1)} de chances que "
                                   f"« {headline['title']} » se produise d'ici {engine.horizon_days:g} jours ?"
                                   if headline["decision"]["p_star"] is not None else None),
         },
         "baseline": {
             "verdict": base_verdict,
             "sentence": (f"{base_verdict} — sans alerte, la perte attendue sur {engine.horizon_days:g} jours "
-                         f"({baseline_loss:,.0f} $) est {'inférieure' if base_verdict == 'STAY' else 'supérieure'} "
-                         f"au coût certain de sortie ({exit_full['total_usd']:,.0f} $)."),
+                         f"({usd(baseline_loss)}) est {'inférieure' if base_verdict == 'STAY' else 'supérieure'} "
+                         f"au coût certain de sortie ({usd(exit_full['total_usd'])})."),
         },
         "exit_cost": {
             "full": exit_full,
@@ -168,19 +169,19 @@ def build_report(engine: Engine, mc_samples: int | None = None, sens_samples: in
 
 
 def _fmt_pct(x):
-    return "—" if x is None else f"{x:.1%}"
+    return "—" if x is None else f"{pct(x, 1)}"
 
 
 def print_summary(report: dict, elapsed: float) -> None:
     h, pos, mc = report["headline"], report["position"], report["monte_carlo"]
     print(f"\n=== StackTrace · fiche de risque · bloc #{report['snapshot']['block']} ===")
-    print(f"position : HF {pos['health_factor']:.3f} · capital net {pos['equity_usd']:,.0f} $ · "
-          f"liquidable si l'oracle baisse de {pos['oracle_drop_to_liquidation']:.2%}")
-    print(f"sortie   : {h['exit_cost_usd']:,.0f} $ ({h['exit_cost_pct_equity']:.2%} du capital)")
-    print(f"alerte   : {h['title']} → perte {h['loss_if_incident_usd']:,.0f} $ ; p* = {_fmt_pct(h['p_star'])}")
+    print(f"position : HF {pos['health_factor']:.3f} · capital net {usd(pos['equity_usd'])} · "
+          f"liquidable si l'oracle baisse de {pct(pos['oracle_drop_to_liquidation'], 2)}")
+    print(f"sortie   : {usd(h['exit_cost_usd'])} ({pct(h['exit_cost_pct_equity'], 2)} du capital)")
+    print(f"alerte   : {h['title']} → perte {usd(h['loss_if_incident_usd'])} ; p* = {_fmt_pct(h['p_star'])}")
     print(f"verdict  : {h['sentence']}")
-    print(f"sans alerte ({mc['horizon_days']:g} j, {mc['samples']:,} tirages) : perte attendue {mc['expected_loss_usd']:,.0f} $ · "
-          f"VaR95 {mc['var95_usd']:,.0f} $ · VaR99 {mc['var99_usd']:,.0f} $ → {report['baseline']['verdict']}")
+    print(f"sans alerte ({mc['horizon_days']:g} j, {mc['samples']:,} tirages) : perte attendue {usd(mc['expected_loss_usd'])} · "
+          f"VaR95 {usd(mc['var95_usd'])} · VaR99 {usd(mc['var99_usd'])} → {report['baseline']['verdict']}")
     print("scénarios :")
     for s in report["scenarios"]:
         o, d = s["outcome"], s["decision"]

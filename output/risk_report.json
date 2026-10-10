@@ -46,8 +46,8 @@
   "lender_loss_usd": 77722.69544860322,
   "exit_cost_usd": 853.6446875513062,
   "exit_cost_pct_equity": 0.016066184784276964,
-  "sentence": "EXIT — vous estimez 10% de chances, au-dessus du seuil p* = 1.6% : la perte attendue (5,313 $) dépasse le coût certain de sortie (854 $).",
-  "three_am_question": "Est-ce que je crois à plus de 1.6% de chances que « Depeg USDe −30 % durable » se produise d'ici 7 jours ?"
+  "sentence": "EXIT — vous estimez 10 % de chances, au-dessus du seuil p* = 1,6 % : la perte attendue (5 313 $) dépasse le coût certain de sortie (854 $).",
+  "three_am_question": "Est-ce que je crois à plus de 1,6 % de chances que « Depeg USDe −30 % durable » se produise d'ici 7 jours ?"
  },
  "baseline": {
   "verdict": "STAY",
@@ -1389,7 +1389,7 @@
    ],
    "time_offset_days": 0.0,
    "propagation_trace": [
-    "usde perd 30.0% de sa valeur de marché (choc direct)",
+    "usde perd 30,0 % de sa valeur de marché (choc direct)",
     "« susde » s'échange contre « usde » : sa valeur suit celle de « usde » → ×0.7000",
     "« sy_susde » s'échange contre « susde » : sa valeur suit celle de « susde » → ×0.7000",
     "« pt_susde_26nov2026 » s'échange contre « sy_susde » : sa valeur suit celle de « sy_susde » → ×0.7000"
@@ -1413,7 +1413,7 @@
     "timeline": [
      {
       "t_hours": 0,
-      "event": "choc : écart primaire/secours = 35.33% (seuil 0.75%)",
+      "event": "choc : écart primaire/secours = 35,33 % (seuil 0,75 %)",
       "role": "primary"
      },
      {
@@ -1428,7 +1428,7 @@
      }
     ],
     "trace": [
-     "écart = |0.992361 − 0.694372| / moyenne = 35.333% ; seuil = 0.750%",
+     "écart = |0.992361 − 0.694372| / moyenne = 35,333 % ; seuil = 0,750 %",
      "l'écart dure ≥ 16 h → bascule sur le secours (market)",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
@@ -1567,8 +1567,8 @@
     "recovered_before_horizon": false,
     "trace": [
      "HF 1.0499 → 0.7346 (prix oracle 0.992361 → 0.694372, mode market)",
-     "liquidable (HF < 1) : bonus LIF = 1.0262 ; liquidateur rembourse 279,484 USDC, saisit 413,030 PT, revente à −0.12% → profit 7,408 $",
-     "gage épuisé : 77,733 USDC de dette irrécouvrable chez les prêteurs"
+     "liquidable (HF < 1) : bonus LIF = 1.0262 ; liquidateur rembourse 279 484 USDC, saisit 413 030 PT, revente à −0,12 % → profit 7 408 $",
+     "gage épuisé : 77 733 USDC de dette irrécouvrable chez les prêteurs"
     ]
    },
    "decision": {
@@ -1588,7 +1588,7 @@
     "p_default": 0.1,
     "verdict": "EXIT",
     "exit_fraction": 1.0,
-    "sentence": "EXIT — vous estimez 10% de chances, au-dessus du seuil p* = 1.6% : la perte attendue (5,313 $) dépasse le coût certain de sortie (854 $).",
+    "sentence": "EXIT — vous estimez 10 % de chances, au-dessus du seuil p* = 1,6 % : la perte attendue (5 313 $) dépasse le coût certain de sortie (854 $).",
     "table": [
      {
       "p": 0.0,
@@ -2308,7 +2308,7 @@
    ],
    "time_offset_days": 0.0,
    "propagation_trace": [
-    "usde perd 7.0% de sa valeur de marché (choc direct)",
+    "usde perd 7,0 % de sa valeur de marché (choc direct)",
     "« susde » s'échange contre « usde » : sa valeur suit celle de « usde » → ×0.9300",
     "« sy_susde » s'échange contre « susde » : sa valeur suit celle de « susde » → ×0.9300",
     "« pt_susde_26nov2026 » s'échange contre « sy_susde » : sa valeur suit celle de « sy_susde » → ×0.9300"
@@ -2332,7 +2332,7 @@
     "timeline": [
      {
       "t_hours": 0,
-      "event": "choc : écart primaire/secours = 7.29% (seuil 0.75%)",
+      "event": "choc : écart primaire/secours = 7,29 % (seuil 0,75 %)",
       "role": "primary"
      },
      {
@@ -2357,7 +2357,7 @@
      }
     ],
     "trace": [
-     "écart = |0.992361 − 0.922523| / moyenne = 7.294% ; seuil = 0.750%",
+     "écart = |0.992361 − 0.922523| / moyenne = 7,294 % ; seuil = 0,750 %",
      "l'écart dure ≥ 16 h → bascule sur le secours (market)",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
@@ -2495,7 +2495,7 @@
     "recovered_before_horizon": true,
     "trace": [
      "HF 1.0499 → 0.9760 (prix oracle 0.992361 → 0.922523, mode market)",
-     "liquidable (HF < 1) : bonus LIF = 1.0262 ; liquidateur rembourse 357,217 USDC, saisit 397,349 PT, revente à −0.12% → profit 9,483 $",
+     "liquidable (HF < 1) : bonus LIF = 1.0262 ; liquidateur rembourse 357 217 USDC, saisit 397 349 PT, revente à −0,12 % → profit 9 483 $",
      "le choc (24 h) se termine avant l'horizon (168 h) : prix revenus"
     ]
    },
@@ -2516,7 +2516,7 @@
     "p_default": 0.1,
     "verdict": "EXIT",
     "exit_fraction": 1.0,
-    "sentence": "EXIT — vous estimez 10% de chances, au-dessus du seuil p* = 2.3% : la perte attendue (3,756 $) dépasse le coût certain de sortie (854 $).",
+    "sentence": "EXIT — vous estimez 10 % de chances, au-dessus du seuil p* = 2,3 % : la perte attendue (3 756 $) dépasse le coût certain de sortie (854 $).",
     "table": [
      {
       "p": 0.0,
@@ -3236,7 +3236,7 @@
    ],
    "time_offset_days": 0.0,
    "propagation_trace": [
-    "usde perd 7.0% de sa valeur de marché (choc direct)",
+    "usde perd 7,0 % de sa valeur de marché (choc direct)",
     "« susde » s'échange contre « usde » : sa valeur suit celle de « usde » → ×0.9300",
     "« sy_susde » s'échange contre « susde » : sa valeur suit celle de « susde » → ×0.9300",
     "« pt_susde_26nov2026 » s'échange contre « sy_susde » : sa valeur suit celle de « sy_susde » → ×0.9300"
@@ -3260,7 +3260,7 @@
     "timeline": [
      {
       "t_hours": 0,
-      "event": "choc : écart primaire/secours = 7.29% (seuil 0.75%)",
+      "event": "choc : écart primaire/secours = 7,29 % (seuil 0,75 %)",
       "role": "primary"
      },
      {
@@ -3275,7 +3275,7 @@
      }
     ],
     "trace": [
-     "écart = |0.992361 − 0.922523| / moyenne = 7.294% ; seuil = 0.750%",
+     "écart = |0.992361 − 0.922523| / moyenne = 7,294 % ; seuil = 0,750 %",
      "le choc dure 6 h < 16 h → PAS de bascule, le prix reste fixed",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
@@ -4147,9 +4147,9 @@
    ],
    "time_offset_days": 0.0,
    "propagation_trace": [
-    "binance fait défaut : 100% des fonds qui y sont placés sont perdus",
-    "les fonds placés dans « binance » subissent sa défaillance (ou sa liquidité, pour un pool) → ethena_labs perd 2.00% de ses réserves (part exposée : exchange_exposure_share = 0.02)",
-    "panique sur les jetons de ethena_labs : décote supplémentaire de 3.0%",
+    "binance fait défaut : 100 % des fonds qui y sont placés sont perdus",
+    "les fonds placés dans « binance » subissent sa défaillance (ou sa liquidité, pour un pool) → ethena_labs perd 2,00 % de ses réserves (part exposée : exchange_exposure_share = 0.02)",
+    "panique sur les jetons de ethena_labs : décote supplémentaire de 3,0 %",
     "« usde » est émis par « ethena_labs » : une perte de réserves de l'émetteur le déprécie → ×0.9506",
     "« susde » s'échange contre « usde » : sa valeur suit celle de « usde » → ×0.9506",
     "« sy_susde » s'échange contre « susde » : sa valeur suit celle de « susde » → ×0.9506",
@@ -4174,7 +4174,7 @@
     "timeline": [
      {
       "t_hours": 0,
-      "event": "choc : écart primaire/secours = 5.11% (seuil 0.75%)",
+      "event": "choc : écart primaire/secours = 5,11 % (seuil 0,75 %)",
       "role": "primary"
      },
      {
@@ -4199,7 +4199,7 @@
      }
     ],
     "trace": [
-     "écart = |0.992361 − 0.942958| / moyenne = 5.105% ; seuil = 0.750%",
+     "écart = |0.992361 − 0.942958| / moyenne = 5,105 % ; seuil = 0,750 %",
      "l'écart dure ≥ 16 h → bascule sur le secours (market)",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
@@ -4337,7 +4337,7 @@
     "recovered_before_horizon": true,
     "trace": [
      "HF 1.0499 → 0.9976 (prix oracle 0.992361 → 0.942958, mode market)",
-     "liquidable (HF < 1) : bonus LIF = 1.0262 ; liquidateur rembourse 357,217 USDC, saisit 388,739 PT, revente à −0.12% → profit 9,491 $",
+     "liquidable (HF < 1) : bonus LIF = 1.0262 ; liquidateur rembourse 357 217 USDC, saisit 388 739 PT, revente à −0,12 % → profit 9 491 $",
      "le choc (72 h) se termine avant l'horizon (168 h) : prix revenus"
     ]
    },
@@ -4358,7 +4358,7 @@
     "p_default": 0.05,
     "verdict": "EXIT",
     "exit_fraction": 1.0,
-    "sentence": "EXIT — vous estimez 5% de chances, au-dessus du seuil p* = 2.9% : la perte attendue (1,450 $) dépasse le coût certain de sortie (854 $).",
+    "sentence": "EXIT — vous estimez 5 % de chances, au-dessus du seuil p* = 2,9 % : la perte attendue (1 450 $) dépasse le coût certain de sortie (854 $).",
     "table": [
      {
       "p": 0.0,
@@ -5186,13 +5186,13 @@
    ],
    "time_offset_days": 0.0,
    "propagation_trace": [
-    "binance fait défaut : 100% des fonds qui y sont placés sont perdus",
-    "bybit fait défaut : 100% des fonds qui y sont placés sont perdus",
-    "okx fait défaut : 100% des fonds qui y sont placés sont perdus",
-    "les fonds placés dans « binance » subissent sa défaillance (ou sa liquidité, pour un pool) → ethena_labs perd 2.00% de ses réserves (part exposée : exchange_exposure_share = 0.02)",
-    "les fonds placés dans « bybit » subissent sa défaillance (ou sa liquidité, pour un pool) → ethena_labs perd 2.00% de ses réserves (part exposée : exchange_exposure_share = 0.02)",
-    "les fonds placés dans « okx » subissent sa défaillance (ou sa liquidité, pour un pool) → ethena_labs perd 2.00% de ses réserves (part exposée : exchange_exposure_share = 0.02)",
-    "panique sur les jetons de ethena_labs : décote supplémentaire de 10.0%",
+    "binance fait défaut : 100 % des fonds qui y sont placés sont perdus",
+    "bybit fait défaut : 100 % des fonds qui y sont placés sont perdus",
+    "okx fait défaut : 100 % des fonds qui y sont placés sont perdus",
+    "les fonds placés dans « binance » subissent sa défaillance (ou sa liquidité, pour un pool) → ethena_labs perd 2,00 % de ses réserves (part exposée : exchange_exposure_share = 0.02)",
+    "les fonds placés dans « bybit » subissent sa défaillance (ou sa liquidité, pour un pool) → ethena_labs perd 2,00 % de ses réserves (part exposée : exchange_exposure_share = 0.02)",
+    "les fonds placés dans « okx » subissent sa défaillance (ou sa liquidité, pour un pool) → ethena_labs perd 2,00 % de ses réserves (part exposée : exchange_exposure_share = 0.02)",
+    "panique sur les jetons de ethena_labs : décote supplémentaire de 10,0 %",
     "« usde » est émis par « ethena_labs » : une perte de réserves de l'émetteur le déprécie → ×0.8471",
     "« susde » s'échange contre « usde » : sa valeur suit celle de « usde » → ×0.8471",
     "« sy_susde » s'échange contre « susde » : sa valeur suit celle de « susde » → ×0.8471",
@@ -5217,7 +5217,7 @@
     "timeline": [
      {
       "t_hours": 0,
-      "event": "choc : écart primaire/secours = 16.60% (seuil 0.75%)",
+      "event": "choc : écart primaire/secours = 16,60 % (seuil 0,75 %)",
       "role": "primary"
      },
      {
@@ -5232,7 +5232,7 @@
      }
     ],
     "trace": [
-     "écart = |0.992361 − 0.840263| / moyenne = 16.599% ; seuil = 0.750%",
+     "écart = |0.992361 − 0.840263| / moyenne = 16,599 % ; seuil = 0,750 %",
      "l'écart dure ≥ 16 h → bascule sur le secours (market)",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
@@ -5371,8 +5371,8 @@
     "recovered_before_horizon": false,
     "trace": [
      "HF 1.0499 → 0.8890 (prix oracle 0.992361 → 0.840263, mode market)",
-     "liquidable (HF < 1) : bonus LIF = 1.0262 ; liquidateur rembourse 338,204 USDC, saisit 413,030 PT, revente à −0.12% → profit 8,964 $",
-     "gage épuisé : 19,013 USDC de dette irrécouvrable chez les prêteurs"
+     "liquidable (HF < 1) : bonus LIF = 1.0262 ; liquidateur rembourse 338 204 USDC, saisit 413 030 PT, revente à −0,12 % → profit 8 964 $",
+     "gage épuisé : 19 013 USDC de dette irrécouvrable chez les prêteurs"
     ]
    },
    "decision": {
@@ -5392,7 +5392,7 @@
     "p_default": 0.02,
     "verdict": "PARTIAL",
     "exit_fraction": 0.75,
-    "sentence": "PARTIAL 75% — au-delà de 75%, le glissement marginal coûte plus que la perte évitée ; seuil p* (sortie totale) = 1.6%, vous estimez 2%.",
+    "sentence": "PARTIAL 75 % — au-delà de 75 %, le glissement marginal coûte plus que la perte évitée ; seuil p* (sortie totale) = 1,6 %, vous estimez 2 %.",
     "table": [
      {
       "p": 0.0,
@@ -6496,8 +6496,8 @@
    ],
    "time_offset_days": 0.0,
    "propagation_trace": [
-    "copper fait défaut : 100% des fonds qui y sont placés sont perdus",
-    "les fonds placés dans « copper » subissent sa défaillance (ou sa liquidité, pour un pool) → ethena_labs perd 33.33% de ses réserves (part exposée : custodian_backing_share = 0.3333)",
+    "copper fait défaut : 100 % des fonds qui y sont placés sont perdus",
+    "les fonds placés dans « copper » subissent sa défaillance (ou sa liquidité, pour un pool) → ethena_labs perd 33,33 % de ses réserves (part exposée : custodian_backing_share = 0.3333)",
     "« usde » est émis par « ethena_labs » : une perte de réserves de l'émetteur le déprécie → ×0.6667",
     "« susde » s'échange contre « usde » : sa valeur suit celle de « usde » → ×0.6667",
     "« sy_susde » s'échange contre « susde » : sa valeur suit celle de « susde » → ×0.6667",
@@ -6522,7 +6522,7 @@
     "timeline": [
      {
       "t_hours": 0,
-      "event": "choc : écart primaire/secours = 40.03% (seuil 0.75%)",
+      "event": "choc : écart primaire/secours = 40,03 % (seuil 0,75 %)",
       "role": "primary"
      },
      {
@@ -6537,7 +6537,7 @@
      }
     ],
     "trace": [
-     "écart = |0.992361 − 0.661340| / moyenne = 40.034% ; seuil = 0.750%",
+     "écart = |0.992361 − 0.661340| / moyenne = 40,034 % ; seuil = 0,750 %",
      "l'écart dure ≥ 16 h → bascule sur le secours (market)",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
@@ -6676,8 +6676,8 @@
     "recovered_before_horizon": false,
     "trace": [
      "HF 1.0499 → 0.6997 (prix oracle 0.992361 → 0.661340, mode market)",
-     "liquidable (HF < 1) : bonus LIF = 1.0262 ; liquidateur rembourse 266,188 USDC, saisit 413,030 PT, revente à −0.12% → profit 7,055 $",
-     "gage épuisé : 91,029 USDC de dette irrécouvrable chez les prêteurs"
+     "liquidable (HF < 1) : bonus LIF = 1.0262 ; liquidateur rembourse 266 188 USDC, saisit 413 030 PT, revente à −0,12 % → profit 7 055 $",
+     "gage épuisé : 91 029 USDC de dette irrécouvrable chez les prêteurs"
     ]
    },
    "decision": {
@@ -6697,7 +6697,7 @@
     "p_default": 0.02,
     "verdict": "PARTIAL",
     "exit_fraction": 0.75,
-    "sentence": "PARTIAL 75% — au-delà de 75%, le glissement marginal coûte plus que la perte évitée ; seuil p* (sortie totale) = 1.6%, vous estimez 2%.",
+    "sentence": "PARTIAL 75 % — au-delà de 75 %, le glissement marginal coûte plus que la perte évitée ; seuil p* (sortie totale) = 1,6 %, vous estimez 2 %.",
     "table": [
      {
       "p": 0.0,
@@ -7509,7 +7509,7 @@
    ],
    "time_offset_days": 0.0,
    "propagation_trace": [
-    "le feed feed_usde_usd rapporte un prix FAUX, 10% sous le vrai prix"
+    "le feed feed_usde_usd rapporte un prix FAUX, 10 % sous le vrai prix"
    ],
    "asset_multipliers": {},
    "oracle": {
@@ -7525,7 +7525,7 @@
     "timeline": [
      {
       "t_hours": 0,
-      "event": "choc : écart primaire/secours = 10.57% (seuil 0.75%)",
+      "event": "choc : écart primaire/secours = 10,57 % (seuil 0,75 %)",
       "role": "primary"
      },
      {
@@ -7550,7 +7550,7 @@
      }
     ],
     "trace": [
-     "écart = |0.992361 − 0.892764| / moyenne = 10.567% ; seuil = 0.750%",
+     "écart = |0.992361 − 0.892764| / moyenne = 10,567 % ; seuil = 0,750 %",
      "l'écart dure ≥ 16 h → bascule sur le secours (market)",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
@@ -7691,7 +7691,7 @@
     "recovered_before_horizon": true,
     "trace": [
      "HF 1.0499 → 0.9445 (prix oracle 0.992361 → 0.892764, mode market)",
-     "liquidable (HF < 1) : bonus LIF = 1.0262 ; liquidateur rembourse 357,217 USDC, saisit 410,594 PT, revente à −0.12% → profit 50,208 $",
+     "liquidable (HF < 1) : bonus LIF = 1.0262 ; liquidateur rembourse 357 217 USDC, saisit 410 594 PT, revente à −0,12 % → profit 50 208 $",
      "le choc (24 h) se termine avant l'horizon (168 h) : prix revenus"
     ]
    },
@@ -7712,7 +7712,7 @@
     "p_default": 0.02,
     "verdict": "PARTIAL",
     "exit_fraction": 0.7,
-    "sentence": "PARTIAL 70% — au-delà de 70%, le glissement marginal coûte plus que la perte évitée ; seuil p* (sortie totale) = 1.7%, vous estimez 2%.",
+    "sentence": "PARTIAL 70 % — au-delà de 70 %, le glissement marginal coûte plus que la perte évitée ; seuil p* (sortie totale) = 1,7 %, vous estimez 2 %.",
     "table": [
      {
       "p": 0.0,
@@ -8428,7 +8428,7 @@
    ],
    "time_offset_days": 0.0,
    "propagation_trace": [
-    "usde perd 10.0% de sa valeur de marché (choc direct)",
+    "usde perd 10,0 % de sa valeur de marché (choc direct)",
     "le feed feed_usde_usd est FIGÉ : il ne voit plus le marché",
     "« susde » s'échange contre « usde » : sa valeur suit celle de « usde » → ×0.9000",
     "« sy_susde » s'échange contre « susde » : sa valeur suit celle de « susde » → ×0.9000",
@@ -8453,12 +8453,12 @@
     "timeline": [
      {
       "t_hours": 0,
-      "event": "choc : écart primaire/secours = 0.04% (seuil 0.75%)",
+      "event": "choc : écart primaire/secours = 0,04 % (seuil 0,75 %)",
       "role": "primary"
      }
     ],
     "trace": [
-     "écart = |0.992361 − 0.991961| / moyenne = 0.040% ; seuil = 0.750%",
+     "écart = |0.992361 − 0.991961| / moyenne = 0,040 % ; seuil = 0,750 %",
      "écart sous le seuil → pas de challenge possible, le primaire reste en place",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
@@ -8615,7 +8615,7 @@
     "p_default": 0.02,
     "verdict": "PARTIAL",
     "exit_fraction": 0.45,
-    "sentence": "PARTIAL 45% — au-delà de 45%, le glissement marginal coûte plus que la perte évitée ; seuil p* (sortie totale) = 2.1%, vous estimez 2%.",
+    "sentence": "PARTIAL 45 % — au-delà de 45 %, le glissement marginal coûte plus que la perte évitée ; seuil p* (sortie totale) = 2,1 %, vous estimez 2 %.",
     "table": [
      {
       "p": 0.0,
@@ -9377,7 +9377,7 @@
    ],
    "time_offset_days": 0.0,
    "propagation_trace": [
-    "le pool pendle_plp_susde_26nov2026 perd 50% de sa liquidité"
+    "le pool pendle_plp_susde_26nov2026 perd 50 % de sa liquidité"
    ],
    "asset_multipliers": {},
    "oracle": {
@@ -9393,12 +9393,12 @@
     "timeline": [
      {
       "t_hours": 0,
-      "event": "choc : écart primaire/secours = 0.04% (seuil 0.75%)",
+      "event": "choc : écart primaire/secours = 0,04 % (seuil 0,75 %)",
       "role": "primary"
      }
     ],
     "trace": [
-     "écart = |0.992361 − 0.991961| / moyenne = 0.040% ; seuil = 0.750%",
+     "écart = |0.992361 − 0.991961| / moyenne = 0,040 % ; seuil = 0,750 %",
      "écart sous le seuil → pas de challenge possible, le primaire reste en place",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
@@ -10249,7 +10249,7 @@
    ],
    "time_offset_days": 0.0,
    "propagation_trace": [
-    "le pool pendle_plp_susde_26nov2026 perd 90% de sa liquidité"
+    "le pool pendle_plp_susde_26nov2026 perd 90 % de sa liquidité"
    ],
    "asset_multipliers": {},
    "oracle": {
@@ -10265,12 +10265,12 @@
     "timeline": [
      {
       "t_hours": 0,
-      "event": "choc : écart primaire/secours = 0.04% (seuil 0.75%)",
+      "event": "choc : écart primaire/secours = 0,04 % (seuil 0,75 %)",
       "role": "primary"
      }
     ],
     "trace": [
-     "écart = |0.992361 − 0.991961| / moyenne = 0.040% ; seuil = 0.750%",
+     "écart = |0.992361 − 0.991961| / moyenne = 0,040 % ; seuil = 0,750 %",
      "écart sous le seuil → pas de challenge possible, le primaire reste en place",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
@@ -11122,7 +11122,7 @@
    ],
    "time_offset_days": 0.0,
    "propagation_trace": [
-    "usdc perd 5.0% de sa valeur de marché (choc direct)"
+    "usdc perd 5,0 % de sa valeur de marché (choc direct)"
    ],
    "asset_multipliers": {
     "usdc": 0.95
@@ -11140,12 +11140,12 @@
     "timeline": [
      {
       "t_hours": 0,
-      "event": "choc : écart primaire/secours = 0.04% (seuil 0.75%)",
+      "event": "choc : écart primaire/secours = 0,04 % (seuil 0,75 %)",
       "role": "primary"
      }
     ],
     "trace": [
-     "écart = |0.992361 − 0.991961| / moyenne = 0.040% ; seuil = 0.750%",
+     "écart = |0.992361 − 0.991961| / moyenne = 0,040 % ; seuil = 0,750 %",
      "écart sous le seuil → pas de challenge possible, le primaire reste en place",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
@@ -11987,7 +11987,7 @@
    ],
    "time_offset_days": 0.0,
    "propagation_trace": [
-    "l'émetteur pendle perd 50% de sa valeur (exploit / défaillance)",
+    "l'émetteur pendle perd 50 % de sa valeur (exploit / défaillance)",
     "« sy_susde » est émis par « pendle » : une perte de réserves de l'émetteur le déprécie → ×0.5000",
     "« pt_susde_26nov2026 » s'échange contre « sy_susde » : sa valeur suit celle de « sy_susde » → ×0.5000"
    ],
@@ -12008,12 +12008,12 @@
     "timeline": [
      {
       "t_hours": 0,
-      "event": "choc : écart primaire/secours = 0.04% (seuil 0.75%)",
+      "event": "choc : écart primaire/secours = 0,04 % (seuil 0,75 %)",
       "role": "primary"
      }
     ],
     "trace": [
-     "écart = |0.992361 − 0.991961| / moyenne = 0.040% ; seuil = 0.750%",
+     "écart = |0.992361 − 0.991961| / moyenne = 0,040 % ; seuil = 0,750 %",
      "écart sous le seuil → pas de challenge possible, le primaire reste en place",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
@@ -12152,7 +12152,7 @@
     "recovered_before_horizon": false,
     "trace": [
      "HF 1.0499 → 1.0499 (prix oracle 0.992361 → 0.992361, mode fixed)",
-     "le gage ne couvre plus la dette : l'emprunteur abandonne, prêteurs exposés à 152,018 $"
+     "le gage ne couvre plus la dette : l'emprunteur abandonne, prêteurs exposés à 152 018 $"
     ]
    },
    "decision": {
@@ -12172,7 +12172,7 @@
     "p_default": 0.01,
     "verdict": "PARTIAL",
     "exit_fraction": 0.15,
-    "sentence": "PARTIAL 15% — au-delà de 15%, le glissement marginal coûte plus que la perte évitée ; seuil p* (sortie totale) = 1.6%, vous estimez 1%.",
+    "sentence": "PARTIAL 15 % — au-delà de 15 %, le glissement marginal coûte plus que la perte évitée ; seuil p* (sortie totale) = 1,6 %, vous estimez 1 %.",
     "table": [
      {
       "p": 0.0,
@@ -12914,7 +12914,7 @@
    ],
    "time_offset_days": 0.0,
    "propagation_trace": [
-    "exploit du protocole morpho : 100% des fonds déposés perdus"
+    "exploit du protocole morpho : 100 % des fonds déposés perdus"
    ],
    "asset_multipliers": {},
    "oracle": {
@@ -12930,12 +12930,12 @@
     "timeline": [
      {
       "t_hours": 0,
-      "event": "choc : écart primaire/secours = 0.04% (seuil 0.75%)",
+      "event": "choc : écart primaire/secours = 0,04 % (seuil 0,75 %)",
       "role": "primary"
      }
     ],
     "trace": [
-     "écart = |0.992361 − 0.991961| / moyenne = 0.040% ; seuil = 0.750%",
+     "écart = |0.992361 − 0.991961| / moyenne = 0,040 % ; seuil = 0,750 %",
      "écart sous le seuil → pas de challenge possible, le primaire reste en place",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
@@ -13073,11 +13073,11 @@
     ],
     "recovered_before_horizon": false,
     "trace": [
-     "exploit du marché : 100% du collatéral perdu",
+     "exploit du marché : 100 % du collatéral perdu",
      "HF 1.0499 → 0.0000 (prix oracle 0.992361 → 0.992361, mode fixed)",
-     "liquidable (HF < 1) : bonus LIF = 1.0262 ; liquidateur rembourse 0 USDC, saisit 0 PT, revente à −0.00% → profit 0 $",
+     "liquidable (HF < 1) : bonus LIF = 1.0262 ; liquidateur rembourse 0 USDC, saisit 0 PT, revente à −0,00 % → profit 0 $",
      "liquidation NON rentable → personne ne liquide : la dette reste exposée",
-     "le gage ne couvre plus la dette : l'emprunteur abandonne, prêteurs exposés à 357,169 $"
+     "le gage ne couvre plus la dette : l'emprunteur abandonne, prêteurs exposés à 357 169 $"
     ]
    },
    "decision": {
@@ -13097,7 +13097,7 @@
     "p_default": 0.005,
     "verdict": "STAY",
     "exit_fraction": 0.0,
-    "sentence": "STAY — sortir coûte 854 $ ; « Exploit Morpho : collatéral volé » coûterait 53,133 $. Sortez seulement si vous croyez à plus de 1.6% de chances que ça arrive (vous estimez 0%).",
+    "sentence": "STAY — sortir coûte 854 $ ; « Exploit Morpho : collatéral volé » coûterait 53 133 $. Sortez seulement si vous croyez à plus de 1,6 % de chances que ça arrive (vous estimez 0 %).",
     "table": [
      {
       "p": 0.0,
@@ -13793,7 +13793,7 @@
    ],
    "time_offset_days": 0.0,
    "propagation_trace": [
-    "usde perd 10.0% de sa valeur de marché (choc direct)",
+    "usde perd 10,0 % de sa valeur de marché (choc direct)",
     "la chaîne ethereum est à l'arrêt : ni liquidation ni sortie possibles",
     "« susde » s'échange contre « usde » : sa valeur suit celle de « usde » → ×0.9000",
     "« sy_susde » s'échange contre « susde » : sa valeur suit celle de « susde » → ×0.9000",
@@ -13818,12 +13818,12 @@
     "timeline": [
      {
       "t_hours": 0,
-      "event": "choc : écart primaire/secours = 10.57% (seuil 0.75%)",
+      "event": "choc : écart primaire/secours = 10,57 % (seuil 0,75 %)",
       "role": "primary"
      }
     ],
     "trace": [
-     "écart = |0.992361 − 0.892764| / moyenne = 10.567% ; seuil = 0.750%",
+     "écart = |0.992361 − 0.892764| / moyenne = 10,567 % ; seuil = 0,750 %",
      "chaîne à l'arrêt : personne ne peut appeler challenge() → pas de bascule",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (0.992361)",
@@ -14700,12 +14700,12 @@
     "timeline": [
      {
       "t_hours": 0,
-      "event": "choc : écart primaire/secours = 0.04% (seuil 0.75%)",
+      "event": "choc : écart primaire/secours = 0,04 % (seuil 0,75 %)",
       "role": "primary"
      }
     ],
     "trace": [
-     "écart = |1.000000 − 0.999596| / moyenne = 0.040% ; seuil = 0.750%",
+     "écart = |1.000000 − 0.999596| / moyenne = 0,040 % ; seuil = 0,750 %",
      "écart sous le seuil → pas de challenge possible, le primaire reste en place",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (1.000000)",
      "feed_pt_susde_26nov2026_linear_discount : formule de décote, insensible au marché (1.000000)",
@@ -15548,7 +15548,7 @@
      "min_hf": 1.0498827340388301,
      "liquidated": false,
      "borrower_loss_usd": 0.0,
-     "why": "écart max 0.71% vs seuil 0.75% ; au-dessus du seuil pendant 0.0 min (il faut 960 min pour basculer) → pas de bascule, prix fixe"
+     "why": "écart max 0,71 % vs seuil 0,75 % ; au-dessus du seuil pendant 0.0 min (il faut 960 min pour basculer) → pas de bascule, prix fixe"
     },
     {
      "design": "Oracle de marché sur Chainlink USDe/USD",
@@ -15565,8 +15565,8 @@
      "why": "Binance (carnet d'ordres spot) à 0.65 $ pendant ~40 min (source curée) ; on-chain le PT valait toujours ~1 : le liquidateur rachète le gage au rabais",
      "trace": [
       "HF 1.0499 → 0.6823 (prix oracle 0.992361 → 0.644874, mode market)",
-      "liquidable (HF < 1) : bonus LIF = 1.0262 ; liquidateur rembourse 259,560 USDC, saisit 413,030 PT, revente à −0.12% → profit 150,265 $",
-      "gage épuisé : 97,656 USDC de dette irrécouvrable chez les prêteurs",
+      "liquidable (HF < 1) : bonus LIF = 1.0262 ; liquidateur rembourse 259 560 USDC, saisit 413 030 PT, revente à −0,12 % → profit 150 265 $",
+      "gage épuisé : 97 656 USDC de dette irrécouvrable chez les prêteurs",
       "le choc (0.666667 h) se termine avant l'horizon (168 h) : prix revenus"
      ]
     }
@@ -15638,7 +15638,7 @@
      "min_hf": 1.0498827340388301,
      "liquidated": false,
      "borrower_loss_usd": 0.0,
-     "why": "écart max 2.31% vs seuil 0.75% ; au-dessus du seuil pendant 38.4 min (il faut 960 min pour basculer) → pas de bascule, prix fixe"
+     "why": "écart max 2,31 % vs seuil 0,75 % ; au-dessus du seuil pendant 38.4 min (il faut 960 min pour basculer) → pas de bascule, prix fixe"
     },
     {
      "design": "Oracle de marché sur Chainlink USDe/USD",
