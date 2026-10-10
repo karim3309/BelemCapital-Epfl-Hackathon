@@ -22,11 +22,11 @@ function Line({ label, value, tone }: { label: string; value: string; tone?: str
 function VaultExit({ exit }: { exit: ExitInfo }) {
   return (
     <div className="flex flex-col">
-      <Line label="Retirable maintenant" value={pctAuto(exit.withdrawable_now_fraction)} />
-      <Line label="Dont sans pénalité" value={pctAuto(exit.penalty_free_fraction)} />
-      <Line label="Pénalité de retrait forcé" value={pctAuto(exit.force_deallocate_penalty)} />
-      <Line label="Rendement abandonné sur l'horizon" value={pctAuto(exit.forgone_yield_rate_over_horizon)} />
-      <Line label="APY pondéré des marchés" value={pctAuto(exit.supply_apy_weighted ?? null)} />
+      <Line label="Withdrawable now" value={pctAuto(exit.withdrawable_now_fraction)} />
+      <Line label="Of which penalty-free" value={pctAuto(exit.penalty_free_fraction)} />
+      <Line label="Forced withdrawal penalty" value={pctAuto(exit.force_deallocate_penalty)} />
+      <Line label="Yield forgone over the horizon" value={pctAuto(exit.forgone_yield_rate_over_horizon)} />
+      <Line label="Markets' weighted APY" value={pctAuto(exit.supply_apy_weighted ?? null)} />
       {exit.note && <p className="pt-3 text-caption font-normal text-neutral1">{exit.note}</p>}
     </div>
   )
@@ -37,13 +37,13 @@ function BorrowExit({ exit }: { exit: ExitInfo }) {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <p className="text-body font-semibold text-chalk">Glissement mesuré, par taille de sortie</p>
+        <p className="text-body font-semibold text-chalk">Measured slippage, by exit size</p>
         <ul className="mt-4 flex flex-col gap-4">
           {quotes.map((q) => {
             const over = q.slippage > MAX_SLIPPAGE
             return (
               <li key={q.fraction} className="grid grid-cols-[96px_minmax(0,1fr)_72px] items-center gap-4">
-                <span className="text-caption font-normal tabular text-neutral1">sortir {pct(q.fraction, 0)}</span>
+                <span className="text-caption font-normal tabular text-neutral1">exit {pct(q.fraction, 0)}</span>
                 <span className="relative h-[8px] bg-surface2">
                   <motion.span
                     className="absolute inset-y-0 left-0"
@@ -62,17 +62,17 @@ function BorrowExit({ exit }: { exit: ExitInfo }) {
           })}
         </ul>
         <p className="mt-3 text-caption font-normal text-neutral1">
-          {exit.measured ? 'Devis réels KyberSwap' : 'Hypothèse de repli, non mesurée'}
-          {exit.reference?.fetched ? ` · relevés le ${new Date(exit.reference.fetched).toLocaleString('fr-FR', { timeZone: 'UTC' })} UTC` : ''}
-          . Au-delà de {pct(MAX_SLIPPAGE, 0)} de glissement, la sortie est jugée impossible par le marché.
+          {exit.measured ? 'Real KyberSwap quotes' : 'Fallback hypothesis, not measured'}
+          {exit.reference?.fetched ? ` · fetched ${new Date(exit.reference.fetched).toLocaleString('en-US', { timeZone: 'UTC' })} UTC` : ''}
+          . Beyond {pct(MAX_SLIPPAGE, 0)} of slippage, exiting through the market is deemed impossible.
         </p>
       </div>
       {exit.market_capacity_note && <p className="text-body font-normal text-warn">{exit.market_capacity_note}</p>}
       <div className="flex flex-col">
         {typeof exit.collateral_to_sell_full === 'number' && (
-          <Line label="Collatéral à revendre pour tout rembourser" value={usdShort(exit.collateral_to_sell_full)} />
+          <Line label="Collateral to sell to repay everything" value={usdShort(exit.collateral_to_sell_full)} />
         )}
-        <Line label="Portage net abandonné sur l'horizon" value={pctAuto(exit.forgone_net_carry_rate_over_horizon)} />
+        <Line label="Net carry forgone over the horizon" value={pctAuto(exit.forgone_net_carry_rate_over_horizon)} />
       </div>
     </div>
   )
@@ -85,13 +85,13 @@ function Markets({ markets }: { markets: RiskMarket[] }) {
       <table className="w-full min-w-[720px] text-left">
         <thead>
           <tr className="text-caption font-normal text-neutral1">
-            <th className="py-2 pr-4 font-normal">Marché</th>
-            <th className="py-2 pr-4 font-normal">Prix du collatéral</th>
+            <th className="py-2 pr-4 font-normal">Market</th>
+            <th className="py-2 pr-4 font-normal">Collateral pricing</th>
             <th className="py-2 pr-4 text-right font-normal">LLTV</th>
-            <th className="py-2 pr-4 text-right font-normal">Utilisation</th>
-            <th className="py-2 pr-4 text-right font-normal">Liquidité</th>
-            <th className="py-2 pr-4 text-right font-normal">Notre dépôt</th>
-            <th className="py-2 text-right font-normal">Emprunteurs</th>
+            <th className="py-2 pr-4 text-right font-normal">Utilization</th>
+            <th className="py-2 pr-4 text-right font-normal">Liquidity</th>
+            <th className="py-2 pr-4 text-right font-normal">Our deposit</th>
+            <th className="py-2 text-right font-normal">Borrowers</th>
           </tr>
         </thead>
         <tbody className="text-body tabular">
@@ -121,18 +121,18 @@ export default function ExitSlide() {
   const borrow = v.holding?.kind === 'morpho_market_borrow'
 
   return (
-    <Slide id="sortie" eyebrow="Question 3 sur 4 · Sortie" title="Combien coûte la sortie ?">
+    <Slide id="exit" eyebrow="Question 3 of 4 · Exit" title="What does exiting cost?">
       {exit ? (
         <>
           <div className="mt-8 grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:gap-16">
             <div className="flex flex-col gap-10">
               <div>
-                <p className="text-caption font-normal text-neutral1">Coût certain pour sortir la part sortable</p>
+                <p className="text-caption font-normal text-neutral1">Certain cost to exit the exitable share</p>
                 <p className="text-figure font-semibold tabular text-chalk">{usd(exit.cost_full_usd)}</p>
-                <p className="text-caption font-normal text-neutral1 tabular">{pctAuto(exit.cost_full_pct)} de la poche</p>
+                <p className="text-caption font-normal text-neutral1 tabular">{pctAuto(exit.cost_full_pct)} of the pocket</p>
               </div>
               <div>
-                <p className="text-caption font-normal text-neutral1">Sortable maintenant</p>
+                <p className="text-caption font-normal text-neutral1">Exitable now</p>
                 <p className="text-figure font-semibold tabular text-chalk">{pct(exit.f_max_now, 0)}</p>
                 <div className="mt-3 h-[8px] bg-surface2">
                   <motion.div
@@ -145,35 +145,35 @@ export default function ExitSlide() {
                 </div>
                 <p className="mt-3 text-caption font-normal text-neutral1">
                   {borrow
-                    ? "Part de la dette remboursable en revendant du collatéral sur le marché."
-                    : "Liquidité disponible dans les marchés où le coffre a placé les fonds."}
+                    ? "Share of the debt that can be repaid by selling collateral on the market."
+                    : "Liquidity available in the markets where the vault placed the funds."}
                 </p>
               </div>
             </div>
             {borrow ? <BorrowExit exit={exit} /> : <VaultExit exit={exit} />}
           </div>
           {v.risk && <Markets markets={v.risk.markets} />}
-          {exit.gas && <p className="mono mt-6 text-neutral1">Gas : {exit.gas}</p>}
+          {exit.gas && <p className="mono mt-6 text-neutral1">Gas: {exit.gas}</p>}
         </>
       ) : (
         <div className="mt-8 flex flex-col gap-8">
           {v.row && (
             <div className="flex flex-wrap gap-16">
               <div>
-                <p className="text-caption font-normal text-neutral1">Coût de sortie</p>
+                <p className="text-caption font-normal text-neutral1">Exit cost</p>
                 <p className="text-figure font-semibold tabular text-chalk">{usd(v.row.exit_cost_usd)}</p>
               </div>
               <div>
-                <p className="text-caption font-normal text-neutral1">Sortable maintenant</p>
+                <p className="text-caption font-normal text-neutral1">Exitable now</p>
                 <p className="text-figure font-semibold tabular text-chalk">{pct(v.row.exit_fraction_now, 0)}</p>
               </div>
             </div>
           )}
-          {v.holderUnrecorded && <Unrecorded>Aucune réponse enregistrée pour ce détenteur.</Unrecorded>}
-          {v.riskWaiting && <Pending title="Mesure du coût de sortie…" eta="10 à 30 s au premier appel." />}
+          {v.holderUnrecorded && <Unrecorded>No recorded response for this holder.</Unrecorded>}
+          {v.riskWaiting && <Pending title="Measuring the exit cost…" eta="10 to 30 s on the first call." />}
           {v.riskQuery.isError && <Failure error={v.riskQuery.error} onRetry={() => v.riskQuery.refetch()} />}
           {v.riskQuery.data === null && (
-            <Unrecorded>Le détail du coût de sortie de cette poche n'a pas été enregistré.</Unrecorded>
+            <Unrecorded>The exit cost details of this pocket were not recorded.</Unrecorded>
           )}
         </div>
       )}

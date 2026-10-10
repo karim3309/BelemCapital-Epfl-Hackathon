@@ -38,10 +38,10 @@ export default function VerdictSlide() {
       id="verdict"
       eyebrow={
         v.holding
-          ? `Poche ${v.position} sur ${v.count} · ${kindLabel(v.holding.kind)} · ${usdShort(v.holding.value_usd)} · ${pct(v.holding.share_of_book, 1)} du portefeuille`
+          ? `Pocket ${v.position} of ${v.count} · ${kindLabel(v.holding.kind)} · ${usdShort(v.holding.value_usd)} · ${pct(v.holding.share_of_book, 1)} of the portfolio`
           : 'Verdict'
       }
-      title={v.holding?.label ?? 'Rester ou sortir ?'}
+      title={v.holding?.label ?? 'Stay or exit?'}
     >
       <div className="mt-6 grid flex-1 grid-cols-1 items-center gap-12 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:gap-16">
         <div className="flex flex-col">
@@ -49,7 +49,7 @@ export default function VerdictSlide() {
             <button
               type="button"
               onClick={() => stepPocket(-1)}
-              aria-label="Poche précédente"
+              aria-label="Previous pocket"
               className="hidden h-14 w-14 shrink-0 items-center justify-center rounded-xl text-sub text-neutral1 hover:bg-surface hover:text-chalk md:flex"
             >
               ‹
@@ -57,16 +57,16 @@ export default function VerdictSlide() {
             {d ? (
               <VerdictWord verdict={d.verdict} />
             ) : v.holderUnrecorded ? (
-              <Unrecorded>Aucune réponse enregistrée pour ce détenteur.</Unrecorded>
+              <Unrecorded>No recorded response for this holder.</Unrecorded>
             ) : v.riskQuery.isError && (v.bookQuery.isError || v.bookQuery.isSuccess) ? (
               <Failure error={v.riskQuery.error} onRetry={() => v.riskQuery.refetch()} />
             ) : (
-              <Pending title="Calcul du verdict…" eta="10 à 30 s au premier appel pour cette poche." />
+              <Pending title="Computing the verdict…" eta="10 to 30 s on the first call for this pocket." />
             )}
             <button
               type="button"
               onClick={() => stepPocket(1)}
-              aria-label="Poche suivante"
+              aria-label="Next pocket"
               className="hidden h-14 w-14 shrink-0 items-center justify-center rounded-xl text-sub text-neutral1 hover:bg-surface hover:text-chalk md:flex"
             >
               ›
@@ -74,7 +74,7 @@ export default function VerdictSlide() {
           </div>
           {partial && (
             <p className="mt-2 text-sub font-semibold tabular" style={{ color: verdictColor('EXIT') }}>
-              Sortir {pct(d!.exit_fraction, 0)} de la poche
+              Exit {pct(d!.exit_fraction, 0)} of the pocket
             </p>
           )}
           {d && (
@@ -90,7 +90,7 @@ export default function VerdictSlide() {
           )}
           {d && !fullAnalysis && (
             <p className="mt-4 text-caption font-normal text-neutral1">
-              Verdict issu de l'analyse du portefeuille. Le détail de cette poche se calcule en direct.
+              Verdict from the portfolio analysis. This pocket's details are computed live.
             </p>
           )}
         </div>
@@ -99,7 +99,7 @@ export default function VerdictSlide() {
           <div className="flex flex-col gap-6">
             <div>
               <div className="flex items-baseline justify-between gap-4">
-                <span className="text-body font-normal text-neutral1">Sortir éviterait</span>
+                <span className="text-body font-normal text-neutral1">Exiting would avoid</span>
                 <span className="text-sub font-semibold tabular text-chalk">{usd(avoided)}</span>
               </div>
               <div className="mt-2 h-[8px] bg-surface2">
@@ -111,12 +111,12 @@ export default function VerdictSlide() {
                 />
               </div>
               <p className="mt-2 text-caption font-normal text-neutral1 tabular">
-                perte attendue {usd(v.expectedLoss)} × {pctAuto(v.exitableNow)} sortable maintenant
+                expected loss {usd(v.expectedLoss)} × {pctAuto(v.exitableNow)} exitable now
               </p>
             </div>
             <div>
               <div className="flex items-baseline justify-between gap-4">
-                <span className="text-body font-normal text-neutral1">Sortir coûterait</span>
+                <span className="text-body font-normal text-neutral1">Exiting would cost</span>
                 <span className="text-sub font-semibold tabular text-chalk">{usd(v.exitCost)}</span>
               </div>
               <div className="mt-2 h-[8px] bg-surface2">
@@ -127,7 +127,7 @@ export default function VerdictSlide() {
                   transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                 />
               </div>
-              <p className="mt-2 text-caption font-normal text-neutral1">coût certain pour sortir la part sortable, mesuré au bloc</p>
+              <p className="mt-2 text-caption font-normal text-neutral1">certain cost to exit the exitable share, measured at the block</p>
             </div>
           </div>
 
@@ -140,22 +140,22 @@ export default function VerdictSlide() {
               }}
               className="flex flex-col items-start gap-2 rounded-xl bg-surface p-6 text-left hover:bg-surface2"
             >
-              <span className="text-caption font-normal text-neutral1">La question de 3 h du matin</span>
+              <span className="text-caption font-normal text-neutral1">The 3 a.m. question</span>
               <span className="text-body font-normal text-chalk">
-                Croyez-vous à plus de <span className="font-semibold">{pctFreq(top.p_star, days)}</span> de risque «{' '}
-                {top.title} » ?
+                Do you believe the risk “{top.title}” is above <span className="font-semibold">{pctFreq(top.p_star, days)}</span>
+                ?
               </span>
               <span className="text-caption font-normal text-neutral1 tabular">
-                Notre estimation : {pctFreq(top.p_horizon, days)}. Au-delà du seuil, sortir coûte moins que rester.
+                Our estimate: {pctFreq(top.p_horizon, days)}. Above the threshold, exiting costs less than staying.
               </span>
-              <span className="text-caption font-semibold text-accent">Tester votre estimation</span>
+              <span className="text-caption font-semibold text-accent">Test your estimate</span>
             </button>
           )}
           {top && (top.p_star === null || top.p_star >= 1) && (
             <Big
-              label="Risque principal"
+              label="Main risk"
               value={usd(top.loss_if_incident_usd)}
-              note={`si « ${top.title} » arrive. Même certain, il coûterait moins que la sortie.`}
+              note={`if “${top.title}” happens. Even if certain, it would cost less than exiting.`}
             />
           )}
         </div>
@@ -163,10 +163,10 @@ export default function VerdictSlide() {
 
       <div className="mt-10 flex items-center justify-between gap-4 md:hidden">
         <button type="button" onClick={() => stepPocket(-1)} className="text-body font-semibold text-accent">
-          ‹ Précédente
+          ‹ Previous
         </button>
         <button type="button" onClick={() => stepPocket(1)} className="text-body font-semibold text-accent">
-          Suivante ›
+          Next ›
         </button>
       </div>
     </Slide>

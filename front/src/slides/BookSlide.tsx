@@ -32,7 +32,7 @@ export default function BookSlide() {
       }}
     >
       <label htmlFor="holder" className="sr-only">
-        Adresse du détenteur
+        Holder address
       </label>
       <input
         id="holder"
@@ -40,23 +40,23 @@ export default function BookSlide() {
         onChange={(e) => setDraft(e.target.value)}
         spellCheck={false}
         autoComplete="off"
-        placeholder="Adresse Ethereum du détenteur (0x…)"
+        placeholder="Holder's Ethereum address (0x…)"
         className="min-w-0 flex-1 rounded-xl bg-surface px-5 py-4 text-body text-chalk outline-none"
       />
       <button type="submit" className="shrink-0 rounded-xl bg-accent px-6 py-4 text-body font-semibold text-chalk hover:opacity-90">
-        Analyser
+        Analyse
       </button>
     </form>
   )
 
   return (
     <Slide
-      id="portefeuille"
-      eyebrow={`Portefeuille · ${shortAddress(holder)} · Ethereum`}
+      id="portfolio"
+      eyebrow={`Portfolio · ${shortAddress(holder)} · Ethereum`}
       title={
         pockets.data
-          ? `${holdings.length} poches, ${usdShort(pockets.data.total_value_usd)}.`
-          : 'Un portefeuille, poche par poche.'
+          ? `${holdings.length} pockets, ${usdShort(pockets.data.total_value_usd)}.`
+          : 'One portfolio, pocket by pocket.'
       }
       aside={
         book.data ? (
@@ -78,23 +78,23 @@ export default function BookSlide() {
       <div className="mt-8 flex flex-col gap-3">
         {book.data && (
           <p className="text-body font-normal text-neutral1 tabular">
-            Perte attendue sur l'horizon : <span className="text-chalk">{usd(book.data.expected_loss_usd)}</span>, soit{' '}
-            {pctAuto(book.data.expected_loss_usd / book.data.total_value_usd)} du portefeuille.
+            Expected loss over the horizon: <span className="text-chalk">{usd(book.data.expected_loss_usd)}</span>, i.e.{' '}
+            {pctAuto(book.data.expected_loss_usd / book.data.total_value_usd)} of the portfolio.
             {exits.length > 0 &&
-              ` À sortir : ${exits.map((p) => `${p.label} (${verdictText(p.verdict, p.exit_fraction)})`).join(', ')}.`}
+              ` To exit: ${exits.map((p) => `${p.label} (${verdictText(p.verdict, p.exit_fraction)})`).join(', ')}.`}
           </p>
         )}
         {book.isPending && source.mode === 'live' && pockets.data && (
           <Pending
-            title={`Analyse des ${holdings.length} poches en cours.`}
-            eta="Le premier calcul d'un bloc prend environ 1 min 30 ; la poche choisie passe en premier."
+            title={`Analysing the ${holdings.length} pockets.`}
+            eta="The first computation for a block takes about 1 min 30; the selected pocket goes first."
           />
         )}
         {book.isError && <Failure error={book.error} onRetry={() => book.refetch()} />}
       </div>
 
       <div className="mt-10 min-h-0 flex-1">
-        {pockets.isPending && <Pending title="Recherche des poches du détenteur…" eta="Environ 5 s au premier appel." />}
+        {pockets.isPending && <Pending title="Looking up the holder's pockets…" eta="About 5 s on the first call." />}
         {pockets.isError && <Failure error={pockets.error} onRetry={() => pockets.refetch()} />}
         {pockets.data === null && (
           <Unrecorded
@@ -104,16 +104,16 @@ export default function BookSlide() {
                 onClick={() => setHolder(RECORDED_HOLDER)}
                 className="self-start text-body font-semibold text-accent hover:opacity-80"
               >
-                Revenir au détenteur enregistré
+                Back to the recorded holder
               </button>
             }
           >
-            Aucune réponse enregistrée pour {shortAddress(holder)}.
+            No recorded response for {shortAddress(holder)}.
           </Unrecorded>
         )}
 
         {holdings.length > 0 && (
-          <ul className="thin-scroll max-h-[46vh] overflow-y-auto md:max-h-[44vh]" aria-label="Poches">
+          <ul className="thin-scroll max-h-[46vh] overflow-y-auto md:max-h-[44vh]" aria-label="Pockets">
             {holdings.map((h) => {
               const row = rows.get(h.id)
               const selected = h.id === pocketId
@@ -157,7 +157,7 @@ export default function BookSlide() {
                       </span>
                     </span>
                     <span className="col-start-2 text-caption font-normal tabular text-neutral1 md:col-start-auto md:text-right">
-                      {row ? `perte ${usd(row.expected_loss_usd)} · sortie ${usd(row.exit_cost_usd)}` : ''}
+                      {row ? `loss ${usd(row.expected_loss_usd)} · exit ${usd(row.exit_cost_usd)}` : ''}
                     </span>
                   </button>
                 </li>
@@ -170,8 +170,8 @@ export default function BookSlide() {
       <div className="mt-8 flex flex-col gap-3">
         {form}
         <p className="text-caption font-normal text-neutral1">
-          Poches localisées par l'API Morpho, montants prouvés on-chain. ← → pour passer d'une poche à l'autre, ↑ ↓ pour
-          les questions.
+          Pockets located by the Morpho API, amounts proven on-chain. ← → to move from one pocket to the next, ↑ ↓ for
+          the questions.
         </p>
       </div>
     </Slide>

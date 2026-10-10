@@ -8,14 +8,14 @@ import { every, integer, pctAuto, usd } from '../lib/format'
 import { usePocketView, useSelection } from '../state/selection'
 
 const FAMILY_LABEL: Record<string, string> = {
-  rwa_credit_event: 'Crédit RWA',
+  rwa_credit_event: 'RWA credit',
   stable_depeg: 'Depeg',
-  protocol_exploit: 'Faille',
-  curator_failure: 'Curateur',
-  oracle_fault: 'Oracle faussé',
-  admin_feed_compromise: 'Prix posé compromis',
-  internal_rate_fault: 'Taux interne faussé',
-  volatile_crash: 'Chute de marché',
+  protocol_exploit: 'Exploit',
+  curator_failure: 'Curator',
+  oracle_fault: 'Skewed oracle',
+  admin_feed_compromise: 'Compromised set price',
+  internal_rate_fault: 'Skewed internal rate',
+  volatile_crash: 'Market crash',
 }
 
 function Stat({ label, value, note, tone }: { label: string; value: string; note?: string; tone?: string }) {
@@ -62,18 +62,18 @@ function IncidentRow({
         </span>
         <span className="text-caption font-normal tabular text-neutral1 md:text-right">
           <span className="block text-body font-semibold text-chalk">{usd(incident.loss_if_incident_usd)}</span>
-          si l'incident arrive
+          if the incident happens
         </span>
         <span className="text-caption font-normal tabular text-neutral1 md:text-right">
           <span className="block text-body font-semibold text-chalk">{pctAuto(incident.p_horizon)}</span>
-          notre estimation
+          our estimate
           {every(incident.p_horizon) && <span className="block">{every(incident.p_horizon)}</span>}
         </span>
         <span className="text-caption font-normal tabular text-neutral1 md:text-right">
           <span className="block text-body font-semibold text-chalk">
-            {incident.p_star === null ? '—' : incident.p_star >= 1 ? 'jamais' : pctAuto(incident.p_star)}
+            {incident.p_star === null ? '—' : incident.p_star >= 1 ? 'never' : pctAuto(incident.p_star)}
           </span>
-          seuil p*
+          threshold p*
           {incident.p_star !== null && every(incident.p_star) && <span className="block">{every(incident.p_star)}</span>}
         </span>
       </button>
@@ -88,17 +88,17 @@ function IncidentRow({
           >
             <div className="flex flex-col gap-3 px-4 pb-5">
               <p className="text-caption font-normal text-neutral1">
-                {FAMILY_LABEL[incident.family] ?? incident.family} · sévérité {pctAuto(incident.severity_range[0])} à{' '}
-                {pctAuto(incident.severity_range[1])} · perte maximale {usd(incident.loss_if_incident_max_usd)}
+                {FAMILY_LABEL[incident.family] ?? incident.family} · severity {pctAuto(incident.severity_range[0])} to{' '}
+                {pctAuto(incident.severity_range[1])} · maximum loss {usd(incident.loss_if_incident_max_usd)}
               </p>
-              <p className="text-body font-normal text-chalk">Règle : {incident.rule}</p>
+              <p className="text-body font-normal text-chalk">Rule: {incident.rule}</p>
               <p className="mono text-neutral1">{incident.contagion_path}</p>
               <button
                 type="button"
                 onClick={onSimulate}
                 className="self-start text-body font-semibold text-accent hover:opacity-80"
               >
-                Simuler cet incident
+                Simulate this incident
               </button>
             </div>
           </motion.div>
@@ -127,31 +127,31 @@ export default function LossSlide() {
   }
 
   return (
-    <Slide id="perte" eyebrow="Question 2 sur 4 · Impact" title="Combien puis-je perdre ?">
+    <Slide id="loss" eyebrow="Question 2 of 4 · Impact" title="How much can I lose?">
       {mc ? (
         <>
           <div className="mt-8 grid grid-cols-2 gap-8 md:grid-cols-4">
             <div className="col-span-2 flex flex-col gap-1 md:col-span-1">
-              <p className="text-caption font-normal text-neutral1">Perte attendue · {mc.horizon_days} jours</p>
+              <p className="text-caption font-normal text-neutral1">Expected loss · {mc.horizon_days} days</p>
               <p className="text-figure font-semibold tabular text-chalk">{usd(mc.expected_loss_usd)}</p>
               <p className="text-caption font-normal text-neutral1 tabular">
-                {pctAuto(value ? mc.expected_loss_usd / value : null)} de la poche
+                {pctAuto(value ? mc.expected_loss_usd / value : null)} of the pocket
               </p>
             </div>
-            <Stat label="VaR 99,9 %" value={usd(mc.var999_usd)} note={`VaR 99 % : ${usd(mc.var99_usd)}`} />
+            <Stat label="VaR 99.9%" value={usd(mc.var999_usd)} note={`VaR 99%: ${usd(mc.var99_usd)}`} />
             <Stat
-              label="Probabilité d'une perte"
+              label="Probability of a loss"
               value={pctAuto(mc.p_any_loss)}
-              note={[every(mc.p_any_loss, mc.horizon_days), `sur ${mc.horizon_days} jours`].filter(Boolean).join(' · ')}
+              note={[every(mc.p_any_loss, mc.horizon_days), `over ${mc.horizon_days} days`].filter(Boolean).join(' · ')}
             />
-            <Stat label="Tirages Monte Carlo" value={integer(mc.samples)} note="incidents tirés indépendamment" />
+            <Stat label="Monte Carlo draws" value={integer(mc.samples)} note="incidents drawn independently" />
           </div>
 
           <div className="mt-10 min-h-0 flex-1">
             <div className="flex items-baseline justify-between gap-4">
-              <h3 className="text-body font-semibold text-chalk">Incidents, du plus coûteux au moins coûteux</h3>
+              <h3 className="text-body font-semibold text-chalk">Incidents, from the most to the least costly</h3>
               <p className="hidden text-caption font-normal text-neutral1 md:block">
-                Cliquez : la règle de calcul et le chemin de contagion.
+                Click: the computation rule and the contagion path.
               </p>
             </div>
             <ul className="thin-scroll mt-3 max-h-[40vh] overflow-y-auto">
@@ -183,11 +183,11 @@ export default function LossSlide() {
                 onClick={() => setShowZero((s) => !s)}
                 className="mt-4 text-caption font-semibold text-accent hover:opacity-80"
               >
-                {showZero ? 'Masquer' : 'Afficher'} les {harmless.length} incidents qui ne coûtent rien à cette poche
+                {showZero ? 'Hide' : 'Show'} the {harmless.length} incidents that cost this pocket nothing
               </button>
             )}
             <p className="mt-4 text-caption font-normal text-neutral1">
-              Probabilités : ordres de grandeur, affichés comme hypothèses. La décision repose sur p*, qui n'en dépend pas.
+              Probabilities: orders of magnitude, shown as hypotheses. The decision rests on p*, which does not depend on them.
             </p>
           </div>
         </>
@@ -195,20 +195,20 @@ export default function LossSlide() {
         <div className="mt-8 flex flex-col gap-8">
           {v.row && (
             <div className="flex flex-col gap-1">
-              <p className="text-caption font-normal text-neutral1">Perte attendue sur l'horizon</p>
+              <p className="text-caption font-normal text-neutral1">Expected loss over the horizon</p>
               <p className="text-figure font-semibold tabular text-chalk">{usd(v.row.expected_loss_usd)}</p>
               {v.topRisk && (
                 <p className="text-body font-normal text-neutral1">
-                  Risque principal : {v.topRisk.title}, {usd(v.topRisk.loss_if_incident_usd)} si l'incident arrive.
+                  Main risk: {v.topRisk.title}, {usd(v.topRisk.loss_if_incident_usd)} if the incident happens.
                 </p>
               )}
             </div>
           )}
-          {v.holderUnrecorded && <Unrecorded>Aucune réponse enregistrée pour ce détenteur.</Unrecorded>}
-          {v.riskWaiting && <Pending title="Analyse de risque de la poche…" eta="10 à 30 s au premier appel." />}
+          {v.holderUnrecorded && <Unrecorded>No recorded response for this holder.</Unrecorded>}
+          {v.riskWaiting && <Pending title="Analysing the pocket's risk…" eta="10 to 30 s on the first call." />}
           {v.riskQuery.isError && <Failure error={v.riskQuery.error} onRetry={() => v.riskQuery.refetch()} />}
           {v.riskQuery.data === null && (
-            <Unrecorded>Le détail des incidents de cette poche n'a pas été enregistré.</Unrecorded>
+            <Unrecorded>The incident details of this pocket were not recorded.</Unrecorded>
           )}
         </div>
       )}

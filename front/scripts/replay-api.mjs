@@ -39,27 +39,27 @@ function resolvePocket(key) {
   return hs.find((h) => same(h.id, key)) ?? null
 }
 
-const notRecorded = (what) => [422, { detail: `réponse non enregistrée (serveur de rejeu) : ${what}` }]
+const notRecorded = (what) => [422, { detail: `response not recorded (replay server): ${what}` }]
 const pocketList = () => pockets.holdings.map((h) => ({ index: h.index, id: h.id, label: h.label }))
 
 function route(method, parts, body) {
   if (method === 'GET' && parts.length === 1 && parts[0] === 'health') return [200, health]
   if (parts[0] !== 'holders' || parts.length < 3) return [404, { detail: 'Not Found' }]
   const holder = decodeURIComponent(parts[1])
-  if (!same(holder, pockets.holder)) return notRecorded(`détenteur ${holder}`)
+  if (!same(holder, pockets.holder)) return notRecorded(`holder ${holder}`)
   if (method === 'GET' && parts.length === 3 && parts[2] === 'book') return [200, book]
   if (method === 'GET' && parts.length === 3 && parts[2] === 'pockets') return [200, pockets]
   if (parts[2] !== 'pockets' || parts.length !== 5) return [404, { detail: 'Not Found' }]
 
   const key = decodeURIComponent(parts[3])
   const pocket = resolvePocket(key)
-  if (!pocket) return [404, { detail: { error: `poche « ${key} » introuvable`, pockets: pocketList() } }]
+  if (!pocket) return [404, { detail: { error: `pocket "${key}" not found`, pockets: pocketList() } }]
   const risk = risks.find((r) => same(r.pocket.id, pocket.id))
 
-  if (method === 'GET' && parts[4] === 'risk') return risk ? [200, risk] : notRecorded(`risque de ${pocket.label}`)
+  if (method === 'GET' && parts[4] === 'risk') return risk ? [200, risk] : notRecorded(`risk of ${pocket.label}`)
   if (method === 'GET' && parts[4] === 'graph') {
     const g = graphs.find((r) => same(r.pocket.id, pocket.id))
-    return g ? [200, g] : notRecorded(`graphe de ${pocket.label}`)
+    return g ? [200, g] : notRecorded(`graph of ${pocket.label}`)
   }
   if (method === 'POST' && parts[4] === 'incident') {
     for (const field of ['severity', 'p']) {
@@ -68,10 +68,10 @@ function route(method, parts, body) {
         return [422, { detail: [{ loc: ['body', field], msg: 'Input should be between 0 and 1', type: 'range' }] }]
       }
     }
-    if (!risk) return notRecorded(`incidents de ${pocket.label}`)
+    if (!risk) return notRecorded(`incidents of ${pocket.label}`)
     const known = risk.incidents.find((i) => i.id.toLowerCase().startsWith(String(body?.incident ?? '').toLowerCase()))
     if (!body?.incident || !known) {
-      return [404, { detail: { error: `incident « ${body?.incident} » inconnu`, incidents: risk.incidents.map((i) => i.id) } }]
+      return [404, { detail: { error: `incident "${body?.incident}" unknown`, incidents: risk.incidents.map((i) => i.id) } }]
     }
     const hit = incidents.find(
       (r) =>
@@ -80,7 +80,7 @@ function route(method, parts, body) {
         close(body.severity, r.incident_mode.severity) &&
         close(body.p, r.incident_mode.p_used),
     )
-    return hit ? [200, hit] : notRecorded(`incident ${known.id} avec ces paramètres`)
+    return hit ? [200, hit] : notRecorded(`incident ${known.id} with these parameters`)
   }
   return [404, { detail: 'Not Found' }]
 }
@@ -116,5 +116,5 @@ createServer((req, res) => {
     }, delay)
   })
 }).listen(PORT, '127.0.0.1', () => {
-  console.log(`Serveur de rejeu StackTrace sur http://127.0.0.1:${PORT} (bloc #${pockets.block}, réponses enregistrées)`)
+  console.log(`StackTrace replay server on http://127.0.0.1:${PORT} (block #${pockets.block}, recorded responses)`)
 })

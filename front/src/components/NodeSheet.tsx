@@ -43,15 +43,15 @@ function Facts({ node }: { node: ViewNode }) {
     case 'vault':
       return (
         <>
-          <Row label="Actif" value={m.asset_symbol ?? '—'} />
-          <Row label="Total des actifs" value={num(m.total_assets_human)} />
-          <Row label="Part du détenteur" value={pct(m.holder_share_of_vault, 1)} />
-          <Row label="Retirable maintenant" value={num(m.exit_liquidity?.withdrawable_now_human)} />
+          <Row label="Asset" value={m.asset_symbol ?? '—'} />
+          <Row label="Total assets" value={num(m.total_assets_human)} />
+          <Row label="Holder's share" value={pct(m.holder_share_of_vault, 1)} />
+          <Row label="Withdrawable now" value={num(m.exit_liquidity?.withdrawable_now_human)} />
           {Array.isArray(m.allocations) &&
             m.allocations.map((a: any) => (
               <Row
                 key={a.market_id}
-                label={`Marché ${shortAddress(a.market_id)}`}
+                label={`Market ${shortAddress(a.market_id)}`}
                 value={`${pct(a.share_of_vault, 1)} · util. ${pct(a.market_utilization, 0)}`}
               />
             ))}
@@ -61,24 +61,24 @@ function Facts({ node }: { node: ViewNode }) {
       return (
         <>
           <Row label="LLTV" value={pct(m.lltv, 0)} />
-          <Row label="Utilisation" value={pct(m.utilization, 1)} />
-          <Row label="Liquidité disponible" value={num(m.available_liquidity_human)} />
-          <Row label="APY d'emprunt" value={pct(m.borrow_apy, 2)} />
-          <Row label="Taux officiel (AdaptiveCurve)" value={m.irm_is_official_adaptive_curve ? 'oui' : 'non'} />
+          <Row label="Utilization" value={pct(m.utilization, 1)} />
+          <Row label="Available liquidity" value={num(m.available_liquidity_human)} />
+          <Row label="Borrow APY" value={pct(m.borrow_apy, 2)} />
+          <Row label="Official rate model (AdaptiveCurve)" value={m.irm_is_official_adaptive_curve ? 'yes' : 'no'} />
         </>
       )
     case 'oracle':
       return (
         <>
           <Row
-            label="Mode de prix"
+            label="Pricing mode"
             value={pricingLabel(m.pricing_mode)}
             tone={m.pricing_mode && m.pricing_mode !== 'market' ? C.warn : C.chalk}
           />
-          {m.description && <Row label="Paire" value={m.description} />}
-          {typeof m.answer === 'number' && <Row label="Valeur lue" value={num(m.answer, 6)} />}
-          {typeof m.price === 'number' && <Row label="Prix calculé" value={num(m.price, 6)} />}
-          {typeof m.age_seconds === 'number' && <Row label="Dernière mise à jour" value={ago(m.age_seconds)} />}
+          {m.description && <Row label="Pair" value={m.description} />}
+          {typeof m.answer === 'number' && <Row label="Value read" value={num(m.answer, 6)} />}
+          {typeof m.price === 'number' && <Row label="Computed price" value={num(m.price, 6)} />}
+          {typeof m.age_seconds === 'number' && <Row label="Last update" value={ago(m.age_seconds)} />}
           {m.pricing_detail && <p className="py-2 text-caption font-normal text-neutral1">{String(m.pricing_detail)}</p>}
           {m.formula && <p className="mono py-2 text-neutral1">{String(m.formula)}</p>}
         </>
@@ -86,11 +86,11 @@ function Facts({ node }: { node: ViewNode }) {
     case 'asset':
       return (
         <>
-          <Row label="Symbole" value={m.symbol ?? node.label} />
-          <Row label="Offre totale" value={num(m.total_supply_human)} />
+          <Row label="Symbol" value={m.symbol ?? node.label} />
+          <Row label="Total supply" value={num(m.total_supply_human)} />
           <Row
-            label="Contrat modifiable"
-            value={m.proxy?.upgradeable === true ? 'oui (proxy)' : m.proxy?.upgradeable === false ? 'non' : 'non prouvé'}
+            label="Upgradeable contract"
+            value={m.proxy?.upgradeable === true ? 'yes (proxy)' : m.proxy?.upgradeable === false ? 'no' : 'not proven'}
           />
         </>
       )
@@ -98,7 +98,7 @@ function Facts({ node }: { node: ViewNode }) {
     case 'offchain_counterparty':
       return (
         <>
-          <Row label="Rôle" value={m.role === 'vault_curator' ? 'curateur du coffre' : 'émetteur'} />
+          <Row label="Role" value={m.role === 'vault_curator' ? 'vault curator' : 'issuer'} />
           {m.note && <p className="py-2 text-caption font-normal text-neutral1">{String(m.note)}</p>}
           {(m.website || m.evidence_url) && (
             <a
@@ -107,7 +107,7 @@ function Facts({ node }: { node: ViewNode }) {
               rel="noreferrer"
               className="block py-2 text-caption font-normal text-accent hover:opacity-80"
             >
-              Source officielle
+              Official source
             </a>
           )}
         </>
@@ -120,7 +120,7 @@ function Facts({ node }: { node: ViewNode }) {
 function Proof({ edge, graph, outgoing }: { edge: GraphEdge; graph: Graph; outgoing: boolean }) {
   const other = outgoing ? edge.to : edge.from
   const otherLabel =
-    other === graph.position.id ? 'Votre poche' : graph.nodes.find((n) => n.id === other)?.label ?? other
+    other === graph.position.id ? 'Your pocket' : graph.nodes.find((n) => n.id === other)?.label ?? other
   const tone = edge.source === 'curated' ? C.warn : edge.source === 'api' ? C.neutral : C.safe
   return (
     <li className="flex flex-col gap-2 py-4">
@@ -161,7 +161,7 @@ export default function NodeSheet({ node, graph, holding, onClose }: Props) {
           exit={{ x: 460 }}
           transition={{ type: 'tween', duration: 0.28, ease: [0.32, 0.72, 0, 1] }}
           className="thin-scroll fixed bottom-0 right-0 top-0 z-50 w-[460px] max-w-full overflow-y-auto bg-surface px-8 pb-16 pt-[calc(env(safe-area-inset-top,0px)+40px)]"
-          aria-label={`Détail : ${node.label}`}
+          aria-label={`Details: ${node.label}`}
         >
           <div className="flex items-start justify-between gap-6">
             <div className="min-w-0">
@@ -171,7 +171,7 @@ export default function NodeSheet({ node, graph, holding, onClose }: Props) {
             <button
               type="button"
               onClick={onClose}
-              aria-label="Fermer"
+              aria-label="Close"
               className="shrink-0 text-sub font-normal text-neutral1 hover:text-chalk"
             >
               ×
@@ -195,16 +195,16 @@ export default function NodeSheet({ node, graph, holding, onClose }: Props) {
           <div className="mt-8">
             {node.type === 'position' && holding ? (
               <>
-                <Row label="Valeur" value={usd(holding.value_usd)} />
-                <Row label="Montant" value={`${num(holding.amount, 2)} ${holding.asset_symbol}`} />
-                <Row label="Part du portefeuille" value={pct(holding.share_of_book, 1)} />
+                <Row label="Value" value={usd(holding.value_usd)} />
+                <Row label="Amount" value={`${num(holding.amount, 2)} ${holding.asset_symbol}`} />
+                <Row label="Share of the portfolio" value={pct(holding.share_of_book, 1)} />
                 {typeof holding.api_gap === 'number' && (
-                  <Row label="Écart chaîne / API Morpho" value={pctAuto(holding.api_gap)} />
+                  <Row label="Chain / Morpho API gap" value={pctAuto(holding.api_gap)} />
                 )}
               </>
             ) : (
               <>
-                <Row label="Part de la poche exposée" value={pctAuto(node.exposure)} />
+                <Row label="Share of the pocket exposed" value={pctAuto(node.exposure)} />
                 <Facts node={node} />
               </>
             )}
@@ -212,7 +212,7 @@ export default function NodeSheet({ node, graph, holding, onClose }: Props) {
 
           {node.type === 'position' && holding && holding.evidence.length > 0 && (
             <section className="mt-10">
-              <h4 className="text-body font-semibold text-chalk">Montant prouvé on-chain</h4>
+              <h4 className="text-body font-semibold text-chalk">Amount proven on-chain</h4>
               <ul className="mt-2">
                 {holding.evidence.map((line) => (
                   <li key={line} className="mono py-2 text-neutral1">
@@ -225,7 +225,7 @@ export default function NodeSheet({ node, graph, holding, onClose }: Props) {
 
           {proofs && proofs.dependsOn.length > 0 && (
             <section className="mt-10">
-              <h4 className="text-body font-semibold text-chalk">Dépend de</h4>
+              <h4 className="text-body font-semibold text-chalk">Depends on</h4>
               <ul>
                 {proofs.dependsOn.map((e) => (
                   <Proof key={`${e.type}${e.to}`} edge={e} graph={graph} outgoing />
@@ -235,7 +235,7 @@ export default function NodeSheet({ node, graph, holding, onClose }: Props) {
           )}
           {proofs && proofs.dependedOnBy.length > 0 && (
             <section className="mt-10">
-              <h4 className="text-body font-semibold text-chalk">Touché si ce nœud casse</h4>
+              <h4 className="text-body font-semibold text-chalk">Hit if this node breaks</h4>
               <ul>
                 {proofs.dependedOnBy.map((e) => (
                   <Proof key={`${e.type}${e.from}`} edge={e} graph={graph} outgoing={false} />
@@ -247,7 +247,7 @@ export default function NodeSheet({ node, graph, holding, onClose }: Props) {
           {node.node && (
             <details className="mt-10">
               <summary className="cursor-pointer text-caption font-normal text-neutral1 hover:text-chalk">
-                Données brutes du nœud
+                Raw node data
               </summary>
               <pre className="mono mt-3 max-h-[360px] overflow-auto whitespace-pre-wrap rounded-md bg-ink p-4 text-neutral1">
                 {JSON.stringify(node.node.meta, null, 2)}

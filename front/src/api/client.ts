@@ -23,7 +23,7 @@ export class ApiError extends Error {
 /** The API never answered (down, wrong URL, blocked, or too slow). */
 export class UnreachableError extends Error {
   constructor(readonly url: string, cause: string) {
-    super(`API injoignable (${url}) : ${cause}`)
+    super(`API unreachable (${url}): ${cause}`)
     this.name = 'UnreachableError'
   }
 }
@@ -79,8 +79,8 @@ async function request<T>(
     if (outer?.aborted) throw error
     const reason =
       error instanceof DOMException && error.name === 'TimeoutError'
-        ? `pas de réponse après ${Math.round(timeoutMs / 1000)} s`
-        : 'connexion impossible'
+        ? `no response after ${Math.round(timeoutMs / 1000)} s`
+        : 'connection failed'
     throw new UnreachableError(base, reason)
   }
   if (!response.ok) {

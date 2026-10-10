@@ -13,7 +13,7 @@ import { pathFromEdges, pathTo } from '../lib/graph'
 import { useDebounced } from '../lib/useDebounced'
 import { usePocketView, useSelection } from '../state/selection'
 
-// Belief slider on a log scale: 0,01 % to 100 %, where incident probabilities actually live.
+// Belief slider on a log scale: 0.01% to 100%, where incident probabilities actually live.
 const LOG_MIN = -4
 const toSlider = (p: number) => ((Math.log10(Math.max(p, 1e-4)) - LOG_MIN) / -LOG_MIN) * 1000
 const fromSlider = (s: number) => 10 ** (LOG_MIN + (-LOG_MIN * s) / 1000)
@@ -106,7 +106,7 @@ export default function IncidentSlide() {
           >
             <span className="block text-body font-normal text-chalk">{i.title}</span>
             <span className="block text-caption font-normal tabular text-neutral1">
-              {usd(i.loss_if_incident_usd)} · seuil {i.p_star === null ? '—' : i.p_star >= 1 ? 'jamais' : pctFreq(i.p_star, days)}
+              {usd(i.loss_if_incident_usd)} · threshold {i.p_star === null ? '—' : i.p_star >= 1 ? 'never' : pctFreq(i.p_star, days)}
             </span>
           </button>
         </li>
@@ -115,26 +115,26 @@ export default function IncidentSlide() {
   )
 
   return (
-    <Slide id="incident" eyebrow="Question 4 sur 4 · Décision" title="Et si ça arrive ?">
+    <Slide id="incident" eyebrow="Question 4 of 4 · Decision" title="What if it happens?">
       {!v.risk && (
         <div className="mt-8">
-          {v.holderUnrecorded && <Unrecorded>Aucune réponse enregistrée pour ce détenteur.</Unrecorded>}
-          {v.riskWaiting && <Pending title="Analyse de risque de la poche…" eta="10 à 30 s au premier appel." />}
+          {v.holderUnrecorded && <Unrecorded>No recorded response for this holder.</Unrecorded>}
+          {v.riskWaiting && <Pending title="Analysing the pocket's risk…" eta="10 to 30 s on the first call." />}
           {v.riskQuery.isError && <Failure error={v.riskQuery.error} onRetry={() => v.riskQuery.refetch()} />}
-          {v.riskQuery.data === null && <Unrecorded>Les incidents de cette poche n'ont pas été enregistrés.</Unrecorded>}
+          {v.riskQuery.data === null && <Unrecorded>The incidents of this pocket were not recorded.</Unrecorded>}
         </div>
       )}
 
       {v.risk && !incident && (
         <p className="mt-8 max-w-[720px] text-lead font-normal text-chalk">
-          Aucun incident ne coûte quoi que ce soit à cette poche : il n'y a pas de seuil à tester.
+          No incident costs this pocket anything: there is no threshold to test.
         </p>
       )}
 
       {v.risk && incident && (
         <div className="mt-8 grid flex-1 grid-cols-1 gap-10 lg:grid-cols-[260px_minmax(0,1fr)_minmax(0,0.9fr)] lg:gap-12">
           <div className="hidden lg:block">
-            <p className="mb-3 text-caption font-normal text-neutral1">Incidents qui coûtent à cette poche</p>
+            <p className="mb-3 text-caption font-normal text-neutral1">Incidents that cost this pocket</p>
             {pickList}
           </div>
           <div className="lg:hidden">
@@ -158,16 +158,16 @@ export default function IncidentSlide() {
           <div className="flex min-w-0 flex-col">
             <p className="text-lead font-normal text-chalk [text-wrap:balance]">
               {pStar === null
-                ? `« ${incident.title} » : aucune sortie possible maintenant.`
+                ? `“${incident.title}”: no exit possible right now.`
                 : pStar >= 1
-                  ? `Même certain, « ${incident.title} » coûterait moins que la sortie.`
-                  : `Croyez-vous à plus de ${pctFreq(pStar, days)} de risque « ${incident.title} » ?`}
+                  ? `Even if certain, “${incident.title}” would cost less than exiting.`
+                  : `Do you believe the risk “${incident.title}” is above ${pctFreq(pStar, days)}?`}
             </p>
 
             <div className="mt-6">
               <div className="flex items-baseline justify-between gap-4">
                 <label htmlFor="belief" className="text-body font-normal text-neutral1">
-                  Votre estimation, sur l'horizon
+                  Your estimate, over the horizon
                 </label>
                 <span className="text-sub font-semibold tabular text-chalk">{pctFreq(p, days)}</span>
               </div>
@@ -183,8 +183,8 @@ export default function IncidentSlide() {
                 className="slider mt-3"
               />
               <div className="relative h-10">
-                {pStar !== null && pStar < 1 && <Marker at={toSlider(pStar)} label={`seuil p* ${pctAuto(pStar)}`} color={C.chalk} />}
-                <Marker at={toSlider(incident.p_horizon)} label="notre estimation" color={C.neutral} />
+                {pStar !== null && pStar < 1 && <Marker at={toSlider(pStar)} label={`threshold p* ${pctAuto(pStar)}`} color={C.chalk} />}
+                <Marker at={toSlider(incident.p_horizon)} label="our estimate" color={C.neutral} />
               </div>
             </div>
 
@@ -192,7 +192,7 @@ export default function IncidentSlide() {
               <div className="mt-4">
                 <div className="flex items-baseline justify-between gap-4">
                   <label htmlFor="severity" className="text-body font-normal text-neutral1">
-                    Sévérité du choc
+                    Shock severity
                   </label>
                   <span className="text-body font-semibold tabular text-chalk">{pct(severity, 0)}</span>
                 </div>
@@ -218,7 +218,7 @@ export default function IncidentSlide() {
               <VerdictWord verdict={verdict} className="text-[clamp(80px,9.5vw,148px)] leading-[0.9] tracking-[-0.05em]" />
               {verdict === 'EXIT' && (
                 <span className="pb-3 text-sub font-semibold tabular" style={{ color: verdictColor('EXIT') }}>
-                  {exact ? (fraction < 0.999 ? `${pct(fraction, 0)} de la poche` : 'toute la poche') : `jusqu'à ${pct(fMax, 0)} sortables`}
+                  {exact ? (fraction < 0.999 ? `${pct(fraction, 0)} of the pocket` : 'the whole pocket') : `up to ${pct(fMax, 0)} exitable`}
                 </span>
               )}
             </div>
@@ -227,22 +227,22 @@ export default function IncidentSlide() {
               {exact
                 ? exact.sentence
                 : pStar === null
-                  ? 'Aucune liquidité pour sortir maintenant : rester est la seule option.'
-                  : `Si l'incident arrive, la poche perd ${usd(loss)}. ${
+                  ? 'No liquidity to exit right now: staying is the only option.'
+                  : `If the incident happens, the pocket loses ${usd(loss)}. ${
                       verdict === 'EXIT'
-                        ? `À ${pctAuto(p)}, au-dessus du seuil, sortir coûte moins que rester.`
-                        : `À ${pctAuto(p)}, sous le seuil, rester coûte moins que sortir.`
+                        ? `At ${pctAuto(p)}, above the threshold, exiting costs less than staying.`
+                        : `At ${pctAuto(p)}, below the threshold, staying costs less than exiting.`
                     }`}
             </p>
             <p className="mt-3 text-caption font-normal text-neutral1">
               {exact
-                ? `Calcul exact du backend · probabilité ${exact.p_source === 'manager' ? 'fixée par vous' : 'par défaut'}.`
+                ? `Exact backend computation · probability ${exact.p_source === 'manager' ? 'set by you' : 'default'}.`
                 : source.mode === 'live'
                   ? query.isError
-                    ? "Seuil p* du backend appliqué ; le calcul exact n'a pas abouti."
-                    : 'Seuil p* du backend appliqué tout de suite ; le calcul exact arrive.'
-                  : `Règle du backend : sortez si vous croyez à plus de p*, coût de sortie ÷ perte si l'incident arrive.${
-                      convexExit ? ' Sous le seuil, une sortie partielle peut rester rentable : calcul exact en direct.' : ''
+                    ? "Backend threshold p* applied; the exact computation did not complete."
+                    : 'Backend threshold p* applied right away; the exact computation is on its way.'
+                  : `Backend rule: exit if you believe in more than p*, exit cost ÷ loss if the incident happens.${
+                      convexExit ? ' Below the threshold, a partial exit can still pay off: exact computation live.' : ''
                     }`}
             </p>
             {query.isError && source.mode === 'live' && (
@@ -266,20 +266,20 @@ export default function IncidentSlide() {
                 }}
                 className="mt-5 flex flex-col items-start gap-1 rounded-xl bg-surface p-4 text-left hover:bg-surface2"
               >
-                <span className="text-caption font-normal text-neutral1">Exemple enregistré, calculé par le backend</span>
+                <span className="text-caption font-normal text-neutral1">Recorded example, computed by the backend</span>
                 <span className="text-body font-normal text-chalk">
-                  « {example.title} », sévérité {pct(example.severity, 0)}, probabilité {pct(example.p_used, 0)} →{' '}
+                  “{example.title}”, severity {pct(example.severity, 0)}, probability {pct(example.p_used, 0)} →{' '}
                   <span className="font-semibold" style={{ color: verdictColor(example.verdict) }}>
                     {example.verdict} {example.exit_fraction > 0 && example.exit_fraction < 0.999 ? pct(example.exit_fraction, 0) : ''}
                   </span>
                 </span>
-                <span className="text-caption font-semibold text-accent">Rejouer cet exemple</span>
+                <span className="text-caption font-semibold text-accent">Replay this example</span>
               </button>
             )}
           </div>
 
           <div className="flex min-w-0 flex-col">
-            <p className="text-caption font-normal text-neutral1">Chemin de contagion</p>
+            <p className="text-caption font-normal text-neutral1">Contagion path</p>
             {graph ? (
               <GraphCanvas
                 graph={graph}

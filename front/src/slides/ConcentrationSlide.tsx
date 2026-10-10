@@ -31,13 +31,13 @@ export default function ConcentrationSlide() {
   return (
     <Slide
       id="concentration"
-      eyebrow="Portefeuille · concentration cachée"
-      title="Ce que vos poches partagent."
+      eyebrow="Portfolio · hidden concentration"
+      title="What your pockets share."
       aside={
         data ? (
           <p className="text-body font-normal text-neutral1 md:max-w-[360px] md:text-right">
-            {shared.length} dépendances se retrouvent dans au moins deux poches : une seule panne peut toucher plusieurs
-            lignes à la fois.
+            {shared.length} dependencies show up in at least two pockets: a single failure can hit several
+            lines at once.
           </p>
         ) : null
       }
@@ -45,12 +45,12 @@ export default function ConcentrationSlide() {
       <div className="mt-10 min-h-0 flex-1">
         {book.isPending && (
           <Pending
-            title="Analyse de tout le portefeuille…"
-            eta={source.mode === 'live' ? 'Environ 1 min 30 au premier appel, puis instantané.' : undefined}
+            title="Analysing the whole portfolio…"
+            eta={source.mode === 'live' ? 'About 1 min 30 on the first call, then instant.' : undefined}
           />
         )}
         {book.isError && <Failure error={book.error} onRetry={() => book.refetch()} />}
-        {book.data === null && <Unrecorded>Aucune analyse de portefeuille enregistrée pour ce détenteur.</Unrecorded>}
+        {book.data === null && <Unrecorded>No portfolio analysis recorded for this holder.</Unrecorded>}
 
         {data && (
           <ul className="thin-scroll max-h-[44vh] overflow-y-auto">
@@ -66,7 +66,7 @@ export default function ConcentrationSlide() {
                   </span>
                 </span>
                 <span className="text-right text-body font-semibold tabular text-chalk md:text-left">
-                  {d.pockets} / {count} poches
+                  {d.pockets} / {count} pockets
                 </span>
                 <span className="col-span-2 h-[6px] bg-surface2 md:col-span-1">
                   <motion.span
@@ -91,20 +91,20 @@ export default function ConcentrationSlide() {
             onClick={() => setAll((a) => !a)}
             className="mt-4 text-caption font-semibold text-accent hover:opacity-80"
           >
-            {all ? 'Afficher les 10 premières' : `Afficher les ${shared.length} dépendances partagées`}
+            {all ? 'Show the first 10' : `Show the ${shared.length} shared dependencies`}
           </button>
         )}
       </div>
 
       {data && (
         <p className="mt-8 max-w-[880px] text-body font-semibold text-chalk">
-          À 3 h du matin, une seule question par poche : croyez-vous à plus de p* de risque ? Le reste est mesuré.
+          At 3 a.m., a single question per pocket: do you believe the risk is above p*? The rest is measured.
         </p>
       )}
       {data && (
         <p className="mt-2 text-caption font-normal text-neutral1">
-          Valeur exposée : somme des poches qui contiennent la dépendance (barre pleine = {usdShort(total)}). La
-          contagion croisée entre poches n'est pas simulée, seulement listée.
+          Exposed value: sum of the pockets that contain the dependency (full bar = {usdShort(total)}). Cross-pocket
+          contagion is not simulated, only listed.
         </p>
       )}
     </Slide>

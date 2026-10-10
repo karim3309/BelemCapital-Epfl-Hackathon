@@ -4,7 +4,7 @@ import { SLIDES, useSelection, type SlideId } from '../state/selection'
 export default function SlideRail({ active }: { active: string }) {
   const { goTo } = useSelection()
   return (
-    <nav aria-label="Diapositives" className="fixed right-5 top-1/2 z-30 hidden -translate-y-1/2 md:block">
+    <nav aria-label="Slides" className="fixed right-5 top-1/2 z-30 hidden -translate-y-1/2 md:block">
       <ol className="flex flex-col items-end gap-4">
         {SLIDES.map((slide, i) => {
           const isActive = slide.id === active

@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "StackTrace — front en diapositives : dépendances prouvées, perte, coût de sortie, verdict STAY / EXIT.",
+  "description": "StackTrace — slide-deck front: proven dependencies, loss, exit cost, STAY / EXIT verdict.",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

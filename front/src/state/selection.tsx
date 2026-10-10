@@ -4,12 +4,12 @@ import { RECORDED_HOLDER } from '../api/recorded'
 import type { BookPocket, Decision, Holding, Incident, RiskResponse } from '../api/types'
 
 export const SLIDES = [
-  { id: 'portefeuille', label: 'Portefeuille' },
+  { id: 'portfolio', label: 'Portfolio' },
   { id: 'verdict', label: 'Verdict' },
-  { id: 'chemin', label: 'Par quel chemin ?' },
-  { id: 'perte', label: 'Combien je perds ?' },
-  { id: 'sortie', label: 'Combien coûte la sortie ?' },
-  { id: 'incident', label: 'Et si ça arrive ?' },
+  { id: 'path', label: 'Which path?' },
+  { id: 'loss', label: 'How much do I lose?' },
+  { id: 'exit', label: 'What does exiting cost?' },
+  { id: 'incident', label: 'What if it happens?' },
   { id: 'concentration', label: 'Concentration' },
 ] as const
 

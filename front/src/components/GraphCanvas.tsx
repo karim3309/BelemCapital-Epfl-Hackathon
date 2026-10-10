@@ -45,7 +45,7 @@ function fillFor(n: ViewNode): string | null {
     case 'liquidity_venue':
       return C.accent
     case 'oracle':
-      // An oracle that does not follow the market is the API's risk n°1.
+      // An oracle that does not follow the market is the API's risk #1.
       return n.pricingMode && n.pricingMode !== 'market' ? C.warn : C.neutral
     default:
       return null // issuers, counterparties, chain: drawn hollow
@@ -238,9 +238,9 @@ export default function GraphCanvas({
 
       <div className="absolute bottom-3 right-3 flex gap-1">
         {[
-          { label: 'Zoom avant', text: '+', act: () => zoomBy(1.35) },
-          { label: 'Zoom arrière', text: '−', act: () => zoomBy(1 / 1.35) },
-          { label: 'Tout afficher', text: 'Ajuster', act: () => fit(300) },
+          { label: 'Zoom in', text: '+', act: () => zoomBy(1.35) },
+          { label: 'Zoom out', text: '−', act: () => zoomBy(1 / 1.35) },
+          { label: 'Show everything', text: 'Fit', act: () => fit(300) },
         ].map((b) => (
           <button
             key={b.label}

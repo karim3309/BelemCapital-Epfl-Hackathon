@@ -21,7 +21,7 @@ export function Unrecorded({ children, action }: { children: ReactNode; action?:
     <div className="flex max-w-[620px] flex-col gap-4">
       <p className="text-body font-normal text-chalk">{children}</p>
       <p className="text-caption font-normal text-neutral1">
-        En direct, l'API analyse n'importe quelle poche de n'importe quel détenteur.
+        Live, the API analyses any pocket of any holder.
       </p>
       {action}
     </div>
@@ -32,24 +32,24 @@ export function Failure({ error, onRetry }: { error: unknown; onRetry?: () => vo
   const { setMode } = useSource()
   const message =
     error instanceof ApiError
-      ? `L'API a répondu ${error.status} : ${error.message}`
+      ? `The API answered ${error.status}: ${error.message}`
       : error instanceof UnreachableError
         ? error.message
         : error instanceof Error
           ? error.message
-          : 'Erreur inconnue.'
+          : 'Unknown error.'
   return (
     <div className="flex max-w-[620px] flex-col gap-4" role="alert">
       <p className="text-body font-normal text-chalk">{message}</p>
       {error instanceof ApiError && error.status === 503 && (
         <p className="text-caption font-normal text-neutral1">
-          Le backend n'a pas de nœud RPC : renseignez ETH_RPC_URL dans le fichier .env à la racine du dépôt.
+          The backend has no RPC node: set ETH_RPC_URL in the .env file at the root of the repository.
         </p>
       )}
       <div className="flex flex-wrap gap-6">
         {onRetry && (
           <button type="button" onClick={onRetry} className="text-body font-semibold text-accent hover:opacity-80">
-            Réessayer
+            Retry
           </button>
         )}
         <button
@@ -57,7 +57,7 @@ export function Failure({ error, onRetry }: { error: unknown; onRetry?: () => vo
           onClick={() => setMode('recorded')}
           className="text-body font-normal text-neutral1 hover:text-chalk"
         >
-          Revenir aux données enregistrées
+          Back to the recorded data
         </button>
       </div>
     </div>

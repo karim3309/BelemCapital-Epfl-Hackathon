@@ -76,7 +76,7 @@ export function shortLabel(node: GraphNode): { title: string; subtitle: string }
     case 'lending_market':
       return {
         title: node.label.replace(/^Morpho Blue\s+/, '').replace(/\s*\(LLTV[^)]*\)/, ''),
-        subtitle: typeof m.lltv === 'number' ? `marché · LLTV ${pct(m.lltv, 0)}` : 'marché de prêt',
+        subtitle: typeof m.lltv === 'number' ? `market · LLTV ${pct(m.lltv, 0)}` : 'lending market',
       }
     case 'oracle': {
       const pricing = pricingLabel(m.pricing_mode)
@@ -84,7 +84,7 @@ export function shortLabel(node: GraphNode): { title: string; subtitle: string }
         return { title: node.label.slice('Chainlink '.length), subtitle: `Chainlink · ${pricing}` }
       }
       if (node.label.startsWith('MorphoChainlinkOracleV2')) {
-        return { title: 'Oracle du marché', subtitle: pricing }
+        return { title: 'Market oracle', subtitle: pricing }
       }
       const parts = node.label.match(/^(?:Feed\s+)?(.*?)\s*\((.*?)\)\s*(.*)$/)
       if (parts) {
@@ -96,18 +96,18 @@ export function shortLabel(node: GraphNode): { title: string; subtitle: string }
       return { title: node.label.replace(/^Feed\s+/, ''), subtitle: pricing }
     }
     case 'vault':
-      return { title: node.label, subtitle: 'coffre' }
+      return { title: node.label, subtitle: 'vault' }
     case 'issuer':
       return {
-        title: node.label.replace(/\s*\(curateur\)\s*$/, ''),
-        subtitle: m.role === 'vault_curator' ? 'curateur' : 'émetteur',
+        title: node.label.replace(/\s*\(curator\)\s*$/, ''),
+        subtitle: m.role === 'vault_curator' ? 'curator' : 'issuer',
       }
     case 'asset':
-      return { title: node.label, subtitle: m.asset_kind ? String(m.asset_kind).replace(/_/g, ' ') : 'actif' }
+      return { title: node.label, subtitle: m.asset_kind ? String(m.asset_kind).replace(/_/g, ' ') : 'asset' }
     case 'chain':
-      return { title: node.label, subtitle: 'chaîne' }
+      return { title: node.label, subtitle: 'chain' }
     case 'offchain_counterparty':
-      return { title: node.label, subtitle: 'hors chaîne' }
+      return { title: node.label, subtitle: 'off-chain' }
     default:
       return { title: node.label, subtitle: node.type }
   }
@@ -208,10 +208,10 @@ export function buildView(graph: Graph, opts: { showChain: boolean; vertical: bo
     const node = byId.get(id)
     const type = typeOf(id)
     const exp = exposure.get(id) ?? 0
-    const label = node ? node.label : 'Votre poche'
+    const label = node ? node.label : 'Your pocket'
     const { title, subtitle } = node
       ? shortLabel(node)
-      : { title: 'Votre poche', subtitle: usdShort(graph.position.value_usd) }
+      : { title: 'Your pocket', subtitle: usdShort(graph.position.value_usd) }
     const { x, y } = pos.get(id)!
     return {
       id,
@@ -293,7 +293,7 @@ export function sourceCounts(graph: Graph) {
   }, {})
 }
 
-/** Oracles whose price does not follow the market — the API flags these as risk n°1. */
+/** Oracles whose price does not follow the market — the API flags these as risk #1. */
 export function nonMarketOracles(graph: Graph): GraphNode[] {
   return graph.nodes.filter((n) => n.type === 'oracle' && n.meta?.pricing_mode && n.meta.pricing_mode !== 'market')
 }

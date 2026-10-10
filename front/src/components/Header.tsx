@@ -28,7 +28,7 @@ export default function Header() {
       <div className="mx-auto flex h-16 max-w-[1600px] items-center justify-between gap-4 px-4 md:px-8">
         <button
           type="button"
-          onClick={() => goTo('portefeuille')}
+          onClick={() => goTo('portfolio')}
           className="hidden shrink-0 text-body font-semibold text-chalk hover:opacity-80 lg:block"
         >
           StackTrace
@@ -38,7 +38,7 @@ export default function Header() {
           <button
             type="button"
             onClick={() => stepPocket(-1)}
-            aria-label="Poche précédente"
+            aria-label="Previous pocket"
             className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-neutral1 hover:bg-surface hover:text-chalk"
           >
             <Arrow dir="left" />
@@ -52,7 +52,7 @@ export default function Header() {
               {view.count ? `${view.position}/${view.count}` : ''}
             </span>
             <span className="min-w-0 truncate text-caption font-semibold text-chalk md:max-w-[340px] md:text-body">
-              {view.holding?.label ?? 'Chargement des poches…'}
+              {view.holding?.label ?? 'Loading pockets…'}
             </span>
             {view.holding && (
               <span className="hidden text-caption font-normal text-neutral1 md:inline">
@@ -70,7 +70,7 @@ export default function Header() {
           <button
             type="button"
             onClick={() => stepPocket(1)}
-            aria-label="Poche suivante"
+            aria-label="Next pocket"
             className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-neutral1 hover:bg-surface hover:text-chalk"
           >
             <Arrow dir="right" />

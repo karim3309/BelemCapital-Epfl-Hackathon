@@ -54,17 +54,17 @@ export default function GraphSlide() {
 
   return (
     <Slide
-      id="chemin"
-      eyebrow="Question 1 sur 4 · Découverte"
-      title="Par quel chemin suis-je exposée ?"
+      id="path"
+      eyebrow="Question 1 of 4 · Discovery"
+      title="Through which path am I exposed?"
       aside={
         graph ? (
           <div className="flex flex-col gap-1 text-left md:text-right">
             <p className="text-body font-semibold text-chalk tabular">
-              {graph.nodes.length} dépendances · {graph.edges.length} arêtes
+              {graph.nodes.length} dependencies · {graph.edges.length} edges
             </p>
             <p className="text-caption font-normal text-neutral1 tabular">
-              {counts.onchain ?? 0} prouvées on-chain · {counts.api ?? 0} par API · {counts.curated ?? 0} curées
+              {counts.onchain ?? 0} proven on-chain · {counts.api ?? 0} via API · {counts.curated ?? 0} curated
             </p>
           </div>
         ) : null
@@ -72,11 +72,11 @@ export default function GraphSlide() {
     >
       {risky.length > 0 && (
         <p className="mt-6 max-w-[920px] text-body font-normal text-chalk">
-          <span className="font-semibold text-warn">Risque n°1 : </span>
-          {risky.length === 1 ? "un oracle ne suit pas le marché" : `${risky.length} oracles ne suivent pas le marché`}
+          <span className="font-semibold text-warn">Risk #1: </span>
+          {risky.length === 1 ? "one oracle does not follow the market" : `${risky.length} oracles do not follow the market`}
           {' — '}
-          {risky.map((o) => `${o.label} (${pricingLabel(o.meta.pricing_mode)})`).join(', ')}. Personne n'est liquidé à
-          temps si le prix réel décroche.
+          {risky.map((o) => `${o.label} (${pricingLabel(o.meta.pricing_mode)})`).join(', ')}. Nobody is liquidated in
+          time if the real price breaks away.
         </p>
       )}
 
@@ -92,12 +92,12 @@ export default function GraphSlide() {
         )}
         {graphQuery.isPending && pocketId && (
           <Pending
-            title="Construction du graphe prouvé…"
-            eta={source.mode === 'live' ? "Arrive juste après l'analyse de risque de la poche." : undefined}
+            title="Building the proven graph…"
+            eta={source.mode === 'live' ? "Arrives right after the pocket's risk analysis." : undefined}
           />
         )}
         {graphQuery.isError && <Failure error={graphQuery.error} onRetry={() => graphQuery.refetch()} />}
-        {pockets.data === null && <Unrecorded>Aucune réponse enregistrée pour ce détenteur.</Unrecorded>}
+        {pockets.data === null && <Unrecorded>No recorded response for this holder.</Unrecorded>}
         {graphQuery.data === null && (
           <Unrecorded
             action={
@@ -107,12 +107,12 @@ export default function GraphSlide() {
                   onClick={() => setPocketId(recordedGraphPocket.id)}
                   className="self-start text-body font-semibold text-accent hover:opacity-80"
                 >
-                  Voir le graphe enregistré : {recordedGraphPocket.label}
+                  See the recorded graph: {recordedGraphPocket.label}
                 </button>
               )
             }
           >
-            Le graphe de cette poche n'a pas été enregistré.
+            The graph of this pocket was not recorded.
           </Unrecorded>
         )}
       </div>
@@ -120,18 +120,18 @@ export default function GraphSlide() {
       {graph && (
         <div className="mt-6 flex flex-col gap-4">
           <div className="flex flex-wrap gap-x-6 gap-y-3">
-            <Swatch fill={C.chalk} label="Votre poche, actifs" />
-            <Swatch fill={C.accent} label="Coffre, marchés" />
-            <Swatch fill={C.neutral} label="Oracle au marché" />
-            <Swatch fill={C.warn} label="Oracle hors marché" />
-            <Swatch hollow label="Émetteur, curateur" />
+            <Swatch fill={C.chalk} label="Your pocket, assets" />
+            <Swatch fill={C.accent} label="Vault, markets" />
+            <Swatch fill={C.neutral} label="Market oracle" />
+            <Swatch fill={C.warn} label="Off-market oracle" />
+            <Swatch hollow label="Issuer, curator" />
             <Stroke color={C.neutral} label="on-chain" />
             <Stroke color={C.neutral} dash="5 4" label="API" />
-            <Stroke color={C.warn} dash="1.5 3.5" label="curé" />
+            <Stroke color={C.warn} dash="1.5 3.5" label="curated" />
           </div>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <p className="text-caption font-normal text-neutral1">
-              Survolez un nœud : le chemin par lequel sa panne vous atteint s'allume. Cliquez : ses preuves.
+              Hover a node: the path through which its failure reaches you lights up. Click: its evidence.
             </p>
             {chainEdges > 0 && (
               <button
@@ -139,7 +139,7 @@ export default function GraphSlide() {
                 onClick={() => setShowChain((v) => !v)}
                 className="text-caption font-semibold text-accent hover:opacity-80"
               >
-                {showChain ? 'Masquer' : 'Afficher'} les {chainEdges} arêtes « réglé sur Ethereum »
+                {showChain ? 'Hide' : 'Show'} the {chainEdges} “settled on Ethereum” edges
               </button>
             )}
           </div>
