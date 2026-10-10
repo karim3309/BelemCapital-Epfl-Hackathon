@@ -171,7 +171,6 @@ def test_round_constant_is_aggregator_v3_signature():
 
 # ------------------------------------------------------------------ Position Morpho
 def _position_setup(collateral, borrow_shares):
-    from discovery.adapters.morpho import discover_position  # noqa: F401  (import local pour la lisibilité)
     morpho, loan, coll, oracle, user = addr(100), addr(101), addr(102), addr(103), addr(104)
     mid_hex = "0x" + "33" * 32
     mid = bytes.fromhex(mid_hex[2:])

@@ -16,6 +16,7 @@ from pathlib import Path
 
 import networkx as nx
 
+from .console import utf8_console
 from .graph import to_networkx
 
 SOURCE_TAG = {"onchain": "⛓", "api": "🌐", "curated": "📄"}
@@ -76,11 +77,7 @@ def print_impact(g: nx.MultiDiGraph, root: str, target: str) -> None:
 
 
 def main(argv: list[str] | None = None) -> int:
-    for stream in (sys.stdout, sys.stderr):
-        try:
-            stream.reconfigure(encoding="utf-8")
-        except AttributeError:
-            pass
+    utf8_console()
     p = argparse.ArgumentParser(description="Explorer un graph.json StackTrace")
     p.add_argument("graph", nargs="?", default="output/graph.json")
     p.add_argument("--impact", help="id d'un nœud : qui est touché s'il casse ?")

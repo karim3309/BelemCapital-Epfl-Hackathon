@@ -39,7 +39,7 @@ Pour l'explication complète, couche par couche, et les scénarios de depeg chif
 
 ## Démarrage rapide
 
-Il faut Python **3.11**.
+Il faut Python **3.11**. Avec Anaconda, par exemple : `conda create -p .venv311 python=3.11 pip`, puis utilisez `.venv311/python`.
 
 ```bash
 pip install -r requirements.txt

@@ -34,13 +34,14 @@ from .adapters.morpho import discover_market, discover_position, loan_token_usd_
 from .adapters.morpho_api import discover_supplying_vaults
 from .adapters.oracles import discover_oracle
 from .adapters.pendle import discover_pendle_market, discover_pt, discover_sy, find_market_via_api
-from .cache import DiskCache
-from .config import Config, load_config
+from .cache import CacheMissError, DiskCache
+from .config import Config, ConfigError, load_config
+from .console import utf8_console
 from .ctx import ZERO_ADDRESS, Ctx, checksum
 from .graph import GraphBuilder
 from .http import CachedHttp
 from .ids import position_id
-from .rpc import check_chain, make_web3, resolve_snapshot_block
+from .rpc import OfflineError, RpcError, check_chain, make_web3, resolve_snapshot_block
 from .validate import validate
 from .valuation import value_graph
 
@@ -207,11 +208,7 @@ def _print_summary(graph: dict, report: Report, cache: DiskCache, errors: list[s
 
 
 def main(argv: list[str] | None = None) -> int:
-    for stream in (sys.stdout, sys.stderr):
-        try:
-            stream.reconfigure(encoding="utf-8")   # accents et ✓ dans la console Windows
-        except AttributeError:
-            pass
+    utf8_console()
     p = argparse.ArgumentParser(description="StackTrace — découverte du graphe de dépendances")
     p.add_argument("--config", default=None, help="chemin de config.yaml")
     p.add_argument("--offline", action="store_true", help="aucun appel réseau : tout depuis data/cache/")
@@ -220,8 +217,13 @@ def main(argv: list[str] | None = None) -> int:
     args = p.parse_args(argv)
     logging.basicConfig(level=logging.INFO if args.verbose else logging.WARNING, format="%(message)s")
 
-    config = load_config(args.config, offline=True if args.offline else None)
-    graph, report, cache = build(config)
+    try:
+        config = load_config(args.config, offline=True if args.offline else None)
+        graph, report, cache = build(config)
+    except (ConfigError, OfflineError, CacheMissError, RpcError) as e:
+        # Erreurs « attendues » (config, réseau, cache incomplet) : un message clair plutôt qu'une trace.
+        print(f"✗ {type(e).__name__} : {e}", file=sys.stderr)
+        return 2
     errors = validate(graph)
     out = Path(args.out) if args.out else config.output_file
     if not errors:

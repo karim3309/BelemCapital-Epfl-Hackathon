@@ -45,6 +45,3 @@ NOT_DETECTED = {
     "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable",
 }
 
-
-def has_code(ctx: Ctx, address: str) -> int:
-    return len(ctx.code(address))

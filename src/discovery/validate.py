@@ -15,6 +15,7 @@ from pathlib import Path
 
 import networkx as nx
 
+from .console import utf8_console
 from .graph import to_networkx
 from .vocab import ALLOWED_EDGE_SHAPES, EDGE_TYPES, NODE_TYPES, PRICING_MODES, SOURCES
 
@@ -127,6 +128,7 @@ def validate(graph: dict) -> list[str]:
 
 
 def main(argv: list[str] | None = None) -> int:
+    utf8_console()
     argv = argv if argv is not None else sys.argv[1:]
     path = Path(argv[0]) if argv else Path("output/graph.json")
     graph = json.loads(path.read_text(encoding="utf-8"))
