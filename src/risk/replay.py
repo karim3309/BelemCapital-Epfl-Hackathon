@@ -21,7 +21,7 @@ from .oracle_sim import OracleEval, deviation
 from .position import evaluate_position
 from .propagate import World
 from .scenarios import Engine
-from .fmt import pct
+from .fmt import num, pct
 
 
 def _ts(iso: str) -> int:
@@ -57,7 +57,8 @@ def meta_on_path(engine: Engine, path: list[tuple[int, float]], end: int) -> dic
                 switched = True
         else:
             above_start = None
-    return {"max_deviation": max_dev, "threshold": thr, "longest_above_threshold_minutes": round(longest / 60, 1),
+    # prix de l'USDe sous lequel l'écart dépasse le seuil : 2(1−u)/(1+u) = seuil  ⇔  u = (2 − seuil)/(2 + seuil)
+    return {"max_deviation": max_dev, "threshold": thr, "challenge_price": (2 - thr) / (2 + thr), "longest_above_threshold_minutes": round(longest / 60, 1),
             "needed_minutes": needed / 60, "challenge_possible": max_dev > thr, "switched": switched}
 
 
@@ -90,15 +91,15 @@ def run_replays(engine: Engine, path: str | Path) -> list[dict]:
         designs.append({"design": "Méta-oracle réel (primaire fixe + secours Chainlink)",
                         "min_hf": hf_real, "liquidated": hf_real < 1, "borrower_loss_usd": 0.0 if hf_real >= 1 else None,
                         "why": (f"écart max {pct(meta['max_deviation'], 2)} vs seuil {pct(meta['threshold'], 2)} ; "
-                                f"au-dessus du seuil pendant {meta['longest_above_threshold_minutes']} min "
-                                f"(il faut {meta['needed_minutes']:.0f} min pour basculer) → "
+                                f"au-dessus du seuil pendant {num(meta['longest_above_threshold_minutes'], 1)} min "
+                                f"(il faut {num(meta['needed_minutes'])} min pour basculer) → "
                                 f"{'BASCULE' if meta['switched'] else 'pas de bascule, prix fixe'}")})
         # 2. oracle de marché sur Chainlink
         f_cl = u_min / u_ref
         o2 = _liquidation_outcome(engine, f_cl, 1.0)
         designs.append({"design": "Oracle de marché sur Chainlink USDe/USD", "min_hf": engine.base.hf * f_cl,
                         "liquidated": o2["liquidated"], "borrower_loss_usd": o2["borrower_loss_usd"],
-                        "why": f"Chainlink est descendu à {u_min:.4f} $ ({datetime.utcfromtimestamp(u_min_t).isoformat()} UTC)"})
+                        "why": f"Chainlink est descendu à {num(u_min, 4)} $ ({datetime.utcfromtimestamp(u_min_t).isoformat()} UTC)"})
         item = {"id": r["id"], "title": r["title"], "story": r["story"].strip(), "available": True,
                 "feed": fid, "window": r["window"], "chainlink_path": [{"t": t, "price": u} for t, u in cl],
                 "chainlink_min": u_min, "chainlink_min_iso": datetime.utcfromtimestamp(u_min_t).isoformat() + "Z",
@@ -110,7 +111,7 @@ def run_replays(engine: Engine, path: str | Path) -> list[dict]:
             o3 = _liquidation_outcome(engine, off["low"] / u_ref, off["duration_minutes"] / 60)
             designs.append({"design": f"Oracle de marché sur le prix {off['venue']}", "min_hf": engine.base.hf * off["low"] / u_ref,
                             "liquidated": o3["liquidated"], "borrower_loss_usd": o3["borrower_loss_usd"],
-                            "why": (f"{off['venue']} à {off['low']} $ pendant ~{off['duration_minutes']} min (source curée) ; "
+                            "why": (f"{off['venue']} à {num(off['low'], 2)} $ pendant ~{off['duration_minutes']} min (source curée) ; "
                                     "on-chain le PT valait toujours ~1 : le liquidateur rachète le gage au rabais"),
                             "trace": o3["trace"]})
             item["offchain_source"] = {k: off[k] for k in ("evidence_url", "as_of", "says")}

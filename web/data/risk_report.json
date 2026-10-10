@@ -15537,6 +15537,7 @@
    "meta_oracle": {
     "max_deviation": 0.007086943714779192,
     "threshold": 0.0075,
+    "challenge_price": 0.9925280199252803,
     "longest_above_threshold_minutes": 0.0,
     "needed_minutes": 960.0,
     "challenge_possible": false,
@@ -15548,21 +15549,21 @@
      "min_hf": 1.0498827340388301,
      "liquidated": false,
      "borrower_loss_usd": 0.0,
-     "why": "écart max 0,71 % vs seuil 0,75 % ; au-dessus du seuil pendant 0.0 min (il faut 960 min pour basculer) → pas de bascule, prix fixe"
+     "why": "écart max 0,71 % vs seuil 0,75 % ; au-dessus du seuil pendant 0,0 min (il faut 960 min pour basculer) → pas de bascule, prix fixe"
     },
     {
      "design": "Oracle de marché sur Chainlink USDe/USD",
      "min_hf": 1.042209202823636,
      "liquidated": false,
      "borrower_loss_usd": 0.0,
-     "why": "Chainlink est descendu à 0.9929 $ (2025-10-10T23:04:11 UTC)"
+     "why": "Chainlink est descendu à 0,9929 $ (2025-10-10T23:04:11 UTC)"
     },
     {
      "design": "Oracle de marché sur le prix Binance (carnet d'ordres spot)",
      "min_hf": 0.6822540050386258,
      "liquidated": true,
      "borrower_loss_usd": 53133.00568948506,
-     "why": "Binance (carnet d'ordres spot) à 0.65 $ pendant ~40 min (source curée) ; on-chain le PT valait toujours ~1 : le liquidateur rachète le gage au rabais",
+     "why": "Binance (carnet d'ordres spot) à 0,65 $ pendant ~40 min (source curée) ; on-chain le PT valait toujours ~1 : le liquidateur rachète le gage au rabais",
      "trace": [
       "HF 1.0499 → 0.6823 (prix oracle 0.992361 → 0.644874, mode market)",
       "liquidable (HF < 1) : bonus LIF = 1.0262 ; liquidateur rembourse 259 560 USDC, saisit 413 030 PT, revente à −0,12 % → profit 150 265 $",
@@ -15627,6 +15628,7 @@
    "meta_oracle": {
     "max_deviation": 0.023052439785057954,
     "threshold": 0.0075,
+    "challenge_price": 0.9925280199252803,
     "longest_above_threshold_minutes": 38.4,
     "needed_minutes": 960.0,
     "challenge_possible": true,
@@ -15638,14 +15640,14 @@
      "min_hf": 1.0498827340388301,
      "liquidated": false,
      "borrower_loss_usd": 0.0,
-     "why": "écart max 2,31 % vs seuil 0,75 % ; au-dessus du seuil pendant 38.4 min (il faut 960 min pour basculer) → pas de bascule, prix fixe"
+     "why": "écart max 2,31 % vs seuil 0,75 % ; au-dessus du seuil pendant 38,4 min (il faut 960 min pour basculer) → pas de bascule, prix fixe"
     },
     {
      "design": "Oracle de marché sur Chainlink USDe/USD",
      "min_hf": 1.0264957565262747,
      "liquidated": false,
      "borrower_loss_usd": 0.0,
-     "why": "Chainlink est descendu à 0.9772 $ (2025-02-21T15:45:11 UTC)"
+     "why": "Chainlink est descendu à 0,9772 $ (2025-02-21T15:45:11 UTC)"
     }
    ],
    "evidence": "ChainlinkFeed.getRoundData(phase<<64|round) pour 960 rounds @ 0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961 #26162087"

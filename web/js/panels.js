@@ -39,7 +39,7 @@ export function renderVitals(box, data) {
   const hfClass = pos.health_factor < 1.1 ? "warn" : "good";
   const cells = [
     ["Health factor", num(pos.health_factor, 3), `liquidable sous 1,000`, hfClass],
-    ["LTV / LLTV", `${pct(pos.ltv)} / ${pct(pos.lltv)}`, "dette ÷ gage / limite", ""],
+    ["LTV / LLTV", `${num(pos.ltv * 100, 1)} / ${num(pos.lltv * 100, 1)} %`, "dette ÷ gage / limite", ""],
     ["Marge avant liquidation", pct(pos.oracle_drop_to_liquidation, 2), "baisse du prix oracle", "warn"],
     ["Gage (valeur de marché)", usd(pos.gross_value_usd), `${num(pos.collateral_pt, 0)} PT`, ""],
     ["Dette", usd(pos.debt_usdc * 1), "USDC, intérêts inclus", ""],
@@ -259,13 +259,16 @@ export function replaySheet(data, rp) {
   const off = rp.designs.find(x => x.design.includes("Binance"));
   const binLine = off ? `<line x1="${pad}" x2="${W - 8}" y1="${Y(0.65)}" y2="${Y(0.65)}" stroke="var(--magenta)" stroke-dasharray="4 3"/>
     <text x="${W - 10}" y="${Y(0.65) - 4}" text-anchor="end" fill="var(--magenta)" font-size="10" font-family="monospace">Binance 0,65 $ (~40 min, curé)</text>` : "";
-  const thr = 0.99253;
+  const thr = rp.meta_oracle.challenge_price;
   const chart = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Prix de l'USDe">
     <line x1="${pad}" x2="${W - 8}" y1="${Y(1)}" y2="${Y(1)}" stroke="rgba(103,232,249,.25)"/>
     <line x1="${pad}" x2="${W - 8}" y1="${Y(thr)}" y2="${Y(thr)}" stroke="var(--amber)" stroke-dasharray="2 3"/>
-    <text x="${pad + 2}" y="${Y(thr) + 11}" fill="var(--amber)" font-size="9" font-family="monospace">seuil de challenge ≈ 0,9925</text>
+    <text x="${pad + 2}" y="${Y(thr) + 11}" fill="var(--amber)" font-size="9" font-family="monospace">seuil de challenge ${num(thr, 4)} $</text>
     ${binLine}
-    <path d="${d}" fill="none" stroke="var(--cyan)" stroke-width="1.8" filter="url(#glow-soft)"/>
+    <path d="${d}" fill="none" stroke="var(--cyan)" stroke-width="1.8"/>
+    ${(() => { const m = pts.reduce((a, b) => (b.price < a.price ? b : a));
+      return `<circle cx="${X(m.t)}" cy="${Y(m.price)}" r="3.5" fill="var(--bone)"/>
+        <text x="${Math.min(X(m.t) + 6, W - 120)}" y="${Y(m.price) + 14}" fill="var(--bone)" font-size="9.5" font-family="monospace">min Chainlink ${num(m.price, 4)} $</text>`; })()}
     <text x="${pad}" y="${H - 6}" fill="var(--dim)" font-size="9" font-family="monospace">${esc(rp.window.start.slice(0, 10))}</text>
     <text x="${W - 8}" y="${H - 6}" text-anchor="end" fill="var(--dim)" font-size="9" font-family="monospace">Chainlink USDe/USD on-chain</text>
   </svg>`;
@@ -274,6 +277,9 @@ export function replaySheet(data, rp) {
     <div class="title">${esc(rp.title)}</div>
     <p>${esc(rp.story)}</p>
     ${chart}
+    <p style="font-size:11.5px">Trait cyan : le prix de l'USDe <b>on-chain</b> (feed Chainlink, lu au bloc figé). Pointillé ambre :
+      le seuil sous lequel l'arbitre du méta-oracle peut être challengé. Pointillé magenta : le plus bas <b>sur Binance</b>
+      (hors chaîne, source curée) — invisible pour Chainlink, qui agrège de nombreuses sources.</p>
     ${kv([["plus bas Chainlink", `${num(rp.chainlink_min, 5)} $ (${esc(rp.chainlink_min_iso.slice(0, 16).replace("T", " "))} UTC)`],
           ["écart max", pct(rp.meta_oracle.max_deviation, 2)],
           ["temps au-dessus du seuil", `${num(rp.meta_oracle.longest_above_threshold_minutes, 1)} min (il en faut ${num(rp.meta_oracle.needed_minutes, 0)})`]])}

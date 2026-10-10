@@ -65,7 +65,7 @@ export class Skeleton {
     const order = { lending_market: 0, vault: 1, asset: 0, liquidity_venue: 2 };
     this.pos = new Map();
     this.bands = [];
-    let y = 26;
+    let y = 40;                                          // sous les repères du film (coin « R »)
     for (const l of [...byLayer.keys()].sort((a, b) => a - b)) {
       const ids = byLayer.get(l).sort((a, b) => {
         const na = this.data.nodeById[a], nb = this.data.nodeById[b];
@@ -115,7 +115,7 @@ export class Skeleton {
       n.textContent = `L${String(b.layer).padStart(2, "0")}`;
       this.revealEls.push(g);
     }
-    const gEdges = el("g", { filter: "url(#glow-soft)" }, svg);   // un seul filtre pour toutes les arêtes
+    const gEdges = el("g", {}, svg);      // pas de filtre SVG : un « halo » (trait large transparent) suffit et reste fluide
     const gNodes = el("g", {}, svg);
     this.edgeEls.clear();
     for (const e of this.data.graph.edges) this.drawEdge(gEdges, e);
@@ -139,6 +139,7 @@ export class Skeleton {
     }
     const cls = e.type === "settled_on" ? "edge settled_on" : `edge ${e.source}`;
     const g = el("g", { class: "reveal", "data-y": Math.min(a.y, b.y) }, parent);
+    if (e.type !== "settled_on") el("path", { d, class: `halo ${e.source}` }, g);
     const path = el("path", { d, class: cls }, g);
     const title = el("title", {}, path);
     title.textContent = `${e.from} —${e.type}→ ${e.to} [${e.source}]`;
