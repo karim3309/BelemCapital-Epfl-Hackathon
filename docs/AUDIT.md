@@ -1,5 +1,7 @@
 # Journal d'audit
 
+> Audit face au brief Belem et au barème (10/10/2026) : [AUDIT_BRIEF.md](AUDIT_BRIEF.md).
+
 Méthode : après chaque tâche, on relit **tout le projet** au regard des consignes (`CLAUDE.md`) et du plan,
 on corrige, puis on recommence jusqu'à ce que l'audit ne trouve plus rien d'important.
 

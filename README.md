@@ -223,3 +223,4 @@ output/                graph.json (découverte), risk_inputs.json, risk_report.j
 | [docs/VERIFY.md](docs/VERIFY.md) | **checklist à cocher par l'équipe** (adresses, fonctions, endpoints) |
 | [docs/NEXT_STEPS.md](docs/NEXT_STEPS.md) | la suite, la répartition à 3, et les **prompts prêts à lancer** |
 | [docs/AUDIT.md](docs/AUDIT.md) | journal des audits et limites connues |
+| [docs/AUDIT_BRIEF.md](docs/AUDIT_BRIEF.md) | **audit face au brief Belem et au barème** : notes estimées, failles, plan d'action priorisé |
