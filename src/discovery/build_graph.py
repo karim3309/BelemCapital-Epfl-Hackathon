@@ -26,7 +26,7 @@ import requests
 
 from .adapters import Discovery, Task
 from .adapters.chain import discover_chain
-from .adapters.contracts import proxy_info
+from .adapters.contracts import NOT_DETECTED, proxy_info
 from .adapters.curated import Curated, load_curated
 from .adapters.erc4626 import discover_erc4626
 from .adapters.erc20 import classify, read_token, token_node
@@ -71,9 +71,6 @@ def discover_token(ctx: Ctx, address: str) -> Discovery:
         d = discover_erc4626(ctx, info)
     else:
         d = Discovery(nodes=[token_node(info, "erc20")])
-    proxy = proxy_info(ctx, address)
-    if proxy:
-        d.nodes[0].meta["proxy"] = proxy
     return d
 
 
@@ -178,6 +175,8 @@ def build(config: Config) -> tuple[dict, Report, DiskCache]:
     value_graph(g, market_key(config.market_id), usd, usd_source, ctx.block_timestamp)
     add_issuers_and_offchain(g, curated, block, ctx.labels)
     onchain = [n for n in g.nodes.values() if n.address]
+    for n in onchain:   # upgradeabilité de CHAQUE contrat : une info de risque pour les autres équipes
+        n.meta.setdefault("proxy", proxy_info(ctx, n.address) or dict(NOT_DETECTED))
     apply(g, discover_chain(ctx, config.chain_name, chain_id, onchain), queue, report)
 
     pid = position_id(config.market_id, config.user or ZERO_ADDRESS)

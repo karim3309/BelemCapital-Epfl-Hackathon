@@ -16,7 +16,7 @@ chain:
 # Bloc figé : TOUS les appels sont faits à ce bloc → résultat reproductible et cacheable.
 # "latest" = résolu au lancement (puis recopiez le numéro affiché ici pour figer).
 # Un bloc ancien (> ~128 blocs) exige un RPC "archive" s'il n'est pas déjà dans data/cache/.
-snapshot_block: 26161733
+snapshot_block: 26161750
 
 rpc:
   url_env: ETH_RPC_URL          # nom de la variable d'environnement (fichier .env)

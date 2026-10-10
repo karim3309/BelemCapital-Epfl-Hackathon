@@ -19,7 +19,6 @@ from ..ctx import Ctx, checksum, is_zero
 from ..graph import Edge, Node
 from ..ids import contract_id, slugify
 from . import Discovery, Task, jsonable, scaled
-from .contracts import proxy_info
 from .ens import chainlink_ens_name, resolve
 
 CHAINLINK_ISSUER_KEY = "issuer:chainlink"
@@ -130,12 +129,7 @@ def discover_oracle(ctx: Ctx, address: str, scale_decimals: int | None = None) -
         "chainlink_aggregator_proxy": _chainlink_proxy,
         "constant_feed": _constant_feed,
     }.get(kind, _unknown)
-    d = handler(ctx, address, kind, scale_decimals)
-    node = d.nodes[0]
-    proxy = proxy_info(ctx, address)
-    if proxy:
-        node.meta["proxy"] = proxy
-    return d
+    return handler(ctx, address, kind, scale_decimals)
 
 
 def _node(address: str, kind: str, id_hint: str, label: str, meta: dict) -> Node:

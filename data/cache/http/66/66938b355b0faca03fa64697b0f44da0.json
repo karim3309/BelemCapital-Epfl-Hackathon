@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-10T11:28:51+00:00",
+ "fetched_at": "2026-10-10T11:32:15+00:00",
  "request": {
   "method": "GET",
   "params": {
@@ -351,13 +351,13 @@
     ],
     "chainId": 1,
     "details": {
-     "aggregatedApy": 0.07470329050904108,
+     "aggregatedApy": 0.07470329261355593,
      "feeRate": 0.0011720818479485917,
-     "impliedApy": 0.06031926022915868,
+     "impliedApy": 0.06031926024230527,
      "liquidity": 347944.4308214185,
-     "maxBoostedApy": 0.12077734176688708,
+     "maxBoostedApy": 0.12077734008814647,
      "pendleApy": 0.009512413754135326,
-     "ptRoi": 0.007548410876978551,
+     "ptRoi": 0.007548074051215492,
      "swapFeeApy": 0.022524726003366746,
      "totalActiveSupply": 69.32554199916105,
      "totalPt": 50.03436568701732,
@@ -370,8 +370,8 @@
       "max": 0.12999999999999998,
       "min": 0.02
      },
-     "ytFloatingApy": -0.9925126530590377,
-     "ytRoi": -0.46411967657420794
+     "ytFloatingApy": -0.9925143038945423,
+     "ytRoi": -0.46411976614922534
     },
     "expiry": "2026-11-26T00:00:00.000Z",
     "icon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/e7c67b4e-29c7-4c05-b5ed-d32f5e580236.svg",
@@ -384,21 +384,21 @@
     "isVolatile": false,
     "limitOrderIncentive": {
      "amountPerSec": 3.6050664953928815e-05,
-     "buyPtApr": 0.005467177373309747,
+     "buyPtApr": 0.005464204745094834,
      "buyYtApr": 1,
-     "impliedApy": 0.06031926022915868,
+     "impliedApy": 0.06031926024230527,
      "long": {
       "amountPerSec": 3.036886229021071e-05,
-      "maxApy": 0.06243043433717923,
-      "minApy": 0.058208086121138126,
+      "maxApy": 0.062430434350785956,
+      "minApy": 0.05820808613382459,
       "mode": "RELATIVE"
      },
      "sellPtApr": 1,
-     "sellYtApr": 0.7281505873038228,
+     "sellYtApr": 0.7278092246826166,
      "short": {
       "amountPerSec": 5.681802663718105e-06,
-      "maxApy": 0.06431926022915868,
-      "minApy": 0.056319260229158674,
+      "maxApy": 0.06431926024230528,
+      "minApy": 0.05631926024230527,
       "mode": "RELATIVE"
      }
     },
@@ -449,10 +449,10 @@
        "label": "External Rewards"
       },
       {
-       "apy": 0.021462528176840356,
+       "apy": 0.021462528181518118,
        "items": [
         {
-         "apy": 0.021462528176840356,
+         "apy": 0.021462528181518118,
          "id": "1-0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
          "tags": [
           "FIXED_YIELD",
@@ -488,14 +488,14 @@
     },
     "lpRewardApyBreakdown": [
      {
-      "absoluteApy": 0.008449670188213526,
+      "absoluteApy": 0.00844966918312539,
       "asset": "8453-0x2c71f70e2ec720ae061ae7e0316fc9654d94f417",
       "relativeApy": 0.39850129467208073,
       "source": "EXTERNAL_REWARD",
       "ytExclusive": false
      },
      {
-      "absoluteApy": 0.012753950229548483,
+      "absoluteApy": 0.012753948712466306,
       "asset": "1-0x1d926bbe67425c9f507b9a0e8030eedc7880bf33",
       "lpExclusive": false,
       "portalExtData": {
@@ -975,13 +975,13 @@
     ],
     "chainId": 1,
     "details": {
-     "aggregatedApy": 0.02333588208429118,
+     "aggregatedApy": 0.02333588204405194,
      "feeRate": 0.00039587025255860553,
-     "impliedApy": 0.020232234355200163,
+     "impliedApy": 0.020232234382492553,
      "liquidity": 68742.25256331281,
-     "maxBoostedApy": 0.02333588208429118,
+     "maxBoostedApy": 0.02333588204405194,
      "pendleApy": 0,
-     "ptRoi": 0.001016950666391514,
+     "ptRoi": 0.0010168362233964334,
      "swapFeeApy": 0,
      "totalActiveSupply": 11.244124035848948,
      "totalPt": 5.95555297183753,
@@ -994,8 +994,8 @@
       "max": 0.05999999999999999,
       "min": 0.009999999999999995
      },
-     "ytFloatingApy": 11.10363323552392,
-     "ytRoi": 0.13488645229524798
+     "ytFloatingApy": 11.106998546017177,
+     "ytRoi": 0.13488630848685212
     },
     "expiry": "2026-10-29T00:00:00.000Z",
     "icon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/cbe9fd6f-1686-4661-a86e-6fa032180adb.svg",
@@ -1008,21 +1008,21 @@
     "isVolatile": false,
     "limitOrderIncentive": {
      "amountPerSec": 4.292608380647736e-08,
-     "buyPtApr": 1,
-     "buyYtApr": 1,
-     "impliedApy": 0.020232234355200163,
+     "buyPtApr": 0.9999999999999998,
+     "buyYtApr": 0.9999999999999998,
+     "impliedApy": 0.020232234382492553,
      "long": {
       "amountPerSec": 2.146304190323868e-08,
-      "maxApy": 0.021232234355200164,
-      "minApy": 0.019232234355200162,
+      "maxApy": 0.021232234382492554,
+      "minApy": 0.019232234382492552,
       "mode": "RELATIVE"
      },
      "sellPtApr": 1,
-     "sellYtApr": 1,
+     "sellYtApr": 1.0000000000000002,
      "short": {
       "amountPerSec": 2.146304190323868e-08,
-      "maxApy": 0.021648490760064174,
-      "minApy": 0.01881597795033615,
+      "maxApy": 0.021648490789267033,
+      "minApy": 0.018815977975718073,
       "mode": "RELATIVE"
      }
     },
@@ -1044,10 +1044,10 @@
        "label": "Underlying Yield"
       },
       {
-       "apy": 0.004365490766277396,
+       "apy": 0.004365490772166251,
        "items": [
         {
-         "apy": 0.004365490766277396,
+         "apy": 0.004365490772166251,
          "id": "1-0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
          "tags": [
           "FIXED_YIELD",
@@ -2944,13 +2944,13 @@
     ],
     "chainId": 1,
     "details": {
-     "aggregatedApy": 0.09750076477409766,
+     "aggregatedApy": 0.09750076795630241,
      "feeRate": 0.0015907459894377585,
-     "impliedApy": 0.08684694376440172,
+     "impliedApy": 0.08684694376969415,
      "liquidity": 61862.392432687426,
-     "maxBoostedApy": 0.09750076477409766,
+     "maxBoostedApy": 0.09750076795630241,
      "pendleApy": 0,
-     "ptRoi": 0.020403085556646605,
+     "ptRoi": 0.0204026005124347,
      "swapFeeApy": 9.458002513818009e-05,
      "totalActiveSupply": 0.030200644066035308,
      "totalPt": 22777.949203,
@@ -2963,8 +2963,8 @@
       "max": 0.15,
       "min": 0.049999999999999996
      },
-     "ytFloatingApy": -0.0932096608698153,
-     "ytRoi": -0.02345035142460561
+     "ytFloatingApy": -0.09321352182744114,
+     "ytRoi": -0.023450814445975854
     },
     "expiry": "2027-01-07T00:00:00.000Z",
     "icon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/611d83c9-1a5c-4230-a062-bc06b3b295a0.svg",
@@ -2977,21 +2977,21 @@
     "isVolatile": false,
     "limitOrderIncentive": {
      "amountPerSec": 1.1868717270777077e-05,
-     "buyPtApr": 0.0019203779120947745,
-     "buyYtApr": 0.3912364369951486,
-     "impliedApy": 0.08684694376440172,
+     "buyPtApr": 0.0019195189828277515,
+     "buyYtApr": 0.39105904550044907,
+     "impliedApy": 0.08684694376969415,
      "long": {
       "amountPerSec": 1.1757197454241737e-05,
-      "maxApy": 0.08988658679615578,
-      "minApy": 0.08380730073264765,
+      "maxApy": 0.08988658680163344,
+      "minApy": 0.08380730073775486,
       "mode": "RELATIVE"
      },
-     "sellPtApr": 0.00798681933608435,
-     "sellYtApr": 0.09297334020299283,
+     "sellPtApr": 0.00798288303465267,
+     "sellYtApr": 0.09293538885381128,
      "short": {
       "amountPerSec": 1.11519816535341e-07,
-      "maxApy": 0.09084694376440172,
-      "minApy": 0.08284694376440171,
+      "maxApy": 0.09084694376969416,
+      "minApy": 0.08284694376969415,
       "mode": "RELATIVE"
      }
     },
@@ -3028,10 +3028,10 @@
        "label": "External Rewards"
       },
       {
-       "apy": 0.03133501800666133,
+       "apy": 0.03133501800857088,
        "items": [
         {
-         "apy": 0.03133501800666133,
+         "apy": 0.03133501800857088,
          "id": "1-0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
          "tags": [
           "FIXED_YIELD",
@@ -3721,13 +3721,13 @@
     ],
     "chainId": 1,
     "details": {
-     "aggregatedApy": 0.20726611464055378,
+     "aggregatedApy": 0.20726610116955366,
      "feeRate": 0.003210754411181016,
-     "impliedApy": 0.1887999999999994,
+     "impliedApy": 0.18880000000000075,
      "liquidity": 31865.452709343066,
-     "maxBoostedApy": 0.20726611464055378,
+     "maxBoostedApy": 0.20726610116955366,
      "pendleApy": 0,
-     "ptRoi": 0.022287748971004495,
+     "ptRoi": 0.02228673984515428,
      "swapFeeApy": 0.004236646023840773,
      "totalActiveSupply": 0.014923321909752834,
      "totalPt": 31244.489599,
@@ -3740,8 +3740,8 @@
       "max": 0.15999999999999998,
       "min": 0.07
      },
-     "ytFloatingApy": 1132.9994665962674,
-     "ytRoi": 1.4509382854818282
+     "ytFloatingApy": 1133.3413366830246,
+     "ytRoi": 1.4509340497574073
     },
     "expiry": "2026-11-26T00:00:00.000Z",
     "icon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/d7a408c3-01b0-4f70-9e2c-ec2450dd307b.svg",
@@ -3753,21 +3753,21 @@
     "isVolatile": false,
     "limitOrderIncentive": {
      "amountPerSec": 2.574745540871169e-06,
-     "buyPtApr": 1,
-     "buyYtApr": 0.6574277657591547,
-     "impliedApy": 0.1887999999999994,
+     "buyPtApr": 1.0000000000000002,
+     "buyYtApr": 0.6571252642943143,
+     "impliedApy": 0.18880000000000075,
      "long": {
       "amountPerSec": 1.2873727704355844e-06,
-      "maxApy": 0.19279999999999942,
-      "minApy": 0.1847999999999994,
+      "maxApy": 0.19280000000000075,
+      "minApy": 0.18480000000000074,
       "mode": "RELATIVE"
      },
-     "sellPtApr": 0.014763982951823056,
+     "sellPtApr": 0.01475607526826595,
      "sellYtApr": 1,
      "short": {
       "amountPerSec": 1.2873727704355844e-06,
-      "maxApy": 0.19279999999999942,
-      "minApy": 0.1847999999999994,
+      "maxApy": 0.19280000000000075,
+      "minApy": 0.18480000000000074,
       "mode": "RELATIVE"
      }
     },
@@ -3789,10 +3789,10 @@
        "label": "Underlying Yield"
       },
       {
-       "apy": 0.1810677011463684,
+       "apy": 0.18106770114636966,
        "items": [
         {
-         "apy": 0.1810677011463684,
+         "apy": 0.18106770114636966,
          "id": "1-0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
          "tags": [
           "FIXED_YIELD",
@@ -8548,13 +8548,13 @@
     ],
     "chainId": 1,
     "details": {
-     "aggregatedApy": 0.051574738537602485,
+     "aggregatedApy": 0.051574738541295545,
      "feeRate": 0.0009792415961249468,
-     "impliedApy": 0.05011043705928242,
+     "impliedApy": 0.05011043707015128,
      "liquidity": 3820133.1940032598,
-     "maxBoostedApy": 0.05415553438117694,
+     "maxBoostedApy": 0.05415553438487,
      "pendleApy": 0.0017205305623829673,
-     "ptRoi": 0.006251522022532541,
+     "ptRoi": 0.006251241196233215,
      "swapFeeApy": 0.0001994425297153768,
      "totalActiveSupply": 1377019.4256633157,
      "totalPt": 971271.206194636,
@@ -8567,8 +8567,8 @@
       "max": 0.10999999999999999,
       "min": 0.03
      },
-     "ytFloatingApy": -0.3608142792971212,
-     "ytRoi": -0.05544821851846515
+     "ytFloatingApy": -0.36082848299430037,
+     "ytRoi": -0.055448480757597784
     },
     "expiry": "2026-11-26T00:00:00.000Z",
     "externalProtocols": {
@@ -8582,7 +8582,7 @@
        "integrationUrl": "https://app.morpho.org/ethereum/market/0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05",
        "liquidity": 764328.6935612437,
        "liquidityToTargetUsd": 0,
-       "maxLoopingApy": 0.06319360632624436,
+       "maxLoopingApy": 0.06319211243392148,
        "maxLtv": 0.915,
        "optimalUtilization": 0.9,
        "protocol": {
@@ -8610,21 +8610,21 @@
     "isVolatile": false,
     "limitOrderIncentive": {
      "amountPerSec": 2.9005438176775968e-05,
-     "buyPtApr": 0.00110568024295791,
-     "buyYtApr": 0.04833257738490736,
-     "impliedApy": 0.05011043705928242,
+     "buyPtApr": 0.0011051757457390288,
+     "buyYtApr": 0.048309803218634595,
+     "impliedApy": 0.05011043707015128,
      "long": {
       "amountPerSec": 1.3752333868413894e-05,
-      "maxApy": 0.051864302356357306,
-      "minApy": 0.048356571762207534,
+      "maxApy": 0.05186430236760658,
+      "minApy": 0.048356571772695985,
       "mode": "RELATIVE"
      },
-     "sellPtApr": 0.0003022054769810552,
-     "sellYtApr": 0.17681167079653803,
+     "sellPtApr": 0.0003020404714237214,
+     "sellYtApr": 0.176744227671233,
      "short": {
       "amountPerSec": 1.5253104308362074e-05,
-      "maxApy": 0.05361816765343219,
-      "minApy": 0.04660270646513265,
+      "maxApy": 0.053618167665061875,
+      "minApy": 0.04660270647524069,
       "mode": "RELATIVE"
      }
     },
@@ -8646,10 +8646,10 @@
        "label": "Underlying Yield"
       },
       {
-       "apy": 0.012651547822994432,
+       "apy": 0.012651547825738529,
        "items": [
         {
-         "apy": 0.012651547822994432,
+         "apy": 0.012651547825738529,
          "id": "1-0x4c9edd5852cd905f086c759e8383e09bff1e68b3",
          "tags": [
           "FIXED_YIELD",
@@ -9289,13 +9289,13 @@
     ],
     "chainId": 1,
     "details": {
-     "aggregatedApy": 0.1365697205544015,
+     "aggregatedApy": 0.13656972818322127,
      "feeRate": 0.0026439829591216046,
-     "impliedApy": 0.15090705145063077,
+     "impliedApy": 0.15090705146688665,
      "liquidity": 7165124.595242353,
-     "maxBoostedApy": 0.14367335278954968,
+     "maxBoostedApy": 0.14367336041836945,
      "pendleApy": 0.004735754823432126,
-     "ptRoi": 0.02634158013990273,
+     "ptRoi": 0.02634075678280756,
      "swapFeeApy": 0.006169265282643055,
      "totalActiveSupply": 2.523259366982e-06,
      "totalPt": 5108999.844307,
@@ -9308,8 +9308,8 @@
       "max": 0.19999999999999998,
       "min": 0.03500000000000001
      },
-     "ytFloatingApy": -0.978554336500432,
-     "ytRoi": -0.5087392220649171
+     "ytFloatingApy": -0.9785569449319261,
+     "ytRoi": -0.5087395023737653
     },
     "expiry": "2026-12-17T00:00:00.000Z",
     "externalProtocols": {
@@ -9323,7 +9323,7 @@
        "integrationUrl": "https://app.morpho.org/ethereum/market/0xf8c5aa31ea6b2a068a9eddb46dd110cae57bf0f12be9583a3f9a818effecba89",
        "liquidity": 3321322.7079245886,
        "liquidityToTargetUsd": 637043.6259435508,
-       "maxLoopingApy": 0.35236790453628497,
+       "maxLoopingApy": 0.35236446010430145,
        "maxLtv": 0.86,
        "optimalUtilization": 0.9,
        "protocol": {
@@ -9365,21 +9365,21 @@
     "isVolatile": false,
     "limitOrderIncentive": {
      "amountPerSec": 0.00014554673379893528,
-     "buyPtApr": 0.021555630962866824,
-     "buyYtApr": 0.2063425787650122,
-     "impliedApy": 0.15090705145063077,
+     "buyPtApr": 0.02154024794043171,
+     "buyYtApr": 0.20619356419252477,
+     "impliedApy": 0.15090705146688665,
      "long": {
       "amountPerSec": 8.002106442516241e-05,
-      "maxApy": 0.15490705145063077,
-      "minApy": 0.14690705145063077,
+      "maxApy": 0.15490705146688666,
+      "minApy": 0.14690705146688665,
       "mode": "RELATIVE"
      },
-     "sellPtApr": 0.0054360598453404435,
-     "sellYtApr": 0.8180872321709831,
+     "sellPtApr": 0.005431844797993068,
+     "sellYtApr": 0.8175455563393078,
      "short": {
       "amountPerSec": 6.552566937377285e-05,
-      "maxApy": 0.15490705145063077,
-      "minApy": 0.14690705145063077,
+      "maxApy": 0.15490705146688666,
+      "minApy": 0.14690705146688665,
       "mode": "RELATIVE"
      }
     },
@@ -9401,10 +9401,10 @@
        "label": "Underlying Yield"
       },
       {
-       "apy": 0.10523403629767997,
+       "apy": 0.10523403630901591,
        "items": [
         {
-         "apy": 0.10523403629767997,
+         "apy": 0.10523403630901591,
          "id": "1-0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
          "tags": [
           "FIXED_YIELD",
@@ -9895,13 +9895,13 @@
     ],
     "chainId": 1,
     "details": {
-     "aggregatedApy": 0.05391958366933468,
+     "aggregatedApy": 0.05391958329172254,
      "feeRate": 0.0009762872702281378,
-     "impliedApy": 0.05000101398706169,
+     "impliedApy": 0.050001014055485626,
      "liquidity": 52299.25598448805,
-     "maxBoostedApy": 0.05391958366933468,
+     "maxBoostedApy": 0.05391958329172254,
      "pendleApy": 0,
-     "ptRoi": 0.002478966771154001,
+     "ptRoi": 0.0024786875959603716,
      "swapFeeApy": 0,
      "totalActiveSupply": 0.024991389866189026,
      "totalPt": 19357.551202,
@@ -9914,8 +9914,8 @@
       "max": 0.09999999999999998,
       "min": 0.019999999999999997
      },
-     "ytFloatingApy": 2.6327475900167956,
-     "ytRoi": 0.0676503817031322
+     "ytFloatingApy": 2.633253546514424,
+     "ytRoi": 0.0676500649624805
     },
     "expiry": "2026-10-29T00:00:00.000Z",
     "icon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/1b99b5ae-7765-4c1d-87e8-d47cfe2cba7b.svg",
@@ -9928,21 +9928,21 @@
     "isVolatile": false,
     "limitOrderIncentive": {
      "amountPerSec": 8.325967655350266e-08,
-     "buyPtApr": 0.04150429428132846,
-     "buyYtApr": 1,
-     "impliedApy": 0.05000101398706169,
+     "buyPtApr": 0.041485774909518346,
+     "buyYtApr": 1.0000000000000002,
+     "impliedApy": 0.050001014055485626,
      "long": {
       "amountPerSec": 4.162983827675133e-08,
-      "maxApy": 0.05175104947660885,
-      "minApy": 0.048250978497514536,
+      "maxApy": 0.051751049547427624,
+      "minApy": 0.04825097856354363,
       "mode": "RELATIVE"
      },
-     "sellPtApr": 0.9999999999999999,
+     "sellPtApr": 1,
      "sellYtApr": 1,
      "short": {
       "amountPerSec": 4.162983827675133e-08,
-      "maxApy": 0.053501084966156014,
-      "minApy": 0.04650094300796737,
+      "maxApy": 0.05350108503936962,
+      "minApy": 0.04650094307160163,
       "mode": "RELATIVE"
      }
     },
@@ -9964,10 +9964,10 @@
        "label": "Underlying Yield"
       },
       {
-       "apy": 0.01845940329618867,
+       "apy": 0.018459403321449457,
        "items": [
         {
-         "apy": 0.01845940329618867,
+         "apy": 0.018459403321449457,
          "id": "1-0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
          "tags": [
           "FIXED_YIELD",
@@ -10611,13 +10611,13 @@
     ],
     "chainId": 1,
     "details": {
-     "aggregatedApy": 0.10279584344993409,
+     "aggregatedApy": 0.10279584962352545,
      "feeRate": 0.001618341084366648,
-     "impliedApy": 0.08379346205152882,
+     "impliedApy": 0.08379346205590776,
      "liquidity": 2173765.9902296774,
-     "maxBoostedApy": 0.149531408616316,
+     "maxBoostedApy": 0.14953140962738054,
      "pendleApy": 0.01659760690540138,
-     "ptRoi": 0.021281906266807926,
+     "ptRoi": 0.021281437204922815,
      "swapFeeApy": 0.02851152439115201,
      "totalActiveSupply": 8.42968648367e-07,
      "totalPt": 1142898.83676,
@@ -10630,8 +10630,8 @@
       "max": 0.12999999999999998,
       "min": 0.03500000000000001
      },
-     "ytFloatingApy": -0.9802766631026439,
-     "ytRoi": -0.6420767206564012
+     "ytFloatingApy": -0.9802783691285362,
+     "ytRoi": -0.6420768025807264
     },
     "expiry": "2027-01-14T00:00:00.000Z",
     "externalProtocols": {
@@ -10645,7 +10645,7 @@
        "integrationUrl": "https://app.morpho.org/ethereum/market/0xc7e49dd404825da16988955201ed22ecf8a7b25f0337db8a698d70d7a9f343ea",
        "liquidity": 132685.93384142773,
        "liquidityToTargetUsd": 0,
-       "maxLoopingApy": 0.06507089139833007,
+       "maxLoopingApy": 0.06507061048394212,
        "maxLtv": 0.915,
        "optimalUtilization": 0.9,
        "protocol": {
@@ -10667,7 +10667,7 @@
        "integrationUrl": "https://app.morpho.org/ethereum/market/0xd8dd3e1d051eee97d1353a113982afac90612c775f393edea45ef7f20caec489",
        "liquidity": 2457969.7886865493,
        "liquidityToTargetUsd": 1031781.4766843595,
-       "maxLoopingApy": 0.2681515248879284,
+       "maxLoopingApy": 0.2681501573351188,
        "maxLtv": 0.915,
        "optimalUtilization": 0.9,
        "protocol": {
@@ -10694,21 +10694,21 @@
     "isVolatile": false,
     "limitOrderIncentive": {
      "amountPerSec": 6.21117584044095e-05,
-     "buyPtApr": 0.014600532019956624,
-     "buyYtApr": 1,
-     "impliedApy": 0.08379346205152882,
+     "buyPtApr": 0.014594015868722155,
+     "buyYtApr": 0.9999999999999999,
+     "impliedApy": 0.08379346205590776,
      "long": {
       "amountPerSec": 3.670404907841385e-05,
-      "maxApy": 0.08672623322333232,
-      "minApy": 0.08086069087972532,
+      "maxApy": 0.08672623322786453,
+      "minApy": 0.080860690883951,
       "mode": "RELATIVE"
      },
-     "sellPtApr": 0.06813373377794522,
-     "sellYtApr": 0.6857390311206563,
+     "sellPtApr": 0.07665404111798249,
+     "sellYtApr": 0.6854581287104056,
      "short": {
       "amountPerSec": 2.540770932599566e-05,
-      "maxApy": 0.08779346205152883,
-      "minApy": 0.07979346205152882,
+      "maxApy": 0.08779346205590777,
+      "minApy": 0.07979346205590776,
       "mode": "RELATIVE"
      }
     },
@@ -10745,10 +10745,10 @@
        "label": "External Rewards"
       },
       {
-       "apy": 0.04312727112845045,
+       "apy": 0.043127271130704234,
        "items": [
         {
-         "apy": 0.04312727112845045,
+         "apy": 0.043127271130704234,
          "id": "1-0x23238f20b894f29041f48d88ee91131c395aaa71",
          "tags": [
           "FIXED_YIELD",
@@ -10784,7 +10784,7 @@
     },
     "lpRewardApyBreakdown": [
      {
-      "absoluteApy": 0.014559436538853228,
+      "absoluteApy": 0.014559433097168683,
       "asset": "1-0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
       "relativeApy": 1,
       "source": "EXTERNAL_REWARD",
@@ -11790,13 +11790,13 @@
     ],
     "chainId": 1,
     "details": {
-     "aggregatedApy": 0.09341020651025185,
+     "aggregatedApy": 0.09341020664561378,
      "feeRate": 0.0016441994352573985,
-     "impliedApy": 0.08965937152923087,
+     "impliedApy": 0.08965937153568149,
      "liquidity": 70227.06841407756,
-     "maxBoostedApy": 0.09341020651025185,
+     "maxBoostedApy": 0.09341020664561378,
      "pendleApy": 0,
-     "ptRoi": 0.019362848843881286,
+     "ptRoi": 0.019362349257805667,
      "swapFeeApy": 0.00022832080473422778,
      "totalActiveSupply": 33977.6291421853,
      "totalPt": 27535.521596143546,
@@ -11809,8 +11809,8 @@
       "max": 0.15,
       "min": 0.049999999999999996
      },
-     "ytFloatingApy": 0.13205790377191162,
-     "ytRoi": 0.02809070305468686
+     "ytFloatingApy": 0.1320589314894074,
+     "ytRoi": 0.028090183645056888
     },
     "expiry": "2026-12-31T00:00:00.000Z",
     "icon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/5e393673-24ba-40f9-b7d7-5c5321ef2696.svg",
@@ -11824,21 +11824,21 @@
     "isVolatile": false,
     "limitOrderIncentive": {
      "amountPerSec": 4.942108161579293e-07,
-     "buyPtApr": 0.24633832548489923,
-     "buyYtApr": 1,
-     "impliedApy": 0.08965937152923087,
+     "buyPtApr": 0.24622864581662224,
+     "buyYtApr": 1.0000000000000002,
+     "impliedApy": 0.08965937153568149,
      "long": {
       "amountPerSec": 2.4710540807896466e-07,
-      "maxApy": 0.09279744953275396,
-      "minApy": 0.08652129352570778,
+      "maxApy": 0.09279744953943034,
+      "minApy": 0.08652129353193264,
       "mode": "RELATIVE"
      },
-     "sellPtApr": 1,
-     "sellYtApr": 1,
+     "sellPtApr": 1.0000000000000002,
+     "sellYtApr": 1.0000000000000002,
      "short": {
       "amountPerSec": 2.4710540807896466e-07,
-      "maxApy": 0.09365937152923087,
-      "minApy": 0.08565937152923087,
+      "maxApy": 0.09365937153568149,
+      "minApy": 0.08565937153568148,
       "mode": "RELATIVE"
      }
     },
@@ -11860,10 +11860,10 @@
        "label": "Underlying Yield"
       },
       {
-       "apy": 0.03448700711189407,
+       "apy": 0.034487007114375266,
        "items": [
         {
-         "apy": 0.03448700711189407,
+         "apy": 0.034487007114375266,
          "id": "1-0x18f52b3fb465118731d9e0d276d4eb3599d57596",
          "tags": [
           "FIXED_YIELD",
@@ -15540,13 +15540,13 @@
     ],
     "chainId": 1,
     "details": {
-     "aggregatedApy": 0.08272885181732863,
+     "aggregatedApy": 0.08272889928805996,
      "feeRate": 0.0035264030258483903,
-     "impliedApy": 0.19323051280196646,
+     "impliedApy": 0.1932305129502483,
      "liquidity": 985193.4331379959,
-     "maxBoostedApy": 0.08559511361136563,
+     "maxBoostedApy": 0.08559516108209696,
      "pendleApy": 0.0019108411960246654,
-     "ptRoi": 0.1936270868082528,
+     "ptRoi": 0.19362491248860025,
      "swapFeeApy": 0,
      "totalActiveSupply": 526670.1272697409,
      "totalPt": 496330.01886567875,
@@ -15574,19 +15574,19 @@
      "amountPerSec": 1.7819161732346243e-06,
      "buyPtApr": 1,
      "buyYtApr": 1,
-     "impliedApy": 0.19323051280196646,
+     "impliedApy": 0.1932305129502483,
      "long": {
       "amountPerSec": 8.909580866173121e-07,
-      "maxApy": 0.19723051280196646,
-      "minApy": 0.18923051280196646,
+      "maxApy": 0.1972305129502483,
+      "minApy": 0.1892305129502483,
       "mode": "RELATIVE"
      },
-     "sellPtApr": 1,
-     "sellYtApr": 1,
+     "sellPtApr": 1.0000000000000002,
+     "sellYtApr": 1.0000000000000002,
      "short": {
       "amountPerSec": 8.909580866173121e-07,
-      "maxApy": 0.19723051280196646,
-      "minApy": 0.18923051280196646,
+      "maxApy": 0.1972305129502483,
+      "minApy": 0.1892305129502483,
       "mode": "RELATIVE"
      }
     },
@@ -15608,10 +15608,10 @@
        "label": "Underlying Yield"
       },
       {
-       "apy": 0.08081798849724058,
+       "apy": 0.08081798855925892,
        "items": [
         {
-         "apy": 0.08081798849724058,
+         "apy": 0.08081798855925892,
          "id": "1-0xab2ab53e1e2e2c5d7202918ec8c873712bcc4a2d",
          "tags": [
           "FIXED_YIELD",
@@ -16131,13 +16131,13 @@
     ],
     "chainId": 1,
     "details": {
-     "aggregatedApy": 0.19085760390029372,
+     "aggregatedApy": 0.1908576040038058,
      "feeRate": 0.0035324937635150544,
-     "impliedApy": 0.19006844478062046,
+     "impliedApy": 0.19006844481373975,
      "liquidity": 6127211.696898139,
-     "maxBoostedApy": 0.195162600660082,
+     "maxBoostedApy": 0.1951626007635941,
      "pendleApy": 0.0028699978398588613,
-     "ptRoi": 0.02584444743935599,
+     "ptRoi": 0.025843428562566162,
      "swapFeeApy": 0.0008985476557483718,
      "totalActiveSupply": 2834206.764208479,
      "totalPt": 3191718.807202207,
@@ -16150,8 +16150,8 @@
       "max": 0.3,
       "min": 0.08
      },
-     "ytFloatingApy": -0.316932904490166,
-     "ytRoi": -0.054358571884297824
+     "ytFloatingApy": -0.31694759840247666,
+     "ytRoi": -0.05435949738041834
     },
     "expiry": "2026-12-03T00:00:00.000Z",
     "icon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/ac120196-9d63-4ec8-a236-0076353be30a.svg",
@@ -16164,21 +16164,21 @@
     "isVolatile": false,
     "limitOrderIncentive": {
      "amountPerSec": 0.0001030410637603747,
-     "buyPtApr": 0.004172261469519821,
-     "buyYtApr": 0.20421809530442625,
-     "impliedApy": 0.19006844478062046,
+     "buyPtApr": 0.004170392736542043,
+     "buyYtApr": 0.36431788018565375,
+     "impliedApy": 0.19006844481373975,
      "long": {
       "amountPerSec": 6.931836665599413e-05,
-      "maxApy": 0.19406844478062046,
-      "minApy": 0.18606844478062046,
+      "maxApy": 0.19406844481373975,
+      "minApy": 0.18606844481373974,
       "mode": "RELATIVE"
      },
-     "sellPtApr": 0.005278705597740528,
-     "sellYtApr": 0.16140716543883574,
+     "sellPtApr": 0.009416721623458793,
+     "sellYtApr": 0.1613454814920374,
      "short": {
       "amountPerSec": 3.3722697104380575e-05,
-      "maxApy": 0.19406844478062046,
-      "minApy": 0.18606844478062046,
+      "maxApy": 0.19406844481373975,
+      "minApy": 0.18606844481373974,
       "mode": "RELATIVE"
      }
     },
@@ -16200,10 +16200,10 @@
        "label": "Underlying Yield"
       },
       {
-       "apy": 0.09650481672825792,
+       "apy": 0.0965048167450738,
        "items": [
         {
-         "apy": 0.09650481672825792,
+         "apy": 0.0965048167450738,
          "id": "1-0xa1fa7777974312f7d801a8880714a218f76233f8",
          "tags": [
           "FIXED_YIELD",
@@ -16547,13 +16547,13 @@
     ],
     "chainId": 1,
     "details": {
-     "aggregatedApy": 0.10978085975098606,
+     "aggregatedApy": 0.1097808584672477,
      "feeRate": 0.001545455916864391,
-     "impliedApy": 0.08171404603060606,
+     "impliedApy": 0.08171404604859123,
      "liquidity": 377517.1238256718,
-     "maxBoostedApy": 0.1756521113184405,
+     "maxBoostedApy": 0.17565210495624095,
      "pendleApy": 0.0075414044648280795,
-     "ptRoi": 0.010061643889578864,
+     "ptRoi": 0.01006119105407377,
      "swapFeeApy": 0.00669377925026482,
      "totalActiveSupply": 1.61527650228e-07,
      "totalPt": 79176.694627,
@@ -16566,8 +16566,8 @@
       "max": 0.21,
       "min": 0.05
      },
-     "ytFloatingApy": 2.937662014831765,
-     "ytRoi": 0.19087840373526643
+     "ytFloatingApy": 2.9378943606932637,
+     "ytRoi": 0.19087804313746193
     },
     "expiry": "2026-11-26T00:00:00.000Z",
     "icon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/a163c57a-398e-405a-86f6-3b42ebd85b86.svg",
@@ -16580,21 +16580,21 @@
     "isVolatile": false,
     "limitOrderIncentive": {
      "amountPerSec": 0.00011164758171181377,
-     "buyPtApr": 0.0027132780204550083,
+     "buyPtApr": 0.0027120645566205224,
      "buyYtApr": 1,
-     "impliedApy": 0.08171404603060606,
+     "impliedApy": 0.08171404604859123,
      "long": {
       "amountPerSec": 0.0001004849835927811,
-      "maxApy": 0.08457403764167727,
-      "minApy": 0.07885405441953484,
+      "maxApy": 0.08457403766029192,
+      "minApy": 0.07885405443689053,
       "mode": "RELATIVE"
      },
-     "sellPtApr": 0.16454182054805688,
-     "sellYtApr": 0.26953308012016874,
+     "sellPtApr": 0.21688793520213767,
+     "sellYtApr": 0.2694327814837634,
      "short": {
       "amountPerSec": 1.1162598119032661e-05,
-      "maxApy": 0.08571404603060606,
-      "minApy": 0.07771404603060605,
+      "maxApy": 0.08571404604859123,
+      "minApy": 0.07771404604859122,
       "mode": "RELATIVE"
      }
     },
@@ -16636,10 +16636,10 @@
        "label": "External Rewards"
       },
       {
-       "apy": 0.016965571079475907,
+       "apy": 0.016965571083210007,
        "items": [
         {
-         "apy": 0.016965571079475907,
+         "apy": 0.016965571083210007,
          "id": "1-0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
          "tags": [
           "FIXED_YIELD",
@@ -16675,7 +16675,7 @@
     },
     "lpRewardApyBreakdown": [
      {
-      "absoluteApy": 0.03637276324680822,
+      "absoluteApy": 0.03637275986116741,
       "asset": "1-0x1d926bbe67425c9f507b9a0e8030eedc7880bf33",
       "lpExclusive": false,
       "portalExtData": {
@@ -17458,13 +17458,13 @@
     ],
     "chainId": 1,
     "details": {
-     "aggregatedApy": 0.10608051813213562,
+     "aggregatedApy": 0.10608051848553168,
      "feeRate": 0.000581038428965952,
-     "impliedApy": 0.029469407350497967,
+     "impliedApy": 0.029469407351222277,
      "liquidity": 34480.84996862015,
-     "maxBoostedApy": 0.18992530561019239,
+     "maxBoostedApy": 0.18992530596358845,
      "pendleApy": 0.055896524985371177,
-     "ptRoi": 0.011002888218262008,
+     "ptRoi": 0.011002720620976847,
      "swapFeeApy": 0.002439745833216378,
      "totalActiveSupply": 15844.365384052702,
      "totalPt": 3377.6231211128097,
@@ -17477,8 +17477,8 @@
       "max": 0.12999999999999998,
       "min": 0.030000000000000002
      },
-     "ytFloatingApy": 2.5397654134286434,
-     "ytRoi": 0.6100462667844253
+     "ytFloatingApy": 2.539831117267058,
+     "ytRoi": 0.6100459099690514
     },
     "expiry": "2027-02-25T00:00:00.000Z",
     "icon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/e9c4a5e7-775e-4478-a7ef-040331493695.svg",
@@ -17492,21 +17492,21 @@
     "isVolatile": true,
     "limitOrderIncentive": {
      "amountPerSec": 7.103926753832286e-10,
-     "buyPtApr": 0.023908988674653603,
-     "buyYtApr": 4.479163957039374e-05,
-     "impliedApy": 0.029469407350497967,
+     "buyPtApr": 0.023898340667665125,
+     "buyYtApr": 4.4769959893750766e-05,
+     "impliedApy": 0.029469407351222277,
      "long": {
       "amountPerSec": 3.551963376916143e-10,
-      "maxApy": 0.030500836607765397,
-      "minApy": 0.028437978093230537,
+      "maxApy": 0.030500836608515058,
+      "minApy": 0.028437978093929495,
       "mode": "RELATIVE"
      },
-     "sellPtApr": 4.937730518403208e-07,
-     "sellYtApr": 0.023908988674653606,
+     "sellPtApr": 4.935215080118061e-07,
+     "sellYtApr": 0.023898340667665125,
      "short": {
       "amountPerSec": 3.551963376916143e-10,
-      "maxApy": 0.03153226586503283,
-      "minApy": 0.02740654883596311,
+      "maxApy": 0.03153226586580784,
+      "minApy": 0.027406548836636718,
       "mode": "RELATIVE"
      }
     },
@@ -17528,10 +17528,10 @@
        "label": "Underlying Yield"
       },
       {
-       "apy": 0.002854167315138223,
+       "apy": 0.0028541673152083736,
        "items": [
         {
-         "apy": 0.002854167315138223,
+         "apy": 0.0028541673152083736,
          "id": "1-0x4c9edd5852cd905f086c759e8383e09bff1e68b3",
          "tags": [
           "FIXED_YIELD",
@@ -17863,13 +17863,13 @@
     ],
     "chainId": 1,
     "details": {
-     "aggregatedApy": 0.053282328641934835,
+     "aggregatedApy": 0.0532823289959612,
      "feeRate": 0.001072917563744058,
-     "impliedApy": 0.0563552720961944,
+     "impliedApy": 0.056355272296096715,
      "liquidity": 3683144.638030304,
-     "maxBoostedApy": 0.05549866994885422,
+     "maxBoostedApy": 0.05549867030288058,
      "pendleApy": 0.0014775608712795862,
-     "ptRoi": 0.0017321333013586848,
+     "ptRoi": 0.0017318198397875406,
      "swapFeeApy": 0.0002624255945011811,
      "totalActiveSupply": 1725515.4807138632,
      "totalPt": 1921945.3747157657,
@@ -17882,8 +17882,8 @@
       "max": 0.08999999999999998,
       "min": 0.019999999999999997
      },
-     "ytFloatingApy": -0.9995188372053655,
-     "ytRoi": -0.21427487640365472
+     "ytFloatingApy": -0.999519505900298,
+     "ytRoi": -0.2142751035567657
     },
     "expiry": "2026-10-22T00:00:00.000Z",
     "externalProtocols": {
@@ -17897,7 +17897,7 @@
        "integrationUrl": "https://app.aave.com/reserve-overview/?underlyingAsset=0x59bc9fae5d62b19d4f8d07d758047acb9ee19d34&marketName=proto_ethereum_v3",
        "liquidity": 223523923.0529939,
        "liquidityToTargetUsd": 60360274.23989526,
-       "maxLoopingApy": 0.08700730432549804,
+       "maxLoopingApy": 0.08699205374706613,
        "maxLtv": 0.9,
        "optimalUtilization": 0.94,
        "protocol": {
@@ -17919,7 +17919,7 @@
        "integrationUrl": "https://app.aave.com/reserve-overview/?underlyingAsset=0x59bc9fae5d62b19d4f8d07d758047acb9ee19d34&marketName=proto_ethereum_v3",
        "liquidity": 142386526.12413263,
        "liquidityToTargetUsd": 0,
-       "maxLoopingApy": 0.06513843501582497,
+       "maxLoopingApy": 0.06512452120297854,
        "maxLtv": 0.9,
        "optimalUtilization": 0.94,
        "protocol": {
@@ -17941,7 +17941,7 @@
        "integrationUrl": "https://app.aave.com/reserve-overview/?underlyingAsset=0x59bc9fae5d62b19d4f8d07d758047acb9ee19d34&marketName=proto_ethereum_v3",
        "liquidity": 314136386.45072126,
        "liquidityToTargetUsd": 34232039.930289015,
-       "maxLoopingApy": -0.12663232356752951,
+       "maxLoopingApy": -0.12664721024368059,
        "maxLtv": 0.92,
        "optimalUtilization": 0.9,
        "protocol": {
@@ -17970,21 +17970,21 @@
     "isVolatile": false,
     "limitOrderIncentive": {
      "amountPerSec": 6.9806304656029185e-06,
-     "buyPtApr": 4.6382578713312234e-05,
-     "buyYtApr": 1,
-     "impliedApy": 0.0563552720961944,
+     "buyPtApr": 4.637927847000388e-05,
+     "buyYtApr": 1.0000000000000002,
+     "impliedApy": 0.056355272296096715,
      "long": {
       "amountPerSec": 5.283897398313673e-06,
-      "maxApy": 0.0583277066195612,
-      "minApy": 0.054382837572827594,
+      "maxApy": 0.0583277068264601,
+      "minApy": 0.05438283776573333,
       "mode": "RELATIVE"
      },
-     "sellPtApr": 1,
-     "sellYtApr": 0.026544799428363904,
+     "sellPtApr": 1.0000000000000002,
+     "sellYtApr": 0.026763090371423638,
      "short": {
       "amountPerSec": 1.6967330672892459e-06,
-      "maxApy": 0.060300141142928004,
-      "minApy": 0.05241040304946079,
+      "maxApy": 0.06030014135682348,
+      "minApy": 0.05241040323536995,
       "mode": "RELATIVE"
      }
     },
@@ -18006,10 +18006,10 @@
        "label": "Underlying Yield"
       },
       {
-       "apy": 0.02934573483687862,
+       "apy": 0.02934573494097324,
        "items": [
         {
-         "apy": 0.02934573483687862,
+         "apy": 0.02934573494097324,
          "id": "1-0x4c9edd5852cd905f086c759e8383e09bff1e68b3",
          "tags": [
           "FIXED_YIELD",

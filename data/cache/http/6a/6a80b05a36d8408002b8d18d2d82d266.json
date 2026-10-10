@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-10T11:28:49+00:00",
+ "fetched_at": "2026-10-10T11:32:14+00:00",
  "request": {
   "body": {
    "query": "query Vaults($id: String!, $chainId: Int!) {\n  marketById(marketId: $id, chainId: $chainId) {\n    marketId\n    supplyingVaults { address name symbol }\n    supplyingVaultV2s { address name symbol }\n  }\n}",
