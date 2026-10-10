@@ -89,9 +89,9 @@ a:hover { color: var(--bone); }
   display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 1px;
   background: #0b1a28; border-bottom: 1px solid var(--panel-line);
 }
-.vital { background: rgba(4, 9, 16, .92); padding: 10px 16px; }
+.vital { background: rgba(4, 9, 16, .92); padding: 10px 12px; }
 .vital .k { color: var(--dim); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; }
-.vital .v { font-family: var(--mono); font-size: clamp(15px, 1.35vw, 19px); color: var(--bone); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.vital .v { font-family: var(--mono); font-size: clamp(14px, 1.15vw, 19px); color: var(--bone); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .vital .s { color: var(--ink-2); font-size: 11.5px; }
 .vital.warn .v { color: var(--amber); }
 .vital.danger .v { color: var(--magenta); text-shadow: 0 0 10px rgba(255, 61, 139, .45); }
