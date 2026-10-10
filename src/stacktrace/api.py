@@ -9,6 +9,10 @@ Routes (detailed contract + examples: docs/API.md):
     GET  /holders/{holder}/pockets/{pocket}/risk         STAY/EXIT verdict, expected loss, exit, p*, incidents
     POST /holders/{holder}/pockets/{pocket}/incident     incident mode {incident, severity?, p?} → decision
     GET  /holders/{holder}/book                          the whole portfolio + shared dependencies
+    GET  /books                                          curator books of config.yaml (use holder = book:<key>)
+
+`{holder}` = an address (0x…), OR "vault:0x…" (one whole vault, curator view), OR "book:<key>" (every vault of a
+curator book listed in config.yaml → curator_books).
 
 `{pocket}` = the pocket's id (e.g. morpho_vault_v2:0xD6d4…) OR its number in the list (1, 2, …).
 
@@ -33,7 +37,7 @@ from pydantic import BaseModel, Field
 from .analyze import UnknownIncident, analyze_pocket, incident_decision, public, shared_dependencies
 from .graph_build import build_position_graph
 from .params import load_params
-from .portfolio import Holding, Portfolio, scan_holder
+from .portfolio import BOOK_PREFIX, Holding, Portfolio, curator_book, scan_holder
 from .session import Session, SessionError, mask_url, open_session
 
 SESSION_TTL_S = 120
@@ -84,7 +88,7 @@ def _portfolio(s: Session, holder: str) -> Portfolio:
     try:
         return STATE.memo(("portfolio", s.block, holder.lower()), lambda: scan_holder(s.ctx, holder, s.chain_id))
     except ValueError as e:
-        raise HTTPException(400, detail=f"invalid address: {e}") from e
+        raise HTTPException(400, detail=f"invalid holder (address, vault:0x… or book:<key>): {e}") from e
 
 
 def _pocket(p: Portfolio, key: str) -> Holding:
@@ -129,6 +133,19 @@ def health() -> dict:
     if out["apis"].get("morpho") != "ok":
         out["status"] = "degraded"
     return out
+
+
+@app.get("/books")
+def books() -> dict:
+    """Curator books listed in config.yaml: each one is analysed with holder = "book:<key>"."""
+    from discovery.config import load_config
+    cfg = load_config(offline=True)
+    out = []
+    for key, b in (cfg.raw.get("curator_books") or {}).items():
+        _, vaults = curator_book(cfg, key)
+        out.append({"holder": f"{BOOK_PREFIX}{key}", "label": b.get("label", key), "vaults": len(vaults),
+                    "source": " ".join(str(b.get("source", "")).split())})
+    return {"books": out}
 
 
 @app.get("/holders/{holder}/pockets")

@@ -30,7 +30,7 @@ from .exit_cost import ExitModel, borrow_exit, vault_exit
 from .graph_build import build_position_graph, pick
 from .market_data import G, load_markets
 from .params import load_params
-from .portfolio import OUTPUT_DIR, Holding, scan_holder
+from .portfolio import OUTPUT_DIR, Holding, file_slug, scan_holder
 from .risk_engine import BorrowPocket, Event, VaultPocket, borrow_events, monte_carlo, vault_events
 
 F_STEP = 0.05
@@ -96,6 +96,10 @@ def verdict_sentence(v: str, f: float, f_max: float, el: float, exit_cost: float
             + (f"; main risk: \"{top['title']}\"." if top else "."))
 
 
+CURATOR_VIEW = ("Curator view (whole vault, all depositors): EXIT means pulling the vault's money out of its "
+                "markets, STAY means keeping the allocation. ")
+
+
 def path_text(g: G, target: str) -> str:
     path = g.path_to(target)
     if not path:
@@ -155,7 +159,8 @@ def analyze_pocket(s, h: Holding, holder: str, p, days: float, incident: str | N
     verdict = "EXIT" if f > 0 else "STAY"
     top = next((r for r in rows if r["loss_if_incident_usd"] > 0), None)
     report = {
-        "pocket": {"id": h.id, "kind": h.kind, "label": h.label, "value_usd": h.value_usd, "share_of_book": h.share_of_book},
+        "pocket": {"id": h.id, "kind": h.kind, "label": h.label, "value_usd": h.value_usd, "share_of_book": h.share_of_book,
+                   "perspective": "curator" if h.details.get("whole_vault") else "holder"},
         "graph": {"nodes": len(graph["nodes"]), "edges": len(graph["edges"]), "position_id": graph["position"]["id"]},
         "markets": [{"label": m.label, "collateral_pricing": m.collateral_mode, "collateral_class": m.collateral_class,
                      "lltv": m.lltv, "utilization": (m.borrow / m.supply) if m.supply else None, "liquidity": m.liquidity,
@@ -165,8 +170,9 @@ def analyze_pocket(s, h: Holding, holder: str, p, days: float, incident: str | N
         "exit": {"f_max_now": exit_m.f_max, "cost_full_usd": exit_m.cost(max(exit_m.f_max, 1e-9)),
                  "cost_full_pct": exit_m.cost(max(exit_m.f_max, 1e-9)) / (h.value_usd or 1), **exit_m.detail},
         "decision": {"verdict": verdict, "exit_fraction": f,
-                     "sentence": verdict_sentence(verdict, f, exit_m.f_max, el,
-                                                  exit_m.cost(f if f > 0 else max(exit_m.f_max, 1e-9)), top, days)},
+                     "sentence": (CURATOR_VIEW if h.details.get("whole_vault") else "")
+                     + verdict_sentence(verdict, f, exit_m.f_max, el,
+                                        exit_m.cost(f if f > 0 else max(exit_m.f_max, 1e-9)), top, days)},
         "incidents": rows,
     }
 
@@ -308,7 +314,7 @@ def main(argv: list[str] | None = None) -> int:
         for d in book["shared_dependencies"][:8]:
             print(f"    - {d['dependency'][:40]:40s} [{d['type']:14s}] {d['pockets']} pockets · {usd(d['exposed_value_usd'])} exposed")
 
-    out = OUTPUT_DIR / f"risk_{port.holder.lower()}.json"
+    out = OUTPUT_DIR / f"risk_{file_slug(port.holder)}.json"
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps({"holder": port.holder, "block": s.block, "horizon_days": days, "book": book,
                                "pockets": [public(r) for r in reports],

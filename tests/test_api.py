@@ -95,3 +95,24 @@ def test_rpc_down_is_503(monkeypatch):
     api.STATE.__init__()
     r = TestClient(api.app).get(f"/holders/{HOLDER}/pockets")
     assert r.status_code == 503 and "RPC" in r.json()["detail"]
+
+
+def test_books_lists_the_curator_books_of_the_config():
+    r = TestClient(api.app).get("/books")
+    assert r.status_code == 200
+    rockawayx = next(b for b in r.json()["books"] if b["holder"] == "book:rockawayx")
+    assert rockawayx["vaults"] >= 1 and "dune.com" in rockawayx["source"]
+
+
+def test_recorder_writes_every_route_of_a_holder(client, monkeypatch, tmp_path):
+    from stacktrace import record
+    monkeypatch.setattr(record, "RECORDINGS", tmp_path)
+    monkeypatch.setattr(api, "incident_decision", lambda report, p, incident, severity=None, p_incident=None:
+                        {"verdict": "STAY", "p_star": 0.5, "incident": incident, "p_used": p_incident})
+    assert record.record(HOLDER) == 0
+    folder = tmp_path / HOLDER.lower()
+    names = sorted(f.name for f in folder.iterdir())
+    assert names == ["book.json", "graph_1.json", "graph_2.json", "incident.json", "pockets.json",
+                     "risk_1.json", "risk_2.json"]
+    import json
+    assert json.loads((folder / "incident.json").read_text())["incident_mode"]["p_used"] == record.INCIDENT_EXAMPLE_P

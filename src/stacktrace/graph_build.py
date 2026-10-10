@@ -49,7 +49,9 @@ def root_discovery(s: Session, h: Holding, holder: str) -> tuple[Discovery, str]
     """Graph root by pocket type → (discovery, position id of the JSON contract)."""
     ctx = s.ctx
     if h.kind == "morpho_vault_v2":
-        return discover_vault_v2(ctx, h.address, holder), f"morpho_vault_v2:{h.address}:{holder}"
+        # whole vault (curator view): the vault is its own "holder" → position id morpho_vault_v2:<vault>:<vault>
+        owner = h.address if h.details.get("whole_vault") else holder
+        return discover_vault_v2(ctx, h.address, owner), f"morpho_vault_v2:{h.address}:{owner}"
     if h.kind in ("morpho_market_borrow", "morpho_market_supply"):
         m = read_market(ctx, h.market_id)
         d = discover_market(ctx, m)

@@ -89,3 +89,17 @@ def test_vault_v2_allocation_weights_and_exit_liquidity():
     assert cur.meta["unresolved"] and cur.meta["curator_address"] == curator   # identity NOT guessed
     assert any(e.type == "issued_by" and "curator()" in e.evidence for e in d.edges)
     assert not any(t.kind == "vaults_lookup" for t in d.follow)               # co-lenders excluded
+
+
+def test_whole_vault_is_the_curator_view():
+    """holder == vault: the position is the WHOLE vault (all depositors), read with totalAssets()."""
+    ctx, vault, _, mid_hex, _ = _vault_world()
+    ctx.responses[(vault, "totalSupply()", ())] = 2 * 10**18
+    d = discover_vault_v2(ctx, vault, vault)
+    root = next(e for e in d.edges if e.from_key == POSITION_KEY)
+    assert root.to_key == vault and "totalAssets()" in root.evidence and "whole vault" in root.evidence
+
+    v = next(n for n in d.nodes if n.key == vault).meta
+    assert v["whole_vault"] and v["holder_share_of_vault"] == 1.0
+    # the same 200 withdrawable now, but measured against the whole vault (1,000) → 20%
+    assert v["exit_liquidity"]["covers_holder_share"] == 0.2

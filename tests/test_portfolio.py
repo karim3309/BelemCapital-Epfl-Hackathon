@@ -92,3 +92,65 @@ def test_scan_real_holder_live():
     assert all(h.evidence for h in p.holdings)
     vaults = [h for h in p.holdings if h.kind.startswith("morpho_vault")]
     assert all(h.api_gap is None or h.api_gap < 0.01 for h in vaults)
+
+
+# ------------------------------------------------------------------ whole vaults and curator books (curator view)
+class PriceHttp:
+    """Fake Morpho API: answers the vault price query (or nothing, to test the "no price" path)."""
+    def __init__(self, price):
+        self.price = price
+
+    def post_json(self, url, body):
+        if self.price is None:
+            return {"errors": [{"message": "no price"}]}, "2026-10-10T00:00:00+00:00"
+        return {"data": {"vaultV2ByAddress": {"asset": {"priceUsd": self.price}}}}, "2026-10-10T00:00:00+00:00"
+
+
+def whole_vault_ctx(price=1.17, books=None):
+    ctx = FakeCtx({
+        (VAULT, "adaptersLength()", ()): 1, (VAULT, "name()", ()): "Vault Test EURCV",
+        (VAULT, "asset()", ()): USDC, (USDC, "decimals()", ()): 6, (USDC, "symbol()", ()): "EURCV",
+        (VAULT, "totalAssets()", ()): 2_000_000 * 10**6,
+    })
+    ctx.config = SimpleNamespace(apis={"morpho_graphql": "https://api.test/graphql"}, contracts={},
+                                 raw={"curator_books": books or {}})
+    ctx.http = PriceHttp(price)
+    return ctx
+
+
+def test_whole_vault_amount_is_total_assets_and_price_is_marked_api():
+    h = pf.prove_whole_vault(whole_vault_ctx(), VAULT)
+    assert h.amount == 2_000_000 and h.value_usd == pytest.approx(2_340_000)
+    assert h.details["whole_vault"] and h.price_source.startswith("api:")
+    assert any("totalAssets()" in e for e in h.evidence)
+
+
+def test_vault_prefix_scans_one_whole_vault():
+    p = pf.scan_holder(whole_vault_ctx(), f"vault:{VAULT.lower()}")
+    assert p.holder == f"vault:{VAULT}" and len(p.holdings) == 1 and p.holdings[0].share_of_book == 1.0
+
+
+def test_book_prefix_reads_the_config_list():
+    ctx = whole_vault_ctx(books={"test": {"label": "Test curator", "source": "https://example.org",
+                                          "vaults": [{"name": "Vault Test EURCV", "address": VAULT}]}})
+    p = pf.scan_holder(ctx, "book:TEST")
+    assert p.holder == "book:test" and [h.label for h in p.holdings] == ["Vault Test EURCV"]
+    assert "Test curator" in p.located_by
+    with pytest.raises(ValueError, match="unknown book"):
+        pf.scan_holder(ctx, "book:nope")
+
+
+def test_vault_without_usd_price_is_left_out_not_guessed():
+    p = pf.scan_holder(whole_vault_ctx(price=None), f"vault:{VAULT}")
+    assert p.holdings == [] and "no USD price" in p.ignored[0]["reason"]
+
+
+def test_non_vault_address_is_ignored_with_the_reason():
+    ctx = whole_vault_ctx()
+    del ctx.responses[(VAULT, "adaptersLength()", ())]
+    p = pf.scan_holder(ctx, f"vault:{VAULT}")
+    assert p.holdings == [] and "not a Morpho Vault V2" in p.ignored[0]["reason"]
+
+
+def test_file_slug_has_no_colon():
+    assert pf.file_slug("book:RockawayX") == "book_rockawayx"

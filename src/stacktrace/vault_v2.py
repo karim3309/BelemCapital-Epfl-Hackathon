@@ -65,17 +65,26 @@ def _adapter_markets(ctx: Ctx, adapter: str) -> tuple[str, list[tuple[str, int, 
 
 
 def discover_vault_v2(ctx: Ctx, vault: str, holder: str) -> Discovery:
+    """holder == vault means the WHOLE vault (curator view): the position is all its depositors together."""
     vault, holder = checksum(vault), checksum(holder)
+    whole = holder == vault
     name = ctx.call(vault, "name()", returns=["string"])
     ctx.labels[vault] = name
     asset = ctx.call(vault, "asset()", returns=["address"])
     dec = ctx.call(asset, "decimals()", returns=["uint8"])
     symbol = ctx.try_call(asset, "symbol()", returns=["string"]) or "?"
     total = ctx.call(vault, "totalAssets()")
-    shares = ctx.call(vault, "balanceOf(address)", [holder])
-    held = ctx.call(vault, "convertToAssets(uint256)", [shares]) if shares else 0
-    if not shares:
-        raise ValueError(f"{holder} has no share of vault {name} at block {ctx.block}")
+    if whole:
+        shares, held = ctx.call(vault, "totalSupply()"), total
+        position_evidence = (f"{ctx.ev(vault, 'totalAssets()', [], total)} — whole vault: the position is all its "
+                             "depositors together (curator view)")
+    else:
+        shares = ctx.call(vault, "balanceOf(address)", [holder])
+        held = ctx.call(vault, "convertToAssets(uint256)", [shares]) if shares else 0
+        if not shares:
+            raise ValueError(f"{holder} has no share of vault {name} at block {ctx.block}")
+        position_evidence = (f"{ctx.ev(vault, 'balanceOf(address)', [holder], shares)} ; "
+                             f"{ctx.ev(vault, 'convertToAssets(uint256)', [shares], held)}")
     curator = ctx.call(vault, "curator()", returns=["address"])
     owner = ctx.try_call(vault, "owner()", returns=["address"])
     liquidity_adapter = ctx.try_call(vault, "liquidityAdapter()", returns=["address"])
@@ -89,9 +98,7 @@ def discover_vault_v2(ctx: Ctx, vault: str, holder: str) -> Discovery:
 
     d = Discovery()
     vkey = vault
-    d.edges.append(Edge(POSITION_KEY, vkey, "deployed_in", "onchain",
-                        f"{ctx.ev(vault, 'balanceOf(address)', [holder], shares)} ; "
-                        f"{ctx.ev(vault, 'convertToAssets(uint256)', [shares], held)}"))
+    d.edges.append(Edge(POSITION_KEY, vkey, "deployed_in", "onchain", position_evidence))
 
     adapters_meta, allocations = [], []
     withdrawable = idle
@@ -149,7 +156,7 @@ def discover_vault_v2(ctx: Ctx, vault: str, holder: str) -> Discovery:
         "total_assets": str(total), "total_assets_human": total_h, "idle_assets_human": scaled(idle, dec),
         "curator": curator, "owner": owner, "liquidity_adapter": liquidity_adapter,
         "adapters": adapters_meta, "allocations": allocations,
-        "holder": holder, "holder_shares": str(shares), "holder_assets_human": held_h,
+        "holder": holder, "holder_shares": str(shares), "holder_assets_human": held_h, "whole_vault": whole,
         "holder_share_of_vault": round(held / total, 6) if total else None,
         "liquidity_market_id": liq_market,
         "exit_liquidity": {

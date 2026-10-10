@@ -27,7 +27,7 @@ import sys
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
-from discovery.config import REPO_ROOT
+from discovery.config import REPO_ROOT, _check_address
 from discovery.console import utf8_console
 from discovery.ctx import CallFailed, Ctx, checksum
 from discovery.adapters.morpho import ORACLE_PRICE_SCALE, VIRTUAL_ASSETS, VIRTUAL_SHARES, read_market, to_assets_up
@@ -200,9 +200,128 @@ def prove_market(ctx: Ctx, holder: str, item: dict, located: str) -> list[Holdin
     return out
 
 
+# ----------------------------------------------------------------------------- whole vaults (curator view)
+# A CURATOR (RockawayX, Belem…) decides where a vault's money goes. Its question is not "should this depositor
+# leave?" but "can a market of MY vault make my depositors lose money, and should I pull the vault out of it?".
+# So the pocket is the WHOLE vault: amount = totalAssets(), every depositor together. Two extra inputs:
+#   "vault:0x…"   one vault, analysed as a whole;
+#   "book:<key>"  every vault of a curator book listed in config.yaml (curator_books), with its source.
+VAULT_PREFIX, BOOK_PREFIX = "vault:", "book:"
+VAULT_PRICE_QUERIES = (   # tried in order: the first answer with a price wins (the API schema may evolve)
+    ("asset.priceUsd",
+     "query P($a: String!, $c: Int!) { vaultV2ByAddress(address: $a, chainId: $c) { asset { priceUsd } } }"),
+    ("totalAssetsUsd / totalAssets",
+     "query P($a: String!, $c: Int!) { vaultV2ByAddress(address: $a, chainId: $c) { totalAssets totalAssetsUsd } }"),
+)
+
+
+def vault_price_usd(ctx: Ctx, vault: str, decimals: int, chain_id: int = 1) -> tuple[float | None, str]:
+    """USD price of one unit of the vault's asset, from the Morpho API (marked `api`), or (None, why)."""
+    url = ctx.config.apis.get("morpho_graphql")
+    if not url or ctx.http is None:
+        return None, "no Morpho API configured"
+    for how, query in VAULT_PRICE_QUERIES:
+        try:
+            data, fetched = ctx.http.post_json(url, {"query": query, "variables": {"a": vault, "c": chain_id}})
+        except Exception as e:                      # network error: say it, never guess a price
+            return None, f"Morpho API unreachable ({type(e).__name__})"
+        v = (data.get("data") or {}).get("vaultV2ByAddress") or {}
+        if data.get("errors") or not v:
+            continue
+        price = ((v.get("asset") or {}).get("priceUsd") if how.startswith("asset")
+                 else usd_per_unit(v.get("totalAssetsUsd"), v.get("totalAssets"), decimals))
+        if price:
+            return float(price), f"api: vaultV2ByAddress {how} ({url}, fetched {fetched})"
+    return None, "the Morpho API gave no USD price for this vault"
+
+
+def prove_whole_vault(ctx: Ctx, vault: str, chain_id: int = 1) -> Holding:
+    """A Morpho Vault V2 taken as a whole: amount = totalAssets() at the pinned block."""
+    vault = checksum(vault)
+    if ctx.try_call(vault, "adaptersLength()") is None:
+        raise ValueError(f"{vault} is not a Morpho Vault V2 (no adaptersLength())")
+    name = ctx.call(vault, "name()", returns=["string"])
+    ctx.labels[vault] = name
+    asset = ctx.call(vault, "asset()", returns=["address"])
+    decimals = ctx.call(asset, "decimals()", returns=["uint8"])
+    symbol = ctx.try_call(asset, "symbol()", returns=["string"]) or "?"
+    total = ctx.call(vault, "totalAssets()")
+    price, price_source = vault_price_usd(ctx, vault, decimals, chain_id)
+    amount = total / 10**decimals
+    return Holding(
+        id=f"morpho_vault_v2:{vault}", kind="morpho_vault_v2", label=name, protocol="morpho", chain="ethereum",
+        address=vault, market_id=None, asset_symbol=symbol, asset_address=asset, amount=amount, price_usd=price,
+        value_usd=amount * price if price is not None else None, price_source=price_source,
+        evidence=[ctx.ev(vault, "totalAssets()", [], total), ctx.ev(vault, "asset()", [], asset)],
+        details={"whole_vault": True, "decimals": decimals, "total_assets_raw": str(total),
+                 "perspective": "curator: the pocket is the whole vault, i.e. all its depositors"})
+
+
+def curator_book(config, key: str) -> tuple[dict, list[str]]:
+    """(book entry, checked vault addresses) of config.yaml → curator_books.<key>."""
+    books = (getattr(config, "raw", None) or {}).get("curator_books") or {}
+    if key not in books:
+        raise ValueError(f"unknown book {key!r} (known: {', '.join(books) or 'none'}; see config.yaml curator_books)")
+    book = books[key]
+    return book, [_check_address(f"curator_books.{key}.vaults[{i}]", v.get("address"))
+                  for i, v in enumerate(book.get("vaults") or [])]
+
+
+def scan_vaults(ctx: Ctx, key: str, vaults: list[str], located: str, chain_id: int = 1,
+                min_usd: float = 1.0) -> Portfolio:
+    """A list of whole vaults → a portfolio whose pockets are the vaults (the curator's book)."""
+    holdings, ignored = [], []
+    notes = [f"Vaults listed by {located}; amounts PROVEN on-chain (totalAssets) at block #{ctx.block}."]
+    for v in vaults:
+        try:
+            h = prove_whole_vault(ctx, v, chain_id)
+        except (CallFailed, ValueError) as e:
+            ignored.append({"id": f"morpho_vault_v2:{v}", "reason": f"on-chain proof impossible: {e}"})
+            continue
+        if h.value_usd is None:
+            ignored.append({"id": h.id, "label": h.label, "reason": f"no USD price ({h.price_source}): "
+                            "a loss in dollars cannot be computed, so the vault is left out rather than guessed"})
+        elif h.amount == 0 or abs(h.value_usd) < min_usd:
+            ignored.append({"id": h.id, "label": h.label, "reason": f"empty or < ${min_usd}", "value_usd": h.value_usd})
+        else:
+            holdings.append(h)
+    return _finish(Portfolio(key, "ethereum", ctx.block, ctx.block_timestamp, located, holdings, ignored, notes))
+
+
+def _finish(p: Portfolio) -> Portfolio:
+    """Sorts the pockets by value and computes each one's share of the book."""
+    p.holdings.sort(key=lambda h: -(h.value_usd or 0))
+    total = sum(h.value_usd or 0 for h in p.holdings)
+    for h in p.holdings:
+        h.share_of_book = round((h.value_usd or 0) / total, 6) if total else None
+        if h.api_gap is not None and h.api_gap > API_ONCHAIN_TOLERANCE:
+            p.notes.append(f"⚠ {h.label}: the chain says {h.amount:,.2f} {h.asset_symbol}, the API {h.api_amount:,.2f} "
+                           f"(gap {h.api_gap:.1%}) — the chain wins.")
+    if any(h.value_usd is None for h in p.holdings):
+        p.notes.append("⚠ some pockets have no USD price (API silent): excluded from the total.")
+    return p
+
+
+def file_slug(holder: str) -> str:
+    """A file-name-safe version of a holder ("book:rockawayx" → "book_rockawayx"; ':' is forbidden on Windows)."""
+    return holder.lower().replace(":", "_")
+
+
 # ----------------------------------------------------------------------------- orchestration
 def scan_holder(ctx: Ctx, holder: str, chain_id: int = 1, min_usd: float = 1.0) -> Portfolio:
-    holder = checksum(holder)
+    """A holder address, or "vault:0x…" (one whole vault), or "book:<key>" (a curator book of config.yaml)."""
+    raw = holder.strip()
+    if raw.lower().startswith(VAULT_PREFIX):
+        vault = checksum(raw[len(VAULT_PREFIX):])
+        return scan_vaults(ctx, f"{VAULT_PREFIX}{vault}", [vault], "the request (one whole vault)", chain_id, min_usd)
+    if raw.lower().startswith(BOOK_PREFIX):
+        key = raw[len(BOOK_PREFIX):].lower()
+        book, vaults = curator_book(ctx.config, key)
+        source = " ".join(str(book.get("source", "?")).split())
+        return scan_vaults(ctx, f"{BOOK_PREFIX}{key}", vaults,
+                           f"curator book \"{book.get('label', key)}\" of config.yaml (source: {source})",
+                           chain_id, min_usd)
+    holder = checksum(raw)
     url = ctx.config.apis["morpho_graphql"]
     data, fetched_at = ctx.http.post_json(url, {"query": QUERY, "variables": {"a": holder, "c": chain_id}})
     located = f"API Morpho {url} userByAddress (fetched {fetched_at})"
@@ -235,16 +354,7 @@ def scan_holder(ctx: Ctx, holder: str, chain_id: int = 1, min_usd: float = 1.0) 
             else:
                 holdings.append(h)
 
-    holdings.sort(key=lambda h: -(h.value_usd or 0))
-    total = sum(h.value_usd or 0 for h in holdings)
-    for h in holdings:
-        h.share_of_book = round((h.value_usd or 0) / total, 6) if total else None
-        if h.api_gap is not None and h.api_gap > API_ONCHAIN_TOLERANCE:
-            notes.append(f"⚠ {h.label}: the chain says {h.amount:,.2f} {h.asset_symbol}, the API {h.api_amount:,.2f} "
-                         f"(gap {h.api_gap:.1%}) — the chain wins.")
-    if any(h.value_usd is None for h in holdings):
-        notes.append("⚠ some pockets have no USD price (API silent): excluded from the total.")
-    return Portfolio(holder, "ethereum", ctx.block, ctx.block_timestamp, located, holdings, ignored, notes)
+    return _finish(Portfolio(holder, "ethereum", ctx.block, ctx.block_timestamp, located, holdings, ignored, notes))
 
 
 # ----------------------------------------------------------------------------- CLI
@@ -270,7 +380,7 @@ def main(argv: list[str] | None = None) -> int:
     from .session import SessionError, open_session
     utf8_console()
     ap = argparse.ArgumentParser(description="Lists a holder's positions (pockets), proven on-chain.")
-    ap.add_argument("holder", help="holder address (0x…)")
+    ap.add_argument("holder", help="holder address (0x…), vault:0x… (one whole vault) or book:<key> (config.yaml)")
     ap.add_argument("--min-usd", type=float, default=1.0, help="ignore pockets smaller than this (default $1)")
     args = ap.parse_args(argv)
     try:
@@ -281,7 +391,7 @@ def main(argv: list[str] | None = None) -> int:
     p = scan_holder(s.ctx, args.holder, s.chain_id, args.min_usd)
     _print(p, s.describe())
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    out = OUTPUT_DIR / f"portfolio_{p.holder.lower()}.json"
+    out = OUTPUT_DIR / f"portfolio_{file_slug(p.holder)}.json"
     out.write_text(json.dumps(p.to_json(), indent=1, ensure_ascii=False), encoding="utf-8")
     print(f"\n→ {out.relative_to(REPO_ROOT)}  ({s.network_calls} network RPC calls)")
     return 0

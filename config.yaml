@@ -60,6 +60,25 @@ contracts:
     source: "https://docs.ens.domains/learn/deployments"
     verified_by: "claude (official docs) — TO BE RE-CHECKED"
 
+# ----- Curator books (backend v2: "book:<key>" analyses every vault of the list) -----
+# A curator (RockawayX, Belem…) decides where a vault's money goes. Its "book" = the vaults it curates.
+# Addresses = entry points, like the ones above: each one must be ticked off in docs/VERIFY.md.
+curator_books:
+  rockawayx:
+    label: "RockawayX-curated Morpho vaults (Ethereum)"
+    source: >-
+      Vaults of the RockawayX Dune dashboard shared by Belem (https://dune.com/rockawayxvault/rockawayx-dashboard).
+      Addresses located by the Morpho API (userByAddress of 0x4F87De7d21aeF48090958f7342E1F69Dff790545) and proven
+      on-chain (name(), balanceOf) at block #26162868 — see docs/api_examples/pockets.json. The curator is re-read
+      on-chain (curator()) at every analysis.
+    verified_by: "claude (recorded API + on-chain reads) — RE-CHECK each address against the Dune dashboard / Etherscan"
+    vaults:
+      - {name: "Belem RWA EURCV", address: "0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec"}
+      - {name: "RockawayX f(x) Protocol Ecosystem USDC", address: "0x2cA22cb25558fa2018ecb1CE4eD8AF92Ee7ea423"}
+      - {name: "RockawayX USDC Yield", address: "0xE0181090c22579B6A217f1522cbf8c9f1F0C1965"}
+      - {name: "RockawayX wETH", address: "0x64C18DCC4Ccb3b8D27877a4aeBB4C3126CB39cB9"}
+      - {name: "RockawayX Tori Ecosystem", address: "0x3BD9AdAE6643dDcddD02746b8B60075E56DF9478"}
+
 # Reference USD feed to convert the lent asset's price to USD (resolved on-chain via ENS).
 usd_reference:
   loan_token_usd_feed_ens: "usdc-usd.data.eth"
