@@ -50,7 +50,8 @@ vente. C'est l'arbitrage du brief : sortir coûte cher et c'est certain ; rester
 ## 3:00 — Et si ça arrive ? (70 s) — *Décision, 25 %*
 **Action :** revenir à **Belem RWA EURCV**, diapositive 6, incident « Chute du collatéral mGLOeuro », sévérité 30 %.
 Monter « votre probabilité » de 0 à 20 %.
-**À dire :** « On ne demande pas à Léa d'estimer une perte : on lui demande si elle croit à plus de p\*. Au-dessus du seuil,
+**À dire :** « On ne demande pas à Léa d'estimer une perte : on lui demande si elle croit à plus de p\* (ici 0,7 % sur la semaine, soit un événement qui arrive à peu près
+une fois tous les 3 ans). Au-dessus du seuil,
 le verdict bascule en EXIT, et seulement pour la part sortable maintenant : 22 %. »
 
 ## 4:10 — La concentration (30 s)

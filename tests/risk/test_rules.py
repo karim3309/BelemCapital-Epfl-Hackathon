@@ -139,3 +139,13 @@ def test_every_real_param_has_a_status(engine):
 def test_world_defaults():
     w = World()
     assert w.mult("anything") == 1.0
+
+
+def test_small_probabilities_are_translated_into_a_frequency():
+    from risk.fmt import every, prob
+    # 0,10 % sur 7 jours ≈ λ = 0,05/an ≈ une fois tous les 20 ans (loi de Poisson)
+    assert every(0.000958, 7) == "≈ une fois tous les 20 ans"
+    assert prob(0.016, 1, 7) == "1,6 % (≈ une fois tous les 14 mois)"
+    assert every(0.1, 7) == "≈ une fois toutes les 9 semaines"
+    # au-delà de 20 %, ou sans probabilité, on n'ajoute rien
+    assert every(0.587, 7) == "" and every(0.0, 7) == "" and every(None, 7) == ""

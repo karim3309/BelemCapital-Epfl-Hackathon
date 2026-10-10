@@ -24,6 +24,7 @@ import numpy as np
 
 from discovery.config import REPO_ROOT
 from discovery.console import utf8_console
+from risk.fmt import every
 
 from .exit_cost import ExitModel, borrow_exit, vault_exit
 from .graph_build import build_position_graph, pick
@@ -62,7 +63,20 @@ def pct(x: float | None, d: int = 1) -> str:
     return "—" if x is None else f"{x * 100:.{d}f} %".replace(".", ",")
 
 
-def verdict_sentence(v: str, f: float, f_max: float, el: float, exit_cost: float, top: dict | None) -> str:
+def prob(x: float | None, d: int, days: float) -> str:
+    """Probabilité sur l'horizon + fréquence parlante : « 0,10 % (≈ une fois tous les 20 ans) »."""
+    freq = every(x, days)
+    return pct(x, d) + (f" ({freq})" if freq else "")
+
+
+def soit(x: float | None, days: float) -> str:
+    """Fréquence à glisser DANS une parenthèse : « , soit ≈ une fois tous les 20 ans »."""
+    freq = every(x, days)
+    return f", soit {freq}" if freq else ""
+
+
+def verdict_sentence(v: str, f: float, f_max: float, el: float, exit_cost: float, top: dict | None,
+                     days: float = 7.0) -> str:
     """Compare ce que la sortie ÉVITE (perte attendue × part sortable) à ce qu'elle COÛTE."""
     if v == "STAY":
         avoided = el * f_max
@@ -70,8 +84,8 @@ def verdict_sentence(v: str, f: float, f_max: float, el: float, exit_cost: float
         s = (f"STAY — sortir{scope} éviterait {usd(avoided)} de perte attendue sur l'horizon, "
              f"mais coûterait {usd(exit_cost)}.")
         if top and top.get("p_star") is not None and top["p_star"] < 1:
-            s += (f" Sortez si vous estimez à plus de {pct(top['p_star'])} le risque « {top['title']} » "
-                  f"(notre estimation : {pct(top['p_horizon'], 2)}).")
+            s += (f" Sortez si vous estimez à plus de {prob(top['p_star'], 1, days)} le risque « {top['title']} » "
+                  f"(notre estimation : {pct(top['p_horizon'], 2)}{soit(top['p_horizon'], days)}).")
         elif top and top.get("p_star") is not None:
             s += f" Même certain, « {top['title']} » coûterait moins que la sortie : rester est toujours mieux."
         elif f_max <= 0:
@@ -152,7 +166,7 @@ def analyze_pocket(s, h: Holding, holder: str, p, days: float, incident: str | N
                  "cost_full_pct": exit_m.cost(max(exit_m.f_max, 1e-9)) / (h.value_usd or 1), **exit_m.detail},
         "decision": {"verdict": verdict, "exit_fraction": f,
                      "sentence": verdict_sentence(verdict, f, exit_m.f_max, el,
-                                                  exit_m.cost(f if f > 0 else max(exit_m.f_max, 1e-9)), top)},
+                                                  exit_m.cost(f if f > 0 else max(exit_m.f_max, 1e-9)), top, days)},
         "incidents": rows,
     }
 
@@ -190,7 +204,8 @@ def incident_decision(report: dict, p, incident: str, severity: float | None = N
                      f"la poche perd {usd(lgi)} ({pct(lgi / (h.value_usd or 1))}). Sortir maintenant coûte "
                      f"{usd(exit_m.cost(max(exit_m.f_max, 1e-9)))}"
                      + (f" et ne couvre que {pct(exit_m.f_max, 0)} de la poche" if exit_m.f_max < 0.999 else "")
-                     + (f". Seuil : sortez si vous croyez à plus de {pct(ps)} de chances." if ps is not None
+                     + (f". Seuil : sortez si vous croyez à plus de {prob(ps, 1, report['monte_carlo']['horizon_days'])} "
+                        "de chances." if ps is not None
                         else ". Sortie impossible maintenant (aucune liquidité).")),
     }
 

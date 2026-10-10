@@ -13,7 +13,7 @@
 |---|---|
 | Alerte (scénario de démo du cadrage) | **USDe −30 % durable** : l'oracle bascule après 16 h, la position est liquidée, **−53 133 $** (tout le capital) et **−77 723 $ pour les prêteurs** |
 | Coût certain de sortie | **854 $**, mesuré on-chain (simulation de vente sur le vrai pool Pendle) |
-| Seuil | **p\* = 1,6 %** → « est-ce que je crois à plus de 1,6 % de chances que ça arrive cette semaine ? » |
+| Seuil | **p\* = 1,6 %** sur 7 jours, soit le risque d'un événement qui arrive **≈ une fois tous les 14 mois** → « est-ce que je crois à plus de 1,6 % de chances que ça arrive cette semaine ? » |
 | Sans alerte (Monte Carlo, 200 000 semaines) | perte attendue ≈ 131 $/7 j, VaR 95 % = 0 $, ES 99 % ≈ 13 k$ → **STAY** |
 | Le piège de cette position | la **durée** : USDe à 0,93 $ pendant 6 h = 0 $ de perte ; pendant 24 h = liquidation (−37 k$) |
 | Le risque caché | exploit Pendle : l'oracle fixe ne voit rien → **152 k$ de dette irrécouvrable chez les prêteurs** |

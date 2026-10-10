@@ -5,7 +5,7 @@ import Slide from '../components/Slide'
 import { Failure, Pending, Unrecorded } from '../components/States'
 import VerdictWord from '../components/VerdictWord'
 import { C, verdictColor } from '../lib/colors'
-import { kindLabel, pct, pctAuto, usd, usdShort } from '../lib/format'
+import { DEFAULT_HORIZON_DAYS, kindLabel, pct, pctAuto, pctFreq, usd, usdShort } from '../lib/format'
 import { usePocketView, useSelection } from '../state/selection'
 
 function Big({ label, value, note, tone }: { label: string; value: string; note?: string; tone?: string }) {
@@ -30,6 +30,7 @@ export default function VerdictSlide() {
   const avoided = v.expectedLoss !== null && v.exitableNow !== null ? v.expectedLoss * v.exitableNow : null
   const scale = Math.max(avoided ?? 0, v.exitCost ?? 0, 1)
   const top = v.topRisk
+  const days = v.risk?.monte_carlo.horizon_days ?? DEFAULT_HORIZON_DAYS
   const fullAnalysis = v.risk !== null || (source.mode === 'recorded' && v.holding && recordedCoverage(v.holding.id).risk)
 
   return (
@@ -141,11 +142,11 @@ export default function VerdictSlide() {
             >
               <span className="text-caption font-normal text-neutral1">La question de 3 h du matin</span>
               <span className="text-body font-normal text-chalk">
-                Croyez-vous à plus de <span className="font-semibold">{pctAuto(top.p_star)}</span> de risque «{' '}
+                Croyez-vous à plus de <span className="font-semibold">{pctFreq(top.p_star, days)}</span> de risque «{' '}
                 {top.title} » ?
               </span>
               <span className="text-caption font-normal text-neutral1 tabular">
-                Notre estimation : {pctAuto(top.p_horizon)}. Au-delà du seuil, sortir coûte moins que rester.
+                Notre estimation : {pctFreq(top.p_horizon, days)}. Au-delà du seuil, sortir coûte moins que rester.
               </span>
               <span className="text-caption font-semibold text-accent">Tester votre estimation</span>
             </button>
