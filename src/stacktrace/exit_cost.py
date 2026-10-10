@@ -53,7 +53,7 @@ def gas_usd(ctx: Ctx, units: int) -> tuple[float, str]:
     dec = ctx.call(feed, "decimals()", returns=["uint8"])
     eth = answer / 10**dec
     usd = units * base_fee / 1e18 * eth
-    return usd, f"{units} gas × baseFee {base_fee / 1e9:.2f} gwei (bloc #{ctx.block}) × ETH {eth:,.0f} $ ({proof})"
+    return usd, f"{units} gas × baseFee {base_fee / 1e9:.2f} gwei (block #{ctx.block}) × ETH ${eth:,.0f} ({proof})"
 
 
 def vault_exit(ctx: Ctx, p: Params, value_usd: float, f_max: float, apy: float | None, penalty: float, days: float,

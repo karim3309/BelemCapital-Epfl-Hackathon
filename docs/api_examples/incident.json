@@ -12,11 +12,11 @@
  "baseline_decision": {
   "verdict": "STAY",
   "exit_fraction": 0.0,
-  "sentence": "STAY — sortir (seuls 22 % sont sortables maintenant) éviterait 153 $ de perte attendue sur l'horizon, mais coûterait 643 $. Sortez si vous estimez à plus de 0,6 % (≈ une fois tous les 3 ans) le risque « Chute du collatéral mGLOeuro » (notre estimation : 0,10 %, soit ≈ une fois tous les 20 ans)."
+  "sentence": "STAY — exiting (only 22% can be exited now) would avoid $153 of expected loss over the horizon, but would cost $643. Exit if you put the risk \"mGLOeuro collateral drop\" above 0.6% (≈ once every 3 years) (our estimate: 0.10%, i.e. ≈ once every 20 years)."
  },
  "incident_mode": {
   "incident": "rwa_credit_event:mgloeuro",
-  "title": "Chute du collatéral mGLOeuro",
+  "title": "mGLOeuro collateral drop",
   "severity": 0.3,
   "loss_if_incident_usd": 407675.1336232384,
   "loss_if_incident_pct": 0.0777431407724335,
@@ -25,7 +25,7 @@
   "p_star": 0.007161227131312016,
   "verdict": "EXIT",
   "exit_fraction": 0.2202,
-  "rule": "choc brutal sur un collatéral dont l'oracle NE suit PAS le marché (taux interne / prix posé) : pas de liquidation à temps → dette irrécouvrable max(0, D − V·(1−d)·(1−glissement)), emprunteur par emprunteur",
+  "rule": "sudden shock on a collateral whose oracle does NOT follow the market (internal rate / set price): no timely liquidation → bad debt max(0, D − V·(1−d)·(1−slippage)), borrower by borrower",
   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] Belem RWA EURCV → [deployed_in] Morpho Blue mGLOeuro / EURCV (LLTV 77.0%) → [collateralized_by] mGLOeuro",
   "contagion_edges": [
    {
@@ -42,7 +42,7 @@
     "type": "deployed_in",
     "weight": 0.8577759933070974,
     "source": "onchain",
-    "evidence": "Belem RWA EURCV.adapters(0) = 0xA671880d813D4cacacA63984bc0Ab676c400A874 @ 0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec #26162868 ; VaultV2Adapter.marketIds(0) = 0x987b2c1979c6cfd6b7833d9b30c09b96ec6de1666579582d8f17730e20dd19b0 @ 0xA671880d813D4cacacA63984bc0Ab676c400A874 #26162868 ; VaultV2Adapter.expectedSupplyAssets(0x987b2c1979c6cfd6b7833d9b30c09b96ec6de1666579582d8f17730e20dd19b0) = 4040625673075708971867979 @ 0xA671880d813D4cacacA63984bc0Ab676c400A874 #26162868 ; part du vault = 85.7776% (÷ totalAssets 4710583770825002436760016)"
+    "evidence": "Belem RWA EURCV.adapters(0) = 0xA671880d813D4cacacA63984bc0Ab676c400A874 @ 0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec #26162868; VaultV2Adapter.marketIds(0) = 0x987b2c1979c6cfd6b7833d9b30c09b96ec6de1666579582d8f17730e20dd19b0 @ 0xA671880d813D4cacacA63984bc0Ab676c400A874 #26162868; VaultV2Adapter.expectedSupplyAssets(0x987b2c1979c6cfd6b7833d9b30c09b96ec6de1666579582d8f17730e20dd19b0) = 4040625673075708971867979 @ 0xA671880d813D4cacacA63984bc0Ab676c400A874 #26162868; vault share = 85.7776% (÷ totalAssets 4710583770825002436760016)"
    },
    {
     "from": "morpho_market_987b2c19",
@@ -53,6 +53,6 @@
     "evidence": "Morpho.idToMarketParams(0x987b2c1979c6cfd6b7833d9b30c09b96ec6de1666579582d8f17730e20dd19b0) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26162868 → collateralToken = 0x2F8bae126b8d416C009b82Ccd60e4f9cAbbd7702"
    }
   ],
-  "sentence": "EXIT 22 % — si « Chute du collatéral mGLOeuro » (sévérité 30 %) se produit, la poche perd 407 675 $ (7,8 %). Sortir maintenant coûte 643 $ et ne couvre que 22 % de la poche. Seuil : sortez si vous croyez à plus de 0,7 % (≈ une fois tous les 3 ans) de chances."
+  "sentence": "EXIT 22% — if \"mGLOeuro collateral drop\" (severity 30%) happens, the pocket loses $407,675 (7.8%). Exiting now costs $643 and only covers 22% of the pocket. Threshold: exit if you believe there is more than a 0.7% (≈ once every 3 years) chance."
  }
 }

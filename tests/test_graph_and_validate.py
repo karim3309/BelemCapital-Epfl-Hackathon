@@ -36,7 +36,7 @@ def _tiny_graph() -> GraphBuilder:
     g.add_node(Node("chain:ethereum", "chain", "Ethereum", "ethereum"))
     g.add_edge(Edge(POSITION_KEY, mkey, "deployed_in", "onchain", f"Morpho.position() @ {addr(1)} #100"))
     g.add_edge(Edge(mkey, addr(2), "collateralized_by", "onchain", f"Morpho.idToMarketParams() @ {addr(1)} #100"))
-    g.add_edge(Edge(addr(2), "chain:ethereum", "settled_on", "onchain", f"eth_getCode({addr(2)}) = 10 octets #100"))
+    g.add_edge(Edge(addr(2), "chain:ethereum", "settled_on", "onchain", f"eth_getCode({addr(2)}) = 10 bytes #100"))
     return g
 
 

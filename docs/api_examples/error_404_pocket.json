@@ -1,11 +1,11 @@
 {
  "detail": {
-  "error": "poche « 99 » introuvable",
+  "error": "pocket \"99\" not found",
   "pockets": [
    {
     "index": 1,
     "id": "morpho_market_borrow:0xea4bfb18df0ee6bffb7b3f0270899a8adb92ab6b684709634c8276128813cfd4",
-    "label": "Emprunt RLUSD contre weETH · marché weETH/RLUSD"
+    "label": "Borrow RLUSD against weETH · market weETH/RLUSD"
    },
    {
     "index": 2,
@@ -15,12 +15,12 @@
    {
     "index": 3,
     "id": "morpho_market_borrow:0x7a25fb17b8bd83a934ad87d9d1725188fc129992ca816f3145b4ab7f673c98c3",
-    "label": "Emprunt EURCV contre wstETH · marché wstETH/EURCV"
+    "label": "Borrow EURCV against wstETH · market wstETH/EURCV"
    },
    {
     "index": 4,
     "id": "morpho_market_borrow:0xa6a4c1f15490a1ff39d9de3a366b408dd5647a436d8b179726d3e0562aff1292",
-    "label": "Emprunt USDT contre weETH · marché weETH/USDT"
+    "label": "Borrow USDT against weETH · market weETH/USDT"
    },
    {
     "index": 5,
@@ -30,7 +30,7 @@
    {
     "index": 6,
     "id": "morpho_market_borrow:0x002278ea242ec722813b4fe3c8eeaa07dbc331c731cc0b4248a1bf0771f933ea",
-    "label": "Emprunt USDC contre PST · marché PST/USDC"
+    "label": "Borrow USDC against PST · market PST/USDC"
    },
    {
     "index": 7,
@@ -45,12 +45,12 @@
    {
     "index": 9,
     "id": "morpho_market_borrow:0xb4977179610abfecfc8b76255a002c16b33f46d077beb86e5911e1fe9ee6e512",
-    "label": "Emprunt PYUSD contre PST · marché PST/PYUSD"
+    "label": "Borrow PYUSD against PST · market PST/PYUSD"
    },
    {
     "index": 10,
     "id": "morpho_market_borrow:0x85d59152eeeab7ca024804895b358868d8dd1e134171be400d7792d5604a212c",
-    "label": "Emprunt PYUSD contre weETH · marché weETH/PYUSD"
+    "label": "Borrow PYUSD against weETH · market weETH/PYUSD"
    },
    {
     "index": 11,

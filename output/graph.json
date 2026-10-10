@@ -772,7 +772,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0xc3866d726C204C0836E0677A31973c649888973D) = 871 octets #26162087 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0xc3866d726C204C0836E0677A31973c649888973D) = 871 bytes #26162087; eth_chainId = 1"
     },
     {
       "from": "feed_pt_susde_26nov2026_linear_discount",
@@ -780,7 +780,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0xA572Dad7DB3d975E9ce780db1Cf3Bf959401cD35) = 951 octets #26162087 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0xA572Dad7DB3d975E9ce780db1Cf3Bf959401cD35) = 951 bytes #26162087; eth_chainId = 1"
     },
     {
       "from": "feed_usde_usd",
@@ -796,7 +796,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961) = 9571 octets #26162087 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961) = 9571 bytes #26162087; eth_chainId = 1"
     },
     {
       "from": "morpho:0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05:0x03BAbEB24619902253FDB0D5675A816879115d98",
@@ -844,7 +844,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb) = 15623 octets #26162087 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb) = 15623 bytes #26162087; eth_chainId = 1"
     },
     {
       "from": "oracle_meta_f8b29e",
@@ -868,7 +868,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08) = 45 octets #26162087 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08) = 45 bytes #26162087; eth_chainId = 1"
     },
     {
       "from": "oracle_morpho_v2_8fca98",
@@ -884,7 +884,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0x8fCa98C9abeE4Dcb33ba9f3d17db4AD57f72706D) = 2598 octets #26162087 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0x8fCa98C9abeE4Dcb33ba9f3d17db4AD57f72706D) = 2598 bytes #26162087; eth_chainId = 1"
     },
     {
       "from": "oracle_morpho_v2_e2f4cf",
@@ -916,7 +916,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465) = 2598 octets #26162087 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465) = 2598 bytes #26162087; eth_chainId = 1"
     },
     {
       "from": "pendle_plp_susde_26nov2026",
@@ -932,7 +932,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E) = 23999 octets #26162087 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0x47ad2Cd1DD15739A7a035b9d3B7828d916FEF77E) = 23999 bytes #26162087; eth_chainId = 1"
     },
     {
       "from": "pt_susde_26nov2026",
@@ -964,7 +964,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0xB195B618EA52b77CB2a58846F452f59f8dFa9390) = 5858 octets #26162087 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0xB195B618EA52b77CB2a58846F452f59f8dFa9390) = 5858 bytes #26162087; eth_chainId = 1"
     },
     {
       "from": "susde",
@@ -988,7 +988,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0x9D39A5DE30e57443BfF2A8307A4256c8797A3497) = 17299 octets #26162087 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0x9D39A5DE30e57443BfF2A8307A4256c8797A3497) = 17299 bytes #26162087; eth_chainId = 1"
     },
     {
       "from": "sy_susde",
@@ -1012,7 +1012,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0xBF98480425A29197e5d99D003017f63a1e595D02) = 14366 octets #26162087 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0xBF98480425A29197e5d99D003017f63a1e595D02) = 14366 bytes #26162087; eth_chainId = 1"
     },
     {
       "from": "usdc",
@@ -1028,7 +1028,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48) = 2186 octets #26162087 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48) = 2186 bytes #26162087; eth_chainId = 1"
     },
     {
       "from": "usde",
@@ -1044,7 +1044,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0x4c9EDD5852cd905f086C759E8383e09bff1E68B3) = 7567 octets #26162087 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0x4c9EDD5852cd905f086C759E8383e09bff1E68B3) = 7567 bytes #26162087; eth_chainId = 1"
     },
     {
       "from": "vault_pendleusdc",
@@ -1060,7 +1060,7 @@
       "type": "settled_on",
       "weight": 1.0,
       "source": "onchain",
-      "evidence": "eth_getCode(0x55C1B6e461a6334B567bAF0FEb5D728715446f05) = 21808 octets #26162087 ; eth_chainId = 1"
+      "evidence": "eth_getCode(0x55C1B6e461a6334B567bAF0FEb5D728715446f05) = 21808 bytes #26162087; eth_chainId = 1"
     }
   ]
 }

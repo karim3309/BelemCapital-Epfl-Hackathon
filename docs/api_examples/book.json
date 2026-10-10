@@ -9,7 +9,7 @@
   {
    "index": 1,
    "id": "morpho_market_borrow:0xea4bfb18df0ee6bffb7b3f0270899a8adb92ab6b684709634c8276128813cfd4",
-   "label": "Emprunt RLUSD contre weETH · marché weETH/RLUSD",
+   "label": "Borrow RLUSD against weETH · market weETH/RLUSD",
    "kind": "morpho_market_borrow",
    "value_usd": 5778894.299861532,
    "share_of_book": 0.218822,
@@ -18,10 +18,10 @@
    "expected_loss_usd": 1510.356953785154,
    "exit_cost_usd": 132490.45836318543,
    "exit_fraction_now": 1.0,
-   "sentence": "STAY — sortir éviterait 1 510 $ de perte attendue sur l'horizon, mais coûterait 132 490 $. Même certain, « Chute du collatéral weETH » coûterait moins que la sortie : rester est toujours mieux.",
+   "sentence": "STAY — exiting would avoid $1,510 of expected loss over the horizon, but would cost $132,490. Even if certain, \"weETH collateral drop\" would cost less than exiting: staying is always better.",
    "top_risk": {
     "id": "volatile_crash:weeth",
-    "title": "Chute du collatéral weETH",
+    "title": "weETH collateral drop",
     "family": "volatile_crash",
     "target": "weeth",
     "annual_rate": 0.5,
@@ -34,7 +34,7 @@
     "loss_if_incident_max_usd": 334843.2665185996,
     "expected_loss_usd": 779.3855026498991,
     "p_star": 1.0,
-    "rule": "chute d'un actif volatil : exposition de marché choisie, seule la liquidation compte (pénalité ρ·D·(LIF−1) si HF·(1−d) < 1)",
+    "rule": "drop of a volatile asset: chosen market exposure, only the liquidation counts (penalty ρ·D·(LIF−1) if HF·(1−d) < 1)",
     "contagion_path": "morpho:0xea4bfb18d… → [deployed_in] Morpho Blue weETH / RLUSD (LLTV 86.0%) → [collateralized_by] weETH"
    }
   },
@@ -50,10 +50,10 @@
    "expected_loss_usd": 695.5757544743858,
    "exit_cost_usd": 642.8930154738864,
    "exit_fraction_now": 0.22021,
-   "sentence": "STAY — sortir (seuls 22 % sont sortables maintenant) éviterait 153 $ de perte attendue sur l'horizon, mais coûterait 643 $. Sortez si vous estimez à plus de 0,6 % (≈ une fois tous les 3 ans) le risque « Chute du collatéral mGLOeuro » (notre estimation : 0,10 %, soit ≈ une fois tous les 20 ans).",
+   "sentence": "STAY — exiting (only 22% can be exited now) would avoid $153 of expected loss over the horizon, but would cost $643. Exit if you put the risk \"mGLOeuro collateral drop\" above 0.6% (≈ once every 3 years) (our estimate: 0.10%, i.e. ≈ once every 20 years).",
    "top_risk": {
     "id": "rwa_credit_event:mgloeuro",
-    "title": "Chute du collatéral mGLOeuro",
+    "title": "mGLOeuro collateral drop",
     "family": "rwa_credit_event",
     "target": "mgloeuro",
     "annual_rate": 0.05,
@@ -66,14 +66,14 @@
     "loss_if_incident_max_usd": 1461301.671941706,
     "expected_loss_usd": 438.37367510499064,
     "p_star": 0.006382990196831627,
-    "rule": "choc brutal sur un collatéral dont l'oracle NE suit PAS le marché (taux interne / prix posé) : pas de liquidation à temps → dette irrécouvrable max(0, D − V·(1−d)·(1−glissement)), emprunteur par emprunteur",
+    "rule": "sudden shock on a collateral whose oracle does NOT follow the market (internal rate / set price): no timely liquidation → bad debt max(0, D − V·(1−d)·(1−slippage)), borrower by borrower",
     "contagion_path": "morpho_vault_v2:0x… → [deployed_in] Belem RWA EURCV → [deployed_in] Morpho Blue mGLOeuro / EURCV (LLTV 77.0%) → [collateralized_by] mGLOeuro"
    }
   },
   {
    "index": 3,
    "id": "morpho_market_borrow:0x7a25fb17b8bd83a934ad87d9d1725188fc129992ca816f3145b4ab7f673c98c3",
-   "label": "Emprunt EURCV contre wstETH · marché wstETH/EURCV",
+   "label": "Borrow EURCV against wstETH · market wstETH/EURCV",
    "kind": "morpho_market_borrow",
    "value_usd": 4431303.893117499,
    "share_of_book": 0.167794,
@@ -82,10 +82,10 @@
    "expected_loss_usd": 651.1481881632268,
    "exit_cost_usd": 170818.90880832632,
    "exit_fraction_now": 0.5,
-   "sentence": "STAY — sortir (seuls 50 % sont sortables maintenant) éviterait 326 $ de perte attendue sur l'horizon, mais coûterait 170 819 $. Même certain, « Chute du collatéral wstETH » coûterait moins que la sortie : rester est toujours mieux.",
+   "sentence": "STAY — exiting (only 50% can be exited now) would avoid $326 of expected loss over the horizon, but would cost $170,819. Even if certain, \"wstETH collateral drop\" would cost less than exiting: staying is always better.",
    "top_risk": {
     "id": "volatile_crash:wsteth",
-    "title": "Chute du collatéral wstETH",
+    "title": "wstETH collateral drop",
     "family": "volatile_crash",
     "target": "wsteth",
     "annual_rate": 0.5,
@@ -98,14 +98,14 @@
     "loss_if_incident_max_usd": 229884.06660618752,
     "expected_loss_usd": 267.5405581033449,
     "p_star": 1.0,
-    "rule": "chute d'un actif volatil : exposition de marché choisie, seule la liquidation compte (pénalité ρ·D·(LIF−1) si HF·(1−d) < 1)",
+    "rule": "drop of a volatile asset: chosen market exposure, only the liquidation counts (penalty ρ·D·(LIF−1) if HF·(1−d) < 1)",
     "contagion_path": "morpho:0x7a25fb17b… → [deployed_in] Morpho Blue wstETH / EURCV (LLTV 86.0%) → [collateralized_by] wstETH"
    }
   },
   {
    "index": 4,
    "id": "morpho_market_borrow:0xa6a4c1f15490a1ff39d9de3a366b408dd5647a436d8b179726d3e0562aff1292",
-   "label": "Emprunt USDT contre weETH · marché weETH/USDT",
+   "label": "Borrow USDT against weETH · market weETH/USDT",
    "kind": "morpho_market_borrow",
    "value_usd": 2561973.969884033,
    "share_of_book": 0.097011,
@@ -114,10 +114,10 @@
    "expected_loss_usd": 1336.0624122960871,
    "exit_cost_usd": 4455.225190078013,
    "exit_fraction_now": 1.0,
-   "sentence": "STAY — sortir éviterait 1 336 $ de perte attendue sur l'horizon, mais coûterait 4 455 $. Sortez si vous estimez à plus de 0,3 % (≈ une fois tous les 6 ans) le risque « Chute du collatéral weETH » (notre estimation : 0,10 %, soit ≈ une fois tous les 20 ans).",
+   "sentence": "STAY — exiting would avoid $1,336 of expected loss over the horizon, but would cost $4,455. Exit if you put the risk \"weETH collateral drop\" above 0.3% (≈ once every 6 years) (our estimate: 0.10%, i.e. ≈ once every 20 years).",
    "top_risk": {
     "id": "rwa_credit_event:weeth",
-    "title": "Chute du collatéral weETH",
+    "title": "weETH collateral drop",
     "family": "rwa_credit_event",
     "target": "weeth",
     "annual_rate": 0.05,
@@ -130,7 +130,7 @@
     "loss_if_incident_max_usd": 2561973.9698840333,
     "expected_loss_usd": 1361.5504823223139,
     "p_star": 0.003136193751604901,
-    "rule": "perte de valeur propre au collatéral ; + pénalité de liquidation ρ·D·(LIF−1) si l'oracle suit et HF·(1−d) < 1",
+    "rule": "value loss specific to the collateral; + liquidation penalty ρ·D·(LIF−1) if the oracle follows and HF·(1−d) < 1",
     "contagion_path": "morpho:0xa6a4c1f15… → [deployed_in] Morpho Blue weETH / USDT (LLTV 86.0%) → [collateralized_by] weETH"
    }
   },
@@ -146,10 +146,10 @@
    "expected_loss_usd": 545.183727113517,
    "exit_cost_usd": 1599.422569586016,
    "exit_fraction_now": 1.0,
-   "sentence": "STAY — sortir éviterait 545 $ de perte attendue sur l'horizon, mais coûterait 1 599 $. Sortez si vous estimez à plus de 0,5 % (≈ une fois tous les 4 ans) le risque « Chute du collatéral fxSAVE » (notre estimation : 0,10 %, soit ≈ une fois tous les 20 ans).",
+   "sentence": "STAY — exiting would avoid $545 of expected loss over the horizon, but would cost $1,599. Exit if you put the risk \"fxSAVE collateral drop\" above 0.5% (≈ once every 4 years) (our estimate: 0.10%, i.e. ≈ once every 20 years).",
    "top_risk": {
     "id": "rwa_credit_event:fxsave",
-    "title": "Chute du collatéral fxSAVE",
+    "title": "fxSAVE collateral drop",
     "family": "rwa_credit_event",
     "target": "fxsave",
     "annual_rate": 0.05,
@@ -162,14 +162,14 @@
     "loss_if_incident_max_usd": 865535.2227801869,
     "expected_loss_usd": 335.2187504783647,
     "p_star": 0.004573007254334389,
-    "rule": "choc brutal sur un collatéral dont l'oracle NE suit PAS le marché (taux interne / prix posé) : pas de liquidation à temps → dette irrécouvrable max(0, D − V·(1−d)·(1−glissement)), emprunteur par emprunteur",
+    "rule": "sudden shock on a collateral whose oracle does NOT follow the market (internal rate / set price): no timely liquidation → bad debt max(0, D − V·(1−d)·(1−slippage)), borrower by borrower",
     "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX f(x) Protocol Ecosystem USDC → [deployed_in] Morpho Blue fxSAVE / USDC (LLTV 91.5%) → [collateralized_by] fxSAVE"
    }
   },
   {
    "index": 6,
    "id": "morpho_market_borrow:0x002278ea242ec722813b4fe3c8eeaa07dbc331c731cc0b4248a1bf0771f933ea",
-   "label": "Emprunt USDC contre PST · marché PST/USDC",
+   "label": "Borrow USDC against PST · market PST/USDC",
    "kind": "morpho_market_borrow",
    "value_usd": 2063684.9502973454,
    "share_of_book": 0.078143,
@@ -178,10 +178,10 @@
    "expected_loss_usd": 1936.6599740805962,
    "exit_cost_usd": 274939.750648308,
    "exit_fraction_now": 0.25,
-   "sentence": "STAY — sortir (seuls 25 % sont sortables maintenant) éviterait 484 $ de perte attendue sur l'horizon, mais coûterait 274 940 $. Sortez si vous estimez à plus de 58,7 % le risque « Chute du collatéral PST » (notre estimation : 0,10 %, soit ≈ une fois tous les 20 ans).",
+   "sentence": "STAY — exiting (only 25% can be exited now) would avoid $484 of expected loss over the horizon, but would cost $274,940. Exit if you put the risk \"PST collateral drop\" above 58.7% (our estimate: 0.10%, i.e. ≈ once every 20 years).",
    "top_risk": {
     "id": "rwa_credit_event:pst",
-    "title": "Chute du collatéral PST",
+    "title": "PST collateral drop",
     "family": "rwa_credit_event",
     "target": "pst",
     "annual_rate": 0.05,
@@ -194,7 +194,7 @@
     "loss_if_incident_max_usd": 2063684.9502973454,
     "expected_loss_usd": 1794.4012260030192,
     "p_star": 0.5874148773641787,
-    "rule": "perte de valeur propre au collatéral ; + pénalité de liquidation ρ·D·(LIF−1) si l'oracle suit et HF·(1−d) < 1",
+    "rule": "value loss specific to the collateral; + liquidation penalty ρ·D·(LIF−1) if the oracle follows and HF·(1−d) < 1",
     "contagion_path": "morpho:0x002278ea2… → [deployed_in] Morpho Blue PST / USDC (LLTV 86.0%) → [collateralized_by] PST"
    }
   },
@@ -210,10 +210,10 @@
    "expected_loss_usd": 391.7066209609711,
    "exit_cost_usd": 12985.941574165832,
    "exit_fraction_now": 1.0,
-   "sentence": "STAY — sortir éviterait 392 $ de perte attendue sur l'horizon, mais coûterait 12 986 $. Sortez si vous estimez à plus de 9,6 % (≈ une fois toutes les 10 semaines) le risque « Chute du collatéral sUSDai » (notre estimation : 0,10 %, soit ≈ une fois tous les 20 ans).",
+   "sentence": "STAY — exiting would avoid $392 of expected loss over the horizon, but would cost $12,986. Exit if you put the risk \"sUSDai collateral drop\" above 9.6% (≈ once every 10 weeks) (our estimate: 0.10%, i.e. ≈ once every 20 years).",
    "top_risk": {
     "id": "rwa_credit_event:susdai",
-    "title": "Chute du collatéral sUSDai",
+    "title": "sUSDai collateral drop",
     "family": "rwa_credit_event",
     "target": "susdai",
     "annual_rate": 0.05,
@@ -226,7 +226,7 @@
     "loss_if_incident_max_usd": 306764.8705548094,
     "expected_loss_usd": 129.1811545075295,
     "p_star": 0.09634767880727553,
-    "rule": "choc brutal sur un collatéral dont l'oracle NE suit PAS le marché (taux interne / prix posé) : pas de liquidation à temps → dette irrécouvrable max(0, D − V·(1−d)·(1−glissement)), emprunteur par emprunteur",
+    "rule": "sudden shock on a collateral whose oracle does NOT follow the market (internal rate / set price): no timely liquidation → bad debt max(0, D − V·(1−d)·(1−slippage)), borrower by borrower",
     "contagion_path": "morpho_vault_v2:0x… → [deployed_in] Bitwise Premium RWA AUSD → [deployed_in] Morpho Blue sUSDai / AUSD (LLTV 86.0%) → [collateralized_by] sUSDai"
    }
   },
@@ -242,10 +242,10 @@
    "expected_loss_usd": 498.5593753608793,
    "exit_cost_usd": 9705.051852481747,
    "exit_fraction_now": 1.0,
-   "sentence": "STAY — sortir éviterait 499 $ de perte attendue sur l'horizon, mais coûterait 9 705 $. Sortez si vous estimez à plus de 7,0 % (≈ une fois tous les 3 mois) le risque « Chute du collatéral PT-reUSD-10DEC2026 » (notre estimation : 0,10 %, soit ≈ une fois tous les 20 ans).",
+   "sentence": "STAY — exiting would avoid $499 of expected loss over the horizon, but would cost $9,705. Exit if you put the risk \"PT-reUSD-10DEC2026 collateral drop\" above 7.0% (≈ once every 3 months) (our estimate: 0.10%, i.e. ≈ once every 20 years).",
    "top_risk": {
     "id": "rwa_credit_event:pt_reusd_10dec2026",
-    "title": "Chute du collatéral PT-reUSD-10DEC2026",
+    "title": "PT-reUSD-10DEC2026 collateral drop",
     "family": "rwa_credit_event",
     "target": "pt_reusd_10dec2026",
     "annual_rate": 0.05,
@@ -258,14 +258,14 @@
     "loss_if_incident_max_usd": 333832.6730071907,
     "expected_loss_usd": 132.86991324428496,
     "p_star": 0.07000647039163406,
-    "rule": "choc brutal sur un collatéral dont l'oracle NE suit PAS le marché (taux interne / prix posé) : pas de liquidation à temps → dette irrécouvrable max(0, D − V·(1−d)·(1−glissement)), emprunteur par emprunteur",
+    "rule": "sudden shock on a collateral whose oracle does NOT follow the market (internal rate / set price): no timely liquidation → bad debt max(0, D − V·(1−d)·(1−slippage)), borrower by borrower",
     "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX USDC Yield → [deployed_in] Morpho Blue PT-reUSD-10DEC2026 / USDC (LLTV 91.5%) → [collateralized_by] PT-reUSD-10DEC2026"
    }
   },
   {
    "index": 9,
    "id": "morpho_market_borrow:0xb4977179610abfecfc8b76255a002c16b33f46d077beb86e5911e1fe9ee6e512",
-   "label": "Emprunt PYUSD contre PST · marché PST/PYUSD",
+   "label": "Borrow PYUSD against PST · market PST/PYUSD",
    "kind": "morpho_market_borrow",
    "value_usd": 40571.86948875834,
    "share_of_book": 0.001536,
@@ -274,10 +274,10 @@
    "expected_loss_usd": 46.04608204059059,
    "exit_cost_usd": 45.12123057719147,
    "exit_fraction_now": 1.0,
-   "sentence": "EXIT 50 % de la poche (maximum sortable maintenant : 100 %) — la perte attendue évitée (23 $) dépasse le coût de sortie (20 $) ; risque principal : « Chute du collatéral PST ».",
+   "sentence": "EXIT 50% of the pocket (maximum exitable now: 100%) — the expected loss avoided ($23) exceeds the exit cost ($20); main risk: \"PST collateral drop\".",
    "top_risk": {
     "id": "rwa_credit_event:pst",
-    "title": "Chute du collatéral PST",
+    "title": "PST collateral drop",
     "family": "rwa_credit_event",
     "target": "pst",
     "annual_rate": 0.05,
@@ -290,14 +290,14 @@
     "loss_if_incident_max_usd": 40571.86948875835,
     "expected_loss_usd": 34.45102988821128,
     "p_star": 0.0012552947119264417,
-    "rule": "perte de valeur propre au collatéral ; + pénalité de liquidation ρ·D·(LIF−1) si l'oracle suit et HF·(1−d) < 1",
+    "rule": "value loss specific to the collateral; + liquidation penalty ρ·D·(LIF−1) if the oracle follows and HF·(1−d) < 1",
     "contagion_path": "morpho:0xb49771796… → [deployed_in] Morpho Blue PST / PYUSD (LLTV 86.0%) → [collateralized_by] PST"
    }
   },
   {
    "index": 10,
    "id": "morpho_market_borrow:0x85d59152eeeab7ca024804895b358868d8dd1e134171be400d7792d5604a212c",
-   "label": "Emprunt PYUSD contre weETH · marché weETH/PYUSD",
+   "label": "Borrow PYUSD against weETH · market weETH/PYUSD",
    "kind": "morpho_market_borrow",
    "value_usd": 12.704680669298865,
    "share_of_book": 0.0,
@@ -306,10 +306,10 @@
    "expected_loss_usd": 0.00023372114074873493,
    "exit_cost_usd": 0.4779617399789892,
    "exit_fraction_now": 1.0,
-   "sentence": "STAY — sortir éviterait 0 $ de perte attendue sur l'horizon, mais coûterait 0 $. Sortez si vous estimez à plus de 12,4 % (≈ une fois toutes les 8 semaines) le risque « Faille du protocole Morpho Blue » (notre estimation : 0,01 %, soit ≈ une fois tous les 333 ans).",
+   "sentence": "STAY — exiting would avoid $0 of expected loss over the horizon, but would cost $0. Exit if you put the risk \"Morpho Blue protocol exploit\" above 12.4% (≈ once every 8 weeks) (our estimate: 0.01%, i.e. ≈ once every 333 years).",
    "top_risk": {
     "id": "protocol_exploit:morpho",
-    "title": "Faille du protocole Morpho Blue",
+    "title": "Morpho Blue protocol exploit",
     "family": "protocol_exploit",
     "target": "morpho",
     "annual_rate": 0.003,
@@ -322,7 +322,7 @@
     "loss_if_incident_max_usd": 7.028179819216,
     "expected_loss_usd": 0.00022239216923770964,
     "p_star": 0.123648137607453,
-    "rule": "collatéral volé : perte = min(collatéral × s, capital propre)",
+    "rule": "stolen collateral: loss = min(collateral × s, equity)",
     "contagion_path": "morpho:0x85d59152e… → [deployed_in] Morpho Blue weETH / PYUSD (LLTV 86.0%) → [issued_by] Morpho"
    }
   },
@@ -338,10 +338,10 @@
    "expected_loss_usd": 0.0003953007271168327,
    "exit_cost_usd": 0.13013450274274713,
    "exit_fraction_now": 1.0,
-   "sentence": "STAY — sortir éviterait 0 $ de perte attendue sur l'horizon, mais coûterait 0 $. Sortez si vous estimez à plus de 37,6 % le risque « Chute du collatéral ETH+ » (notre estimation : 0,10 %, soit ≈ une fois tous les 20 ans).",
+   "sentence": "STAY — exiting would avoid $0 of expected loss over the horizon, but would cost $0. Exit if you put the risk \"ETH+ collateral drop\" above 37.6% (our estimate: 0.10%, i.e. ≈ once every 20 years).",
    "top_risk": {
     "id": "rwa_credit_event:eth",
-    "title": "Chute du collatéral ETH+",
+    "title": "ETH+ collateral drop",
     "family": "rwa_credit_event",
     "target": "eth",
     "annual_rate": 0.05,
@@ -354,7 +354,7 @@
     "loss_if_incident_max_usd": 1.0667899607990343,
     "expected_loss_usd": 0.0003316548746630339,
     "p_star": 0.3760737711953537,
-    "rule": "choc brutal sur un collatéral dont l'oracle NE suit PAS le marché (taux interne / prix posé) : pas de liquidation à temps → dette irrécouvrable max(0, D − V·(1−d)·(1−glissement)), emprunteur par emprunteur",
+    "rule": "sudden shock on a collateral whose oracle does NOT follow the market (internal rate / set price): no timely liquidation → bad debt max(0, D − V·(1−d)·(1−slippage)), borrower by borrower",
     "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX wETH → [deployed_in] Morpho Blue ETH+ / WETH (LLTV 94.5%) → [collateralized_by] ETH+"
    }
   }
@@ -410,7 +410,7 @@
    "exposed_value_usd": 9675176.594589237
   },
   {
-   "dependency": "RockawayX (curateur)",
+   "dependency": "RockawayX (curator)",
    "type": "issuer",
    "pockets": 4,
    "exposed_value_usd": 9565884.816389624

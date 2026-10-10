@@ -42,5 +42,5 @@ def discover_chain(ctx: Ctx, chain_name: str, chain_id: int, onchain_nodes: list
             d.notes.append(f"⚠ {n.label} ({n.address}) has no code: it is not a contract")
             continue
         d.edges.append(Edge(n.key, key, "settled_on", "onchain",
-                            f"eth_getCode({n.address}) = {size} octets #{ctx.block} ; eth_chainId = {chain_id}"))
+                            f"eth_getCode({n.address}) = {size} bytes #{ctx.block}; eth_chainId = {chain_id}"))
     return d

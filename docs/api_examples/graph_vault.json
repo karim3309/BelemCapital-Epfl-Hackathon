@@ -22,7 +22,7 @@
     "meta": {
      "protocol": "morpho_blue",
      "market_id": "0x0b352b7550acdb1f39fea4b8f9ef8ac2d7953613b92599610b8fbec8a98a51d1",
-     "market_id_check": "keccak256(abi.encode(MarketParams)) = 0x0b352b7550acdb1f39fea4b8f9ef8ac2d7953613b92599610b8fbec8a98a51d1 (identique à l'ID demandé)",
+     "market_id_check": "keccak256(abi.encode(MarketParams)) = 0x0b352b7550acdb1f39fea4b8f9ef8ac2d7953613b92599610b8fbec8a98a51d1 (identical to the requested ID)",
      "loan_token": "0x5F7827FDeb7c20b443265Fc2F40845B715385Ff2",
      "collateral_token": "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
      "oracle": "0x44D6d497fb53294f283983E2931972840eb3DD90",
@@ -47,7 +47,7 @@
      "proxy": {
       "detected": false,
       "upgradeable": null,
-      "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
      }
     }
    },
@@ -60,7 +60,7 @@
     "meta": {
      "protocol": "morpho_blue",
      "market_id": "0x82053fe2fc3a3d6cb856458948e9c3589e76f20f3a2079606739b517587267ce",
-     "market_id_check": "keccak256(abi.encode(MarketParams)) = 0x82053fe2fc3a3d6cb856458948e9c3589e76f20f3a2079606739b517587267ce (identique à l'ID demandé)",
+     "market_id_check": "keccak256(abi.encode(MarketParams)) = 0x82053fe2fc3a3d6cb856458948e9c3589e76f20f3a2079606739b517587267ce (identical to the requested ID)",
      "loan_token": "0x5F7827FDeb7c20b443265Fc2F40845B715385Ff2",
      "collateral_token": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
      "oracle": "0xbA75FD248bF33D669D4c5Adf25d3e32779656E47",
@@ -85,7 +85,7 @@
      "proxy": {
       "detected": false,
       "upgradeable": null,
-      "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
      }
     }
    },
@@ -98,7 +98,7 @@
     "meta": {
      "protocol": "morpho_blue",
      "market_id": "0x987b2c1979c6cfd6b7833d9b30c09b96ec6de1666579582d8f17730e20dd19b0",
-     "market_id_check": "keccak256(abi.encode(MarketParams)) = 0x987b2c1979c6cfd6b7833d9b30c09b96ec6de1666579582d8f17730e20dd19b0 (identique à l'ID demandé)",
+     "market_id_check": "keccak256(abi.encode(MarketParams)) = 0x987b2c1979c6cfd6b7833d9b30c09b96ec6de1666579582d8f17730e20dd19b0 (identical to the requested ID)",
      "loan_token": "0x5F7827FDeb7c20b443265Fc2F40845B715385Ff2",
      "collateral_token": "0x2F8bae126b8d416C009b82Ccd60e4f9cAbbd7702",
      "oracle": "0x2b43e079D9637570E29eBE945de9053b0bf647b9",
@@ -123,7 +123,7 @@
      "proxy": {
       "detected": false,
       "upgradeable": null,
-      "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
      }
     }
    },
@@ -136,7 +136,7 @@
     "meta": {
      "protocol": "morpho_blue",
      "market_id": "0xb7a75cabc2e8eadd0bc661340a9e359d9828bed6d5cbbcd64188bca8c01e399e",
-     "market_id_check": "keccak256(abi.encode(MarketParams)) = 0xb7a75cabc2e8eadd0bc661340a9e359d9828bed6d5cbbcd64188bca8c01e399e (identique à l'ID demandé)",
+     "market_id_check": "keccak256(abi.encode(MarketParams)) = 0xb7a75cabc2e8eadd0bc661340a9e359d9828bed6d5cbbcd64188bca8c01e399e (identical to the requested ID)",
      "loan_token": "0x5F7827FDeb7c20b443265Fc2F40845B715385Ff2",
      "collateral_token": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
      "oracle": "0x40721232bBd09e15E5Fc6c4F1E20a8465Be6A8E4",
@@ -161,7 +161,7 @@
      "proxy": {
       "detected": false,
       "upgradeable": null,
-      "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
      }
     }
    },
@@ -240,14 +240,14 @@
       "withdrawable_now_human": 1031698.3941759233,
       "penalty_free_human": 361743.30039477185,
       "covers_holder_share_penalty_free": 0.077212,
-      "penalty_free_definition": "idle + liquidité du marché « source de liquidité » (liquidityData) : retrait normal sans pénalité",
-      "definition": "idle + Σ min(fourni par le vault, liquidité disponible du marché) — ce que l'ensemble des déposants peut retirer maintenant (forceDeallocate, pénalité ci-dessus)",
+      "penalty_free_definition": "idle + liquidity of the \"liquidity source\" market (liquidityData): normal withdrawal without penalty",
+      "definition": "idle + Σ min(supplied by the vault, available market liquidity) — what all the depositors together can withdraw now (forceDeallocate, penalty above)",
       "covers_holder_share": 0.22021
      },
      "proxy": {
       "detected": false,
       "upgradeable": null,
-      "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
      }
     }
    },
@@ -276,7 +276,7 @@
      "proxy": {
       "detected": false,
       "upgradeable": null,
-      "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
      }
     }
    },
@@ -305,7 +305,7 @@
      "proxy": {
       "detected": false,
       "upgradeable": null,
-      "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
      }
     }
    },
@@ -334,14 +334,14 @@
      "proxy": {
       "detected": false,
       "upgradeable": null,
-      "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
      }
     }
    },
    {
     "id": "feed_midas_8b7b16",
     "type": "oracle",
-    "label": "Feed Midas (prix posé par admin) mGLOeuro/EUR",
+    "label": "Midas feed (admin-set price) mGLOeuro/EUR",
     "address": "0x8B7B1689396ef4468df1c0faB181D29B47089609",
     "chain": "ethereum",
     "meta": {
@@ -354,13 +354,13 @@
      "round_id": 2,
      "updated_at": 1790159975,
      "age_seconds": 1485396,
-     "pricing_detail": "valeur publiée par un administrateur via setRoundData(int256) / setRoundDataSafe(int256) — ne suit aucun marché ; change seulement quand l'admin publie",
+     "pricing_detail": "value published by an administrator via setRoundData(int256) / setRoundDataSafe(int256) — follows no market; only changes when the admin publishes",
      "min_answer": 90000.0,
      "max_answer": 110000.0,
      "max_answer_deviation_raw": 100000000,
      "access_control": "0x0312A9D1Ff2372DDEdCBB21e4B6389aFc919aC4B",
      "verified_source": "https://etherscan.io/address/0xbFd25A5d18B2E49eb4d486A99d9373440909795a#code",
-     "issuer_hint": "déployé par l'adresse étiquetée « Midas RWA: Deployer » sur Etherscan — émetteur à curer (curated.yaml) avec une source officielle Midas",
+     "issuer_hint": "deployed by the address labelled \"Midas RWA: Deployer\" on Etherscan — issuer to curate (curated.yaml) with an official Midas source",
      "proxy": {
       "detected": true,
       "standard": "EIP-1967 (upgradeable)",
@@ -395,7 +395,7 @@
      "proxy": {
       "detected": false,
       "upgradeable": null,
-      "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
      }
     }
    },
@@ -424,7 +424,7 @@
      "proxy": {
       "detected": false,
       "upgradeable": null,
-      "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
      }
     }
    },
@@ -444,12 +444,12 @@
      "round_id": "36893488147419104154",
      "updated_at": 1791608207,
      "age_seconds": 37164,
-     "formula": "prix = stETHtoETHPriceFeed × wstETH (taux interne stETH par wstETH)",
+     "formula": "price = stETHtoETHPriceFeed × wstETH (internal rate, stETH per wstETH)",
      "verified_source": "https://etherscan.io/address/0x4F67e4d9BD67eFa28236013288737D39AeF48e79#code",
      "proxy": {
       "detected": false,
       "upgradeable": null,
-      "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
      }
     }
    },
@@ -466,7 +466,7 @@
      "price_raw": "100000000000000000000000000000000000000000",
      "price": 100000.0,
      "price_scale": "1e36",
-     "formula": "SCALE_FACTOR × BASE_VAULT × BASE_FEED_1 × BASE_FEED_2 / (QUOTE_VAULT × QUOTE_FEED_1 × QUOTE_FEED_2), slot vide = 1",
+     "formula": "SCALE_FACTOR × BASE_VAULT × BASE_FEED_1 × BASE_FEED_2 / (QUOTE_VAULT × QUOTE_FEED_1 × QUOTE_FEED_2), empty slot = 1",
      "price_recomputed_raw": "100000000000000000000000000000000000000000",
      "price_recomputed_matches": true,
      "components": {
@@ -506,13 +506,13 @@
       "QUOTE_FEED_1",
       "QUOTE_FEED_2"
      ],
-     "implicit_unit_note": "Chaque slot listé ici vaut 1 dans la formule : la conversion correspondante est FIXÉE (ex. aucun QUOTE_FEED = l'actif prêté est supposé valoir 1 unité de la devise des feeds de base).",
+     "implicit_unit_note": "Each slot listed here counts as 1 in the formula: the matching conversion is FIXED (e.g. no QUOTE_FEED = the lent asset is assumed to be worth 1 unit of the base feeds' currency).",
      "created_by_official_factory": true,
      "factory_evidence": "MorphoChainlinkOracleV2Factory.isMorphoChainlinkOracleV2(0x2b43e079D9637570E29eBE945de9053b0bf647b9) = True @ 0x3A7bB36Ee3f3eE32A60e9f2b33c1e5f2E83ad766 #26162868",
      "proxy": {
       "detected": false,
       "upgradeable": null,
-      "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
      }
     }
    },
@@ -529,7 +529,7 @@
      "price_raw": "738605596880513834754273981163237066464312815247957",
      "price": 73860.55968805138,
      "price_scale": "1e46",
-     "formula": "SCALE_FACTOR × BASE_VAULT × BASE_FEED_1 × BASE_FEED_2 / (QUOTE_VAULT × QUOTE_FEED_1 × QUOTE_FEED_2), slot vide = 1",
+     "formula": "SCALE_FACTOR × BASE_VAULT × BASE_FEED_1 × BASE_FEED_2 / (QUOTE_VAULT × QUOTE_FEED_1 × QUOTE_FEED_2), empty slot = 1",
      "price_recomputed_raw": "738605596880513834754273981163237066464312815247957",
      "price_recomputed_matches": true,
      "components": {
@@ -571,13 +571,13 @@
       "QUOTE_VAULT",
       "QUOTE_FEED_2"
      ],
-     "implicit_unit_note": "Chaque slot listé ici vaut 1 dans la formule : la conversion correspondante est FIXÉE (ex. aucun QUOTE_FEED = l'actif prêté est supposé valoir 1 unité de la devise des feeds de base).",
+     "implicit_unit_note": "Each slot listed here counts as 1 in the formula: the matching conversion is FIXED (e.g. no QUOTE_FEED = the lent asset is assumed to be worth 1 unit of the base feeds' currency).",
      "created_by_official_factory": true,
      "factory_evidence": "MorphoChainlinkOracleV2Factory.isMorphoChainlinkOracleV2(0x40721232bBd09e15E5Fc6c4F1E20a8465Be6A8E4) = True @ 0x3A7bB36Ee3f3eE32A60e9f2b33c1e5f2E83ad766 #26162868",
      "proxy": {
       "detected": false,
       "upgradeable": null,
-      "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
      }
     }
    },
@@ -594,7 +594,7 @@
      "price_raw": "2790966294359817727982859438468062313083",
      "price": 2790.9662943598178,
      "price_scale": "1e36",
-     "formula": "SCALE_FACTOR × BASE_VAULT × BASE_FEED_1 × BASE_FEED_2 / (QUOTE_VAULT × QUOTE_FEED_1 × QUOTE_FEED_2), slot vide = 1",
+     "formula": "SCALE_FACTOR × BASE_VAULT × BASE_FEED_1 × BASE_FEED_2 / (QUOTE_VAULT × QUOTE_FEED_1 × QUOTE_FEED_2), empty slot = 1",
      "price_recomputed_raw": "2790966294359817727982859438468062313083",
      "price_recomputed_matches": true,
      "components": {
@@ -636,13 +636,13 @@
       "QUOTE_VAULT",
       "QUOTE_FEED_2"
      ],
-     "implicit_unit_note": "Chaque slot listé ici vaut 1 dans la formule : la conversion correspondante est FIXÉE (ex. aucun QUOTE_FEED = l'actif prêté est supposé valoir 1 unité de la devise des feeds de base).",
+     "implicit_unit_note": "Each slot listed here counts as 1 in the formula: the matching conversion is FIXED (e.g. no QUOTE_FEED = the lent asset is assumed to be worth 1 unit of the base feeds' currency).",
      "created_by_official_factory": true,
      "factory_evidence": "MorphoChainlinkOracleV2Factory.isMorphoChainlinkOracleV2(0x44D6d497fb53294f283983E2931972840eb3DD90) = True @ 0x3A7bB36Ee3f3eE32A60e9f2b33c1e5f2E83ad766 #26162868",
      "proxy": {
       "detected": false,
       "upgradeable": null,
-      "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
      }
     }
    },
@@ -659,7 +659,7 @@
      "price_raw": "739841131570236129089854037405704593134848011427041",
      "price": 73984.11315702362,
      "price_scale": "1e46",
-     "formula": "SCALE_FACTOR × BASE_VAULT × BASE_FEED_1 × BASE_FEED_2 / (QUOTE_VAULT × QUOTE_FEED_1 × QUOTE_FEED_2), slot vide = 1",
+     "formula": "SCALE_FACTOR × BASE_VAULT × BASE_FEED_1 × BASE_FEED_2 / (QUOTE_VAULT × QUOTE_FEED_1 × QUOTE_FEED_2), empty slot = 1",
      "price_recomputed_raw": "739841131570236129089854037405704593134848011427041",
      "price_recomputed_matches": true,
      "components": {
@@ -700,13 +700,13 @@
       "BASE_FEED_2",
       "QUOTE_FEED_2"
      ],
-     "implicit_unit_note": "Chaque slot listé ici vaut 1 dans la formule : la conversion correspondante est FIXÉE (ex. aucun QUOTE_FEED = l'actif prêté est supposé valoir 1 unité de la devise des feeds de base).",
+     "implicit_unit_note": "Each slot listed here counts as 1 in the formula: the matching conversion is FIXED (e.g. no QUOTE_FEED = the lent asset is assumed to be worth 1 unit of the base feeds' currency).",
      "created_by_official_factory": true,
      "factory_evidence": "MorphoChainlinkOracleV2Factory.isMorphoChainlinkOracleV2(0xbA75FD248bF33D669D4c5Adf25d3e32779656E47) = True @ 0x3A7bB36Ee3f3eE32A60e9f2b33c1e5f2E83ad766 #26162868",
      "proxy": {
       "detected": false,
       "upgradeable": null,
-      "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
      }
     }
    },
@@ -788,7 +788,7 @@
      "proxy": {
       "detected": false,
       "upgradeable": null,
-      "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
      }
     }
    },
@@ -807,7 +807,7 @@
      "proxy": {
       "detected": false,
       "upgradeable": null,
-      "note": "aucun proxy EIP-1167 / EIP-1967 / ZeppelinOS détecté — d'autres schémas existent : non prouvé immuable"
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
      }
     }
    },
@@ -820,13 +820,13 @@
     "meta": {
      "evidence_url": "https://docs.chain.link/data-feeds/ens",
      "as_of": "2026-10-10",
-     "note": "Les feeds officiels Chainlink sont enregistrés sous le domaine ENS data.eth."
+     "note": "Official Chainlink feeds are registered under the ENS domain data.eth."
     }
    },
    {
     "id": "curator_rockawayx",
     "type": "issuer",
-    "label": "RockawayX (curateur)",
+    "label": "RockawayX (curator)",
     "address": null,
     "chain": null,
     "meta": {
@@ -835,7 +835,7 @@
      "identity_source": "API Morpho https://api.morpho.org/graphql vaultV2ByAddress(0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec).curators (fetched 2026-10-10T15:16:57+00:00)",
      "verified_by_morpho": true,
      "website": "https://rockawayx.com/",
-     "note": "Adresse du curateur prouvée on-chain (curator()) ; le NOM vient de l'API Morpho, qui relie cette adresse à l'entité."
+     "note": "Curator address proven on-chain (curator()); the NAME comes from the Morpho API, which links this address to the entity."
     }
    },
    {
@@ -847,7 +847,7 @@
     "meta": {
      "evidence_url": "https://docs.morpho.org/developers/contracts/addresses/",
      "as_of": "2026-10-10",
-     "note": "Protocole Morpho Blue (contrat singleton listé dans la doc officielle)."
+     "note": "Morpho Blue protocol (singleton contract listed in the official docs)."
     }
    },
    {
@@ -862,7 +862,7 @@
      "snapshot_block_hash": "0xeac5c2e378f3348a3f67c2f6e0d5c405fa1c75689345002f48bb6151c56080a5",
      "snapshot_timestamp": 1791645371,
      "snapshot_time_iso": "2026-10-10T15:16:11+00:00",
-     "note": "Toutes les lectures on-chain du graphe sont faites à ce bloc."
+     "note": "Every on-chain read of the graph is made at this block."
     }
    }
   ],
@@ -873,7 +873,7 @@
     "type": "settled_on",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "eth_getCode(0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf) = 1550 octets #26162868 ; eth_chainId = 1"
+    "evidence": "eth_getCode(0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf) = 1550 bytes #26162868; eth_chainId = 1"
    },
    {
     "from": "eurcv",
@@ -881,7 +881,7 @@
     "type": "settled_on",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "eth_getCode(0x5F7827FDeb7c20b443265Fc2F40845B715385Ff2) = 708 octets #26162868 ; eth_chainId = 1"
+    "evidence": "eth_getCode(0x5F7827FDeb7c20b443265Fc2F40845B715385Ff2) = 708 bytes #26162868; eth_chainId = 1"
    },
    {
     "from": "feed_btc_usd",
@@ -889,7 +889,7 @@
     "type": "issued_by",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "ENS btc-usd.data.eth → 0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26162868 ; le domaine data.eth est celui des feeds Chainlink (https://docs.chain.link/data-feeds/ens)"
+    "evidence": "ENS btc-usd.data.eth → 0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26162868; the data.eth domain is the Chainlink feeds' domain (https://docs.chain.link/data-feeds/ens)"
    },
    {
     "from": "feed_btc_usd",
@@ -897,7 +897,7 @@
     "type": "settled_on",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "eth_getCode(0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c) = 9571 octets #26162868 ; eth_chainId = 1"
+    "evidence": "eth_getCode(0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c) = 9571 bytes #26162868; eth_chainId = 1"
    },
    {
     "from": "feed_eth_usd",
@@ -905,7 +905,7 @@
     "type": "issued_by",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "ENS eth-usd.data.eth → 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26162868 ; le domaine data.eth est celui des feeds Chainlink (https://docs.chain.link/data-feeds/ens)"
+    "evidence": "ENS eth-usd.data.eth → 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26162868; the data.eth domain is the Chainlink feeds' domain (https://docs.chain.link/data-feeds/ens)"
    },
    {
     "from": "feed_eth_usd",
@@ -913,7 +913,7 @@
     "type": "settled_on",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "eth_getCode(0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419) = 9571 octets #26162868 ; eth_chainId = 1"
+    "evidence": "eth_getCode(0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419) = 9571 bytes #26162868; eth_chainId = 1"
    },
    {
     "from": "feed_eur_usd",
@@ -921,7 +921,7 @@
     "type": "issued_by",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "ENS eur-usd.data.eth → 0xb49f677943BC038e9857d61E7d053CaA2C1734C1 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26162868 ; le domaine data.eth est celui des feeds Chainlink (https://docs.chain.link/data-feeds/ens)"
+    "evidence": "ENS eur-usd.data.eth → 0xb49f677943BC038e9857d61E7d053CaA2C1734C1 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26162868; the data.eth domain is the Chainlink feeds' domain (https://docs.chain.link/data-feeds/ens)"
    },
    {
     "from": "feed_eur_usd",
@@ -929,7 +929,7 @@
     "type": "settled_on",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "eth_getCode(0xb49f677943BC038e9857d61E7d053CaA2C1734C1) = 9571 octets #26162868 ; eth_chainId = 1"
+    "evidence": "eth_getCode(0xb49f677943BC038e9857d61E7d053CaA2C1734C1) = 9571 bytes #26162868; eth_chainId = 1"
    },
    {
     "from": "feed_midas_8b7b16",
@@ -937,7 +937,7 @@
     "type": "settled_on",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "eth_getCode(0x8B7B1689396ef4468df1c0faB181D29B47089609) = 2227 octets #26162868 ; eth_chainId = 1"
+    "evidence": "eth_getCode(0x8B7B1689396ef4468df1c0faB181D29B47089609) = 2227 bytes #26162868; eth_chainId = 1"
    },
    {
     "from": "feed_steth_eth",
@@ -945,7 +945,7 @@
     "type": "issued_by",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "ENS steth-eth.data.eth → 0x86392dC19c0b719886221c78AB11eb8Cf5c52812 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26162868 ; le domaine data.eth est celui des feeds Chainlink (https://docs.chain.link/data-feeds/ens)"
+    "evidence": "ENS steth-eth.data.eth → 0x86392dC19c0b719886221c78AB11eb8Cf5c52812 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26162868; the data.eth domain is the Chainlink feeds' domain (https://docs.chain.link/data-feeds/ens)"
    },
    {
     "from": "feed_steth_eth",
@@ -953,7 +953,7 @@
     "type": "settled_on",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "eth_getCode(0x86392dC19c0b719886221c78AB11eb8Cf5c52812) = 9571 octets #26162868 ; eth_chainId = 1"
+    "evidence": "eth_getCode(0x86392dC19c0b719886221c78AB11eb8Cf5c52812) = 9571 bytes #26162868; eth_chainId = 1"
    },
    {
     "from": "feed_wbtc_btc",
@@ -961,7 +961,7 @@
     "type": "issued_by",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "ENS wbtc-btc.data.eth → 0xfdFD9C85aD200c506Cf9e21F1FD8dd01932FBB23 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26162868 ; le domaine data.eth est celui des feeds Chainlink (https://docs.chain.link/data-feeds/ens)"
+    "evidence": "ENS wbtc-btc.data.eth → 0xfdFD9C85aD200c506Cf9e21F1FD8dd01932FBB23 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26162868; the data.eth domain is the Chainlink feeds' domain (https://docs.chain.link/data-feeds/ens)"
    },
    {
     "from": "feed_wbtc_btc",
@@ -969,7 +969,7 @@
     "type": "settled_on",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "eth_getCode(0xfdFD9C85aD200c506Cf9e21F1FD8dd01932FBB23) = 9571 octets #26162868 ; eth_chainId = 1"
+    "evidence": "eth_getCode(0xfdFD9C85aD200c506Cf9e21F1FD8dd01932FBB23) = 9571 bytes #26162868; eth_chainId = 1"
    },
    {
     "from": "feed_wsteth_4f67e4",
@@ -985,7 +985,7 @@
     "type": "priced_by",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "WstETHPriceFeed.wstETH() = 0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0 @ 0x4F67e4d9BD67eFa28236013288737D39AeF48e79 #26162868 (taux interne du token)"
+    "evidence": "WstETHPriceFeed.wstETH() = 0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0 @ 0x4F67e4d9BD67eFa28236013288737D39AeF48e79 #26162868 (token internal rate)"
    },
    {
     "from": "feed_wsteth_4f67e4",
@@ -993,7 +993,7 @@
     "type": "settled_on",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "eth_getCode(0x4F67e4d9BD67eFa28236013288737D39AeF48e79) = 1581 octets #26162868 ; eth_chainId = 1"
+    "evidence": "eth_getCode(0x4F67e4d9BD67eFa28236013288737D39AeF48e79) = 1581 bytes #26162868; eth_chainId = 1"
    },
    {
     "from": "mgloeuro",
@@ -1001,7 +1001,7 @@
     "type": "settled_on",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "eth_getCode(0x2F8bae126b8d416C009b82Ccd60e4f9cAbbd7702) = 2227 octets #26162868 ; eth_chainId = 1"
+    "evidence": "eth_getCode(0x2F8bae126b8d416C009b82Ccd60e4f9cAbbd7702) = 2227 bytes #26162868; eth_chainId = 1"
    },
    {
     "from": "morpho_market_0b352b75",
@@ -1017,7 +1017,7 @@
     "type": "issued_by",
     "weight": 1.0,
     "source": "curated",
-    "evidence": "Morpho Blue (singleton) = 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb selon https://docs.morpho.org/developers/contracts/addresses/ (relevé le 2026-10-10)"
+    "evidence": "Morpho Blue (singleton) = 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb according to https://docs.morpho.org/developers/contracts/addresses/ (as of 2026-10-10)"
    },
    {
     "from": "morpho_market_0b352b75",
@@ -1041,7 +1041,7 @@
     "type": "settled_on",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "eth_getCode(0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb) = 15623 octets #26162868 ; eth_chainId = 1"
+    "evidence": "eth_getCode(0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb) = 15623 bytes #26162868; eth_chainId = 1"
    },
    {
     "from": "morpho_market_82053fe2",
@@ -1057,7 +1057,7 @@
     "type": "issued_by",
     "weight": 1.0,
     "source": "curated",
-    "evidence": "Morpho Blue (singleton) = 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb selon https://docs.morpho.org/developers/contracts/addresses/ (relevé le 2026-10-10)"
+    "evidence": "Morpho Blue (singleton) = 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb according to https://docs.morpho.org/developers/contracts/addresses/ (as of 2026-10-10)"
    },
    {
     "from": "morpho_market_82053fe2",
@@ -1081,7 +1081,7 @@
     "type": "settled_on",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "eth_getCode(0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb) = 15623 octets #26162868 ; eth_chainId = 1"
+    "evidence": "eth_getCode(0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb) = 15623 bytes #26162868; eth_chainId = 1"
    },
    {
     "from": "morpho_market_987b2c19",
@@ -1097,7 +1097,7 @@
     "type": "issued_by",
     "weight": 1.0,
     "source": "curated",
-    "evidence": "Morpho Blue (singleton) = 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb selon https://docs.morpho.org/developers/contracts/addresses/ (relevé le 2026-10-10)"
+    "evidence": "Morpho Blue (singleton) = 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb according to https://docs.morpho.org/developers/contracts/addresses/ (as of 2026-10-10)"
    },
    {
     "from": "morpho_market_987b2c19",
@@ -1121,7 +1121,7 @@
     "type": "settled_on",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "eth_getCode(0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb) = 15623 octets #26162868 ; eth_chainId = 1"
+    "evidence": "eth_getCode(0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb) = 15623 bytes #26162868; eth_chainId = 1"
    },
    {
     "from": "morpho_market_b7a75cab",
@@ -1137,7 +1137,7 @@
     "type": "issued_by",
     "weight": 1.0,
     "source": "curated",
-    "evidence": "Morpho Blue (singleton) = 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb selon https://docs.morpho.org/developers/contracts/addresses/ (relevé le 2026-10-10)"
+    "evidence": "Morpho Blue (singleton) = 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb according to https://docs.morpho.org/developers/contracts/addresses/ (as of 2026-10-10)"
    },
    {
     "from": "morpho_market_b7a75cab",
@@ -1161,7 +1161,7 @@
     "type": "settled_on",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "eth_getCode(0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb) = 15623 octets #26162868 ; eth_chainId = 1"
+    "evidence": "eth_getCode(0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb) = 15623 bytes #26162868; eth_chainId = 1"
    },
    {
     "from": "morpho_vault_v2:0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec:0x4F87De7d21aeF48090958f7342E1F69Dff790545",
@@ -1177,7 +1177,7 @@
     "type": "priced_by",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "MorphoChainlinkOracleV2.BASE_FEED_1() = 0x8B7B1689396ef4468df1c0faB181D29B47089609 @ 0x2b43e079D9637570E29eBE945de9053b0bf647b9 #26162868 ; valeur lue = 10000000000000"
+    "evidence": "MorphoChainlinkOracleV2.BASE_FEED_1() = 0x8B7B1689396ef4468df1c0faB181D29B47089609 @ 0x2b43e079D9637570E29eBE945de9053b0bf647b9 #26162868; value read = 10000000000000"
    },
    {
     "from": "oracle_morpho_v2_2b43e0",
@@ -1185,7 +1185,7 @@
     "type": "settled_on",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "eth_getCode(0x2b43e079D9637570E29eBE945de9053b0bf647b9) = 2598 octets #26162868 ; eth_chainId = 1"
+    "evidence": "eth_getCode(0x2b43e079D9637570E29eBE945de9053b0bf647b9) = 2598 bytes #26162868; eth_chainId = 1"
    },
    {
     "from": "oracle_morpho_v2_407212",
@@ -1193,7 +1193,7 @@
     "type": "priced_by",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "MorphoChainlinkOracleV2.BASE_FEED_2() = 0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c @ 0x40721232bBd09e15E5Fc6c4F1E20a8465Be6A8E4 #26162868 ; valeur lue = 8287330435284"
+    "evidence": "MorphoChainlinkOracleV2.BASE_FEED_2() = 0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c @ 0x40721232bBd09e15E5Fc6c4F1E20a8465Be6A8E4 #26162868; value read = 8287330435284"
    },
    {
     "from": "oracle_morpho_v2_407212",
@@ -1201,7 +1201,7 @@
     "type": "priced_by",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "MorphoChainlinkOracleV2.QUOTE_FEED_1() = 0xb49f677943BC038e9857d61E7d053CaA2C1734C1 @ 0x40721232bBd09e15E5Fc6c4F1E20a8465Be6A8E4 #26162868 ; valeur lue = 112015000"
+    "evidence": "MorphoChainlinkOracleV2.QUOTE_FEED_1() = 0xb49f677943BC038e9857d61E7d053CaA2C1734C1 @ 0x40721232bBd09e15E5Fc6c4F1E20a8465Be6A8E4 #26162868; value read = 112015000"
    },
    {
     "from": "oracle_morpho_v2_407212",
@@ -1209,7 +1209,7 @@
     "type": "priced_by",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "MorphoChainlinkOracleV2.BASE_FEED_1() = 0xfdFD9C85aD200c506Cf9e21F1FD8dd01932FBB23 @ 0x40721232bBd09e15E5Fc6c4F1E20a8465Be6A8E4 #26162868 ; valeur lue = 99833000"
+    "evidence": "MorphoChainlinkOracleV2.BASE_FEED_1() = 0xfdFD9C85aD200c506Cf9e21F1FD8dd01932FBB23 @ 0x40721232bBd09e15E5Fc6c4F1E20a8465Be6A8E4 #26162868; value read = 99833000"
    },
    {
     "from": "oracle_morpho_v2_407212",
@@ -1217,7 +1217,7 @@
     "type": "settled_on",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "eth_getCode(0x40721232bBd09e15E5Fc6c4F1E20a8465Be6A8E4) = 2598 octets #26162868 ; eth_chainId = 1"
+    "evidence": "eth_getCode(0x40721232bBd09e15E5Fc6c4F1E20a8465Be6A8E4) = 2598 bytes #26162868; eth_chainId = 1"
    },
    {
     "from": "oracle_morpho_v2_44d6d4",
@@ -1225,7 +1225,7 @@
     "type": "priced_by",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "MorphoChainlinkOracleV2.BASE_FEED_2() = 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419 @ 0x44D6d497fb53294f283983E2931972840eb3DD90 #26162868 ; valeur lue = 250985877320"
+    "evidence": "MorphoChainlinkOracleV2.BASE_FEED_2() = 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419 @ 0x44D6d497fb53294f283983E2931972840eb3DD90 #26162868; value read = 250985877320"
    },
    {
     "from": "oracle_morpho_v2_44d6d4",
@@ -1233,7 +1233,7 @@
     "type": "priced_by",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "MorphoChainlinkOracleV2.QUOTE_FEED_1() = 0xb49f677943BC038e9857d61E7d053CaA2C1734C1 @ 0x44D6d497fb53294f283983E2931972840eb3DD90 #26162868 ; valeur lue = 112015000"
+    "evidence": "MorphoChainlinkOracleV2.QUOTE_FEED_1() = 0xb49f677943BC038e9857d61E7d053CaA2C1734C1 @ 0x44D6d497fb53294f283983E2931972840eb3DD90 #26162868; value read = 112015000"
    },
    {
     "from": "oracle_morpho_v2_44d6d4",
@@ -1241,7 +1241,7 @@
     "type": "priced_by",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "MorphoChainlinkOracleV2.BASE_FEED_1() = 0x4F67e4d9BD67eFa28236013288737D39AeF48e79 @ 0x44D6d497fb53294f283983E2931972840eb3DD90 #26162868 ; valeur lue = 124560829"
+    "evidence": "MorphoChainlinkOracleV2.BASE_FEED_1() = 0x4F67e4d9BD67eFa28236013288737D39AeF48e79 @ 0x44D6d497fb53294f283983E2931972840eb3DD90 #26162868; value read = 124560829"
    },
    {
     "from": "oracle_morpho_v2_44d6d4",
@@ -1249,7 +1249,7 @@
     "type": "settled_on",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "eth_getCode(0x44D6d497fb53294f283983E2931972840eb3DD90) = 2598 octets #26162868 ; eth_chainId = 1"
+    "evidence": "eth_getCode(0x44D6d497fb53294f283983E2931972840eb3DD90) = 2598 bytes #26162868; eth_chainId = 1"
    },
    {
     "from": "oracle_morpho_v2_ba75fd",
@@ -1257,7 +1257,7 @@
     "type": "priced_by",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "MorphoChainlinkOracleV2.BASE_FEED_1() = 0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c @ 0xbA75FD248bF33D669D4c5Adf25d3e32779656E47 #26162868 ; valeur lue = 8287330435284"
+    "evidence": "MorphoChainlinkOracleV2.BASE_FEED_1() = 0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c @ 0xbA75FD248bF33D669D4c5Adf25d3e32779656E47 #26162868; value read = 8287330435284"
    },
    {
     "from": "oracle_morpho_v2_ba75fd",
@@ -1265,7 +1265,7 @@
     "type": "priced_by",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "MorphoChainlinkOracleV2.QUOTE_FEED_1() = 0xb49f677943BC038e9857d61E7d053CaA2C1734C1 @ 0xbA75FD248bF33D669D4c5Adf25d3e32779656E47 #26162868 ; valeur lue = 112015000"
+    "evidence": "MorphoChainlinkOracleV2.QUOTE_FEED_1() = 0xb49f677943BC038e9857d61E7d053CaA2C1734C1 @ 0xbA75FD248bF33D669D4c5Adf25d3e32779656E47 #26162868; value read = 112015000"
    },
    {
     "from": "oracle_morpho_v2_ba75fd",
@@ -1273,7 +1273,7 @@
     "type": "settled_on",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "eth_getCode(0xbA75FD248bF33D669D4c5Adf25d3e32779656E47) = 2598 octets #26162868 ; eth_chainId = 1"
+    "evidence": "eth_getCode(0xbA75FD248bF33D669D4c5Adf25d3e32779656E47) = 2598 bytes #26162868; eth_chainId = 1"
    },
    {
     "from": "vault_belem_rwa_eurcv",
@@ -1281,7 +1281,7 @@
     "type": "deployed_in",
     "weight": 0.020796794699459106,
     "source": "onchain",
-    "evidence": "Belem RWA EURCV.adapters(0) = 0xA671880d813D4cacacA63984bc0Ab676c400A874 @ 0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec #26162868 ; VaultV2Adapter.marketIds(2) = 0x0b352b7550acdb1f39fea4b8f9ef8ac2d7953613b92599610b8fbec8a98a51d1 @ 0xA671880d813D4cacacA63984bc0Ab676c400A874 #26162868 ; VaultV2Adapter.expectedSupplyAssets(0x0b352b7550acdb1f39fea4b8f9ef8ac2d7953613b92599610b8fbec8a98a51d1) = 97965043596451503589712 @ 0xA671880d813D4cacacA63984bc0Ab676c400A874 #26162868 ; part du vault = 2.0797% (÷ totalAssets 4710583770825002436760016)"
+    "evidence": "Belem RWA EURCV.adapters(0) = 0xA671880d813D4cacacA63984bc0Ab676c400A874 @ 0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec #26162868; VaultV2Adapter.marketIds(2) = 0x0b352b7550acdb1f39fea4b8f9ef8ac2d7953613b92599610b8fbec8a98a51d1 @ 0xA671880d813D4cacacA63984bc0Ab676c400A874 #26162868; VaultV2Adapter.expectedSupplyAssets(0x0b352b7550acdb1f39fea4b8f9ef8ac2d7953613b92599610b8fbec8a98a51d1) = 97965043596451503589712 @ 0xA671880d813D4cacacA63984bc0Ab676c400A874 #26162868; vault share = 2.0797% (÷ totalAssets 4710583770825002436760016)"
    },
    {
     "from": "vault_belem_rwa_eurcv",
@@ -1289,7 +1289,7 @@
     "type": "deployed_in",
     "weight": 0.024718813733468105,
     "source": "onchain",
-    "evidence": "Belem RWA EURCV.adapters(0) = 0xA671880d813D4cacacA63984bc0Ab676c400A874 @ 0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec #26162868 ; VaultV2Adapter.marketIds(5) = 0x82053fe2fc3a3d6cb856458948e9c3589e76f20f3a2079606739b517587267ce @ 0xA671880d813D4cacacA63984bc0Ab676c400A874 #26162868 ; VaultV2Adapter.expectedSupplyAssets(0x82053fe2fc3a3d6cb856458948e9c3589e76f20f3a2079606739b517587267ce) = 116440042806921034546884 @ 0xA671880d813D4cacacA63984bc0Ab676c400A874 #26162868 ; part du vault = 2.4719% (÷ totalAssets 4710583770825002436760016)"
+    "evidence": "Belem RWA EURCV.adapters(0) = 0xA671880d813D4cacacA63984bc0Ab676c400A874 @ 0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec #26162868; VaultV2Adapter.marketIds(5) = 0x82053fe2fc3a3d6cb856458948e9c3589e76f20f3a2079606739b517587267ce @ 0xA671880d813D4cacacA63984bc0Ab676c400A874 #26162868; VaultV2Adapter.expectedSupplyAssets(0x82053fe2fc3a3d6cb856458948e9c3589e76f20f3a2079606739b517587267ce) = 116440042806921034546884 @ 0xA671880d813D4cacacA63984bc0Ab676c400A874 #26162868; vault share = 2.4719% (÷ totalAssets 4710583770825002436760016)"
    },
    {
     "from": "vault_belem_rwa_eurcv",
@@ -1297,7 +1297,7 @@
     "type": "deployed_in",
     "weight": 0.8577759933070974,
     "source": "onchain",
-    "evidence": "Belem RWA EURCV.adapters(0) = 0xA671880d813D4cacacA63984bc0Ab676c400A874 @ 0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec #26162868 ; VaultV2Adapter.marketIds(0) = 0x987b2c1979c6cfd6b7833d9b30c09b96ec6de1666579582d8f17730e20dd19b0 @ 0xA671880d813D4cacacA63984bc0Ab676c400A874 #26162868 ; VaultV2Adapter.expectedSupplyAssets(0x987b2c1979c6cfd6b7833d9b30c09b96ec6de1666579582d8f17730e20dd19b0) = 4040625673075708971867979 @ 0xA671880d813D4cacacA63984bc0Ab676c400A874 #26162868 ; part du vault = 85.7776% (÷ totalAssets 4710583770825002436760016)"
+    "evidence": "Belem RWA EURCV.adapters(0) = 0xA671880d813D4cacacA63984bc0Ab676c400A874 @ 0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec #26162868; VaultV2Adapter.marketIds(0) = 0x987b2c1979c6cfd6b7833d9b30c09b96ec6de1666579582d8f17730e20dd19b0 @ 0xA671880d813D4cacacA63984bc0Ab676c400A874 #26162868; VaultV2Adapter.expectedSupplyAssets(0x987b2c1979c6cfd6b7833d9b30c09b96ec6de1666579582d8f17730e20dd19b0) = 4040625673075708971867979 @ 0xA671880d813D4cacacA63984bc0Ab676c400A874 #26162868; vault share = 85.7776% (÷ totalAssets 4710583770825002436760016)"
    },
    {
     "from": "vault_belem_rwa_eurcv",
@@ -1305,7 +1305,7 @@
     "type": "deployed_in",
     "weight": 0.09670776055384635,
     "source": "onchain",
-    "evidence": "Belem RWA EURCV.adapters(0) = 0xA671880d813D4cacacA63984bc0Ab676c400A874 @ 0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec #26162868 ; VaultV2Adapter.marketIds(1) = 0xb7a75cabc2e8eadd0bc661340a9e359d9828bed6d5cbbcd64188bca8c01e399e @ 0xA671880d813D4cacacA63984bc0Ab676c400A874 #26162868 ; VaultV2Adapter.expectedSupplyAssets(0xb7a75cabc2e8eadd0bc661340a9e359d9828bed6d5cbbcd64188bca8c01e399e) = 455550007377778931658833 @ 0xA671880d813D4cacacA63984bc0Ab676c400A874 #26162868 ; part du vault = 9.6708% (÷ totalAssets 4710583770825002436760016)"
+    "evidence": "Belem RWA EURCV.adapters(0) = 0xA671880d813D4cacacA63984bc0Ab676c400A874 @ 0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec #26162868; VaultV2Adapter.marketIds(1) = 0xb7a75cabc2e8eadd0bc661340a9e359d9828bed6d5cbbcd64188bca8c01e399e @ 0xA671880d813D4cacacA63984bc0Ab676c400A874 #26162868; VaultV2Adapter.expectedSupplyAssets(0xb7a75cabc2e8eadd0bc661340a9e359d9828bed6d5cbbcd64188bca8c01e399e) = 455550007377778931658833 @ 0xA671880d813D4cacacA63984bc0Ab676c400A874 #26162868; vault share = 9.6708% (÷ totalAssets 4710583770825002436760016)"
    },
    {
     "from": "vault_belem_rwa_eurcv",
@@ -1313,7 +1313,7 @@
     "type": "issued_by",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "Belem RWA EURCV.curator() = 0xbBacDCFB9691DFA1066aB29edfcc4A73f6DEf918 @ 0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec #26162868 ; identité : API Morpho https://api.morpho.org/graphql vaultV2ByAddress(0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec).curators (fetched 2026-10-10T15:16:57+00:00)"
+    "evidence": "Belem RWA EURCV.curator() = 0xbBacDCFB9691DFA1066aB29edfcc4A73f6DEf918 @ 0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec #26162868; identity: Morpho API https://api.morpho.org/graphql vaultV2ByAddress(0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec).curators (fetched 2026-10-10T15:16:57+00:00)"
    },
    {
     "from": "vault_belem_rwa_eurcv",
@@ -1321,7 +1321,7 @@
     "type": "settled_on",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "eth_getCode(0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec) = 21808 octets #26162868 ; eth_chainId = 1"
+    "evidence": "eth_getCode(0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec) = 21808 bytes #26162868; eth_chainId = 1"
    },
    {
     "from": "wbtc",
@@ -1329,7 +1329,7 @@
     "type": "settled_on",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "eth_getCode(0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599) = 4582 octets #26162868 ; eth_chainId = 1"
+    "evidence": "eth_getCode(0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599) = 4582 bytes #26162868; eth_chainId = 1"
    },
    {
     "from": "wsteth",
@@ -1337,7 +1337,7 @@
     "type": "settled_on",
     "weight": 1.0,
     "source": "onchain",
-    "evidence": "eth_getCode(0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0) = 6492 octets #26162868 ; eth_chainId = 1"
+    "evidence": "eth_getCode(0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0) = 6492 bytes #26162868; eth_chainId = 1"
    }
   ]
  }
