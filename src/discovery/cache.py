@@ -82,7 +82,7 @@ class DiskCache:
         # Écriture atomique : on écrit un fichier temporaire puis on le renomme
         # → jamais de fichier de cache à moitié écrit si le script est interrompu.
         fd, tmp = tempfile.mkstemp(dir=path.parent, suffix=".tmp")
-        with os.fdopen(fd, "w", encoding="utf-8") as f:
+        with os.fdopen(fd, "w", encoding="utf-8", newline="\n") as f:   # LF partout (Windows compris)
             json.dump(entry, f, indent=1, sort_keys=True)
         os.replace(tmp, path)
         self.stats.bump(namespace, "writes")

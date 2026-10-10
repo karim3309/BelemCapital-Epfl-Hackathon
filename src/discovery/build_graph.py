@@ -227,7 +227,7 @@ def main(argv: list[str] | None = None) -> int:
     out = Path(args.out) if args.out else config.output_file
     if not errors:
         out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(json.dumps(graph, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        out.write_text(json.dumps(graph, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
     _print_summary(graph, report, cache, errors, out)
     return 1 if errors else 0
 
