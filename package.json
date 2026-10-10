@@ -1,0 +1,29 @@
+{
+  "name": "defi-risk-dependency",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "DeFi risk dependency analysis — stay or exit, in one screen.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "framer-motion": "^11.18.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-force-graph-2d": "^1.29.2"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.7.0",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.19",
+    "typescript": "~5.6.3",
+    "vite": "^5.4.21"
+  }
+}
