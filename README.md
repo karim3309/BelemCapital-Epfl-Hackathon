@@ -1,97 +1,97 @@
-# StackTrace · dépendances et risque d'une position DeFi
+# StackTrace · dependencies and risk of a DeFi position
 
-> Hackathon **Belem DeFi Risk** (EPFL). Une position DeFi en entrée, une **fiche de risque actionnable** en sortie :
-> 1. **Découverte** : le graphe de dépendances, chaque arête **prouvée** (on-chain, API ou source officielle curée) ;
-> 2. **Impact** : un moteur qui propage un choc dans ce graphe jusqu'à la position, en $ ;
-> 3. **Décision** : STAY / PARTIAL x % / EXIT, avec le seuil de probabilité **p\*** du brief ;
-> 4. **Front** (`front/`) : un deck de diapositives qui montre tout ça, poche par poche.
+> **Belem DeFi Risk** hackathon (EPFL). A DeFi position goes in, an **actionable risk sheet** comes out:
+> 1. **Discovery**: the dependency graph, every edge **proven** (on-chain, API or curated official source);
+> 2. **Impact**: an engine that propagates a shock through this graph up to the position, in $;
+> 3. **Decision**: STAY / PARTIAL x% / EXIT, with the brief's probability threshold **p\***;
+> 4. **Front** (`front/`): a slide deck that shows all of this, pocket by pocket.
 >
-> Aucune adresse, aucun lien, aucun paramètre n'est deviné.
+> No address, no link, no parameter is guessed.
 
-## La fiche de risque en 30 secondes (bloc #26162087)
+## The risk sheet in 30 seconds (block #26162087)
 | | |
 |---|---|
-| Alerte (scénario de démo du cadrage) | **USDe −30 % durable** : l'oracle bascule après 16 h, la position est liquidée, **−53 133 $** (tout le capital) et **−77 723 $ pour les prêteurs** |
-| Coût certain de sortie | **854 $**, mesuré on-chain (simulation de vente sur le vrai pool Pendle) |
-| Seuil | **p\* = 1,6 %** sur 7 jours, soit le risque d'un événement qui arrive **≈ une fois tous les 14 mois** → « est-ce que je crois à plus de 1,6 % de chances que ça arrive cette semaine ? » |
-| Sans alerte (Monte Carlo, 200 000 semaines) | perte attendue ≈ 131 $/7 j, VaR 95 % = 0 $, ES 99 % ≈ 13 k$ → **STAY** |
-| Le piège de cette position | la **durée** : USDe à 0,93 $ pendant 6 h = 0 $ de perte ; pendant 24 h = liquidation (−37 k$) |
-| Le risque caché | exploit Pendle : l'oracle fixe ne voit rien → **152 k$ de dette irrécouvrable chez les prêteurs** |
-| Replay réel | 10/10/2025 : USDe à 0,65 $ sur Binance. Notre oracle tient ; un oracle sur le prix Binance nous liquidait |
+| Alert (demo scenario from the framing note) | **Lasting USDe depeg −30%**: the oracle switches after 16 h, the position is liquidated, **−$53,133** (all the capital) and **−$77,723 for the lenders** |
+| Certain exit cost | **$854**, measured on-chain (sale simulated on the real Pendle pool) |
+| Threshold | **p\* = 1.6%** over 7 days, i.e. the risk of an event that happens **≈ once every 14 months** → "do I believe there is more than a 1.6% chance this happens this week?" |
+| No alert (Monte Carlo, 200,000 weeks) | expected loss ≈ $131/7 d, VaR 95% = $0, ES 99% ≈ $13k → **STAY** |
+| The trap of this position | **duration**: USDe at $0.93 for 6 h = $0 loss; for 24 h = liquidation (−$37k) |
+| The hidden risk | Pendle exploit: the fixed oracle sees nothing → **$152k of unrecoverable debt for the lenders** |
+| Real replay | 10/10/2025: USDe at $0.65 on Binance. Our oracle holds; an oracle on the Binance price would have liquidated us |
 
-Le détail est dans [docs/PARTS_2_3.md](docs/PARTS_2_3.md) (brief → ce qu'on a fait → où) et le format dans
+The details are in [docs/PARTS_2_3.md](docs/PARTS_2_3.md) (brief → what we did → where) and the format in
 [docs/RISK_CONTRACT.md](docs/RISK_CONTRACT.md).
 
-## Résultat : la position A
+## Result: position A
 
-Un **PT-sUSDE-26NOV2026** (Pendle) est déposé en collatéral sur un marché **Morpho Blue**, et de l'**USDC** est emprunté en face.
-Les chiffres ci-dessous sont lus au bloc **#26162087** (2026-10-10 12:39 UTC). La démo se rejoue **sans réseau**.
+A **PT-sUSDE-26NOV2026** (Pendle) is deposited as collateral on a **Morpho Blue** market, and **USDC** is borrowed against it.
+The figures below are read at block **#26162087** (2026-10-10 12:39 UTC). The demo replays **without network**.
 
 | | |
 |---|---|
-| Graphe | **28 nœuds, 45 arêtes** : 29 prouvées on-chain, 2 par API, 14 curées (URL + date) |
-| Position | 413 030 PT en collatéral, dette 357 217 USDC (intérêts inclus), LTV 87,2 % / LLTV 91,5 % |
-| Santé | health factor **1,050** : liquidable si le prix de l'oracle baisse de **4,75 %** |
-| Oracle | **méta-oracle** Steakhouse. Le primaire est une décote linéaire seule (**fixe**). Le secours ajoute Chainlink USDe/USD (**marché**). Bascule si l'écart dépasse 0,75 % pendant 16 h |
-| Liquidité de sortie | pool Pendle de 3,82 M$ pour 7,76 M$ prêtés sur le marché |
+| Graph | **28 nodes, 45 edges**: 29 proven on-chain, 2 via API, 14 curated (URL + date) |
+| Position | 413,030 PT as collateral, debt 357,217 USDC (interest included), LTV 87.2% / LLTV 91.5% |
+| Health | health factor **1.050**: liquidatable if the oracle price drops by **4.75%** |
+| Oracle | Steakhouse **meta-oracle**. The primary is a linear discount alone (**fixed**). The backup adds Chainlink USDe/USD (**market**). Switches if the gap exceeds 0.75% for 16 h |
+| Exit liquidity | Pendle pool of $3.82M for $7.76M lent on the market |
 
 ```
-POSITION (value_usd=409 819,73)
+POSITION (value_usd=409,819.73)
 └─ deployed_in ⛓ → morpho_market_5613b170 [lending_market] Morpho Blue PT-sUSDE-26NOV2026 / USDC (LLTV 91.5%)
    ├─ collateralized_by ⛓ → pt_susde_26nov2026 [asset]
-   │  ├─ deployed_in ⛓ → pendle_plp_susde_26nov2026 [liquidity_venue]   (pool AMM, TVL 3,8 M$)
+   │  ├─ deployed_in ⛓ → pendle_plp_susde_26nov2026 [liquidity_venue]   (AMM pool, TVL $3.8M)
    │  ├─ issued_by 📄 → pendle
    │  └─ redeemable_into ⛓ → sy_susde → redeemable_into ⛓ → susde → redeemable_into ⛓ → usde
    │                                                    └─ issued_by 📄 → ethena_labs ─ deployed_in 📄 → copper, ceffu,
    │                                                                                     fireblocks, binance, bybit, okx…
    ├─ lends ⛓ → usdc ─ issued_by 📄 → circle
-   └─ priced_by ⛓ → oracle_meta_f8b29e (hybrid, effectif : fixed)
-      ├─ priced_by ⛓ → oracle_morpho_v2_8fca98 (fixed)  ─ priced_by ⛓ → feed décote linéaire PT (6 %/an)
-      └─ priced_by ⛓ → oracle_morpho_v2_e2f4cf (market) ─ priced_by ⛓ → feed décote linéaire PT
+   └─ priced_by ⛓ → oracle_meta_f8b29e (hybrid, effective: fixed)
+      ├─ priced_by ⛓ → oracle_morpho_v2_8fca98 (fixed)  ─ priced_by ⛓ → PT linear discount feed (6%/yr)
+      └─ priced_by ⛓ → oracle_morpho_v2_e2f4cf (market) ─ priced_by ⛓ → PT linear discount feed
                                                          ├─ priced_by ⛓ → feed_usde_usd ─ issued_by ⛓ (ENS) → chainlink
-                                                         └─ priced_by ⛓ → feed constant « Dummy » (USDC = 1)
-⛓ onchain · 🌐 api · 📄 curated          (+ chaque contrat --settled_on--> ethereum)
+                                                         └─ priced_by ⛓ → constant "Dummy" feed (USDC = 1)
+⛓ onchain · 🌐 api · 📄 curated          (+ every contract --settled_on--> ethereum)
 ```
 
-Pour l'explication complète, couche par couche, et les scénarios de depeg chiffrés : [docs/POSITION_A.md](docs/POSITION_A.md).
+For the full explanation, layer by layer, and the depeg scenarios with figures: [docs/POSITION_A.md](docs/POSITION_A.md).
 
-## Moteur de risque de la position A (hors ligne)
+## Position A risk engine (offline)
 ```bash
 PYTHONPATH=src python -m risk.run
 ```
-`risk.run` lit `output/graph.json` et `output/risk_inputs.json` (hors ligne) et écrit `output/risk_report.json` et
-`output/risk_grid.json`. **Ne supprimez pas `output/`** : ce sont les entrées du moteur et des tests.
+`risk.run` reads `output/graph.json` and `output/risk_inputs.json` (offline) and writes `output/risk_report.json` and
+`output/risk_grid.json`. **Do not delete `output/`**: these are the inputs of the engine and of the tests.
 
-Pour **rafraîchir toute la photo** (découverte + lectures du moteur, au même bloc), en ligne : `PYTHONPATH=src python -m risk.refresh`.
+To **refresh the whole snapshot** (discovery + engine reads, at the same block), online: `PYTHONPATH=src python -m risk.refresh`.
 
-## Backend v2 : n'importe quel détenteur réel, en ligne → STAY / EXIT
+## Backend v2: any real holder, online → STAY / EXIT
 
-La v2 part de **l'adresse d'un détenteur réel** (ex. le vault Belem RWA EURCV du tableau Dune RockawayX). Elle trouve
-toutes ses poches, construit le graphe prouvé de chacune, chiffre l'impact des incidents, mesure le coût de sortie et
-rend un verdict **STAY / EXIT** avec le seuil **p\***. Une API HTTP est fournie pour le front.
-→ [docs/BACKEND_V2.md](docs/BACKEND_V2.md) (pipeline, modèle, limites) · [docs/API.md](docs/API.md) (contrat de l'API + exemples réels)
+v2 starts from **the address of a real holder** (e.g. the Belem RWA EURCV vault from the RockawayX Dune dashboard). It finds
+all its pockets, builds the proven graph of each one, prices the impact of incidents, measures the exit cost and
+returns a **STAY / EXIT** verdict with the threshold **p\***. An HTTP API is provided for the front.
+→ [docs/BACKEND_V2.md](docs/BACKEND_V2.md) (pipeline, model, limits) · [docs/API.md](docs/API.md) (API contract + real examples)
 
-## Front en diapositives : le backend v2 à l'écran (`front/`)
+## Slide-deck front: backend v2 on screen (`front/`)
 
-Un deck de 7 diapositives qui suit les questions de Léa à 3 h du matin : le portefeuille, **le verdict STAY / EXIT** de
-chaque poche (en très grand), par quel chemin je suis exposée (graphe prouvé, preuve de chaque arête au clic), combien je
-peux perdre, combien coûte la sortie, et le mode incident (« croyez-vous à plus de p\* ? »), puis la concentration cachée
-du portefeuille. ← → change de poche, ↑ ↓ change de question. Le front **ne calcule aucun risque** : il lit l'API.
+A 7-slide deck that follows Léa's questions at 3 a.m.: the portfolio, **the STAY / EXIT verdict** for
+each pocket (very large), which path I am exposed through (proven graph, evidence of each edge on click), how much I
+can lose, what exiting costs, and incident mode ("do you believe in more than p\*?"), then the hidden concentration
+of the portfolio. ← → switches pocket, ↑ ↓ switches question. The front **computes no risk**: it reads the API.
 
 ```bash
 cd front && npm install && npm run dev        # http://localhost:5173
 ```
 
-- **Sans backend** : il démarre sur les réponses réelles enregistrées dans `docs/api_examples/` (mainnet, bloc #26162868).
-  Aucun réseau requis.
-- **En direct** : lancez l'API (`PYTHONPATH=src python -m stacktrace.api`, avec `ETH_RPC_URL` dans `.env`) ; le front la
-  détecte et propose de passer en direct. Ou `http://localhost:5173/?source=live`.
+- **Without backend**: it starts on the real responses recorded in `docs/api_examples/` (mainnet, block #26162868).
+  No network required.
+- **Live**: start the API (`PYTHONPATH=src python -m stacktrace.api`, with `ETH_RPC_URL` in `.env`); the front
+  detects it and offers to switch to live. Or `http://localhost:5173/?source=live`.
 
-Détails, architecture et serveur de rejeu : [front/README.md](front/README.md).
+Details, architecture and replay server: [front/README.md](front/README.md).
 
-## Démarrage rapide
+## Quick start
 
-Il faut Python **3.11**. Avec Anaconda, par exemple : `conda create -p .venv311 python=3.11 pip`, puis utilisez `.venv311/python`.
+You need Python **3.11**. With Anaconda, for example: `conda create -p .venv311 python=3.11 pip`, then use `.venv311/python`.
 
 ```bash
 pip install -r requirements.txt
@@ -101,21 +101,21 @@ pip install -r requirements.txt
 python -m pytest
 ```
 
-Les tests (découverte + moteur de risque + backend v2 + API) tournent en ~10 s, sans réseau, et incluent la position A rejouée depuis le cache.
+The tests (discovery + risk engine + backend v2 + API) run in ~10 s, without network, and include position A replayed from the cache.
 
-**Démo hors ligne** (aucun appel réseau, tout vient de `data/cache/`). Sous PowerShell :
+**Offline demo** (no network call, everything comes from `data/cache/`). In PowerShell:
 
 ```powershell
 $env:PYTHONPATH="src"; python -m discovery.build_graph --offline
 ```
 
-Sous bash :
+In bash:
 
 ```bash
 PYTHONPATH=src python -m discovery.build_graph --offline
 ```
 
-Explorer le graphe :
+Explore the graph:
 
 ```bash
 PYTHONPATH=src python -m discovery.inspect_graph
@@ -129,83 +129,83 @@ PYTHONPATH=src python -m discovery.inspect_graph --impact usde
 PYTHONPATH=src python -m discovery.validate output/graph.json
 ```
 
-`--impact` répond à « qui est touché si USDe casse, et par quel chemin ? ». `--evidence` affiche la preuve de chaque arête.
-Avec `pip install -e .`, `PYTHONPATH=src` devient inutile.
-Sous Windows, si vous clonez dans un dossier très profond, lancez d'abord `git config --global core.longpaths true`.
+`--impact` answers "who is hit if USDe breaks, and through which path?". `--evidence` shows the evidence of each edge.
+With `pip install -e .`, `PYTHONPATH=src` is no longer needed.
+On Windows, if you clone into a very deep folder, first run `git config --global core.longpaths true`.
 
-### Rafraîchir les données (en ligne)
-1. `cp .env.example .env`, puis mettez votre `ETH_RPC_URL` (Ethereum mainnet).
-2. Dans `config.yaml`, mettez `snapshot_block: latest`, puis lancez `python -m discovery.build_graph`.
-3. Recopiez le numéro de bloc affiché dans `config.yaml` pour figer. Relancez `--offline`, puis commitez `data/cache/` et `output/graph.json`.
+### Refreshing the data (online)
+1. `cp .env.example .env`, then set your `ETH_RPC_URL` (Ethereum mainnet).
+2. In `config.yaml`, set `snapshot_block: latest`, then run `python -m discovery.build_graph`.
+3. Copy the displayed block number into `config.yaml` to pin it. Rerun `--offline`, then commit `data/cache/` and `output/graph.json`.
 
-> Un RPC public non-archive ne répond qu'aux ~128 derniers blocs. Pour figer un bloc ancien, il faut un RPC **archive**.
+> A public non-archive RPC only answers for the last ~128 blocks. To pin an old block, you need an **archive** RPC.
 
 ## Architecture
 
 ```
-config.yaml            entrées de la découverte (marketId, user, contrats d'entrée), chacune avec sa source
-curated.yaml           le hors-chaîne vérifiable (émetteurs, custodians, exchanges), chaque ligne avec URL + date
+config.yaml            discovery inputs (marketId, user, entry contracts), each with its source
+curated.yaml           the verifiable off-chain layer (issuers, custodians, exchanges), each line with URL + date
 src/discovery/
-  vocab.py             vocabulaire FIGÉ (types de nœuds/arêtes, sources, modes de prix, formes autorisées)
-  config.py            chargement + garde-fous (refuse les adresses placeholder)
-  cache.py  rpc.py     cache disque branché AU NIVEAU DU PROVIDER web3 → aucun appel ne peut l'éviter
-  http.py              APIs (Morpho GraphQL, Pendle) via le même cache
-  ctx.py               la seule porte vers la chaîne : call / try_call (sondes) / preuve textuelle
-  graph.py  ids.py     modèle de graphe, ids déterministes, export au contrat JSON
-  validate.py          validateur strict du contrat (structure + rigueur des preuves + connexité)
-  valuation.py         price_usd / tvl_usd à partir des seuls prix prouvés on-chain
-  build_graph.py       orchestrateur : racine Morpho → exploration en largeur → passes finales
-  inspect_graph.py     arbre + analyse d'impact (networkx)
+  vocab.py             FROZEN vocabulary (node/edge types, sources, pricing modes, allowed shapes)
+  config.py            loading + safeguards (rejects placeholder addresses)
+  cache.py  rpc.py     disk cache plugged in AT THE web3 PROVIDER LEVEL → no call can bypass it
+  http.py              APIs (Morpho GraphQL, Pendle) through the same cache
+  ctx.py               the only door to the chain: call / try_call (probes) / textual evidence
+  graph.py  ids.py     graph model, deterministic ids, export to the JSON contract
+  validate.py          strict contract validator (structure + rigour of evidence + connectivity)
+  valuation.py         price_usd / tvl_usd from on-chain-proven prices only
+  build_graph.py       orchestrator: Morpho root → breadth-first exploration → final passes
+  inspect_graph.py     tree + impact analysis (networkx)
   adapters/
-    morpho.py          marché (hash des params recalculé), position, intérêts courus, santé
-    morpho_api.py      vaults qui prêtent au marché (API Morpho, relus on-chain)
-    oracles.py         méta-oracle, MorphoChainlinkOracleV2 (prix recalculé), décote linéaire, Chainlink, feed constant
-    pendle.py          PT → SY → yieldToken ; pool localisé par API puis PROUVÉ on-chain
-    erc20.py erc4626.py  classification par sondage, coffres à parts
-    ens.py             résolution ENS (prouve qu'un feed est un feed officiel Chainlink)
-    contracts.py       détection des proxies (EIP-1167, EIP-1967, ZeppelinOS)
+    morpho.py          market (params hash recomputed), position, accrued interest, health
+    morpho_api.py      vaults that lend to the market (Morpho API, re-read on-chain)
+    oracles.py         meta-oracle, MorphoChainlinkOracleV2 (price recomputed), linear discount, Chainlink, constant feed
+    pendle.py          PT → SY → yieldToken; pool located via API then PROVEN on-chain
+    erc20.py erc4626.py  classification by probing, share vaults
+    ens.py             ENS resolution (proves that a feed is an official Chainlink feed)
+    contracts.py       proxy detection (EIP-1167, EIP-1967, ZeppelinOS)
     chain.py           settled_on (eth_chainId + eth_getCode)
-    curated.py         chargeur strict de curated.yaml
-src/risk/              MOTEUR DE RISQUE (parties 2 et 3) — ne lit que graph.json + risk_inputs.json
-  collect.py refresh.py   lectures on-chain du moteur (devis de vente Pendle, historique Chainlink, gas) au même bloc
-  params.py               chargeur STRICT de risk/params.yaml (statut sourcé / on-chain / hypothèse obligatoire)
-  calibrate.py            historique Chainlink USDe/USD → fréquence et ampleur des depegs
-  propagate.py            une règle de transmission par type d'arête (dominos)
-  oracle_sim.py           ce que l'oracle affiche pendant le choc (méta-oracle : seuil + minuterie 16 h)
-  position.py             santé, liquidation (bonus Morpho sourcé), pertes emprunteur / prêteurs
-  exit_cost.py decide.py  coût de sortie mesuré, seuil p*, sortie partielle, verdict
-  montecarlo.py           200 000 semaines simulées → perte attendue, VaR, chemins les plus coûteux
-  replay.py               incidents réels rejoués (10/10/2025, 21/02/2025)
-  run.py                  rapport + grille + validateur
-risk/                  params.yaml, scenarios.yaml, replays.yaml (tout chiffre a un statut)
-front/                 front en diapositives (React), lit l'API v2 ou ses réponses enregistrées
-data/cache/            réponses RPC/API figées (commitées : la démo survit à une coupure réseau)
-output/                graph.json (découverte), risk_inputs.json, risk_report.json, risk_grid.json
+    curated.py         strict loader for curated.yaml
+src/risk/              RISK ENGINE (parts 2 and 3) — reads only graph.json + risk_inputs.json
+  collect.py refresh.py   on-chain reads of the engine (Pendle sale quotes, Chainlink history, gas) at the same block
+  params.py               STRICT loader for risk/params.yaml (sourced / on-chain / hypothesis status mandatory)
+  calibrate.py            Chainlink USDe/USD history → frequency and size of depegs
+  propagate.py            one transmission rule per edge type (dominoes)
+  oracle_sim.py           what the oracle shows during the shock (meta-oracle: threshold + 16 h timer)
+  position.py             health, liquidation (sourced Morpho bonus), borrower / lender losses
+  exit_cost.py decide.py  measured exit cost, threshold p*, partial exit, verdict
+  montecarlo.py           200,000 simulated weeks → expected loss, VaR, costliest paths
+  replay.py               real incidents replayed (10/10/2025, 21/02/2025)
+  run.py                  report + grid + validator
+risk/                  params.yaml, scenarios.yaml, replays.yaml (every figure has a status)
+front/                 slide-deck front (React), reads API v2 or its recorded responses
+data/cache/            pinned RPC/API responses (committed: the demo survives a network outage)
+output/                graph.json (discovery), risk_inputs.json, risk_report.json, risk_grid.json
 ```
 
-## Garanties anti-hallucination
-- **Bloc figé** : toutes les lectures se font au même bloc, notées dans chaque preuve (`#26162087`).
-- **Recalculs** : l'ID du marché est recalculé (`keccak256(MarketParams)`). Le prix de chaque `MorphoChainlinkOracleV2` est recalculé à partir de ses briques, de même que la formule de décote linéaire et les intérêts courus (écart de 0,0001 % avec l'API Morpho).
-- **Provenance on-chain** :
-  - les sous-oracles sont confirmés par la factory officielle (`isMorphoChainlinkOracleV2`) ;
-  - le pool Pendle par sa factory (`isValidMarket`) ;
-  - le feed USDe/USD par ENS (`usde-usd.data.eth`).
-- **Inconnu = signalé** : un contrat non reconnu devient `meta.unresolved = true`, jamais deviné.
-- **Curé = sourcé** : `curated.yaml` refuse toute ligne sans URL https ni date.
-- **Validateur** : le contrat JSON est vérifié à chaque build (structure, vocabulaire, formes d'arêtes, preuves, connexité).
+## Anti-hallucination guarantees
+- **Pinned block**: all reads are made at the same block, recorded in each piece of evidence (`#26162087`).
+- **Recomputations**: the market ID is recomputed (`keccak256(MarketParams)`). The price of each `MorphoChainlinkOracleV2` is recomputed from its building blocks, as are the linear discount formula and the accrued interest (0.0001% gap with the Morpho API).
+- **On-chain provenance**:
+  - the sub-oracles are confirmed by the official factory (`isMorphoChainlinkOracleV2`);
+  - the Pendle pool by its factory (`isValidMarket`);
+  - the USDe/USD feed by ENS (`usde-usd.data.eth`).
+- **Unknown = flagged**: an unrecognised contract becomes `meta.unresolved = true`, never guessed.
+- **Curated = sourced**: `curated.yaml` rejects any line without an https URL and a date.
+- **Validator**: the JSON contract is checked at every build (structure, vocabulary, edge shapes, evidence, connectivity).
 
 ## Documentation
-| Fichier | Pour qui / quoi |
+| File | For whom / what |
 |---|---|
-| [docs/PARTS_2_3.md](docs/PARTS_2_3.md) | parties 2 et 3 : brief → ce qu'on a fait → où c'est |
-| [docs/RISK_CONTRACT.md](docs/RISK_CONTRACT.md) | format de `risk_report.json` / `risk_grid.json` |
-| [docs/DEMO.md](docs/DEMO.md) | **script de démo de 5 minutes** (PowerShell et bash) |
-| [front/README.md](front/README.md) | le front en diapositives (lancement, sources de données, architecture) |
-| [docs/GUIDE_DEBUTANT.md](docs/GUIDE_DEBUTANT.md) | **commencer ici** : tout expliqué en partant de zéro |
-| [CLAUDE.md](CLAUDE.md) | règles du projet + **vocabulaire figé** + conventions |
-| [docs/CONTRACT.md](docs/CONTRACT.md) | **pour les autres équipes** : comment lire `graph.json` |
-| [docs/POSITION_A.md](docs/POSITION_A.md) | ce qu'on a découvert sur la position A, expliqué simplement |
-| [docs/VERIFY.md](docs/VERIFY.md) | **checklist à cocher par l'équipe** (adresses, fonctions, endpoints) |
-| [docs/NEXT_STEPS.md](docs/NEXT_STEPS.md) | la suite, la répartition à 3, et les **prompts prêts à lancer** |
-| [docs/AUDIT.md](docs/AUDIT.md) | journal des audits et limites connues |
-| [docs/AUDIT_BRIEF.md](docs/AUDIT_BRIEF.md) | **audit face au brief Belem et au barème** : notes estimées, failles, plan d'action priorisé |
+| [docs/PARTS_2_3.md](docs/PARTS_2_3.md) | parts 2 and 3: brief → what we did → where it is |
+| [docs/RISK_CONTRACT.md](docs/RISK_CONTRACT.md) | format of `risk_report.json` / `risk_grid.json` |
+| [docs/DEMO.md](docs/DEMO.md) | **5-minute demo script** (PowerShell and bash) |
+| [front/README.md](front/README.md) | the slide-deck front (launch, data sources, architecture) |
+| [docs/BEGINNER_GUIDE.md](docs/BEGINNER_GUIDE.md) | **start here**: everything explained from scratch |
+| [CLAUDE.md](CLAUDE.md) | project rules + **frozen vocabulary** + conventions |
+| [docs/CONTRACT.md](docs/CONTRACT.md) | **for the other teams**: how to read `graph.json` |
+| [docs/POSITION_A.md](docs/POSITION_A.md) | what we discovered about position A, explained simply |
+| [docs/VERIFY.md](docs/VERIFY.md) | **checklist for the team to tick** (addresses, functions, endpoints) |
+| [docs/NEXT_STEPS.md](docs/NEXT_STEPS.md) | what comes next, the split between the 3 of us, and **ready-to-run prompts** |
+| [docs/AUDIT.md](docs/AUDIT.md) | audit log and known limits |
+| [docs/AUDIT_BRIEF.md](docs/AUDIT_BRIEF.md) | **audit against the Belem brief and the grading scheme**: estimated scores, gaps, prioritised action plan |
