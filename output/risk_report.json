@@ -51,7 +51,7 @@
  },
  "baseline": {
   "verdict": "STAY",
-  "sentence": "STAY — sans alerte, la perte attendue sur 7 jours (140 $) est inférieure au coût certain de sortie (854 $)."
+  "sentence": "STAY — sans alerte, la perte attendue sur 7 jours (131 $) est inférieure au coût certain de sortie (854 $)."
  },
  "exit_cost": {
   "full": {
@@ -863,19 +863,19 @@
   "method": "PT → SY simulé on-chain (Pendle RouterStatic.swapExactPtForSyStatic) ; coût = écart au prix spot de l'AMM ; + conversion vers USDC (hypothèse) + gas (on-chain) + rendement abandonné"
  },
  "monte_carlo": {
-  "samples": 50000,
+  "samples": 200000,
   "seed": 20261010,
   "horizon_days": 7,
-  "p_any_event": 0.0123,
-  "p_loss": 0.00286,
-  "p_liquidation": 0.00268,
-  "expected_loss_usd": 139.6079573584837,
-  "expected_loss_pct_equity": 0.0026275185366769474,
+  "p_any_event": 0.01242,
+  "p_loss": 0.002685,
+  "p_liquidation": 0.00251,
+  "expected_loss_usd": 131.44960832402433,
+  "expected_loss_pct_equity": 0.0024739727523082327,
   "var95_usd": 0.0,
   "var99_usd": 0.0,
-  "es99_usd": 13960.795735848367,
-  "expected_lender_loss_usd": 137.44503426944482,
-  "conditional_loss_usd": 48813.97110436492,
+  "es99_usd": 13144.96083240243,
+  "expected_lender_loss_usd": 112.06539782397302,
+  "conditional_loss_usd": 48957.0235843666,
   "events": [
    {
     "event": "usde_severe_depeg",
@@ -895,7 +895,7 @@
      0.0,
      0.0
     ],
-    "expected_loss_usd": 85.49675417664777
+    "expected_loss_usd": 89.6130802980108
    },
    {
     "event": "pendle_exploit",
@@ -915,27 +915,7 @@
      0.0,
      0.0
     ],
-    "expected_loss_usd": 9.03261096721246
-   },
-   {
-    "event": "chainlink_feed_fault",
-    "target": "feed_usde_usd",
-    "kind": "feed_fault",
-    "annual_rate": 0.01,
-    "prob": 0.0001917624331515544,
-    "severity": [
-     0.05,
-     0.5
-    ],
-    "duration": [
-     1.0,
-     48.0
-    ],
-    "panic": [
-     0.0,
-     0.0
-    ],
-    "expected_loss_usd": 7.822815447724318
+    "expected_loss_usd": 8.634113424541315
    },
    {
     "event": "ethena_failure",
@@ -955,67 +935,27 @@
      0.0,
      0.0
     ],
-    "expected_loss_usd": 6.907290739633058
+    "expected_loss_usd": 6.641625711185628
    },
    {
-    "event": "custodian_failure",
-    "target": "ceffu",
-    "kind": "counterparty_failure",
-    "annual_rate": 0.003,
-    "prob": 5.753259151231038e-05,
-    "severity": [
-     0.1,
-     1.0
-    ],
-    "duration": [
-     168.0,
-     168.0
-    ],
-    "panic": [
-     0.0,
-     0.0
-    ],
-    "expected_loss_usd": 6.3759606827382065
-   },
-   {
-    "event": "exchange_failure",
-    "target": "okx",
-    "kind": "counterparty_failure",
+    "event": "chainlink_feed_fault",
+    "target": "feed_usde_usd",
+    "kind": "feed_fault",
     "annual_rate": 0.01,
     "prob": 0.0001917624331515544,
     "severity": [
-     0.5,
-     1.0
+     0.05,
+     0.5
     ],
     "duration": [
-     24.0,
-     168.0
-    ],
-    "panic": [
-     0.0,
-     0.05
-    ],
-    "expected_loss_usd": 5.313079993826029
-   },
-   {
-    "event": "morpho_exploit",
-    "target": "morpho",
-    "kind": "protocol_exploit",
-    "annual_rate": 0.003,
-    "prob": 5.753259151231038e-05,
-    "severity": [
-     0.2,
-     1.0
-    ],
-    "duration": [
-     168.0,
-     168.0
+     1.0,
+     48.0
     ],
     "panic": [
      0.0,
      0.0
     ],
-    "expected_loss_usd": 4.250640455158805
+    "expected_loss_usd": 4.891127269079926
    },
    {
     "event": "custodian_failure",
@@ -1035,47 +975,7 @@
      0.0,
      0.0
     ],
-    "expected_loss_usd": 3.845476631984737
-   },
-   {
-    "event": "exchange_failure",
-    "target": "bitget",
-    "kind": "counterparty_failure",
-    "annual_rate": 0.01,
-    "prob": 0.0001917624331515544,
-    "severity": [
-     0.5,
-     1.0
-    ],
-    "duration": [
-     24.0,
-     168.0
-    ],
-    "panic": [
-     0.0,
-     0.05
-    ],
-    "expected_loss_usd": 2.4287484614755854
-   },
-   {
-    "event": "exchange_failure",
-    "target": "deribit",
-    "kind": "counterparty_failure",
-    "annual_rate": 0.01,
-    "prob": 0.0001917624331515544,
-    "severity": [
-     0.5,
-     1.0
-    ],
-    "duration": [
-     24.0,
-     168.0
-    ],
-    "panic": [
-     0.0,
-     0.05
-    ],
-    "expected_loss_usd": 2.342525064281521
+    "expected_loss_usd": 4.368464025927385
    },
    {
     "event": "custodian_failure",
@@ -1095,27 +995,7 @@
      0.0,
      0.0
     ],
-    "expected_loss_usd": 2.1253202275794023
-   },
-   {
-    "event": "exchange_failure",
-    "target": "binance",
-    "kind": "counterparty_failure",
-    "annual_rate": 0.01,
-    "prob": 0.0001917624331515544,
-    "severity": [
-     0.5,
-     1.0
-    ],
-    "duration": [
-     24.0,
-     168.0
-    ],
-    "panic": [
-     0.0,
-     0.05
-    ],
-    "expected_loss_usd": 1.3680846844354022
+    "expected_loss_usd": 2.7805016406251846
    },
    {
     "event": "exchange_failure",
@@ -1135,7 +1015,127 @@
      0.0,
      0.05
     ],
-    "expected_loss_usd": 1.2359897119966452
+    "expected_loss_usd": 2.525107214995996
+   },
+   {
+    "event": "morpho_exploit",
+    "target": "morpho",
+    "kind": "protocol_exploit",
+    "annual_rate": 0.003,
+    "prob": 5.753259151231038e-05,
+    "severity": [
+     0.2,
+     1.0
+    ],
+    "duration": [
+     168.0,
+     168.0
+    ],
+    "panic": [
+     0.0,
+     0.0
+    ],
+    "expected_loss_usd": 2.3909852560268274
+   },
+   {
+    "event": "exchange_failure",
+    "target": "bitget",
+    "kind": "counterparty_failure",
+    "annual_rate": 0.01,
+    "prob": 0.0001917624331515544,
+    "severity": [
+     0.5,
+     1.0
+    ],
+    "duration": [
+     24.0,
+     168.0
+    ],
+    "panic": [
+     0.0,
+     0.05
+    ],
+    "expected_loss_usd": 2.20665094304467
+   },
+   {
+    "event": "custodian_failure",
+    "target": "ceffu",
+    "kind": "counterparty_failure",
+    "annual_rate": 0.003,
+    "prob": 5.753259151231038e-05,
+    "severity": [
+     0.1,
+     1.0
+    ],
+    "duration": [
+     168.0,
+     168.0
+    ],
+    "panic": [
+     0.0,
+     0.0
+    ],
+    "expected_loss_usd": 2.129792264881878
+   },
+   {
+    "event": "exchange_failure",
+    "target": "deribit",
+    "kind": "counterparty_failure",
+    "annual_rate": 0.01,
+    "prob": 0.0001917624331515544,
+    "severity": [
+     0.5,
+     1.0
+    ],
+    "duration": [
+     24.0,
+     168.0
+    ],
+    "panic": [
+     0.0,
+     0.05
+    ],
+    "expected_loss_usd": 2.057881325807474
+   },
+   {
+    "event": "exchange_failure",
+    "target": "okx",
+    "kind": "counterparty_failure",
+    "annual_rate": 0.01,
+    "prob": 0.0001917624331515544,
+    "severity": [
+     0.5,
+     1.0
+    ],
+    "duration": [
+     24.0,
+     168.0
+    ],
+    "panic": [
+     0.0,
+     0.05
+    ],
+    "expected_loss_usd": 1.7023373205195986
+   },
+   {
+    "event": "exchange_failure",
+    "target": "binance",
+    "kind": "counterparty_failure",
+    "annual_rate": 0.01,
+    "prob": 0.0001917624331515544,
+    "severity": [
+     0.5,
+     1.0
+    ],
+    "duration": [
+     24.0,
+     168.0
+    ],
+    "panic": [
+     0.0,
+     0.05
+    ],
+    "expected_loss_usd": 1.019024954608455
    },
    {
     "event": "usde_market_depeg",
@@ -1155,7 +1155,7 @@
      0.0,
      0.0
     ],
-    "expected_loss_usd": 1.0626601137897012
+    "expected_loss_usd": 0.48891667476922723
    },
    {
     "event": "pool_liquidity_drain",
@@ -1202,8 +1202,8 @@
    {
     "event": "usde_severe_depeg",
     "target": "usde",
-    "expected_loss_usd": 85.49675417664777,
-    "share": 0.6124060246588251,
+    "expected_loss_usd": 89.6130802980108,
+    "share": 0.6817295345385423,
     "path": {
      "nodes": [
       "morpho:0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05:0x03BAbEB24619902253FDB0D5675A816879115d98",
@@ -1265,8 +1265,8 @@
    {
     "event": "pendle_exploit",
     "target": "pendle",
-    "expected_loss_usd": 9.03261096721246,
-    "share": 0.0646998289934049,
+    "expected_loss_usd": 8.634113424541315,
+    "share": 0.06568382770116862,
     "path": {
      "nodes": [
       "morpho:0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05:0x03BAbEB24619902253FDB0D5675A816879115d98",
@@ -1306,17 +1306,18 @@
     }
    },
    {
-    "event": "chainlink_feed_fault",
-    "target": "feed_usde_usd",
-    "expected_loss_usd": 7.822815447724318,
-    "share": 0.05603416592964671,
+    "event": "ethena_failure",
+    "target": "ethena_labs",
+    "expected_loss_usd": 6.641625711185628,
+    "share": 0.05052602130859126,
     "path": {
      "nodes": [
       "morpho:0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05:0x03BAbEB24619902253FDB0D5675A816879115d98",
       "morpho_market_5613b170",
-      "oracle_meta_f8b29e",
-      "oracle_morpho_v2_e2f4cf",
-      "feed_usde_usd"
+      "pt_susde_26nov2026",
+      "sy_susde",
+      "susde",
+      "ethena_labs"
      ],
      "edges": [
       {
@@ -1330,30 +1331,39 @@
       },
       {
        "from": "morpho_market_5613b170",
-       "to": "oracle_meta_f8b29e",
-       "type": "priced_by",
+       "to": "pt_susde_26nov2026",
+       "type": "collateralized_by",
        "weight": 1.0,
        "source": "onchain",
-       "evidence": "Morpho.idToMarketParams(0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26162087 → oracle = 0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08",
-       "rule": "« morpho_market_5613b170 » tire son prix de « oracle_meta_f8b29e » : le choc passe seulement si « oracle_meta_f8b29e » suit le marché"
+       "evidence": "Morpho.idToMarketParams(0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26162087 → collateralToken = 0xB195B618EA52b77CB2a58846F452f59f8dFa9390",
+       "rule": "le marché est garanti par « pt_susde_26nov2026 » : si sa valeur baisse, la santé des emprunteurs baisse"
       },
       {
-       "from": "oracle_meta_f8b29e",
-       "to": "oracle_morpho_v2_e2f4cf",
-       "type": "priced_by",
+       "from": "pt_susde_26nov2026",
+       "to": "sy_susde",
+       "type": "redeemable_into",
        "weight": 1.0,
        "source": "onchain",
-       "evidence": "MetaOracleDeviationTimelock.backupOracle() = 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 @ 0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08 #26162087 ; seuil de bascule deviationThreshold() = 7500000000000000",
-       "rule": "« oracle_meta_f8b29e » tire son prix de « oracle_morpho_v2_e2f4cf » : le choc passe seulement si « oracle_morpho_v2_e2f4cf » suit le marché"
+       "evidence": "PT-sUSDE-26NOV2026.SY() = 0xBF98480425A29197e5d99D003017f63a1e595D02 @ 0xB195B618EA52b77CB2a58846F452f59f8dFa9390 #26162087",
+       "rule": "« pt_susde_26nov2026 » s'échange contre « sy_susde » : sa valeur suit celle de « sy_susde »"
       },
       {
-       "from": "oracle_morpho_v2_e2f4cf",
-       "to": "feed_usde_usd",
-       "type": "priced_by",
+       "from": "sy_susde",
+       "to": "susde",
+       "type": "redeemable_into",
        "weight": 1.0,
        "source": "onchain",
-       "evidence": "MorphoChainlinkOracleV2.BASE_FEED_2() = 0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961 @ 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 #26162087 ; valeur lue = 99959682",
-       "rule": "« oracle_morpho_v2_e2f4cf » tire son prix de « feed_usde_usd » : le choc passe seulement si « feed_usde_usd » suit le marché"
+       "evidence": "SY-sUSDE.yieldToken() = 0x9D39A5DE30e57443BfF2A8307A4256c8797A3497 @ 0xBF98480425A29197e5d99D003017f63a1e595D02 #26162087 ; assetInfo() = (0,0x4c9EDD5852cd905f086C759E8383e09bff1E68B3,18)",
+       "rule": "« sy_susde » s'échange contre « susde » : sa valeur suit celle de « susde »"
+      },
+      {
+       "from": "susde",
+       "to": "ethena_labs",
+       "type": "issued_by",
+       "weight": 1.0,
+       "source": "curated",
+       "evidence": "sUSDe Token (Staking Contract) = 0x9D39A5DE30e57443BfF2A8307A4256c8797A3497 selon https://docs.ethena.fi/solution-design/key-addresses (relevé le 2026-10-10)",
+       "rule": "« susde » est émis par « ethena_labs » : une perte de réserves de l'émetteur le déprécie"
       }
      ]
     }

@@ -41,6 +41,16 @@ on corrige, puis on recommence jusqu'à ce que l'audit ne trouve plus rien d'imp
 | Dans un dossier profond, le chemin d'un fichier de cache dépassait **260 caractères** (MAX_PATH Windows) : le cache devenait invisible | préfixe `\?\` sous Windows dans `cache.py` ; re-test du clone neuf : 67 tests verts, 0 miss, `graph.json` identique à l'octet |
 | `validate` plantait dans une console Windows (encodage cp1252) ; les erreurs attendues s'affichaient en trace brute | `console.utf8_console()` pour les 3 CLI ; messages `✗ OfflineError : …` et code de sortie 2 |
 
+## Audit 5 : moteur de risque (parties 2 et 3) — étapes (a) et (b)
+| Constat | Correction |
+|---|---|
+| Le RPC public ne sert que les ~128 derniers blocs : les nouvelles lectures (simulations Pendle, historique Chainlink) étaient impossibles au bloc figé #26161750 | commande unique `python -m risk.refresh` (découverte + lectures du moteur au MÊME bloc, en 30 s) ; données rafraîchies au bloc #26162087, code de découverte inchangé |
+| Dataset de hacks DeFiLlama : endpoint **payant** (`pro-api.llama.fi/api/hacks`, doc officielle), page web bloquée | aucune probabilité « inventée » présentée comme calibrée : les fréquences d'exploit sont des **hypothèses affichées**, la décision repose sur **p\*** (indépendant de ces fréquences), sensibilité ×0,5/×2 dans le rapport |
+| Fréquence de depeg USDe calibrée sur l'historique on-chain (1 épisode sous 0,99 $ en ~2,5 ans, 7 min, −2,3 %) mais appliquée à des sévérités bien plus fortes | séparation en `usde_market_depeg` (fréquence, sévérité ET durée calées sur l'historique) et `usde_severe_depeg` (queue de distribution = hypothèse explicite) |
+| S-TIME ignorait que le PT converge vers 1 à l'échéance (perte affichée = intérêts) | valorisation du PT « mûrie » au taux implicite de l'AMM → gain de ~855 $ d'ici l'échéance |
+| Test des seuils : j'avais écrit seuil = u_now / HF (faux) | le moteur avait raison : après bascule HF = HF₀ × prix USDe, donc seuil = 1/HF₀ = 0,9525 $ (identique à POSITION_A.md) |
+| Résumé console : « ok » affiché pour une position liquidable mais non liquidée (exploit Morpho, collatéral nul) | libellé « liquidable » |
+
 ## Limites connues (à assumer ou à traiter, voir `NEXT_STEPS.md`)
 - **Vocabulaire :** `lends` et la convention de direction sont en attente de validation officielle.
 - **`value_usd`** = collatéral au prix de l'oracle (la valeur nette est donnée dans `meta.position.net_value_usd`). Définition à confirmer avec les équipes aval.
