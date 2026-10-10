@@ -132,6 +132,7 @@ output/graph.json      le livrable pour les autres équipes
 ## Documentation
 | Fichier | Pour qui / quoi |
 |---|---|
+| [docs/GUIDE_DEBUTANT.md](docs/GUIDE_DEBUTANT.md) | **commencer ici** : tout expliqué en partant de zéro |
 | [CLAUDE.md](CLAUDE.md) | règles du projet + **vocabulaire figé** + conventions |
 | [docs/CONTRACT.md](docs/CONTRACT.md) | **pour les autres équipes** : comment lire `graph.json` |
 | [docs/POSITION_A.md](docs/POSITION_A.md) | ce qu'on a découvert sur la position A, expliqué simplement |
