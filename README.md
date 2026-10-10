@@ -79,6 +79,7 @@ PYTHONPATH=src python -m discovery.validate output/graph.json
 
 `--impact` répond à « qui est touché si USDe casse, et par quel chemin ? ». `--evidence` affiche la preuve de chaque arête.
 Avec `pip install -e .`, `PYTHONPATH=src` devient inutile.
+Sous Windows, si vous clonez dans un dossier très profond, lancez d'abord `git config --global core.longpaths true`.
 
 ### Rafraîchir les données (en ligne)
 1. `cp .env.example .env`, puis mettez votre `ETH_RPC_URL` (Ethereum mainnet).

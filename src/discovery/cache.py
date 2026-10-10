@@ -53,7 +53,12 @@ class DiskCache:
         self.stats = CacheStats()
 
     def _path(self, namespace: str, key: str) -> Path:
-        return self.root / namespace / key[:2] / f"{key}.json"
+        path = (self.root / namespace / key[:2] / f"{key}.json").resolve()
+        if os.name == "nt" and not str(path).startswith("\\\\?\\"):
+            # Windows limite les chemins à 260 caractères (MAX_PATH) : un dépôt cloné dans un dossier
+            # profond rendrait le cache « invisible ». Le préfixe \\?\ lève cette limite.
+            path = Path("\\\\?\\" + str(path))
+        return path
 
     def get(self, namespace: str, payload: dict) -> dict | None:
         """Renvoie l'entrée {"request", "response", "fetched_at"} ou None."""

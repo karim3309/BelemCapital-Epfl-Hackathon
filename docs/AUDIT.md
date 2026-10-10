@@ -35,6 +35,12 @@ on corrige, puis on recommence jusqu'à ce que l'audit ne trouve plus rien d'imp
 | Aucune adresse ni endpoint de mémoire | ✅ toutes les adresses sont soit **découvertes on-chain**, soit relevées dans une doc officielle avec URL (`config.yaml`, `curated.yaml`). Checklist pour l'équipe | `docs/VERIFY.md` |
 | Pédagogie : concepts expliqués, petites tâches testables | ✅ docstrings pédagogiques dans chaque module ; 67 tests unitaires et d'intégration | `docs/POSITION_A.md` |
 
+## Audit 4 : simulation d'un coéquipier (clone neuf, sans `.env`, sans réseau)
+| Constat | Correction |
+|---|---|
+| Dans un dossier profond, le chemin d'un fichier de cache dépassait **260 caractères** (MAX_PATH Windows) : le cache devenait invisible | préfixe `\?\` sous Windows dans `cache.py` ; re-test du clone neuf : 67 tests verts, 0 miss, `graph.json` identique à l'octet |
+| `validate` plantait dans une console Windows (encodage cp1252) ; les erreurs attendues s'affichaient en trace brute | `console.utf8_console()` pour les 3 CLI ; messages `✗ OfflineError : …` et code de sortie 2 |
+
 ## Limites connues (à assumer ou à traiter, voir `NEXT_STEPS.md`)
 - **Vocabulaire :** `lends` et la convention de direction sont en attente de validation officielle.
 - **`value_usd`** = collatéral au prix de l'oracle (la valeur nette est donnée dans `meta.position.net_value_usd`). Définition à confirmer avec les équipes aval.
