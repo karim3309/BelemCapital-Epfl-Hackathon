@@ -29,7 +29,6 @@ Located by the Morpho API (`userByAddress` of `0x4F87…0545`) and proven on-cha
 | ☐ | Belem RWA EURCV | `0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec` | Dune dashboard + Etherscan `name()` + Morpho app vault page (curator) |
 | ☐ | RockawayX f(x) Protocol Ecosystem USDC | `0x2cA22cb25558fa2018ecb1CE4eD8AF92Ee7ea423` | same |
 | ☐ | RockawayX USDC Yield | `0xE0181090c22579B6A217f1522cbf8c9f1F0C1965` | same |
-| ☐ | RockawayX wETH | `0x64C18DCC4Ccb3b8D27877a4aeBB4C3126CB39cB9` | same |
 | ☐ | RockawayX Tori Ecosystem | `0x3BD9AdAE6643dDcddD02746b8B60075E56DF9478` | same |
 | ☐ | RockawayX Confidential RWA USDC | `0xc207d3f66537D7F66456808379A0E560cF20Da36` | copied from the Dune list ("ethereum · morpho"): Etherscan `name()` + Morpho app |
 | ☐ | Huma USDC Main | `0x8aC91877b93330f52b2979a31a4879506021475c` | same |
