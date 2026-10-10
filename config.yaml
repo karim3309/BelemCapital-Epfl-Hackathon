@@ -81,7 +81,12 @@ curator_books:
       - {name: "RockawayX Confidential RWA USDC", address: "0xc207d3f66537D7F66456808379A0E560cF20Da36"}
       - {name: "Huma USDC Main", address: "0x8aC91877b93330f52b2979a31a4879506021475c"}
       - {name: "RockawayX NUVA Ecosystem", address: "0x93e0F9d502eEfce8D34924ab3478C7EA0CBC5a2E"}
-    # "RockawayX wETH" (0x64C18DCC…39cB9, ~$2k) was removed: it is not in the Dune list, the book must match its source.
+      - {name: "RockawayX EUROP", address: "0x9C57E02bC31e7e463f439353D97bd8f42F5a7F9c"}
+      - {name: "Midas USDC Prime (Ethereum)", address: "0xe99A27169c2aA26a8f2757949d09Fa3f9A8f0B3B"}
+      - {name: "RockawayX wETH", address: "0x64C18DCC4Ccb3b8D27877a4aeBB4C3126CB39cB9"}
+      - {name: "Figure USDC Main", address: "0xd65d6E8dbC3Cd3D12418199E6f4014dB3aaa0097"}
+      - {name: "RockawayX PRIME USDC", address: "0x5f829B1B473cBA86838E1B7BB7E144DbDE228e21"}
+    # = the 12 "ethereum · morpho" rows of the Dune list. Not here: "Midas USDC Prime (Base)" (Base chain).
     # Out of scope (no adapter yet): Solana/Kamino, Base, BSC, Sei, Pharos, Citrea vaults, and Ethereum vaults
     # on Upshift, Ember, Accountable and Midas. Only Morpho Vault V2 on Ethereum is analysed.
 
