@@ -1,79 +1,79 @@
-# Backend v2 : d'une adresse réelle à STAY / EXIT
+# Backend v2: from a real address to STAY / EXIT
 
-Ce backend répond à la question du brief Belem, sur des **données réelles, en direct** :
+This backend answers the question of the Belem brief, on **real, live data**:
 
-> « Est-ce que la perte attendue en restant dans cette position justifie d'en sortir, malgré le coût de sortie ? »
+> "Does the expected loss from staying in this position justify exiting it, despite the exit cost?"
 
-Il remplace la position unique écrite en dur dans `config.yaml` (position A) par **n'importe quel détenteur réel**. Le code de la v1 (`src/discovery`, `src/risk`, position A, démo hors ligne) est intact et ses tests passent toujours.
+It replaces the single position hard-coded in `config.yaml` (position A) with **any real holder**. The v1 code (`src/discovery`, `src/risk`, position A, offline demo) is untouched and its tests still pass.
 
-## Qu'est-ce qu'une « position » ?
-C'est **une ligne du portefeuille** d'un détenteur, une « poche » au sens du brief (« a book split across ten pockets »). On part de **l'adresse du détenteur**, et l'outil trouve toutes ses poches. L'adresse de test vient du tableau de bord Dune fourni par Belem ([RockawayX vaults](https://dune.com/rockawayxvault/rockawayx-dashboard)) : `0x4F87…0545`, déposant principal du vault « Belem RWA EURCV ». ⚠ **Que cette adresse appartienne à Belem reste à confirmer avec eux.**
+## What is a "position"?
+It is **one row of a holder's portfolio**, a "pocket" in the sense of the brief ("a book split across ten pockets"). We start from **the holder's address**, and the tool finds all of its pockets. The test address comes from the Dune dashboard provided by Belem ([RockawayX vaults](https://dune.com/rockawayxvault/rockawayx-dashboard)): `0x4F87…0545`, main depositor of the "Belem RWA EURCV" vault. ⚠ **Whether this address belongs to Belem is still to be confirmed with them.**
 
-Types de poches pris en charge :
-- `morpho_vault_v2` : dépôt dans un vault Morpho V2 (on est **prêteur**) ;
-- `morpho_market_borrow` : emprunt sur un marché Morpho (on est **emprunteur**, avec levier) ;
-- `morpho_market_supply` : prêt direct sur un marché.
+Supported pocket types:
+- `morpho_vault_v2`: deposit in a Morpho V2 vault (we are a **lender**);
+- `morpho_market_borrow`: borrowing on a Morpho market (we are a **borrower**, with leverage);
+- `morpho_market_supply`: direct lending on a market.
 
-## Le pipeline
+## The pipeline
 
 ```
-adresse ─▶ 1. session en ligne (RPC, bloc figé)                          session.py
-        ─▶ 2. poches : l'API localise, la chaîne prouve les montants     portfolio.py
-        ─▶ 3. graphe prouvé de la poche (vault → adapters → marchés…)    graph_build.py, vault_v2.py
-        ─▶ 4. données de risque : emprunteurs, profil d'oracle           market_data.py
-        ─▶ 5. incidents générés depuis le graphe → perte de la poche     risk_engine.py
-        ─▶ 6. coût de sortie (liquidité, devis DEX, pénalité, gas)       exit_cost.py
-        ─▶ 7. décision STAY / EXIT, p*, chemins de contagion            analyze.py
-        ─▶ API HTTP pour le front                                         api.py  (contrat : API.md)
+address ─▶ 1. online session (RPC, pinned block)                          session.py
+        ─▶ 2. pockets: the API locates, the chain proves the amounts      portfolio.py
+        ─▶ 3. proven graph of the pocket (vault → adapters → markets…)    graph_build.py, vault_v2.py
+        ─▶ 4. risk data: borrowers, oracle profile                        market_data.py
+        ─▶ 5. incidents generated from the graph → loss of the pocket     risk_engine.py
+        ─▶ 6. exit cost (liquidity, DEX quotes, penalty, gas)             exit_cost.py
+        ─▶ 7. STAY / EXIT decision, p*, contagion paths                   analyze.py
+        ─▶ HTTP API for the front                                         api.py  (contract: API.md)
 ```
 
-## Commandes (PowerShell)
+## Commands (PowerShell)
 
 ```powershell
 $env:PYTHONPATH="src"
-.venv313\Scripts\python -m stacktrace.doctor                                   # tout répond ?
+.venv313\Scripts\python -m stacktrace.doctor                                   # is everything responding?
 .venv313\Scripts\python -m stacktrace.portfolio 0x4F87De7d21aeF48090958f7342E1F69Dff790545
 .venv313\Scripts\python -m stacktrace.graph_build 0x4F87De7d21aeF48090958f7342E1F69Dff790545 "Belem RWA"
-.venv313\Scripts\python -m stacktrace.analyze 0x4F87De7d21aeF48090958f7342E1F69Dff790545          # tout le portefeuille
+.venv313\Scripts\python -m stacktrace.analyze 0x4F87De7d21aeF48090958f7342E1F69Dff790545          # the whole portfolio
 .venv313\Scripts\python -m stacktrace.analyze 0x4F87De7d21aeF48090958f7342E1F69Dff790545 --pocket "Belem RWA" --incident rwa_credit_event:mgloeuro --severity 0.3 --p 0.2
-.venv313\Scripts\python -m stacktrace.api                                      # API sur http://127.0.0.1:8000
+.venv313\Scripts\python -m stacktrace.api                                      # API on http://127.0.0.1:8000
 ```
 
-Les sorties vont dans `output/live/` (ignoré par git). Le cache en ligne va dans `data/cache_live/` (ignoré aussi).
+Outputs go to `output/live/` (ignored by git). The online cache goes to `data/cache_live/` (ignored too).
 
-## Le modèle, en clair
+## The model, in plain words
 
-**On ne devine jamais.** Chaque adresse et chaque fonction est prouvée on-chain, ou vérifiée dans un code source vérifié (Etherscan, dépôt officiel). Chaque chiffre de `risk/params_v2.yaml` est **sourcé** ou **marqué hypothèse**, avec sa raison et sa plage de sensibilité. Le chargeur refuse tout le reste.
+**We never guess.** Every address and every function is proven on-chain, or checked in verified source code (Etherscan, official repository). Every number in `risk/params_v2.yaml` is **sourced** or **marked as a hypothesis**, with its reason and its sensitivity range. The loader rejects everything else.
 
-### Ce que perd un prêteur (poche vault)
-Seulement la **dette irrécouvrable** des emprunteurs, calculée **emprunteur par emprunteur** (un agrégat cacherait les emprunteurs à risque) :
-- si le collatéral est pricé **au marché** et chute **progressivement**, les emprunteurs sont liquidés à temps et le prêteur ne perd rien ;
-- en cas de choc **brutal**, ou si l'oracle **ne suit pas le marché** (taux interne, prix posé par un admin), personne n'est liquidé à temps : perte = max(0, D − V·(1−d)·(1−glissement)) ;
-- si un feed est **faussé vers le haut**, un attaquant emprunte la liquidité disponible. Il gagne seulement si (1+u)·LLTV > 1. Exemple : le feed Midas est borné à +10 % et la LLTV vaut 77 % ; 1,10 × 0,77 < 1, donc l'attaque ne rapporte rien ;
-- un **depeg** de l'actif de la poche, une faille de Morpho ou une défaillance du curateur fait perdre directement la valeur × la sévérité.
+### What a lender loses (vault pocket)
+Only the borrowers' **bad debt**, computed **borrower by borrower** (an aggregate would hide the risky borrowers):
+- if the collateral is priced **at market** and falls **gradually**, the borrowers are liquidated in time and the lender loses nothing;
+- in case of a **sudden** shock, or if the oracle **does not follow the market** (internal rate, price set by an admin), nobody is liquidated in time: loss = max(0, D − V·(1−d)·(1−slippage));
+- if a feed is **skewed upwards**, an attacker borrows the available liquidity. They only gain if (1+u)·LLTV > 1. Example: the Midas feed is capped at +10% and the LLTV is 77%; 1.10 × 0.77 < 1, so the attack yields nothing;
+- a **depeg** of the pocket's asset, a Morpho exploit or a curator failure directly loses the value × the severity.
 
-### Ce que perd un emprunteur (poche emprunt)
-- La **liquidation** : pénalité ρ·D·(LIF − 1), avec la formule officielle Morpho.
-- Une **liquidation à tort** si un feed se trompe vers le bas.
-- La perte de valeur **propre** au collatéral : défaut d'un RWA, depeg d'un LST pricé au taux de change.
-- ⚠ Choix assumé (paramètre `borrow_market_beta_excluded`) : une baisse d'ETH ou de BTC **ne compte que par la liquidation** qu'elle déclenche. Belem est market-neutral : la baisse du marché est une exposition choisie, pas un risque de dépendance.
+### What a borrower loses (borrow pocket)
+- **Liquidation**: penalty ρ·D·(LIF − 1), with the official Morpho formula.
+- A **wrongful liquidation** if a feed errs downwards.
+- The collateral's **own** loss of value: default of an RWA, depeg of an LST priced at the exchange rate.
+- ⚠ Deliberate choice (parameter `borrow_market_beta_excluded`): a drop in ETH or BTC **only counts through the liquidation** it triggers. Belem is market-neutral: a market drop is a chosen exposure, not a dependency risk.
 
-### La décision
-- **Sortir coûte un montant certain**, mesuré :
-  - pour un vault : la liquidité retirable maintenant, la pénalité de retrait forcé (au-delà du marché « source de liquidité »), le rendement abandonné et le gas ;
-  - pour un emprunt : le glissement mesuré par des **devis KyberSwap réels** à plusieurs tailles, le rendement abandonné et le gas. La part dont le glissement dépasse 25 % est jugée **non sortable par le marché**.
-- **On sort la fraction f** qui minimise coût(f) + perte attendue × (1 − f). Si f > 0, c'est **EXIT**, sinon **STAY**.
-- **p\* = coût de sortie / perte si l'incident arrive.** C'est le seuil à donner au manager : « sortez si vous croyez à plus de p\* ». Il ne dépend **pas** de nos probabilités, qui sont des hypothèses, seulement de quantités mesurées.
+### The decision
+- **Exiting costs a certain amount**, measured:
+  - for a vault: the liquidity withdrawable now, the forced-withdrawal penalty (beyond the "liquidity source" market), the forgone yield and gas;
+  - for a borrow: the slippage measured by **real KyberSwap quotes** at several sizes, the forgone yield and gas. The share whose slippage exceeds 25% is deemed **not exitable through the market**.
+- **We exit the fraction f** that minimises cost(f) + expected loss × (1 − f). If f > 0, it is **EXIT**, otherwise **STAY**.
+- **p\* = exit cost / loss if the incident happens.** This is the threshold to give the manager: "exit if you believe in more than p\*". It does **not** depend on our probabilities, which are hypotheses, only on measured quantities.
 
-## Limites connues (à dire au jury)
-- **Les probabilités d'incident sont des ordres de grandeur** (hypothèses affichées). D'où l'importance de p\*.
-- **Les incidents sont tirés indépendamment** : la contagion croisée entre poches n'est pas simulée. Les dépendances partagées sont **listées** (`/book` → `shared_dependencies`).
-- **Le prix en dollars de l'actif d'une poche vient de l'API Morpho** (marqué `source: api`).
-- **La sortie d'un RWA par rachat chez son émetteur** (ex. Huma pour PST) n'est pas modélisée : seule la sortie par le marché l'est.
-- **Seul l'écosystème Morpho Ethereum est couvert.** Midas, Kamino/Solana et les autres protocoles du tableau Dune sont les étapes suivantes.
-- **Le panier Reserve (ETH+) n'est pas démonté** : son oracle est marqué `unknown`.
+## Known limitations (to tell the jury)
+- **Incident probabilities are orders of magnitude** (displayed hypotheses). Hence the importance of p\*.
+- **Incidents are drawn independently**: cross-contagion between pockets is not simulated. Shared dependencies are **listed** (`/book` → `shared_dependencies`).
+- **The dollar price of a pocket's asset comes from the Morpho API** (marked `source: api`).
+- **Exiting an RWA by redemption with its issuer** (e.g. Huma for PST) is not modelled: only exiting through the market is.
+- **Only the Morpho Ethereum ecosystem is covered.** Midas, Kamino/Solana and the other protocols in the Dune dashboard are the next steps.
+- **The Reserve basket (ETH+) is not taken apart**: its oracle is marked `unknown`.
 
-## À vérifier par l'équipe (règle « jamais d'adresse de mémoire »)
-- Les sources des nouveaux oracles (codes vérifiés Etherscan cités dans `src/discovery/adapters/oracles.py`).
-- L'interface Morpho Vault V2 ([IVaultV2.sol](https://github.com/morpho-org/vault-v2/blob/main/src/interfaces/IVaultV2.sol)) et les deux versions d'adapter (citées dans `src/stacktrace/vault_v2.py`).
-- La doc de l'API KyberSwap ([spécification](https://docs.kyberswap.com/kyberswap-solutions/kyberswap-aggregator/aggregator-api-specification/evm-swaps)).
+## To be verified by the team ("never an address from memory" rule)
+- The sources of the new oracles (Etherscan verified code cited in `src/discovery/adapters/oracles.py`).
+- The Morpho Vault V2 interface ([IVaultV2.sol](https://github.com/morpho-org/vault-v2/blob/main/src/interfaces/IVaultV2.sol)) and the two adapter versions (cited in `src/stacktrace/vault_v2.py`).
+- The KyberSwap API docs ([specification](https://docs.kyberswap.com/kyberswap-solutions/kyberswap-aggregator/aggregator-api-specification/evm-swaps)).

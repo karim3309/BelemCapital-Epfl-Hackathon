@@ -1,196 +1,196 @@
-# Prompt pour finir le projet (parties 2 et 3 + front « Rayon X »)
+# Prompt to finish the project (parts 2 and 3 + "X-Ray" front end)
 
-## Avant de lancer
-1. **Mettez le brief Belem dans le repo** sous `docs/BRIEF.md` (copier-coller du texte, ou le PDF dans `docs/`). Le prompt s'appuie dessus pour savoir exactement ce que demandent les parties 2 et 3. Sans brief, il partira de l'hypothèse écrite plus bas et vous le signalera.
-2. Ouvrez une session Claude Code sur le repo, branche `feature/discovery-position-a` à jour, en effort maximal.
-3. Collez **tout le bloc ci-dessous**.
+## Before launching
+1. **Put the Belem brief in the repo** as `docs/BRIEF.md` (copy-paste of the text, or the PDF in `docs/`). The prompt relies on it to know exactly what parts 2 and 3 ask for. Without a brief, it will start from the hypothesis written below and will flag it to you.
+2. Open a Claude Code session on the repo, branch `feature/discovery-position-a` up to date, at maximum effort.
+3. Paste **the whole block below**.
 
 ---
 
 ```text
-Tu es le Tech Lead de l'équipe StackTrace (hackathon Belem DeFi Risk). Tu travailles EN AUTONOMIE pendant une
-longue session : l'équipe (3 débutants) lit pendant ce temps et reviendra ensuite tout comprendre et affiner.
-Ton objectif : livrer les PARTIES 2 ET 3 du projet, avec un front « Rayon X » démontrable hors ligne.
+You are the Tech Lead of the StackTrace team (Belem DeFi Risk hackathon). You work AUTONOMOUSLY during a
+long session: the team (3 beginners) reads in the meantime and will come back afterwards to understand everything and refine it.
+Your goal: deliver PARTS 2 AND 3 of the project, with an "X-Ray" front end that can be demonstrated offline.
 
 ══════════════════════════════════════════════════════════════════════════════
-0. LIRE AVANT TOUT (ne saute rien)
+0. READ BEFORE ANYTHING ELSE (skip nothing)
 ══════════════════════════════════════════════════════════════════════════════
-- CLAUDE.md en entier (règles, vocabulaire FIGÉ, méthode), README.md, docs/GUIDE_DEBUTANT.md,
-  docs/POSITION_A.md, docs/CONTRACT.md, docs/AUDIT.md, docs/NEXT_STEPS.md, puis output/graph.json.
-- docs/BRIEF.md (ou le PDF du brief dans docs/) : c'est LA référence pour le contenu exact des parties 2 et 3
-  et pour les critères de notation. Résume-moi en 10 lignes ce que demandent les parties 2 et 3 et comment
-  elles sont notées, puis continue sans attendre.
-- S'il n'y a PAS de brief : pars de l'hypothèse suivante, écris-la en tête de docs/PARTS_2_3.md, et signale-la
-  dans ton rapport final :
-    Partie 2 = moteur de risque : propager des chocs dans le graphe et mesurer l'effet sur la position ;
-    Partie 3 = restitution : une interface qui rend le graphe, les preuves et les scénarios compréhensibles.
-
-══════════════════════════════════════════════════════════════════════════════
-1. RÈGLES NON NÉGOCIABLES
-══════════════════════════════════════════════════════════════════════════════
-- Le Module de Découverte (src/discovery/, output/graph.json, data/cache/) est TERMINÉ et son contrat JSON est
-  FIGÉ. Tu le CONSOMMES, tu ne le modifies pas. Exception : un vrai bug, que tu corriges avec un test et que
-  tu notes dans docs/AUDIT.md.
-- Zéro hallucination, comme pour la découverte :
-  · aucune adresse ni endpoint sorti de ta mémoire ;
-  · AUCUN paramètre de risque inventé (bonus de liquidation, formules Morpho, seuils...). Chaque paramètre vit
-    dans un fichier risk/params.yaml avec, au choix :
-      `source: <URL officielle>` (doc Morpho, Pendle, Ethena, Chainlink, Steakhouse...) + `as_of`, ou
-      `source: onchain` (déjà dans graph.json, on cite le champ), ou
-      `hypothesis: true` + une justification en une phrase (paramètre de scénario choisi par nous).
-    Le front affiche ces trois statuts différemment. Un chargeur strict refuse un paramètre sans statut.
-  · Exemple : la formule d'incitation de liquidation de Morpho Blue (fonction du LLTV) doit être trouvée dans
-    la doc ou le code officiel de Morpho, avec l'URL. Ne la recopie pas de mémoire.
-- Tout doit marcher HORS LIGNE pour la démo : aucun CDN au runtime, aucune police distante, aucun appel réseau
-  depuis le front. Les bibliothèques JS sont copiées dans le repo (vendor) avec leur version et leur licence.
-- Stack : Python 3.11 (moteur de risque, comme la découverte : web3.py n'est PAS nécessaire, on lit graph.json),
-  networkx. Front statique : HTML + CSS + JavaScript sans étape de build, servi par `python -m http.server`.
-  Une seule bibliothèque de graphe vendorisée au maximum (ex. D3 ou Cytoscape.js, version figée).
-  Justifie ton choix en 3 lignes.
-- Pédagogie (CLAUDE.md) : chaque module commence par une docstring qui explique le concept comme dans
-  GUIDE_DEBUTANT.md (analogies, zéro jargon non défini). Pas de gros blocs opaques.
-- Git : nouvelle branche feature/risk-and-xray depuis feature/discovery-position-a. Commits petits et
-  fréquents, avec un message clair. Push à la fin (et à chaque grosse étape). Ne touche pas à main.
+- CLAUDE.md in full (rules, FROZEN vocabulary, method), README.md, docs/BEGINNER_GUIDE.md,
+  docs/POSITION_A.md, docs/CONTRACT.md, docs/AUDIT.md, docs/NEXT_STEPS.md, then output/graph.json.
+- docs/BRIEF.md (or the brief's PDF in docs/): it is THE reference for the exact content of parts 2 and 3
+  and for the grading criteria. Summarise for me in 10 lines what parts 2 and 3 ask for and how
+  they are graded, then carry on without waiting.
+- If there is NO brief: start from the following hypothesis, write it at the top of docs/PARTS_2_3.md, and flag it
+  in your final report:
+    Part 2 = risk engine: propagate shocks through the graph and measure the effect on the position;
+    Part 3 = presentation: an interface that makes the graph, the evidence and the scenarios understandable.
 
 ══════════════════════════════════════════════════════════════════════════════
-2. PARTIE 2 — MOTEUR DE RISQUE (src/risk/)
+1. NON-NEGOTIABLE RULES
 ══════════════════════════════════════════════════════════════════════════════
-But : répondre à « si TEL choc arrive, que devient la position A ? », en s'appuyant UNIQUEMENT sur graph.json
-et risk/params.yaml.
+- The Discovery Module (src/discovery/, output/graph.json, data/cache/) is FINISHED and its JSON contract is
+  FROZEN. You CONSUME it, you do not modify it. Exception: a real bug, which you fix with a test and which
+  you record in docs/AUDIT.md.
+- Zero hallucination, as for discovery:
+  · no address or endpoint taken from your memory;
+  · NO invented risk parameter (liquidation bonus, Morpho formulas, thresholds...). Every parameter lives
+    in a risk/params.yaml file with, as appropriate:
+      `source: <official URL>` (Morpho, Pendle, Ethena, Chainlink, Steakhouse docs...) + `as_of`, or
+      `source: onchain` (already in graph.json, cite the field), or
+      `hypothesis: true` + a one-sentence justification (scenario parameter chosen by us).
+    The front end displays these three statuses differently. A strict loader rejects a parameter without a status.
+  · Example: Morpho Blue's liquidation incentive formula (a function of the LLTV) must be found in
+    Morpho's official docs or code, with the URL. Do not copy it from memory.
+- Everything must work OFFLINE for the demo: no CDN at runtime, no remote font, no network call
+  from the front end. The JS libraries are copied into the repo (vendor) with their version and their licence.
+- Stack: Python 3.11 (risk engine, like discovery: web3.py is NOT needed, we read graph.json),
+  networkx. Static front end: HTML + CSS + JavaScript with no build step, served by `python -m http.server`.
+  At most one vendored graph library (e.g. D3 or Cytoscape.js, pinned version).
+  Justify your choice in 3 lines.
+- Pedagogy (CLAUDE.md): every module starts with a docstring that explains the concept as in
+  BEGINNER_GUIDE.md (analogies, zero undefined jargon). No big opaque blocks.
+- Git: new branch feature/risk-and-xray from feature/discovery-position-a. Small and
+  frequent commits, with a clear message. Push at the end (and at every big step). Do not touch main.
 
-2.1 Modèle de propagation (src/risk/propagate.py)
-  - Un choc = (nœud ciblé, nature, intensité, durée). Il se propage À CONTRE-COURANT des flèches (convention
-    du projet : from = dépendant, to = dépendance).
-  - Une règle par type d'arête, documentée et testée :
-      redeemable_into : la valeur du `from` suit celle du `to` (× taux interne lu dans meta) ;
-      issued_by / deployed_in vers le hors-chaîne : un choc d'émetteur ou de contrepartie se traduit en
-        dépréciation de l'actif émis (intensité = paramètre de scénario, hypothesis: true) ;
-      priced_by : un oracle ne transmet le choc QUE selon son pricing_mode (market transmet, fixed ne
-        transmet pas, internal_rate transmet seulement un choc sur le taux, hybrid = logique du méta-oracle) ;
-      collateralized_by / lends : le marché encaisse la variation du collatéral / de l'actif prêté.
-  - MÉTA-ORACLE : simule fidèlement la règle sourcée dans meta.switch_rule (seuil deviationThreshold, timelock
-    challenge, healing), avec la formule d'écart de la doc Steakhouse. C'est LE point fort de notre analyse :
-    la durée du choc compte autant que son ampleur.
-  - Aucune mise en cache réseau n'est nécessaire (pas d'appel réseau), mais le calcul doit être déterministe.
+══════════════════════════════════════════════════════════════════════════════
+2. PART 2 — RISK ENGINE (src/risk/)
+══════════════════════════════════════════════════════════════════════════════
+Goal: answer "if SUCH a shock happens, what becomes of position A?", relying ONLY on graph.json
+and risk/params.yaml.
 
-2.2 Effet sur la position (src/risk/position.py)
-  - À partir de meta.position : nouveau prix oracle → nouveau health factor → liquidable oui/non.
-  - Si liquidable : perte estimée = bonus de liquidation (formule SOURCÉE) + coût de sortie du collatéral.
-  - Coût de sortie : glissement de prix sur le pool Pendle. Commence par un modèle simple et documenté
-    à partir de reserve_pt / reserve_sy (dis honnêtement que c'est une approximation). Si tu as le temps,
-    remplace-le par une simulation ON-CHAIN via le RouterStatic de Pendle : adresse et nom de fonction trouvés
-    dans la doc officielle, appel fait via le cache de la découverte (prompt S2 de docs/NEXT_STEPS.md).
-  - Côté prêteurs aussi : dette potentiellement irrécouvrable (collatéral × vrai prix < dette) quand l'oracle
-    est fixe et ne voit pas le choc.
+2.1 Propagation model (src/risk/propagate.py)
+  - A shock = (target node, nature, intensity, duration). It propagates AGAINST the arrows (project
+    convention: from = dependent, to = dependency).
+  - One rule per edge type, documented and tested:
+      redeemable_into: the value of the `from` follows that of the `to` (× internal rate read from meta);
+      issued_by / deployed_in towards the off-chain layer: an issuer or counterparty shock translates into
+        an impairment of the issued asset (intensity = scenario parameter, hypothesis: true);
+      priced_by: an oracle transmits the shock ONLY according to its pricing_mode (market transmits, fixed does not
+        transmit, internal_rate transmits only a shock on the rate, hybrid = meta-oracle logic);
+      collateralized_by / lends: the market absorbs the change in the collateral / the lent asset.
+  - META-ORACLE: faithfully simulate the rule sourced in meta.switch_rule (deviationThreshold threshold, challenge
+    timelock, healing), with the deviation formula from the Steakhouse docs. This is THE strong point of our analysis:
+    the duration of the shock matters as much as its size.
+  - No network caching is needed (no network call), but the computation must be deterministic.
 
-2.3 Scénarios (risk/scenarios.yaml), au minimum :
-  - S-USDe : depeg de l'USDe à {0,99 ; 0,98 ; 0,95 ; 0,93 ; 0,90 ; 0,85} $ × durée {1 h ; 6 h ; 16 h ; 24 h ; 72 h} ;
-  - S-EXCH : défaillance d'un exchange de hedge d'Ethena (Binance seul, puis plusieurs) → dépréciation
-    hypothétique de l'USDe (paramètre hypothesis: true, bien affiché) ;
-  - S-CUST : défaillance d'un custodian (Copper / Ceffu / Fireblocks) ;
-  - S-ORACLE : feed Chainlink USDe/USD figé ou faux ;
-  - S-POOL : liquidité du pool Pendle divisée par 2 / par 10 ;
-  - S-USDC : depeg de l'USDC (l'actif emprunté) ;
-  - S-TIME : simple passage du temps jusqu'à l'échéance (le PT converge vers 1, la dette accrue au borrow_apy).
+2.2 Effect on the position (src/risk/position.py)
+  - From meta.position: new oracle price → new health factor → liquidatable yes/no.
+  - If liquidatable: estimated loss = liquidation bonus (SOURCED formula) + collateral exit cost.
+  - Exit cost: price slippage on the Pendle pool. Start with a simple, documented model
+    based on reserve_pt / reserve_sy (say honestly that it is an approximation). If you have time,
+    replace it with an ON-CHAIN simulation via Pendle's RouterStatic: address and function name found
+    in the official docs, call made through the discovery cache (prompt S2 of docs/NEXT_STEPS.md).
+  - On the lenders' side too: potentially bad debt (collateral × true price < debt) when the oracle
+    is fixed and does not see the shock.
 
-2.4 Sorties
-  - output/risk.json : contrat que tu définis, documenté dans docs/RISK_CONTRACT.md (champs, unités, sens).
-    Pour chaque scénario : chemin de propagation (liste d'arêtes du graph.json, avec leurs preuves), prix oracle
-    avant/après, health factor avant/après, liquidable, perte estimée, qui perd (emprunteur / prêteurs),
-    et la liste des paramètres utilisés avec leur statut (source / onchain / hypothesis).
-  - output/risk_grid.json : la grille USDe (prix × durée) précalculée, pour alimenter le curseur du front.
-  - Un score de risque synthétique UNIQUEMENT si le brief le demande. Sinon, n'en fabrique pas : expose des
-    métriques claires.
-  - CLI : `python -m risk.run` (lit output/graph.json, écrit output/risk*.json, affiche un résumé en français).
-  - Validateur de risk.json (comme discovery/validate.py) lancé à chaque run.
+2.3 Scenarios (risk/scenarios.yaml), at a minimum:
+  - S-USDe: USDe depeg to {$0.99, $0.98, $0.95, $0.93, $0.90, $0.85} × duration {1 h, 6 h, 16 h, 24 h, 72 h};
+  - S-EXCH: failure of one of Ethena's hedge exchanges (Binance alone, then several) → hypothetical
+    impairment of USDe (parameter hypothesis: true, clearly displayed);
+  - S-CUST: failure of a custodian (Copper / Ceffu / Fireblocks);
+  - S-ORACLE: Chainlink USDe/USD feed frozen or wrong;
+  - S-POOL: Pendle pool liquidity divided by 2 / by 10;
+  - S-USDC: USDC depeg (the borrowed asset);
+  - S-TIME: simple passage of time until maturity (the PT converges to 1, the debt accrues at borrow_apy).
+
+2.4 Outputs
+  - output/risk.json: a contract you define, documented in docs/RISK_CONTRACT.md (fields, units, meaning).
+    For each scenario: propagation path (list of graph.json edges, with their evidence), oracle price
+    before/after, health factor before/after, liquidatable, estimated loss, who loses (borrower / lenders),
+    and the list of parameters used with their status (source / onchain / hypothesis).
+  - output/risk_grid.json: the USDe grid (price × duration) precomputed, to feed the front end's slider.
+  - A synthetic risk score ONLY if the brief asks for it. Otherwise, do not make one up: expose
+    clear metrics.
+  - CLI: `python -m risk.run` (reads output/graph.json, writes output/risk*.json, prints a summary in French).
+  - risk.json validator (like discovery/validate.py) run on every run.
 
 2.5 Tests (tests/risk/)
-  - règles de propagation unitaires (petits graphes faits main) ;
-  - méta-oracle : choc court → pas de bascule ; choc long → bascule ; healing ;
-  - cohérence : choc nul → HF inchangé ; HF après bascule = HF × (prix secours / prix primaire) ;
-  - les seuils de POSITION_A.md (bascule dès que USDe < ~0,9925 $ ; liquidation sous ~0,9525 $ après 16 h)
-    doivent sortir NATURELLEMENT du moteur. Sinon, trouve qui a tort (le moteur ou le doc) et corrige.
+  - unit propagation rules (small hand-made graphs);
+  - meta-oracle: short shock → no switch; long shock → switch; healing;
+  - consistency: zero shock → HF unchanged; HF after switch = HF × (backup price / primary price);
+  - the thresholds in POSITION_A.md (switch as soon as USDe < ~$0.9925; liquidation below ~$0.9525 after 16 h)
+    must come out of the engine NATURALLY. Otherwise, find out who is wrong (the engine or the doc) and fix it.
 
 ══════════════════════════════════════════════════════════════════════════════
-3. PARTIE 3 — FRONT « RAYON X » (web/)
+3. PART 3 — "X-RAY" FRONT END (web/)
 ══════════════════════════════════════════════════════════════════════════════
-Concept : on passe la position A « aux rayons X ». Ce qui a l'air d'être un simple dépôt + un emprunt révèle
-son SQUELETTE : toutes les couches cachées jusqu'à Ethereum et aux entreprises hors chaîne.
+Concept: we put position A "through the X-ray". What looks like a simple deposit + a loan reveals
+its SKELETON: all the hidden layers down to Ethereum and the off-chain companies.
 
-Direction artistique :
-  - fond quasi noir bleuté, traits et nœuds en cyan / blanc lumineux (lueur, « glow »), légère texture de
-    film radiographique, grille de calibration discrète, typographie mono pour les données ;
-  - une LIGNE DE SCAN horizontale qui balaie l'écran au chargement et révèle les couches une à une, de haut en
-    bas : Position → Marché Morpho → Oracle(s) → PT / pool Pendle → SY → sUSDe → USDe → Ethena → custodians /
-    exchanges → Ethereum ;
-  - une mise en page en COUCHES HORIZONTALES (comme des vertèbres), pas un graphe « boule de spaghetti » :
-    la profondeur de dépendance se lit de haut en bas ;
-  - code couleur de la PREUVE sur chaque arête : onchain = trait plein lumineux, api = pointillés,
-    curated = trait fin ambré + icône « document daté » ;
-  - code couleur du PRIX sur les oracles : fixed / market / internal_rate / hybrid (légende visible) ;
-  - quand un scénario est actif, les « fractures » apparaissent en rouge/magenta et se propagent le long du
-    chemin, comme une fissure sur une radio.
-  - Respecte prefers-reduced-motion (pas d'animation si l'utilisateur la refuse) et un contraste lisible.
+Art direction:
+  - near-black bluish background, lines and nodes in cyan / bright white (glow), slight
+    radiographic film texture, discreet calibration grid, mono typography for the data;
+  - a horizontal SCAN LINE that sweeps the screen on load and reveals the layers one by one, from top to
+    bottom: Position → Morpho market → Oracle(s) → PT / Pendle pool → SY → sUSDe → USDe → Ethena → custodians /
+    exchanges → Ethereum;
+  - a layout in HORIZONTAL LAYERS (like vertebrae), not a "spaghetti ball" graph:
+    dependency depth reads from top to bottom;
+  - colour code for the EVIDENCE on each edge: onchain = bright solid line, api = dotted,
+    curated = thin amber line + "dated document" icon;
+  - colour code for the PRICE on the oracles: fixed / market / internal_rate / hybrid (visible legend);
+  - when a scenario is active, the "fractures" appear in red/magenta and propagate along the
+    path, like a crack on an X-ray.
+  - Respect prefers-reduced-motion (no animation if the user declines it) and a readable contrast.
 
-Fonctionnalités (dans cet ordre de priorité) :
-  1. Vue « squelette » du graph.json : survol = nom en clair ; clic = panneau latéral « fiche de l'os » :
-     explication vulgarisée du type de nœud (texte repris du glossaire de GUIDE_DEBUTANT.md), meta utiles
-     (prix, TVL, mode de prix, proxy upgradeable ?), et la liste des arêtes avec leur PREUVE complète
-     (lien Etherscan pour les adresses, URL cliquable pour api/curated, numéro de bloc).
-  2. Bandeau « constantes vitales » de la position : HF, LTV / LLTV, distance à la liquidation, valeur,
-     dette, bloc de la photo et date.
-  3. Mode SCÉNARIO : un curseur prix USDe + un curseur durée, branchés sur risk_grid.json (aucun calcul de
-     risque dans le JS : il lit seulement les résultats du moteur Python, source de vérité unique). Affiche
-     l'état de l'arbitre du méta-oracle (primaire / challenge en cours / basculé), le HF, et
-     « LIQUIDÉ / pas liquidé / prêteurs exposés ».
-  4. Mode IMPACT : on clique un nœud (ex. Binance), « que se passe-t-il s'il casse ? », et le chemin vers la
-     position s'illumine (ancêtres calculés depuis graph.json).
-  5. Liste des scénarios de risk.json (cartes) ; clic = la fracture s'anime sur le squelette.
-  6. Mode « Explique-moi » : un parcours guidé en 6-8 étapes qui raconte l'histoire d'Alice (GUIDE_DEBUTANT
-     §9) en surlignant les couches. C'est ce qu'on montrera au jury.
-- Données : le front charge output/graph.json, output/risk.json et output/risk_grid.json (copiés ou servis
-  depuis web/data/ par un petit script `python -m risk.export_web`). Si un fichier manque, message clair.
-- Lancer : `python -m http.server 8000 -d web` → http://localhost:8000. Doc dans web/README.md.
-- Vérifie VISUELLEMENT avec le navigateur intégré : captures d'écran du chargement, de la vue complète, d'un
-  clic sur un nœud, d'un scénario USDe 0,93 $ / 24 h, du mode impact Binance, et en largeur mobile (375 px).
-  Corrige ce qui est moche, illisible ou qui déborde. Garde 3-4 captures dans docs/screens/ pour le README.
-
-══════════════════════════════════════════════════════════════════════════════
-4. MÉTHODE DE TRAVAIL (obligatoire)
-══════════════════════════════════════════════════════════════════════════════
-- Ordre : (a) moteur de risque minimal + tests → (b) risk.json + grille → (c) front squelette + fiche de l'os
-  → (d) scénarios + impact → (e) parcours guidé + polish visuel → (f) docs et démo.
-  Le front doit être montrable dès la fin de (c), au cas où le temps manque.
-- Après CHAQUE étape : AUDIT de tout le projet au regard du brief, de CLAUDE.md et de ce prompt (paramètre
-  non sourcé ? preuve perdue en route ? contrat cassé ? test manquant ? front qui appelle le réseau ? texte
-  incompréhensible pour un débutant ?). Corrige, puis note l'audit dans docs/AUDIT.md (même format que les
-  audits 1 à 4). Recommence jusqu'à ce que l'audit ne trouve plus rien d'important.
-- `python -m pytest` doit rester vert du début à la fin (les 67 tests de la découverte compris).
-- Avant le push final : simulation d'un coéquipier, avec un clone neuf, sans réseau → tests, `python -m risk.run`,
-  front servi en local, tout marche.
+Features (in this order of priority):
+  1. "Skeleton" view of graph.json: hover = plain name; click = side panel "bone card":
+     plain-language explanation of the node type (text taken from the glossary in BEGINNER_GUIDE.md), useful meta
+     (price, TVL, pricing mode, upgradeable proxy?), and the list of edges with their full EVIDENCE
+     (Etherscan link for addresses, clickable URL for api/curated, block number).
+  2. "Vital signs" banner for the position: HF, LTV / LLTV, distance to liquidation, value,
+     debt, snapshot block and date.
+  3. SCENARIO mode: a USDe price slider + a duration slider, wired to risk_grid.json (no risk
+     computation in the JS: it only reads the results of the Python engine, the single source of truth). Shows
+     the state of the meta-oracle's referee (primary / challenge in progress / switched), the HF, and
+     "LIQUIDATED / not liquidated / lenders exposed".
+  4. IMPACT mode: click a node (e.g. Binance), "what happens if it breaks?", and the path to the
+     position lights up (ancestors computed from graph.json).
+  5. List of the risk.json scenarios (cards); click = the fracture animates on the skeleton.
+  6. "Explain it to me" mode: a guided tour in 6-8 steps that tells Alice's story (BEGINNER_GUIDE
+     §9) while highlighting the layers. This is what we will show the jury.
+- Data: the front end loads output/graph.json, output/risk.json and output/risk_grid.json (copied or served
+  from web/data/ by a small script `python -m risk.export_web`). If a file is missing, a clear message.
+- Launch: `python -m http.server 8000 -d web` → http://localhost:8000. Docs in web/README.md.
+- Check VISUALLY with the built-in browser: screenshots of the loading, of the full view, of a
+  click on a node, of a USDe $0.93 / 24 h scenario, of Binance impact mode, and at mobile width (375 px).
+  Fix whatever is ugly, unreadable or overflows. Keep 3-4 screenshots in docs/screens/ for the README.
 
 ══════════════════════════════════════════════════════════════════════════════
-5. LIVRABLES ATTENDUS
+4. WORKING METHOD (mandatory)
+══════════════════════════════════════════════════════════════════════════════
+- Order: (a) minimal risk engine + tests → (b) risk.json + grid → (c) skeleton front end + bone card
+  → (d) scenarios + impact → (e) guided tour + visual polish → (f) docs and demo.
+  The front end must be showable from the end of (c), in case time runs out.
+- After EACH step: AUDIT of the whole project against the brief, CLAUDE.md and this prompt (unsourced
+  parameter? evidence lost along the way? broken contract? missing test? front end calling the network? text
+  incomprehensible to a beginner?). Fix, then record the audit in docs/AUDIT.md (same format as
+  audits 1 to 4). Start again until the audit finds nothing important.
+- `python -m pytest` must stay green from start to finish (including the 67 discovery tests).
+- Before the final push: simulate a teammate, with a fresh clone, without network → tests, `python -m risk.run`,
+  front end served locally, everything works.
+
+══════════════════════════════════════════════════════════════════════════════
+5. EXPECTED DELIVERABLES
 ══════════════════════════════════════════════════════════════════════════════
 - src/risk/ (+ tests), risk/params.yaml, risk/scenarios.yaml, output/risk.json, output/risk_grid.json
-- web/ (index.html, css, js, vendor/ avec versions et licences, README.md)
-- docs/PARTS_2_3.md : ce que demandent les parties 2 et 3 (d'après le brief) → ce qu'on a fait → où c'est
-- docs/RISK_CONTRACT.md, docs/DEMO.md (script de démo de 5 minutes, commandes PowerShell ET bash, quoi dire
-  à chaque écran), docs/screens/
-- docs/GUIDE_DEBUTANT.md complété par 2 nouveaux chapitres dans le MÊME style très vulgarisé :
-  « Comment on mesure le risque » et « Comment lire le Rayon X »
-- README.md mis à jour (captures, commandes), docs/AUDIT.md complété
-- Rapport final dans le chat : ce qui est fait, ce qui ne l'est pas, les hypothèses (paramètres
-  hypothesis: true), les décisions à faire valider par l'équipe, et les 5 points les plus importants à
-  comprendre pour la soutenance.
+- web/ (index.html, css, js, vendor/ with versions and licences, README.md)
+- docs/PARTS_2_3.md: what parts 2 and 3 ask for (according to the brief) → what we did → where it is
+- docs/RISK_CONTRACT.md, docs/DEMO.md (5-minute demo script, PowerShell AND bash commands, what to say
+  on each screen), docs/screens/
+- docs/BEGINNER_GUIDE.md extended with 2 new chapters in the SAME very plain-language style:
+  "How we measure risk" and "How to read the X-Ray"
+- README.md updated (screenshots, commands), docs/AUDIT.md extended
+- Final report in the chat: what is done, what is not, the hypotheses (parameters
+  hypothesis: true), the decisions the team must validate, and the 5 most important points to
+  understand for the final presentation.
 ```
 
 ---
 
-## Ce que ce prompt garantit (et pourquoi il est écrit comme ça)
-- **Le brief fait foi.** Je ne connais pas le texte exact des parties 2 et 3. Le prompt oblige donc à le lire d'abord, et sinon à écrire noir sur blanc l'hypothèse retenue.
-- **Pas d'hallucination côté risque non plus.** Chaque chiffre du moteur a un statut visible : sourcé, on-chain ou hypothèse. Le jury verra la même rigueur que dans la découverte.
-- **Une seule source de vérité.** Le Python calcule, le front affiche. Pas de deuxième moteur de risque caché dans le JavaScript.
-- **Démo à l'abri des pannes.** Tout fonctionne hors ligne, y compris les bibliothèques JS.
-- **Un front montrable tôt.** L'ordre de travail permet d'avoir quelque chose à montrer même si la session est coupée.
-- **Vous gardez la main.** Le guide débutant est complété, la démo est écrite, et le rapport final liste ce que vous devez valider.
+## What this prompt guarantees (and why it is written this way)
+- **The brief is authoritative.** I do not know the exact text of parts 2 and 3. The prompt therefore forces reading it first, and otherwise writing down in black and white the hypothesis adopted.
+- **No hallucination on the risk side either.** Every number in the engine has a visible status: sourced, on-chain or hypothesis. The jury will see the same rigour as in discovery.
+- **A single source of truth.** Python computes, the front end displays. No second risk engine hidden in the JavaScript.
+- **A failure-proof demo.** Everything works offline, including the JS libraries.
+- **A front end that can be shown early.** The working order makes it possible to have something to show even if the session is cut off.
+- **You stay in control.** The beginner guide is extended, the demo is written, and the final report lists what you must validate.

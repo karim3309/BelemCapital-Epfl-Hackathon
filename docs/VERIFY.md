@@ -1,65 +1,65 @@
-# Checklist de vérification (à cocher par l'équipe)
+# Verification checklist (to be ticked by the team)
 
-Règle du projet : **aucune adresse ni aucun endpoint ne vient de la mémoire de Claude.** Chaque valeur ci-dessous a été
-**relevée par Claude le 2026-10-10** dans une source officielle (colonne « Source ») ou **lue on-chain**.
-Votre rôle : la re-vérifier vous-mêmes et cocher. Une page Etherscan se consulte sous `https://etherscan.io/address/<adresse>`
-(onglets *Contract → Read Contract* et *Code*).
+Project rule: **no address and no endpoint comes from Claude's memory.** Every value below was
+**collected by Claude on 2026-10-10** from an official source ("Source" column) or **read on-chain**.
+Your role: re-verify it yourselves and tick. An Etherscan page is found at `https://etherscan.io/address/<address>`
+(tabs *Contract → Read Contract* and *Code*).
 
-Légende : ✅ déjà prouvé automatiquement à chaque build · 🔎 à vérifier à la main
+Legend: ✅ already proven automatically on every build · 🔎 to be checked by hand
 
-## A. Entrées de `config.yaml` (priorité 1 : tout le reste en découle)
-| ☐ | Élément | Valeur | Source | Déjà prouvé ? | Comment vérifier |
+## A. `config.yaml` entries (priority 1: everything else follows from them)
+| ☐ | Item | Value | Source | Already proven? | How to verify |
 |---|---|---|---|---|---|
-| ☐ | Morpho Blue (singleton) | `0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb` | [doc Morpho : adresses](https://docs.morpho.org/developers/contracts/addresses/) | 🔎 | Etherscan : contrat vérifié nommé `Morpho` ; même adresse dans la doc, onglet **Ethereum** |
-| ☐ | AdaptiveCurveIrm | `0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC` | même page | ✅ égal à `idToMarketParams(id).irm` | doc Morpho |
-| ☐ | MorphoChainlinkOracleV2Factory | `0x3A7bB36Ee3f3eE32A60e9f2b33c1e5f2E83ad766` | même page | ✅ répond `isMorphoChainlinkOracleV2 = true` pour nos 2 sous-oracles | doc Morpho + Etherscan |
-| ☐ | ENS Registry | `0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e` | [doc ENS : déploiements](https://docs.ens.domains/learn/deployments) | ✅ résout `usde-usd.data.eth` et `usdc-usd.data.eth` | doc ENS |
-| ☐ | `market_id` | `0x5613b170…c46cb05` | API Morpho (recherche « PT-sUSDE ») | ✅ hash des paramètres recalculé | app Morpho : la page du marché doit afficher PT-sUSDE-26NOV2026 / USDC, LLTV 91,5 % |
-| ☐ | `user` (emprunteur) | `0x03BAbEB24619902253FDB0D5675A816879115d98` | API Morpho (top emprunteurs, adresse publique) | ✅ `position()` non vide | **Décision d'équipe :** garder cette adresse réelle, ou mettre `user: null` (position hypothétique, `value_usd_override: 1000000`) |
-| ☐ | API Morpho GraphQL | `https://api.morpho.org/graphql` | [doc API Morpho](https://docs.morpho.org/developers/api/get-started/) | — | doc |
-| ☐ | API Pendle | `https://api-v2.pendle.finance/core` (`GET /v2/markets/all`) | [doc API Pendle](https://docs.pendle.finance/pendle-v2-dev/Backend/ApiOverview) | ✅ le pool trouvé est re-prouvé on-chain | doc (limites : 200 CU/min) |
-| ☐ | RPC public d'exemple (`.env.example`) | PublicNode | [guide main.net](https://main.net/guides/ethereum-mainnet-rpc-public-vs-private) | — | **Prenez plutôt votre propre RPC** (Alchemy/Infura) ; pour un bloc ancien, il faut un nœud archive |
+| ☐ | Morpho Blue (singleton) | `0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb` | [Morpho docs: addresses](https://docs.morpho.org/developers/contracts/addresses/) | 🔎 | Etherscan: verified contract named `Morpho`; same address in the docs, **Ethereum** tab |
+| ☐ | AdaptiveCurveIrm | `0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC` | same page | ✅ equal to `idToMarketParams(id).irm` | Morpho docs |
+| ☐ | MorphoChainlinkOracleV2Factory | `0x3A7bB36Ee3f3eE32A60e9f2b33c1e5f2E83ad766` | same page | ✅ returns `isMorphoChainlinkOracleV2 = true` for our 2 sub-oracles | Morpho docs + Etherscan |
+| ☐ | ENS Registry | `0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e` | [ENS docs: deployments](https://docs.ens.domains/learn/deployments) | ✅ resolves `usde-usd.data.eth` and `usdc-usd.data.eth` | ENS docs |
+| ☐ | `market_id` | `0x5613b170…c46cb05` | Morpho API (search "PT-sUSDE") | ✅ hash of the parameters recomputed | Morpho app: the market page must show PT-sUSDE-26NOV2026 / USDC, LLTV 91.5% |
+| ☐ | `user` (borrower) | `0x03BAbEB24619902253FDB0D5675A816879115d98` | Morpho API (top borrowers, public address) | ✅ `position()` not empty | **Team decision:** keep this real address, or set `user: null` (hypothetical position, `value_usd_override: 1000000`) |
+| ☐ | Morpho GraphQL API | `https://api.morpho.org/graphql` | [Morpho API docs](https://docs.morpho.org/developers/api/get-started/) | — | docs |
+| ☐ | Pendle API | `https://api-v2.pendle.finance/core` (`GET /v2/markets/all`) | [Pendle API docs](https://docs.pendle.finance/pendle-v2-dev/Backend/ApiOverview) | ✅ the pool found is re-proven on-chain | docs (limits: 200 CU/min) |
+| ☐ | Example public RPC (`.env.example`) | PublicNode | [main.net guide](https://main.net/guides/ethereum-mainnet-rpc-public-vs-private) | — | **Use your own RPC instead** (Alchemy/Infura); for an old block, you need an archive node |
 
-## B. `curated.yaml` (le hors-chaîne)
-| ☐ | Affirmation | Source | Comment vérifier |
+## B. `curated.yaml` (the off-chain part)
+| ☐ | Claim | Source | How to verify |
 |---|---|---|---|
-| ☐ | USDe = `0x4c9edd58…e68b3`, sUSDe = `0x9d39a5de…a3497` (Ethena) | [Ethena Key Addresses](https://docs.ethena.fi/solution-design/key-addresses) | ✅ on les a aussi **découverts on-chain** (SY → sUSDe → USDe) ; vérifiez qu'ils figurent dans la page |
-| ☐ | USDC = `0xA0b86991…6eB48` (Circle) | [Circle : adresses USDC](https://developers.circle.com/stablecoins/usdc-contract-addresses) | ligne « Ethereum » |
-| ☐ | `yieldContractFactoryV6` = `0x3E6EBa46…E4637`, `marketFactoryV6` = `0x6d247b1c…EB29A9f` (Pendle) | [déploiements Pendle 1-core.json](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/1-core.json) | ✅ ce sont les `factory()` lues on-chain sur le PT et le pool |
-| ☐ | Custodians OES d'Ethena : Copper, Ceffu, Fireblocks (« such as ») | [Ethena OES in detail](https://docs.ethena.fi/backing-custody-and-security/overview/off-exchange-settlement-in-detail) | relire la phrase ; chercher une liste plus complète |
-| ☐ | Exchanges de hedge : Binance, Bybit, Bitget, Deribit, OKX (« such as ») | [Ethena exchange failure risk](https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk) | idem + **répartition** dans les dashboards de transparence Ethena (étape suivante) |
-| ☐ | Feeds Chainlink = domaine ENS `data.eth` | [Chainlink : ENS](https://docs.chain.link/data-feeds/ens) | — |
+| ☐ | USDe = `0x4c9edd58…e68b3`, sUSDe = `0x9d39a5de…a3497` (Ethena) | [Ethena Key Addresses](https://docs.ethena.fi/solution-design/key-addresses) | ✅ we also **discovered them on-chain** (SY → sUSDe → USDe); check that they appear on the page |
+| ☐ | USDC = `0xA0b86991…6eB48` (Circle) | [Circle: USDC addresses](https://developers.circle.com/stablecoins/usdc-contract-addresses) | "Ethereum" row |
+| ☐ | `yieldContractFactoryV6` = `0x3E6EBa46…E4637`, `marketFactoryV6` = `0x6d247b1c…EB29A9f` (Pendle) | [Pendle deployments 1-core.json](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/1-core.json) | ✅ these are the `factory()` values read on-chain on the PT and the pool |
+| ☐ | Ethena OES custodians: Copper, Ceffu, Fireblocks ("such as") | [Ethena OES in detail](https://docs.ethena.fi/backing-custody-and-security/overview/off-exchange-settlement-in-detail) | re-read the sentence; look for a more complete list |
+| ☐ | Hedge exchanges: Binance, Bybit, Bitget, Deribit, OKX ("such as") | [Ethena exchange failure risk](https://docs.ethena.fi/solution-overview/risks/exchange-failure-risk) | same + **breakdown** in Ethena's transparency dashboards (next step) |
+| ☐ | Chainlink feeds = ENS domain `data.eth` | [Chainlink: ENS](https://docs.chain.link/data-feeds/ens) | — |
 
-## C. Noms de fonctions utilisés par les adaptateurs
-Ils ont tous été appelés avec succès au bloc figé. Ceux marqués ⚖ ont en plus été **recoupés numériquement** avec une API indépendante.
-| ☐ | Contrat | Fonctions | Où vérifier |
+## C. Function names used by the adapters
+They were all called successfully at the pinned block. Those marked ⚖ were also **cross-checked numerically** against an independent API.
+| ☐ | Contract | Functions | Where to verify |
 |---|---|---|---|
-| ☐ | Morpho Blue | `idToMarketParams(bytes32)`, `market(bytes32)` ⚖, `position(bytes32,address)` ⚖ | Etherscan Read Contract. Ordre des champs recoupé avec l'API Morpho (collatéral exact, dette à 0,0001 %) |
-| ☐ | AdaptiveCurveIrm | `borrowRateView(MarketParams, Market)` ⚖ | Etherscan / doc Morpho. Formules `wTaylorCompounded` et parts virtuelles (1e6) : code Morpho Blue (`MathLib`, `SharesMathLib`) |
-| ☐ | MetaOracleDeviationTimelock (`0xF8b2…1b08`, clone de `0x9B46…de5B`) | `primaryOracle`, `backupOracle`, `currentOracle`, `deviationThreshold`, `getDeviation`, `challengeTimelockDuration`, `healingTimelockDuration`, `isChallenged`, `isHealing`, `primaryPrice`, `backupPrice` | ABI sur Etherscan (implémentation) + [doc Steakhouse](https://steakhouse.financial/docs/products/infrastructure/metaoracle) + [code source](https://github.com/Steakhouse-Financial/steakhouse-oracles/blob/36385342274f71999b66c79c4475234a39ba9a01/src/MetaOracleDeviationTimelock.sol) |
-| ☐ | MorphoChainlinkOracleV2 | `BASE_FEED_1/2`, `QUOTE_FEED_1/2`, `BASE_VAULT`, `QUOTE_VAULT`, `*_VAULT_CONVERSION_SAMPLE`, `SCALE_FACTOR`, `price` | ✅ prix recalculé = `price()` |
-| ☐ | PendleSparkLinearDiscountOracle (`0xA572…cD35`) | `PT`, `maturity`, `baseDiscountPerYear`, `latestRoundData` | Etherscan (nom de contrat vérifié) ; ✅ formule recalculée |
-| ☐ | DummyFeed (`0xc386…973D`) | `latestRoundData`, `decimals`, `description` | Etherscan : déployé par l'adresse étiquetée « Steakhouse: Deployer » |
-| ☐ | Chainlink proxy USDe/USD (`0xa569…F961`) | `aggregator`, `phaseId`, `description`, `latestRoundData`, `version`, `owner` | ✅ ENS ; page Chainlink du feed USDe/USD |
-| ☐ | PT / YT / SY Pendle | `SY`, `YT`, `expiry`, `isExpired`, `factory` ; `yieldToken`, `assetInfo`, `exchangeRate`, `getTokensIn`, `getTokensOut`, `paused`, `owner` | Etherscan Read Contract |
-| ☐ | PendleMarket + factory | `readTokens`, `factory`, `expiry`, `totalSupply`, `_storage` ⚖, `isValidMarket` | **`_storage()` : ordre des champs** recoupé avec l'API Pendle (réserves PT/SY exactes, taux implicite identique) ; à confirmer dans le code `PendleMarketV3` |
+| ☐ | Morpho Blue | `idToMarketParams(bytes32)`, `market(bytes32)` ⚖, `position(bytes32,address)` ⚖ | Etherscan Read Contract. Field order cross-checked against the Morpho API (exact collateral, debt within 0.0001%) |
+| ☐ | AdaptiveCurveIrm | `borrowRateView(MarketParams, Market)` ⚖ | Etherscan / Morpho docs. Formulas `wTaylorCompounded` and virtual shares (1e6): Morpho Blue code (`MathLib`, `SharesMathLib`) |
+| ☐ | MetaOracleDeviationTimelock (`0xF8b2…1b08`, clone of `0x9B46…de5B`) | `primaryOracle`, `backupOracle`, `currentOracle`, `deviationThreshold`, `getDeviation`, `challengeTimelockDuration`, `healingTimelockDuration`, `isChallenged`, `isHealing`, `primaryPrice`, `backupPrice` | ABI on Etherscan (implementation) + [Steakhouse docs](https://steakhouse.financial/docs/products/infrastructure/metaoracle) + [source code](https://github.com/Steakhouse-Financial/steakhouse-oracles/blob/36385342274f71999b66c79c4475234a39ba9a01/src/MetaOracleDeviationTimelock.sol) |
+| ☐ | MorphoChainlinkOracleV2 | `BASE_FEED_1/2`, `QUOTE_FEED_1/2`, `BASE_VAULT`, `QUOTE_VAULT`, `*_VAULT_CONVERSION_SAMPLE`, `SCALE_FACTOR`, `price` | ✅ recomputed price = `price()` |
+| ☐ | PendleSparkLinearDiscountOracle (`0xA572…cD35`) | `PT`, `maturity`, `baseDiscountPerYear`, `latestRoundData` | Etherscan (verified contract name); ✅ formula recomputed |
+| ☐ | DummyFeed (`0xc386…973D`) | `latestRoundData`, `decimals`, `description` | Etherscan: deployed by the address labelled "Steakhouse: Deployer" |
+| ☐ | Chainlink proxy USDe/USD (`0xa569…F961`) | `aggregator`, `phaseId`, `description`, `latestRoundData`, `version`, `owner` | ✅ ENS; Chainlink page of the USDe/USD feed |
+| ☐ | Pendle PT / YT / SY | `SY`, `YT`, `expiry`, `isExpired`, `factory`; `yieldToken`, `assetInfo`, `exchangeRate`, `getTokensIn`, `getTokensOut`, `paused`, `owner` | Etherscan Read Contract |
+| ☐ | PendleMarket + factory | `readTokens`, `factory`, `expiry`, `totalSupply`, `_storage` ⚖, `isValidMarket` | **`_storage()`: field order** cross-checked against the Pendle API (exact PT/SY reserves, identical implied rate); to be confirmed in the `PendleMarketV3` code |
 | ☐ | sUSDe (ERC-4626) | `asset`, `convertToAssets`, `totalAssets`, `cooldownDuration`, `owner` | Etherscan |
-| ☐ | ENS | `resolver(bytes32)`, `addr(bytes32)` | doc ENS |
-| ☐ | **Non vérifié** : feed TWAP Pendle | `market()`, `twapDuration()` (sondes) | **absent de la position A** : trouver un marché Morpho qui l'utilise et confirmer (voir `NEXT_STEPS.md`) |
+| ☐ | ENS | `resolver(bytes32)`, `addr(bytes32)` | ENS docs |
+| ☐ | **Not verified**: Pendle TWAP feed | `market()`, `twapDuration()` (probes) | **absent from position A**: find a Morpho market that uses it and confirm (see `NEXT_STEPS.md`) |
 
-## C bis. Moteur de risque (parties 2-3)
-| ☐ | Élément | Valeur / fonction | Source | Comment vérifier |
+## C bis. Risk engine (parts 2-3)
+| ☐ | Item | Value / function | Source | How to verify |
 |---|---|---|---|---|
-| ☐ | Pendle RouterStatic | `0x263833d47eA3fA4a30f269323aba6a107f9eB14C` | [déploiements Pendle 1-core.json](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/1-core.json) (clé `routerStatic`) | ✅ appelé on-chain avec succès ; vérifier la clé dans le fichier |
-| ☐ | fonction de simulation | `swapExactPtForSyStatic(address,uint256) → (netSyOut, netSyFee, priceImpact, exchangeRateAfter)` | [IPActionMarketCoreStatic.sol, @pendle/core-v2@6.6.1](https://cdn.jsdelivr.net/npm/@pendle/core-v2@6.6.1/contracts/interfaces/IPActionMarketCoreStatic.sol) | ✅ 1 PT → 0,7934 SY × 1,2523 ≈ 0,9937 USDe ≈ prix implicite de l'AMM |
-| ☐ | formule du bonus de liquidation | LIF = min(1,15 ; 1/(0,3·LLTV + 0,7)) | [doc Morpho : liquidation](https://docs.morpho.org/learn/concepts/liquidation/) | relire la formule et les constantes |
-| ☐ | règle du méta-oracle | écart = \|p − b\| / moyenne ; challenge / acceptChallenge / heal sans permission | [doc Steakhouse MetaOracle](https://steakhouse.financial/docs/products/infrastructure/metaoracle) | relire, puis lire le code source vérifié du contrat |
-| ☐ | historique Chainlink | `phaseId()`, `phaseAggregators(uint16)`, `latestRound()`, `getRoundData(uint80)` | doc Chainlink (historical data) | ✅ 960 rounds lus ; vérifier un round au hasard sur Etherscan |
-| ☐ | ETH/USD (gas) | ENS `eth-usd.data.eth` | [doc Chainlink ENS](https://docs.chain.link/data-feeds/ens) | ✅ résolu on-chain |
-| ☐ | épisode du 10/10/2025 | USDe 0,65 $ sur Binance, ~40 min | [21Shares](https://www.21shares.com/it-eu/insights/why-did-ethenas-stablecoin-remain-stable-onchain-but-depegged-on-binance) | relire l'article ; chercher une 2e source (Binance, Ethena) |
-| ☐ | toutes les hypothèses | `risk/params.yaml` (`hypothesis: true`) et `risk/scenarios.yaml` | — | les relire en équipe et en parler aux mentors |
+| ☐ | Pendle RouterStatic | `0x263833d47eA3fA4a30f269323aba6a107f9eB14C` | [Pendle deployments 1-core.json](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/1-core.json) (key `routerStatic`) | ✅ called on-chain successfully; check the key in the file |
+| ☐ | simulation function | `swapExactPtForSyStatic(address,uint256) → (netSyOut, netSyFee, priceImpact, exchangeRateAfter)` | [IPActionMarketCoreStatic.sol, @pendle/core-v2@6.6.1](https://cdn.jsdelivr.net/npm/@pendle/core-v2@6.6.1/contracts/interfaces/IPActionMarketCoreStatic.sol) | ✅ 1 PT → 0.7934 SY × 1.2523 ≈ 0.9937 USDe ≈ AMM implied price |
+| ☐ | liquidation bonus formula | LIF = min(1.15, 1/(0.3·LLTV + 0.7)) | [Morpho docs: liquidation](https://docs.morpho.org/learn/concepts/liquidation/) | re-read the formula and the constants |
+| ☐ | meta-oracle rule | deviation = \|p − b\| / average; challenge / acceptChallenge / heal permissionless | [Steakhouse MetaOracle docs](https://steakhouse.financial/docs/products/infrastructure/metaoracle) | re-read, then read the contract's verified source code |
+| ☐ | Chainlink history | `phaseId()`, `phaseAggregators(uint16)`, `latestRound()`, `getRoundData(uint80)` | Chainlink docs (historical data) | ✅ 960 rounds read; check a random round on Etherscan |
+| ☐ | ETH/USD (gas) | ENS `eth-usd.data.eth` | [Chainlink ENS docs](https://docs.chain.link/data-feeds/ens) | ✅ resolved on-chain |
+| ☐ | 10/10/2025 episode | USDe $0.65 on Binance, ~40 min | [21Shares](https://www.21shares.com/it-eu/insights/why-did-ethenas-stablecoin-remain-stable-onchain-but-depegged-on-binance) | re-read the article; look for a 2nd source (Binance, Ethena) |
+| ☐ | all hypotheses | `risk/params.yaml` (`hypothesis: true`) and `risk/scenarios.yaml` | — | re-read them as a team and discuss them with the mentors |
 
-## D. Faits relevés par Claude hors pipeline (pour le contexte, pas dans le graphe)
-- Les contrats `0xA572…` et `0xc386…` portent les noms vérifiés `PendleSparkLinearDiscountOracle` et `DummyFeed` sur Etherscan.
-- Le méta-oracle est un clone EIP-1167 de `0x9B46…`, contrat vérifié `MetaOracleDeviationTimelock`. La factory Steakhouse **n'a pas d'adresse publiée** dans la doc → lien non prouvé.
-- Le marché était le plus gros marché PT-sUSDe/USDC non expiré dans l'API Morpho le 2026-10-10 (≈ 7,76 M$ fournis).
+## D. Facts collected by Claude outside the pipeline (for context, not in the graph)
+- The contracts `0xA572…` and `0xc386…` carry the verified names `PendleSparkLinearDiscountOracle` and `DummyFeed` on Etherscan.
+- The meta-oracle is an EIP-1167 clone of `0x9B46…`, verified contract `MetaOracleDeviationTimelock`. The Steakhouse factory **has no published address** in the docs → link not proven.
+- The market was the largest non-expired PT-sUSDe/USDC market in the Morpho API on 2026-10-10 (≈ $7.76M supplied).

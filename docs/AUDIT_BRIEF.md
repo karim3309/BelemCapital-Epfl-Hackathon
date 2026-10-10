@@ -1,249 +1,249 @@
-# Audit complet : StackTrace face au brief Belem (10/10/2026)
+# Full audit: StackTrace against the Belem brief (10/10/2026)
 
-> But : savoir, critère par critère du barème, où on prend des points, où on en perd, et quoi faire **avant le gel des
-> fonctionnalités**. Ce document ne modifie aucun code : chaque correction proposée attend l'accord de l'équipe.
+> Goal: know, criterion by criterion of the grading scale, where we gain points, where we lose them, and what to do **before the
+> feature freeze**. This document changes no code: every proposed fix waits for the team's agreement.
 
-## 0. Méthode
-**Lu :**
-- le brief (`docs/BelemCapital_EPFL-Hackathon_DeFi-Risk-Dependency-Challenge_EN_v1.pdf`) et le cadrage (`docs/Belem DeFi Risk — Cadrage & Guideline.pdf`) ;
-- tout `src/` (discovery, risk, stacktrace), `risk/*.yaml`, `config.yaml` ;
-- les sorties (`output/`, `docs/api_examples/`) et toute la doc.
+## 0. Method
+**Read:**
+- the brief (`docs/BelemCapital_EPFL-Hackathon_DeFi-Risk-Dependency-Challenge_EN_v1.pdf`) and the framing note (`docs/Belem DeFi Risk — Cadrage & Guideline.pdf`);
+- all of `src/` (discovery, risk, stacktrace), `risk/*.yaml`, `config.yaml`;
+- the outputs (`output/`, `docs/api_examples/`) and all the docs.
 
-**Exécuté (hors ligne) :**
-- `pytest` : **129 tests verts**, 2 ignorés (tests réseau) ;
-- `discovery.build_graph --offline` : 1027 lectures en cache, **0 appel réseau** ;
-- `discovery.validate` : contrat valide ;
-- `risk.run` : rapport identique au rapport commité ;
-- `npm run build` du front `front/` : la compilation passe.
+**Run (offline):**
+- `pytest`: **129 tests green**, 2 skipped (network tests);
+- `discovery.build_graph --offline`: 1027 cached reads, **0 network calls**;
+- `discovery.validate`: valid contract;
+- `risk.run`: report identical to the committed report;
+- `npm run build` of the `front/` front end: the build passes.
 
-**Contre-expériences :** quelques cas lancés à la main pour tester le moteur (section 3.2).
+**Counter-experiments:** a few cases run by hand to test the engine (section 3.2).
 
-**Pas vérifié :**
-- le tableau Dune RockawayX : `dune.com` est bloqué par le réseau de cet environnement (section 4) ;
-- le backend v2 en direct : il faut un RPC, et aucune clé n'est présente ici. Il a été jugé sur ses réponses enregistrées (`docs/api_examples/`, bloc #26162868).
+**Not verified:**
+- the RockawayX Dune dashboard: `dune.com` is blocked by this environment's network (section 4);
+- the v2 backend live: it needs an RPC, and no key is present here. It was judged on its recorded responses (`docs/api_examples/`, block #26162868).
 
 ---
 
-## 1. Verdict en 30 secondes
-Le projet répond **à la lettre** à l'énoncé et au cadrage :
-- un graphe de dépendances **prouvé** (5 couches du brief, et même 7 sauts jusqu'aux custodians d'Ethena) ;
-- un impact en **$**, propagé selon une règle par type d'arête ;
-- une décision **STAY / PARTIAL / EXIT** fondée sur **p\*** ;
-- un replay réel, un book réel de 11 poches tiré du tableau Dune ;
-- une démo qui tourne sans réseau.
+## 1. Verdict in 30 seconds
+The project answers the problem statement and the framing note **to the letter**:
+- a **proven** dependency graph (the brief's 5 layers, and even 7 hops down to Ethena's custodians);
+- an impact in **$**, propagated by one rule per edge type;
+- a **STAY / PARTIAL / EXIT** decision based on **p\***;
+- a real replay, a real book of 11 pockets taken from the Dune dashboard;
+- a demo that runs without network.
 
-C'est déjà au-dessus de ce qu'on attend d'une équipe de débutants.
+That is already above what is expected from a team of beginners.
 
-Les points perdus se cachent à trois endroits :
-1. **trois artefacts du moteur** qu'un expert du jury peut trouver en 5 minutes (section 3.2) ;
-2. **le coût de sortie « temps calme »**, utilisé même quand l'alerte est déjà tombée (section 3.3) ;
-3. **un récit de démo à deux têtes** : deux moteurs, deux fronts, deux blocs (section 3.4).
+The lost points hide in three places:
+1. **three engine artefacts** that an expert on the jury can find in 5 minutes (section 3.2);
+2. **the "calm market" exit cost**, used even when the alert has already fired (section 3.3);
+3. **a two-headed demo story**: two engines, two front ends, two blocks (section 3.4).
 
-| Critère (poids) | Note estimée aujourd'hui | Après les correctifs P0 | Pourquoi |
+| Criterion (weight) | Estimated score today | After the P0 fixes | Why |
 |---|---|---|---|
-| Découverte (30 %) | 4 / 5 | 4 / 5 (4,5 avec P1) | Très solide sur la position A ; graphes v2 plus courts (pas d'émetteurs ni de hors-chaîne pour les RWA de Belem) |
-| Impact (30 %) | 3,5 / 5 | 4,2 / 5 | Mécanique fine (méta-oracle, LIF Morpho, glissement mesuré), mais liquidation « tout ou rien » non monotone et collatéral mal classé en v2 |
-| Décision (25 %) | 4 / 5 | 4,5 / 5 | p\* et sortie partielle : exactement ce que veut le brief. Il manque le coût de sortie **sous stress** et une zone d'indifférence |
-| Démo (15 %) | 4 / 5 | 4,5 / 5 | Hors ligne et reproductible, mais en mode enregistré 9 poches sur 11 n'ont pas de détail |
-| **Total pondéré** | **≈ 3,85 / 5** | **≈ 4,3 / 5** | estimation personnelle, pas une note officielle |
+| Discovery (30%) | 4 / 5 | 4 / 5 (4.5 with P1) | Very solid on position A; shorter v2 graphs (no issuers or off-chain layer for Belem's RWAs) |
+| Impact (30%) | 3.5 / 5 | 4.2 / 5 | Fine-grained mechanics (meta-oracle, Morpho LIF, measured slippage), but "all or nothing" liquidation is non-monotonic and collateral is misclassified in v2 |
+| Decision (25%) | 4 / 5 | 4.5 / 5 | p\* and partial exit: exactly what the brief wants. Missing: the exit cost **under stress** and an indifference zone |
+| Demo (15%) | 4 / 5 | 4.5 / 5 | Offline and reproducible, but in recorded mode 9 pockets out of 11 have no detail |
+| **Weighted total** | **≈ 3.85 / 5** | **≈ 4.3 / 5** | personal estimate, not an official score |
 
 ---
 
-## 2. Ce que demande le brief → ce qu'on a
-| Exigence du brief | Statut | Où |
+## 2. What the brief asks for → what we have
+| Brief requirement | Status | Where |
 |---|---|---|
-| « Automatically identify the dependencies of a position » | ✅ v1 part d'un `marketId` + `user` ; v2 part de **n'importe quelle adresse** de détenteur | `src/discovery/`, `src/stacktrace/portfolio.py` |
-| Les 5 couches de l'exemple Pendle PT (chaîne, source de rendement + émetteur, oracle, AMM PT, marché de prêt) | ✅ toutes présentes pour la position A, chacune avec sa preuve | `output/graph.json` |
-| « Estimate the potential economic impact […] when one of them is affected » | ✅ 15 scénarios, une grille de 228 cas, un Monte Carlo, des pertes emprunteur **et** prêteurs | `src/risk/` |
-| « Explain how that incident propagates through the dependency stack » | ✅ en v1 (règle par arête + trace + chemins) ; ⚠ plus court en v2 (section 3.2, C) | `src/risk/propagate.py` |
-| « Stay or exit […] despite slippage and execution costs » | ✅ p\* = C_exit / perte, sortie partielle, phrase de décision | `src/risk/decide.py`, `src/stacktrace/analyze.py` |
-| Book de 10 poches, une poche touchée, sortie à 11 % | ✅ book réel de 11 poches et dépendances partagées (v2) ; ⚠ l'exemple chiffré du brief (10 × 10 %, 11 %) n'est pas rejoué tel quel | `/book`, `front/` diapo 7 |
-| « Runs on real data » | ✅ mainnet, bloc figé, cache commité, replay du 10/10/2025 | `data/cache/`, `src/risk/replay.py` |
-| Scope : analyse de la **qualité des feeds** | ⚠ partiel : mode de prix (marché / fixe / taux interne), bornes Midas, historique Chainlink. **Pas de comparaison âge ↔ heartbeat**, ni de seuil de déviation | `adapters/oracles.py` |
-| Scope : vault qui déploie vers un **venue externe (perp)** | ⚠ couvert indirectement (Ethena → exchanges, couche curée) ; la position C du cadrage n'est pas faite | `curated.yaml` |
-| Scope : protocole qui **concentre une grosse part de la TVL** | ❌ non traité (on a `tvl_usd` par nœud, mais aucune part de TVL de la chaîne) | — |
-| Scope : autres écosystèmes (Solana, Canton, Tempo) | ❌ Ethereum + Morpho seulement. Le tableau Dune contient aussi des vaults **Kamino (Solana)** | — |
+| "Automatically identify the dependencies of a position" | ✅ v1 starts from a `marketId` + `user`; v2 starts from **any holder address** | `src/discovery/`, `src/stacktrace/portfolio.py` |
+| The 5 layers of the Pendle PT example (chain, yield source + issuer, oracle, PT AMM, lending market) | ✅ all present for position A, each with its evidence | `output/graph.json` |
+| "Estimate the potential economic impact […] when one of them is affected" | ✅ 15 scenarios, a grid of 228 cases, a Monte Carlo, borrower **and** lender losses | `src/risk/` |
+| "Explain how that incident propagates through the dependency stack" | ✅ in v1 (rule per edge + trace + paths); ⚠ shorter in v2 (section 3.2, C) | `src/risk/propagate.py` |
+| "Stay or exit […] despite slippage and execution costs" | ✅ p\* = C_exit / loss, partial exit, decision sentence | `src/risk/decide.py`, `src/stacktrace/analyze.py` |
+| Book of 10 pockets, one pocket affected, exit at 11% | ✅ real book of 11 pockets and shared dependencies (v2); ⚠ the brief's numerical example (10 × 10%, 11%) is not replayed as is | `/book`, `front/` slide 7 |
+| "Runs on real data" | ✅ mainnet, pinned block, committed cache, replay of 10/10/2025 | `data/cache/`, `src/risk/replay.py` |
+| Scope: **feed-quality** analysis | ⚠ partial: pricing mode (market / fixed / internal rate), Midas bounds, Chainlink history. **No age ↔ heartbeat comparison**, nor deviation threshold | `adapters/oracles.py` |
+| Scope: vault deploying to an **external venue (perp)** | ⚠ covered indirectly (Ethena → exchanges, curated layer); position C of the framing note is not done | `curated.yaml` |
+| Scope: protocol that **concentrates a large share of TVL** | ❌ not handled (we have `tvl_usd` per node, but no share of the chain's TVL) | — |
+| Scope: other ecosystems (Solana, Canton, Tempo) | ❌ Ethereum + Morpho only. The Dune dashboard also contains **Kamino (Solana)** vaults | — |
 
 ---
 
-## 3. Critère par critère
+## 3. Criterion by criterion
 
-### 3.1 Découverte (30 %) : « depth and correctness »
-**Forces (à mettre en avant devant le jury)**
-- **Zéro arête dessinée à la main.** Chaque arête porte `source` et preuve (`Contrat.fonction(args) = résultat @ adresse #bloc`). Le validateur refuse le reste.
-- **Recalculs indépendants :**
-  - l'id du marché est recalculé (keccak) ;
-  - le prix de chaque oracle Morpho est recalculé ;
-  - les intérêts courus sont recalculés (0,0001 % d'écart avec l'API).
-- **Provenance prouvée :** factory des oracles, `isValidMarket` pour le pool Pendle, ENS pour le feed Chainlink.
-- **Profondeur :** position → marché → PT → SY → sUSDe → USDe → Ethena → custodians / exchanges, soit 7 sauts. Le brief en montre 5.
-- **Le méta-oracle Steakhouse** (seuil 0,75 %, délai 16 h, lus on-chain) : un détail que peu d'équipes trouveront.
-- **v2 :** depuis une adresse réelle, 11 poches découvertes, vault V2 → adapters → marchés. Les emprunteurs sont lus un par un.
+### 3.1 Discovery (30%): "depth and correctness"
+**Strengths (to highlight in front of the jury)**
+- **Zero hand-drawn edges.** Every edge carries `source` and evidence (`Contract.function(args) = result @ address #block`). The validator rejects anything else.
+- **Independent recomputations:**
+  - the market id is recomputed (keccak);
+  - the price of every Morpho oracle is recomputed;
+  - accrued interest is recomputed (0.0001% deviation from the API).
+- **Proven provenance:** oracle factory, `isValidMarket` for the Pendle pool, ENS for the Chainlink feed.
+- **Depth:** position → market → PT → SY → sUSDe → USDe → Ethena → custodians / exchanges, i.e. 7 hops. The brief shows 5.
+- **The Steakhouse meta-oracle** (threshold 0.75%, delay 16 h, read on-chain): a detail few teams will find.
+- **v2:** from a real address, 11 pockets discovered, V2 vault → adapters → markets. Borrowers are read one by one.
 
-**Ce qui coûte des points**
-1. **Les graphes v2 s'arrêtent au collatéral.** Le vault « Belem RWA EURCV » a 25 nœuds, mais ses seuls émetteurs sont Chainlink, Morpho et RockawayX. Aucun nœud pour :
-   - l'émetteur d'**EURCV**, de **mGLOeuro**, de **PST**, de **cbBTC**, de **WBTC**, de **wstETH**, de **weETH** ;
-   - leurs custodians ou leurs fonds sous-jacents.
+**What costs points**
+1. **The v2 graphs stop at the collateral.** The "Belem RWA EURCV" vault has 25 nodes, but its only issuers are Chainlink, Morpho and RockawayX. No node for:
+   - the issuer of **EURCV**, **mGLOeuro**, **PST**, **cbBTC**, **WBTC**, **wstETH**, **weETH**;
+   - their custodians or their underlying funds.
 
-   Or c'est **le book de Belem**, et c'est la couche 2 du brief (« underlying yield source and its issuer »). `curated.yaml` ne couvre que la position A.
-2. **Les réserves de l'USDe ne sont pas modélisées.** On a les custodians et les exchanges d'Ethena, mais pas la **composition** des réserves (actifs liquides, LST, stablecoins…).
-3. **La voie de sortie n'est pas découverte.** La 2ᵉ jambe (sUSDe → USDC) est une hypothèse à 5 pb (`risk/params.yaml:80`). Les pools secondaires ne sont pas dans le graphe. C'est pourtant là que le glissement explose en crise. Pour mémoire, le cooldown sUSDe (1 jour, lu on-chain) interdit la voie « déstaker ».
-4. **Qualité des feeds :** `age_seconds` est lu, mais jamais comparé au heartbeat publié par Chainlink. Le scope du brief cite explicitement « feed-quality analysis ».
-5. **`lends` et `collateralized_by`** sont toujours « à confirmer avec les orgas » (`vocab.py`). C'est une question de 30 secondes à poser à un mentor.
+   Yet this is **Belem's book**, and it is layer 2 of the brief ("underlying yield source and its issuer"). `curated.yaml` only covers position A.
+2. **USDe's reserves are not modelled.** We have Ethena's custodians and exchanges, but not the **composition** of the reserves (liquid assets, LSTs, stablecoins…).
+3. **The exit route is not discovered.** The 2nd leg (sUSDe → USDC) is a 5 bp hypothesis (`risk/params.yaml:80`). The secondary pools are not in the graph. Yet that is where slippage explodes in a crisis. For the record, the sUSDe cooldown (1 day, read on-chain) rules out the "unstake" route.
+4. **Feed quality:** `age_seconds` is read, but never compared with the heartbeat published by Chainlink. The brief's scope explicitly mentions "feed-quality analysis".
+5. **`lends` and `collateralized_by`** are still "to be confirmed with the organisers" (`vocab.py`). It is a 30-second question to ask a mentor.
 
-### 3.2 Impact (30 %) : « is the number defensible »
-**Forces**
-- Liquidation **Morpho officielle** (LIF = min(1,15 ; 1/(0,3·LLTV + 0,7)), source citée).
-- Le liquidateur n'agit que si c'est rentable **après un glissement mesuré on-chain** (RouterStatic Pendle).
-- **Le méta-oracle simulé fidèlement.** La démonstration « 0,93 $ pendant 6 h = 0 $, pendant 24 h = −37 k$ » est le meilleur moment de la démo.
-- **Les pertes des prêteurs sont distinguées** de celles de l'emprunteur (exploit Pendle : 152 k$ de dette irrécouvrable sans liquidation). C'est l'insight que le cadrage attend.
-- **Chaque paramètre a un statut**, une plage et une tornade de sensibilité. Aucun « score magique ».
+### 3.2 Impact (30%): "is the number defensible"
+**Strengths**
+- **Official Morpho** liquidation (LIF = min(1.15, 1/(0.3·LLTV + 0.7)), source cited).
+- The liquidator only acts if it is profitable **after slippage measured on-chain** (Pendle RouterStatic).
+- **The meta-oracle simulated faithfully.** The demonstration "$0.93 for 6 h = $0, for 24 h = −$37k" is the best moment of the demo.
+- **Lender losses are distinguished** from the borrower's (Pendle exploit: $152k of bad debt without liquidation). That is the insight the framing note expects.
+- **Every parameter has a status**, a range and a sensitivity tornado. No "magic score".
 
-**Trois artefacts vérifiés, qu'un expert peut trouver vite**
+**Three verified artefacts that an expert can find quickly**
 
-**A. Liquidation « tout ou rien » : un marché pire réduit la perte (non-monotonie).**
-- *Où :* `src/risk/position.py:107-117`. Le liquidateur rembourse 100 % de la dette d'un coup, et ne le fait que si c'est rentable sur ce bloc entier.
-- *Ce qu'on a lancé :* le scénario USDe à 0,93 $ pendant 24 h, avec une décote AMM supplémentaire de 3 % (le haut de sa plage de sensibilité).
+**A. "All or nothing" liquidation: a worse market reduces the loss (non-monotonicity).**
+- *Where:* `src/risk/position.py:107-117`. The liquidator repays 100% of the debt at once, and only does so if it is profitable on that whole block.
+- *What we ran:* the USDe at $0.93 for 24 h scenario, with an extra 3% AMM discount (the top of its sensitivity range).
 
-| Décote AMM supplémentaire | Liquidation | Perte emprunteur |
+| Extra AMM discount | Liquidation | Borrower loss |
 |---|---|---|
-| 0 % | oui | 37 556 $ |
-| 3 % (pire marché) | non (« pas rentable ») | **0 $** |
+| 0% | yes | $37,556 |
+| 3% (worse market) | no ("not profitable") | **$0** |
 
-  La même chose se voit dans la tornade : la perte attendue passe de 147 $ à 42 $ quand le marché empire.
-- *Pourquoi c'est faux en vrai :* sur Morpho, un liquidateur choisit **la taille** qu'il rembourse. Si tout rembourser n'est pas rentable, une partie l'est souvent, car le glissement est plus faible sur une petite vente.
-- *Correctif (≈ 1 h) :* chercher la plus grande fraction remboursée qui reste rentable (grille de 5 % en 5 %), au lieu d'un oui / non sur 100 %.
+  The same thing shows in the tornado: the expected loss drops from $147 to $42 when the market gets worse.
+- *Why it is wrong in reality:* on Morpho, a liquidator chooses **the size** it repays. If repaying everything is not profitable, a part often is, because slippage is lower on a small sale.
+- *Fix (≈ 1 h):* search for the largest repaid fraction that stays profitable (grid in 5% steps), instead of a yes / no on 100%.
 
-**B. v2 : un collatéral composite ne reçoit qu'un seul type de choc.**
-- *Où :* `src/stacktrace/market_data.py:111` et `:161-164`, `src/stacktrace/risk_engine.py:240`.
-- *Ce qui se passe :* si **une** brique de l'oracle est un taux interne, tout le collatéral est classé `rwa_or_synthetic`. Exemple : weETH, pricé par le taux weETH/eETH × ETH/USD.
-- *Conséquences dans `docs/api_examples/book.json` :*
-  - le même weETH reçoit l'incident `volatile_crash` dans la poche 1 (weETH/RLUSD), mais `rwa_credit_event` (5 %/an, −5 à −50 %) dans la poche 4 (weETH/USDT, 2,56 M$) ;
-  - dans la poche 4, **un krach de l'ETH qui déclencherait la liquidation n'est pas modélisé du tout** ;
-  - dans le vault RockawayX wETH, on voit même un incident `rwa_credit_event:eth`.
-- *Correctif (≈ 1 h 30) :* générer **deux** familles pour un collatéral composite :
-  - la composante marché (ETH), que l'oracle suit, donc avec liquidation ;
-  - la composante propre (depeg du LST ou du RWA), que l'oracle ne voit pas, donc dette irrécouvrable.
+**B. v2: a composite collateral receives only one type of shock.**
+- *Where:* `src/stacktrace/market_data.py:111` and `:161-164`, `src/stacktrace/risk_engine.py:240`.
+- *What happens:* if **one** building block of the oracle is an internal rate, the whole collateral is classified `rwa_or_synthetic`. Example: weETH, priced by the weETH/eETH rate × ETH/USD.
+- *Consequences in `docs/api_examples/book.json`:*
+  - the same weETH receives the `volatile_crash` incident in pocket 1 (weETH/RLUSD), but `rwa_credit_event` (5%/year, −5 to −50%) in pocket 4 (weETH/USDT, $2.56M);
+  - in pocket 4, **an ETH crash that would trigger liquidation is not modelled at all**;
+  - in the RockawayX wETH vault, we even see a `rwa_credit_event:eth` incident.
+- *Fix (≈ 1 h 30):* generate **two** families for a composite collateral:
+  - the market component (ETH), which the oracle follows, hence with liquidation;
+  - the specific component (depeg of the LST or the RWA), which the oracle does not see, hence bad debt.
 
-**C. Deux moteurs, deux profondeurs de propagation.**
-- **v1** (`src/risk/propagate.py`) propage n'importe quel choc, arête par arête, depuis n'importe quel nœud. Ethena, un custodian, un exchange : tout remonte jusqu'à la position.
-- **v2** (`risk_engine.py`) ne génère des incidents que sur le collatéral direct, ses émetteurs directs, les feeds, le protocole et le curateur. Une défaillance « profonde » (sous-jacent d'un PT, réserves d'un stablecoin) est donc fondue dans un `rwa_credit_event` générique.
-- **Risque devant le jury :** « Quel est votre moteur ? » Une réponse claire est nécessaire, voir la section 5.
+**C. Two engines, two propagation depths.**
+- **v1** (`src/risk/propagate.py`) propagates any shock, edge by edge, from any node. Ethena, a custodian, an exchange: everything flows up to the position.
+- **v2** (`risk_engine.py`) only generates incidents on the direct collateral, its direct issuers, the feeds, the protocol and the curator. A "deep" failure (underlying of a PT, reserves of a stablecoin) is therefore folded into a generic `rwa_credit_event`.
+- **Risk in front of the jury:** "Which one is your engine?" A clear answer is needed, see section 5.
 
-**Autres faiblesses (déjà assumées en partie dans `docs/AUDIT.md`)**
-- **Probabilité du titre incohérente avec notre propre modèle.**
-  - Le titre dit « EXIT — vous estimez 10 % de chances » d'un depeg USDe −30 % en 7 jours (`risk/scenarios.yaml:21`).
-  - Notre Monte Carlo donne ≈ **0,19 %** par semaine pour **toute** la famille « depeg sévère » (λ = 0,1/an).
-  - Défendable seulement si on dit clairement que c'est **une probabilité conditionnelle à l'alerte**, saisie par le manager. Aujourd'hui, ce n'est écrit nulle part.
-- **Monte Carlo v2 indépendant** (`risk_engine.py:281`) : aucune corrélation entre incidents ni entre poches. Le v1, lui, corrèle par les parents communs.
-- **Lenders v2 et collatéral volatil :** la perte est **toujours 0** (« chute progressive »). Un krach éclair (le 10/10/2025, justement) peut sauter la marge 1 − LLTV = 14 %. Il faudrait au moins un cas « gap ».
-- **Couche 1 (chaîne) :** l'unique scénario donne 0 $. C'est cohérent (24 h d'arrêt, prix revenus avant l'horizon), mais la couche paraît « gratuite ». Un cas « arrêt + depeg durable » montrerait l'effet.
-- **Fréquences d'exploit :** ce sont des hypothèses (dataset DeFiLlama payant). Bien assumé ; p\* protège la décision.
+**Other weaknesses (already partly acknowledged in `docs/AUDIT.md`)**
+- **Headline probability inconsistent with our own model.**
+  - The headline says "EXIT — you estimate a 10% chance" of a USDe −30% depeg in 7 days (`risk/scenarios.yaml:21`).
+  - Our Monte Carlo gives ≈ **0.19%** per week for the **whole** "severe depeg" family (λ = 0.1/year).
+  - Defensible only if we say clearly that it is **a probability conditional on the alert**, entered by the manager. Today, this is written nowhere.
+- **Independent v2 Monte Carlo** (`risk_engine.py:281`): no correlation between incidents or between pockets. v1, on the other hand, correlates through common parents.
+- **v2 lenders and volatile collateral:** the loss is **always 0** ("gradual drop"). A flash crash (10/10/2025, precisely) can jump the 1 − LLTV = 14% margin. We would need at least one "gap" case.
+- **Layer 1 (chain):** the only scenario gives $0. It is consistent (24 h halt, prices back before the horizon), but the layer looks "free". A "halt + lasting depeg" case would show the effect.
+- **Exploit frequencies:** these are hypotheses (paid DeFiLlama dataset). Well acknowledged; p\* protects the decision.
 
-### 3.3 Décision (25 %) : « stay or exit, and why »
-**Forces :** p\* est **exactement** l'arbitrage du brief (« exiting is expensive and certain, staying is cheap and uncertain »). Il y a la sortie partielle, une phrase par verdict, le tableau p → verdict lu par le front, et une liquidité de vault limitée (`f_max` = 22 % sortable pour Belem RWA EURCV). Très fort.
+### 3.3 Decision (25%): "stay or exit, and why"
+**Strengths:** p\* is **exactly** the brief's trade-off ("exiting is expensive and certain, staying is cheap and uncertain"). There is the partial exit, one sentence per verdict, the p → verdict table read by the front end, and limited vault liquidity (`f_max` = 22% exitable for Belem RWA EURCV). Very strong.
 
-**Ce qui manque**
-1. **Le coût de sortie est mesuré « à froid ».**
-   - Pour S-USDe-30, p\* = 854 $ / 53 133 $ = 1,6 %, avec un pool Pendle intact et une 2ᵉ jambe à 5 pb (`src/risk/scenarios.py:92` : pas de stress de liquidité dans ce scénario).
-   - Or le brief dit « **one pocket is affected**. Unwinding it costs 11 % ». C'est le coût de sortie **pendant** l'incident.
-   - *Correctif (≈ 1 h) :* afficher p\* sur une plage, « 1,6 % si on sort avant que le marché réagisse, X % si le pool a déjà perdu la moitié de sa liquidité ». On a déjà les facteurs de pool (`exit_model.cost(f, pool_factor)`).
-2. **Pas de zone d'indifférence.**
-   - La poche 9 (PST/PYUSD, 40 k$) affiche **EXIT** parce que la perte attendue (46 $) dépasse le coût (45 $) de **1 $**.
-   - Un manager veut « STAY (indifférent) » quand l'écart est sous un seuil de matérialité. *Correctif :* 20 min.
-3. **Vocabulaire différent entre v1 et v2.**
-   - v1 : STAY / PARTIAL x % / EXIT.
-   - v2 : STAY / EXIT seulement (`analyze.py:141,182`). Sur l'incident mGLOeuro, le v2 dit « EXIT » pour 22 % de la poche.
-   - Le cadrage demande « STAY / PARTIAL x % / EXIT ». *Correctif :* 15 min.
-4. **La question 5 de Léa** (« combien de temps avant que la liquidité disparaisse ? ») n'a pas de réponse explicite.
-   - On a les ingrédients : la fenêtre de 16 h du méta-oracle, et `f_max` du vault, qui baisse si les autres déposants sortent avant nous.
-   - Une ligne « vous avez ≈ 16 h avant la bascule de l'oracle », ou « la liquidité retirable est de 22 % et elle se partage avec N autres déposants », serait très parlante.
+**What is missing**
+1. **The exit cost is measured "cold".**
+   - For S-USDe-30, p\* = $854 / $53,133 = 1.6%, with an intact Pendle pool and a 2nd leg at 5 bp (`src/risk/scenarios.py:92`: no liquidity stress in this scenario).
+   - Yet the brief says "**one pocket is affected**. Unwinding it costs 11%". That is the exit cost **during** the incident.
+   - *Fix (≈ 1 h):* show p\* as a range, "1.6% if we exit before the market reacts, X% if the pool has already lost half its liquidity". We already have the pool factors (`exit_model.cost(f, pool_factor)`).
+2. **No indifference zone.**
+   - Pocket 9 (PST/PYUSD, $40k) shows **EXIT** because the expected loss ($46) exceeds the cost ($45) by **$1**.
+   - A manager wants "STAY (indifferent)" when the gap is below a materiality threshold. *Fix:* 20 min.
+3. **Different vocabulary between v1 and v2.**
+   - v1: STAY / PARTIAL x% / EXIT.
+   - v2: STAY / EXIT only (`analyze.py:141,182`). On the mGLOeuro incident, v2 says "EXIT" for 22% of the pocket.
+   - The framing note asks for "STAY / PARTIAL x% / EXIT". *Fix:* 15 min.
+4. **Léa's question 5** ("how long before liquidity disappears?") has no explicit answer.
+   - We have the ingredients: the meta-oracle's 16 h window, and the vault's `f_max`, which drops if other depositors exit before us.
+   - A line such as "you have ≈ 16 h before the oracle switches", or "withdrawable liquidity is 22% and it is shared with N other depositors", would be very telling.
 
-### 3.4 Démo sur données réelles (15 %)
-**Forces :**
-- tout est rejouable hors ligne, au même bloc, avec un test qui vérifie que `web/data/` est identique aux sorties ;
-- le replay du 10/10/2025 est **un vrai incident**, avec la leçon « la source de l'oracle compte » ;
-- un script de démo minuté (`docs/DEMO.md`) et un plan B.
+### 3.4 Demo on real data (15%)
+**Strengths:**
+- everything can be replayed offline, at the same block, with a test that checks that `web/data/` is identical to the outputs;
+- the 10/10/2025 replay is **a real incident**, with the lesson "the oracle's source matters";
+- a timed demo script (`docs/DEMO.md`) and a plan B.
 
-**Risques**
-1. **Deux histoires :**
-   - « Rayon X » v1 : `web/`, position A, bloc #26162087 ;
-   - « Diapositives » v2 : `front/`, book réel, bloc #26162868.
+**Risks**
+1. **Two stories:**
+   - v1 "X-Ray": `web/`, position A, block #26162087;
+   - v2 "Slides": `front/`, real book, block #26162868.
 
-   `docs/DEMO.md` ne parle que du v1. Or le v2 (le book réel du tableau Dune fourni par Belem) est ce qui parlera **le plus** à leur équipe risk.
-2. **Le front v2 en mode enregistré** n'a le détail que de 2 poches sur 11 (`front/README.md`). Si le Wi-Fi ou le RPC tombe, 9 poches affichent « calculé en direct ». Le cache en ligne (`data/cache_live/`) est ignoré par git, ce qui va contre la règle « tout est en cache » de `CLAUDE.md`.
-3. **Le replay principal du cadrage** (xUSD / deUSD, nov. 2025) n'est pas fait. Le plan B (10/10/2025) l'est : c'est acceptable, mais il faut le dire.
-4. **Chiffres de la doc en retard :** « 97 tests » dans `CLAUDE.md:114`, `README.md:119` et `docs/NEXT_STEPS.md:11`, contre **129** aujourd'hui. Un jury qui lance `pytest` le verra.
-
----
-
-## 4. Le tableau Dune RockawayX fourni par Belem
-- **Accès :** impossible depuis cet environnement (le proxy refuse `dune.com`). Je n'ai donc **pas** vérifié son contenu. À faire par un humain : comparer la liste des vaults du tableau avec les 11 poches de `docs/api_examples/book.json`.
-- **Sources publiques sur RockawayX :**
-  - RockawayX curate des vaults sur **Morpho (Ethereum)** et sur **Kamino (Solana)** ;
-  - ses premiers vaults Morpho sont USDC Prime, USDC Yield et wETH.
-
-  Sources : [RockawayX, vaults sur Morpho](https://rockawayx.com/insights/rockawayx-launches-three-curated-vaults-on-morpho), [aperçu de la curation RockawayX](https://rockawayx.com/insights/rockawayx-vault-curation-an-overview-of-products-capabilities), [forum Morpho](https://forum.morpho.org/t/introducing-rockawayx-vaults-on-morpho/2214).
-- **Ce qu'on en fait déjà (bien) :**
-  - le détenteur `0x4F87…0545`, déposant principal du vault « Belem RWA EURCV » ;
-  - 11 poches réelles (26,4 M$) ;
-  - les dépendances partagées (Morpho : 11 poches ; Chainlink : 7 ; RockawayX curateur : 4).
-- **Ce qui manque :**
-  - les vaults **Kamino / Solana** du même curateur (le brief cite Solana dans le scope) ;
-  - la confirmation, par Belem, que `0x4F87…` est bien à eux (encore « à confirmer » dans `docs/BACKEND_V2.md`). **Question n°1 à poser au mentor.**
-- **Un petit défaut visible :** dans `shared_dependencies`, deux nœuds différents portent le même nom « Chainlink ETH / USD ». Sur la diapo « Concentration », c'est déroutant. Il faut afficher l'adresse courte, ou fusionner.
+   `docs/DEMO.md` only talks about v1. Yet v2 (the real book from the Dune dashboard provided by Belem) is what will speak **the most** to their risk team.
+2. **The v2 front end in recorded mode** only has the detail of 2 pockets out of 11 (`front/README.md`). If the Wi-Fi or the RPC goes down, 9 pockets show "computed live". The live cache (`data/cache_live/`) is ignored by git, which goes against the "everything is cached" rule of `CLAUDE.md`.
+3. **The framing note's main replay** (xUSD / deUSD, Nov. 2025) is not done. Plan B (10/10/2025) is: that is acceptable, but it must be said.
+4. **Outdated numbers in the docs:** "97 tests" in `CLAUDE.md:114`, `README.md:119` and `docs/NEXT_STEPS.md:11`, versus **129** today. A jury that runs `pytest` will see it.
 
 ---
 
-## 5. Les questions que le jury va poser (et la réponse à préparer)
-| Question probable | Réponse prête |
+## 4. The RockawayX Dune dashboard provided by Belem
+- **Access:** impossible from this environment (the proxy refuses `dune.com`). I therefore did **not** verify its content. To be done by a human: compare the list of vaults in the dashboard with the 11 pockets of `docs/api_examples/book.json`.
+- **Public sources on RockawayX:**
+  - RockawayX curates vaults on **Morpho (Ethereum)** and on **Kamino (Solana)**;
+  - its first Morpho vaults are USDC Prime, USDC Yield and wETH.
+
+  Sources: [RockawayX, vaults on Morpho](https://rockawayx.com/insights/rockawayx-launches-three-curated-vaults-on-morpho), [overview of RockawayX curation](https://rockawayx.com/insights/rockawayx-vault-curation-an-overview-of-products-capabilities), [Morpho forum](https://forum.morpho.org/t/introducing-rockawayx-vaults-on-morpho/2214).
+- **What we already do with it (well):**
+  - the holder `0x4F87…0545`, main depositor of the "Belem RWA EURCV" vault;
+  - 11 real pockets ($26.4M);
+  - the shared dependencies (Morpho: 11 pockets; Chainlink: 7; RockawayX curator: 4).
+- **What is missing:**
+  - the **Kamino / Solana** vaults of the same curator (the brief mentions Solana in the scope);
+  - confirmation, by Belem, that `0x4F87…` really is theirs (still "to be confirmed" in `docs/BACKEND_V2.md`). **Question no. 1 to ask the mentor.**
+- **A small visible flaw:** in `shared_dependencies`, two different nodes carry the same name "Chainlink ETH / USD". On the "Concentration" slide, this is confusing. We need to show the short address, or merge them.
+
+---
+
+## 5. The questions the jury will ask (and the answer to prepare)
+| Likely question | Ready answer |
 |---|---|
-| « Vos probabilités d'exploit sortent d'où ? » | « Ce sont des hypothèses affichées, avec une sensibilité ×0,5 / ×2. La décision repose sur **p\***, qui n'en dépend pas. » ✅ |
-| « Pourquoi EXIT si vous estimez 10 % ? Votre Monte Carlo dit 0,2 %/semaine. » | ⚠ À préparer : « 10 % est la probabilité **conditionnelle à l'alerte**, saisie par le manager. Sans alerte, on dit STAY. » L'écrire aussi dans le front. |
-| « Votre perte baisse quand le marché empire ? » | ❌ Aujourd'hui, pas de bonne réponse → correctif A. |
-| « Si l'USDe est déjà à 0,93, sortir coûte toujours 854 $ ? » | ⚠ → correctif 3.3-1 (p\* sur une plage, avec le pool stressé). |
-| « V = 53 k$ ou 410 k$ ? » | « Le capital net : c'est ce que le fonds a alloué à la poche. Avec un levier ×7,7, LGI = 100 %. » La réponse existe, mais elle n'est pas validée par les mentors (`NEXT_STEPS.md`). |
-| « v1 ou v2, c'est quoi votre moteur ? » | Proposition : « v1 = la profondeur (propagation arête par arête, sur l'exemple exact du brief) ; v2 = le passage à l'échelle sur le **vrai book**. Même découverte, mêmes preuves, même règle p\*. » |
-| « Ça marche sur Solana ? » | « Non, et c'est assumé : Ethereum + Morpho couvrent 11 poches réelles. L'architecture adaptateur par protocole est faite pour en ajouter. » |
-| « Qui vous dit que les custodians d'Ethena sont ceux-là ? » | « La couche curée : URL officielle + date, sur chaque ligne. Les poids sont à 1,0 (borne haute) et c'est écrit dans la preuve. » ✅ |
+| "Where do your exploit probabilities come from?" | "They are displayed hypotheses, with a ×0.5 / ×2 sensitivity. The decision rests on **p\***, which does not depend on them." ✅ |
+| "Why EXIT if you estimate 10%? Your Monte Carlo says 0.2%/week." | ⚠ To prepare: "10% is the probability **conditional on the alert**, entered by the manager. Without an alert, we say STAY." Write it in the front end too. |
+| "Your loss goes down when the market gets worse?" | ❌ Today, no good answer → fix A. |
+| "If USDe is already at 0.93, does exiting still cost $854?" | ⚠ → fix 3.3-1 (p\* as a range, with the stressed pool). |
+| "V = $53k or $410k?" | "Net capital: it is what the fund allocated to the pocket. With ×7.7 leverage, LGI = 100%." The answer exists, but it has not been validated by the mentors (`NEXT_STEPS.md`). |
+| "v1 or v2, which one is your engine?" | Proposal: "v1 = depth (edge-by-edge propagation, on the brief's exact example); v2 = scaling up to the **real book**. Same discovery, same evidence, same p\* rule." |
+| "Does it work on Solana?" | "No, and that is acknowledged: Ethereum + Morpho cover 11 real pockets. The one-adapter-per-protocol architecture is built to add more." |
+| "Who says Ethena's custodians are those ones?" | "The curated layer: official URL + date, on every row. The weights are at 1.0 (upper bound) and that is written in the evidence." ✅ |
 
 ---
 
-## 6. Plan d'action priorisé
-Les rôles suivent le cadrage : **P1** = Découverte, **P2** = Moteur de risque, **P3** = Démo et récit. Chaque correctif touche une zone de code et se teste seul.
+## 6. Prioritised action plan
+The roles follow the framing note: **P1** = Discovery, **P2** = Risk engine, **P3** = Demo and story. Each fix touches one area of code and can be tested on its own.
 
-### P0 : avant le gel (≈ 5 h en tout, à se répartir)
-| # | Qui | Quoi | Effort | Gain |
+### P0: before the freeze (≈ 5 h in total, to be split)
+| # | Who | What | Effort | Gain |
 |---|---|---|---|---|
-| 1 | P2 | **Liquidation partielle rentable** (artefact A) + un test de monotonie : « perte(marché pire) ≥ perte(marché normal) » | 1 h | Impact |
-| 2 | P2 | **Collatéral composite en v2** : deux familles (marché + propre) (artefact B) + un test sur un oracle weETH | 1 h 30 | Impact |
-| 3 | P2 | **p\* sur une plage** : coût de sortie normal et stressé (pool ÷2), affiché dans le titre et sur la diapo Verdict | 1 h | Décision |
-| 4 | P2 | **Zone d'indifférence** + label **PARTIAL** en v2 | 30 min | Décision |
-| 5 | P3 | **Un seul fil de démo :** Rayon X (position A, 3 min) → bascule « et sur le vrai book de Belem » (front v2, 1 min 30). Mettre à jour `DEMO.md` | 45 min | Démo |
-| 6 | P3 | **Enregistrer les 11 poches** (`/risk` et `/graph` de chacune) dans `docs/api_examples/` pour le mode hors ligne du front v2 | 30 min (avec un RPC) | Démo |
-| 7 | P3 | **Doc à jour :** 129 tests ; « p = probabilité conditionnelle à l'alerte » dans le front et le README | 15 min | Démo |
+| 1 | P2 | **Profitable partial liquidation** (artefact A) + a monotonicity test: "loss(worse market) ≥ loss(normal market)" | 1 h | Impact |
+| 2 | P2 | **Composite collateral in v2**: two families (market + specific) (artefact B) + a test on a weETH oracle | 1 h 30 | Impact |
+| 3 | P2 | **p\* as a range**: normal and stressed exit cost (pool ÷2), shown in the headline and on the Verdict slide | 1 h | Decision |
+| 4 | P2 | **Indifference zone** + **PARTIAL** label in v2 | 30 min | Decision |
+| 5 | P3 | **A single demo thread:** X-Ray (position A, 3 min) → switch to "and on Belem's real book" (v2 front end, 1 min 30). Update `DEMO.md` | 45 min | Demo |
+| 6 | P3 | **Record the 11 pockets** (`/risk` and `/graph` for each) in `docs/api_examples/` for the v2 front end's offline mode | 30 min (with an RPC) | Demo |
+| 7 | P3 | **Docs up to date:** 129 tests; "p = probability conditional on the alert" in the front end and the README | 15 min | Demo |
 
-### P1 : si le temps le permet
-| # | Qui | Quoi | Effort |
+### P1: if time allows
+| # | Who | What | Effort |
 |---|---|---|---|
-| 8 | P1 | **Couche curée pour les actifs du book Belem.** Émetteur, et custodian si publié, pour EURCV, mGLOeuro, PST, cbBTC, WBTC, wstETH, weETH. Chaque ligne : URL officielle + date, cochée dans `VERIFY.md` | 1 h 30 |
-| 9 | P1 | **Qualité des feeds :** heartbeat et seuil de déviation (doc Chainlink, ligne curée sourcée) comparés à `age_seconds`, avec un drapeau « feed en retard » | 1 h |
-| 10 | P1 | **Concentration de TVL** (scope du brief) : part de la TVL de la chaîne pour Morpho, Pendle, Ethena, via l'API publique DeFiLlama (endpoint à vérifier dans leur doc, réponse mise en cache) | 1 h |
-| 11 | P2 | **Rejouer l'exemple du brief** : 10 poches × 10 %, sortie à 11 %. Montrer que p\* = 11 % / LGI. Une ligne de plus dans la diapo Verdict | 30 min |
+| 8 | P1 | **Curated layer for the Belem book's assets.** Issuer, and custodian if published, for EURCV, mGLOeuro, PST, cbBTC, WBTC, wstETH, weETH. Each row: official URL + date, ticked in `VERIFY.md` | 1 h 30 |
+| 9 | P1 | **Feed quality:** heartbeat and deviation threshold (Chainlink docs, sourced curated row) compared with `age_seconds`, with a "stale feed" flag | 1 h |
+| 10 | P1 | **TVL concentration** (brief's scope): share of the chain's TVL for Morpho, Pendle, Ethena, via the public DeFiLlama API (endpoint to be checked in their docs, response cached) | 1 h |
+| 11 | P2 | **Replay the brief's example**: 10 pockets × 10%, exit at 11%. Show that p\* = 11% / LGI. One more line on the Verdict slide | 30 min |
 
-### P2 : à dire au jury plutôt qu'à coder aujourd'hui
-- Le replay xUSD / deUSD (il faut un RPC archive).
+### P2: to tell the jury rather than code today
+- The xUSD / deUSD replay (it needs an archive RPC).
 - Kamino / Solana.
-- Les corrélations entre poches en v2 (réutiliser la logique « parents communs » du v1).
-- Une calibration publique des fréquences d'exploit.
-- La fusion des deux moteurs.
+- Correlations between pockets in v2 (reuse v1's "common parents" logic).
+- A public calibration of exploit frequencies.
+- Merging the two engines.
 
 ---
 
-## 7. Questions encore ouvertes pour les mentors Belem
-1. L'adresse `0x4F87…0545` (déposant principal de « Belem RWA EURCV ») est-elle bien la vôtre ?
-2. Horizon de décision : 24 h ou 7 jours ? (aujourd'hui : 7 jours, hypothèse)
-3. Taille de poche **V** : le capital net (53 k$) ou la valeur brute (410 k$) ?
-4. L'extension `lends`, et la direction `collateralized_by` (« est collatéral de », lu à l'envers) : acceptées ?
-5. p\* vous parle-t-il plus qu'une probabilité qu'on estimerait nous-mêmes ?
-6. Le tableau Dune RockawayX : quelles poches voulez-vous voir en priorité, Morpho ou Kamino ?
+## 7. Questions still open for the Belem mentors
+1. Is the address `0x4F87…0545` (main depositor of "Belem RWA EURCV") really yours?
+2. Decision horizon: 24 h or 7 days? (today: 7 days, hypothesis)
+3. Pocket size **V**: net capital ($53k) or gross value ($410k)?
+4. The `lends` extension, and the `collateralized_by` direction ("is collateral of", read backwards): accepted?
+5. Does p\* speak to you more than a probability we would estimate ourselves?
+6. The RockawayX Dune dashboard: which pockets do you want to see first, Morpho or Kamino?

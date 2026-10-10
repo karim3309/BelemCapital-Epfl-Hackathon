@@ -1,115 +1,115 @@
-# Position A : ce qu'on a découvert, expliqué simplement
+# Position A: what we discovered, explained simply
 
-Tous les chiffres sont lus **on-chain au bloc #26162087** (2026-10-10 12:39 UTC), sauf mention contraire.
-Chaque affirmation de ce document correspond à une arête ou à un `meta` de [`output/graph.json`](../output/graph.json).
-On peut la retrouver avec :
+All figures are read **on-chain at block #26162087** (2026-10-10 12:39 UTC), unless stated otherwise.
+Every claim in this document matches an edge or a `meta` in [`output/graph.json`](../output/graph.json).
+You can find it again with:
 
 ```bash
 PYTHONPATH=src python -m discovery.inspect_graph --evidence
 ```
 
-## En 5 lignes
-1. On a déposé **413 030 PT-sUSDE-26NOV2026** sur un marché **Morpho Blue**, et on doit **357 217 USDC**.
-2. Notre ratio dette/collatéral est de **87,2 %**, pour une limite (LLTV) de **91,5 %**. Le health factor vaut **1,050** : une baisse de **4,75 %** du prix donné par l'oracle nous rend liquidables.
-3. L'oracle est un **méta-oracle**. En temps normal, il donne un prix **fixé par une formule** (décote linéaire de 6 %/an, qui ignore le marché) et suppose USDe = USDC = 1. Si le prix de marché s'écarte de plus de 0,75 % pendant 16 h, il peut **basculer** sur un oracle qui suit le prix de marché de l'USDe (Chainlink).
-4. Tout en bas de la pile, le PT vaut 1 USDe à l'échéance (26 nov. 2026, dans 46,5 jours). L'USDe repose sur Ethena, c'est-à-dire des réserves chez des custodians et des shorts sur des exchanges centralisés. **Rien de cela n'est on-chain.**
-5. Pour sortir du PT avant l'échéance, il faut passer par un pool Pendle de **3,8 M$**. C'est peu face aux **7,0 M$ empruntés** sur ce marché.
+## In 5 lines
+1. We deposited **413,030 PT-sUSDE-26NOV2026** on a **Morpho Blue** market, and we owe **357,217 USDC**.
+2. Our debt/collateral ratio is **87.2%**, against a limit (LLTV) of **91.5%**. The health factor is **1.050**: a **4.75%** drop in the price given by the oracle makes us liquidatable.
+3. The oracle is a **meta-oracle**. In normal times, it gives a price **set by a formula** (linear discount of 6%/year, which ignores the market) and assumes USDe = USDC = 1. If the market price deviates by more than 0.75% for 16 h, it can **switch** to an oracle that follows the market price of USDe (Chainlink).
+4. At the very bottom of the stack, the PT is worth 1 USDe at maturity (26 Nov 2026, in 46.5 days). USDe relies on Ethena, that is, reserves held by custodians and shorts on centralised exchanges. **None of this is on-chain.**
+5. To exit the PT before maturity, you have to go through a Pendle pool of **$3.8M**. That is small compared to the **$7.0M borrowed** on this market.
 
 ---
 
-## Couche par couche (de la position vers le fond de la pile)
+## Layer by layer (from the position down to the bottom of the stack)
 
-### 0. La position · `morpho:0x5613…:0x03BA…`
-- **Ce que c'est :** une ligne dans le registre de Morpho, pour le couple (marché, emprunteur).
-- **Lu :** `Morpho.position(id, user)` renvoie `(supplyShares 0, borrowShares 355 505 047 827 188 788, collateral 413 030,32 PT)`.
-- **Dette à jour :** les parts de dette sont converties en USDC **avec les intérêts courus**. Morpho ne met ses totaux à jour qu'à chaque interaction (`lastUpdate`) ; ici, la dernière date d'environ 45 h. On ajoute donc les intérêts nous-mêmes, comme Morpho : `IRM.borrowRateView` donne le taux par seconde, auquel on applique `wTaylorCompounded`. Sans ça, la dette serait sous-estimée de 67 USDC sur notre position (1 322 USDC sur tout le marché). Recoupement : notre calcul et l'API Morpho diffèrent de **0,0001 %**.
-- **`value_usd = 409 819,73 $`** : valeur du collatéral au prix de l'oracle, × prix de l'USDC selon Chainlink (USDC/USD = 0,99987, feed trouvé par ENS `usdc-usd.data.eth`). Valeur nette au prix de l'oracle (collatéral − dette) : ~52 650 $ ; au prix de marché de l'AMM : 53 133 $.
+### 0. The position · `morpho:0x5613…:0x03BA…`
+- **What it is:** a row in Morpho's registry, for the (market, borrower) pair.
+- **Read:** `Morpho.position(id, user)` returns `(supplyShares 0, borrowShares 355,505,047,827,188,788, collateral 413,030.32 PT)`.
+- **Up-to-date debt:** the debt shares are converted into USDC **including accrued interest**. Morpho only updates its totals at each interaction (`lastUpdate`); here, the last one dates back about 45 h. So we add the interest ourselves, just like Morpho: `IRM.borrowRateView` gives the per-second rate, to which we apply `wTaylorCompounded`. Without this, the debt would be underestimated by 67 USDC on our position (1,322 USDC on the whole market). Cross-check: our calculation and the Morpho API differ by **0.0001%**.
+- **`value_usd = $409,819.73`**: value of the collateral at the oracle price, × the USDC price according to Chainlink (USDC/USD = 0.99987, feed found via ENS `usdc-usd.data.eth`). Net value at the oracle price (collateral − debt): ~$52,650; at the AMM market price: $53,133.
 
-### 1. Le marché de prêt · `morpho_market_5613b170`
-- **Ce que c'est :** un des marchés isolés du contrat unique Morpho Blue. Il est défini par 5 paramètres figés : USDC prêté, PT en collatéral, oracle, modèle de taux (IRM) et LLTV de 91,5 %.
-- **Preuve d'identité :** on recalcule `keccak256(abi.encode(MarketParams))` et on retombe exactement sur l'ID demandé.
-- **État :** 7,76 M USDC fournis, 6,99 M empruntés, soit **90,1 % d'utilisation**. Seulement 0,76 M USDC sont disponibles. Le taux d'emprunt est de **3,74 %/an**. L'IRM est bien l'AdaptiveCurveIrm officiel : son adresse correspond à la doc Morpho.
-- **Qui prête :** le vault **Pendle Ecosystem USDC** (Morpho Vault V2, 61,6 M$ sous gestion), d'après l'API Morpho. Ses nom, actif et curateur sont relus on-chain.
-- **Pourquoi c'est une dépendance :** si les prêteurs retirent leurs fonds, l'utilisation monte et le modèle de taux adaptatif fait grimper notre coût d'emprunt. Si le collatéral perd de la valeur, on est liquidé.
+### 1. The lending market · `morpho_market_5613b170`
+- **What it is:** one of the isolated markets of the single Morpho Blue contract. It is defined by 5 frozen parameters: USDC lent, PT as collateral, oracle, interest rate model (IRM) and LLTV of 91.5%.
+- **Proof of identity:** we recompute `keccak256(abi.encode(MarketParams))` and land exactly on the requested ID.
+- **State:** 7.76M USDC supplied, 6.99M borrowed, i.e. **90.1% utilization**. Only 0.76M USDC are available. The borrow rate is **3.74%/year**. The IRM is indeed the official AdaptiveCurveIrm: its address matches the Morpho docs.
+- **Who lends:** the **Pendle Ecosystem USDC** vault (Morpho Vault V2, $61.6M under management), according to the Morpho API. Its name, asset and curator are re-read on-chain.
+- **Why it is a dependency:** if the lenders withdraw their funds, utilization rises and the adaptive rate model pushes up our borrowing cost. If the collateral loses value, we get liquidated.
 
-### 2. L'oracle : le cœur du sujet
-Morpho appelle `oracle.price()` et lui fait **aveuglément confiance**. Démonter l'oracle, c'est savoir *quand* et *comment* on peut être liquidé.
+### 2. The oracle: the heart of the matter
+Morpho calls `oracle.price()` and **blindly trusts** it. Taking the oracle apart means knowing *when* and *how* we can be liquidated.
 
 ```
-oracle_meta_f8b29e  MetaOracleDeviationTimelock (Steakhouse) — clone EIP-1167, immuable — mode HYBRID
-├── PRIMAIRE (actif) : oracle_morpho_v2_8fca98  MorphoChainlinkOracleV2 — mode FIXED
-│     prix = SCALE × BASE_FEED_1                         (les 5 autres slots sont vides = 1)
-│     └── BASE_FEED_1 = PendleSparkLinearDiscountOracle : prix_PT = 1 − 6 %/an × temps restant
-└── SECOURS : oracle_morpho_v2_e2f4cf  MorphoChainlinkOracleV2 — mode MARKET
-      prix = SCALE × BASE_FEED_1 × BASE_FEED_2 / QUOTE_FEED_1
-      ├── BASE_FEED_1 = la même décote linéaire (fixe)
-      ├── BASE_FEED_2 = Chainlink USDe / USD  (prouvé par ENS usde-usd.data.eth)  → 0,99960 $
-      └── QUOTE_FEED_1 = DummyFeed : renvoie toujours 1 (sert à caler les décimales) → USDC = 1 en dur
+oracle_meta_f8b29e  MetaOracleDeviationTimelock (Steakhouse) — EIP-1167 clone, immutable — HYBRID mode
+├── PRIMARY (active): oracle_morpho_v2_8fca98  MorphoChainlinkOracleV2 — FIXED mode
+│     price = SCALE × BASE_FEED_1                        (the 5 other slots are empty = 1)
+│     └── BASE_FEED_1 = PendleSparkLinearDiscountOracle: PT_price = 1 − 6%/year × time remaining
+└── FALLBACK: oracle_morpho_v2_e2f4cf  MorphoChainlinkOracleV2 — MARKET mode
+      price = SCALE × BASE_FEED_1 × BASE_FEED_2 / QUOTE_FEED_1
+      ├── BASE_FEED_1 = the same linear discount (fixed)
+      ├── BASE_FEED_2 = Chainlink USDe / USD  (proven via ENS usde-usd.data.eth)  → $0.99960
+      └── QUOTE_FEED_1 = DummyFeed: always returns 1 (used to align decimals) → USDC = 1 hard-coded
 ```
 
-Ce qu'on a **prouvé** :
-- Les deux sous-oracles ont été créés par la factory officielle Morpho (`isMorphoChainlinkOracleV2 = true`).
-- Leur prix **recalculé** à partir des briques est **identique** à `price()`.
-- La formule de décote linéaire, recalculée, retombe sur la valeur du feed.
-- Le feed « Dummy » est constant : `roundId = 1` et `updatedAt` égal à l'horodatage du bloc. Personne ne le met à jour.
+What we **proved**:
+- Both sub-oracles were created by the official Morpho factory (`isMorphoChainlinkOracleV2 = true`).
+- Their price, **recomputed** from the building blocks, is **identical** to `price()`.
+- The linear discount formula, recomputed, lands on the feed's value.
+- The "Dummy" feed is constant: `roundId = 1` and `updatedAt` equals the block timestamp. Nobody updates it.
 
-**Prix fixé, taux interne, prix de marché : pourquoi ça change tout.**
-- **Primaire (fixe).** Le prix du PT ne dépend que du temps : 0,99235 aujourd'hui, 1,0000 le 26 novembre. Il suppose implicitement **1 USDe = 1 USDC**. Un depeg de l'USDe ne le fait **pas** bouger.
-- **Secours (marché).** Il multiplie la même décote par le **vrai** prix de l'USDe (Chainlink). Un depeg le fait baisser d'autant.
-- **La règle de bascule.** Elle est sourcée dans la [doc Steakhouse](https://steakhouse.financial/docs/products/infrastructure/metaoracle), et ses paramètres sont lus on-chain. L'écart vaut |primaire − secours| / moyenne. Seuil = **0,75 %**. N'importe qui peut appeler `challenge()`. Si l'écart tient encore après **57 600 s (16 h)**, `acceptChallenge()` bascule sur le secours. Le retour au primaire se fait après **86 400 s (24 h)** de reconvergence. Écart actuel : 0,04 %.
-- **Taux interne.** Le sUSDe vaut **1,25234 USDe** selon `convertToAssets`. C'est une comptabilité interne qui ne fait que monter, pas un prix de marché. Ici, aucun des deux oracles ne l'utilise : le PT est directement libellé en USDe (`SY.assetInfo()` → USDe).
+**Fixed price, internal rate, market price: why it changes everything.**
+- **Primary (fixed).** The PT price depends only on time: 0.99235 today, 1.0000 on 26 November. It implicitly assumes **1 USDe = 1 USDC**. A USDe depeg does **not** move it.
+- **Fallback (market).** It multiplies the same discount by the **real** USDe price (Chainlink). A depeg lowers it by the same amount.
+- **The switch rule.** It is sourced from the [Steakhouse docs](https://steakhouse.financial/docs/products/infrastructure/metaoracle), and its parameters are read on-chain. The deviation is |primary − fallback| / average. Threshold = **0.75%**. Anyone can call `challenge()`. If the deviation still holds after **57,600 s (16 h)**, `acceptChallenge()` switches to the fallback. Going back to the primary happens after **86,400 s (24 h)** of reconvergence. Current deviation: 0.04%.
+- **Internal rate.** sUSDe is worth **1.25234 USDe** according to `convertToAssets`. This is internal accounting that only goes up, not a market price. Here, neither oracle uses it: the PT is directly denominated in USDe (`SY.assetInfo()` → USDe).
 
-### Scénarios de depeg (calculés avec les valeurs du bloc)
-Le prix de secours vaut à peu près « prix primaire × prix de l'USDe ». On en déduit :
+### Depeg scenarios (computed with the block's values)
+The fallback price is roughly "primary price × USDe price". From this we derive:
 
-| Prix de marché de l'USDe | Ce qui se passe |
+| USDe market price | What happens |
 |---|---|
-| ≥ 0,9925 $ | Écart < 0,75 % : aucune bascule possible. Prix fixe, rien ne bouge. |
-| entre 0,9525 $ et 0,9925 $ | Un `challenge()` est possible. Si le depeg dure plus de 16 h, l'oracle bascule sur le marché. Notre health factor baisse, mais nous **ne sommes pas liquidables**. |
-| < 0,9525 $ **pendant plus de 16 h** | Après bascule, le prix passe sous 0,9452 USDC/PT (= prix actuel / HF) : **nous sommes liquidables**. Les liquidateurs prennent nos PT avec un bonus. |
-| < 0,9525 $ **pendant moins de 16 h** | Le prix reste fixe, nous ne sommes pas liquidés. Mais pendant cette fenêtre, n'importe qui peut acheter du PT bon marché et emprunter des USDC au prix fixe. **Ce sont les prêteurs** (dont le vault Pendle Ecosystem USDC) qui portent le risque. |
+| ≥ $0.9925 | Deviation < 0.75%: no switch possible. Fixed price, nothing moves. |
+| between $0.9525 and $0.9925 | A `challenge()` is possible. If the depeg lasts more than 16 h, the oracle switches to the market. Our health factor drops, but we are **not liquidatable**. |
+| < $0.9525 **for more than 16 h** | After the switch, the price falls below 0.9452 USDC/PT (= current price / HF): **we are liquidatable**. Liquidators take our PT with a bonus. |
+| < $0.9525 **for less than 16 h** | The price stays fixed, we are not liquidated. But during this window, anyone can buy cheap PT and borrow USDC at the fixed price. **The lenders** (including the Pendle Ecosystem USDC vault) carry the risk. |
 
-Autrement dit, le méta-oracle **amortit les depegs courts** (bon pour l'emprunteur, risque pour le prêteur) et **suit les depegs longs** (liquidations). Le délai de 16 h est le paramètre de risque central de cette position.
+In other words, the meta-oracle **absorbs short depegs** (good for the borrower, a risk for the lender) and **follows long depegs** (liquidations). The 16 h delay is the central risk parameter of this position.
 
-À noter aussi :
-- **Sans depeg**, la décote fait monter le prix du PT de +0,77 % d'ici l'échéance, tandis que la dette croît d'environ 0,48 % sur la même période (3,74 %/an). Le health factor s'améliore donc légèrement jusqu'au 26 novembre, à taux constant. Mais le taux est adaptatif et l'utilisation est à 90 % : à surveiller.
-- Le prix de l'oracle (0,99235) est **0,14 % sous** le prix implicite du pool Pendle (0,99379 USDe). L'oracle est un peu plus prudent que le marché aujourd'hui.
+Also worth noting:
+- **Without a depeg**, the discount makes the PT price rise by +0.77% until maturity, while the debt grows by about 0.48% over the same period (3.74%/year). So the health factor improves slightly until 26 November, at a constant rate. But the rate is adaptive and utilization is at 90%: keep an eye on it.
+- The oracle price (0.99235) is **0.14% below** the implied price of the Pendle pool (0.99379 USDe). The oracle is a bit more cautious than the market today.
 
-### 3. Le PT et son pool AMM (Pendle) · `pt_susde_26nov2026`, `pendle_plp_susde_26nov2026`
-- **PT** (Principal Token) : il vaut 1 actif comptable du SY (**l'USDe**, `SY.assetInfo()`) à l'échéance du **26/11/2026**. Analogie : une obligation zéro-coupon. Sa factory `0x3E6E…` est `yieldContractFactoryV6` dans les déploiements officiels de Pendle.
-- **SY-sUSDE** : l'emballage standard de Pendle. `yieldToken()` donne sUSDe. On peut y entrer en USDe ou en sUSDe, mais on en sort **en sUSDe uniquement** (`getTokensOut`). Le rachat du PT donne donc du sUSDe, qu'il faut ensuite déstaker pendant 1 jour (cooldown) pour obtenir de l'USDe.
-- **Pool Pendle :** il a été localisé par l'API Pendle, puis **prouvé on-chain** : `readTokens()` contient bien notre PT, et la `marketFactoryV6` répond `isValidMarket = true`. Réserves : 971 271 PT et 2 282 035 SY, pour une TVL de **3,82 M$** (l'API Pendle donne 3,82 M$ aussi). Taux implicite : 5,01 %.
-- **Pourquoi c'est une dépendance :** un liquidateur qui saisit nos PT doit les revendre sur ce pool, ou attendre 46 jours l'échéance. Un pool peu profond freine les liquidations et peut créer de la dette irrécouvrable.
+### 3. The PT and its AMM pool (Pendle) · `pt_susde_26nov2026`, `pendle_plp_susde_26nov2026`
+- **PT** (Principal Token): it is worth 1 unit of the SY's accounting asset (**USDe**, `SY.assetInfo()`) at the **26/11/2026** maturity. Analogy: a zero-coupon bond. Its factory `0x3E6E…` is `yieldContractFactoryV6` in Pendle's official deployments.
+- **SY-sUSDE**: Pendle's standard wrapper. `yieldToken()` gives sUSDe. You can enter it with USDe or sUSDe, but you exit it **in sUSDe only** (`getTokensOut`). Redeeming the PT therefore gives sUSDe, which must then be unstaked for 1 day (cooldown) to get USDe.
+- **Pendle pool:** it was located via the Pendle API, then **proven on-chain**: `readTokens()` does contain our PT, and the `marketFactoryV6` answers `isValidMarket = true`. Reserves: 971,271 PT and 2,282,035 SY, for a TVL of **$3.82M** (the Pendle API also gives $3.82M). Implied rate: 5.01%.
+- **Why it is a dependency:** a liquidator who seizes our PT must resell them on this pool, or wait 46 days for maturity. A shallow pool slows down liquidations and can create bad debt.
 
-### 4. La source de rendement et son émetteur (Ethena) · `susde`, `usde`, `ethena_labs`
-- **sUSDe :** coffre ERC-4626. 1 part = 1,25234 USDe ; 1,21 Md USDe déposés ; cooldown de retrait de **86 400 s (1 jour)**, lu on-chain.
-- **USDe :** dollar synthétique d'Ethena (4,78 Md en circulation). Il est adossé à du collatéral crypto couvert par des **ventes à découvert de contrats perpétuels**.
-- **Émetteur :** les adresses de l'USDe et du sUSDe correspondent à la page officielle « Key Addresses » d'Ethena (lien curé).
-- **Ce qui N'EST PAS on-chain (→ `curated.yaml`) :**
-  - les custodians « Off-Exchange Settlement » cités par Ethena : **Copper, Ceffu, Fireblocks** ;
-  - les exchanges de hedge cités : **Binance, Bybit, Bitget, Deribit, OKX**.
+### 4. The yield source and its issuer (Ethena) · `susde`, `usde`, `ethena_labs`
+- **sUSDe:** ERC-4626 vault. 1 share = 1.25234 USDe; 1.21B USDe deposited; withdrawal cooldown of **86,400 s (1 day)**, read on-chain.
+- **USDe:** Ethena's synthetic dollar (4.78B in circulation). It is backed by crypto collateral hedged with **short positions on perpetual contracts**.
+- **Issuer:** the USDe and sUSDe addresses match Ethena's official "Key Addresses" page (curated link).
+- **What is NOT on-chain (→ `curated.yaml`):**
+  - the "Off-Exchange Settlement" custodians cited by Ethena: **Copper, Ceffu, Fireblocks**;
+  - the hedging exchanges cited: **Binance, Bybit, Bitget, Deribit, OKX**.
 
-  Les deux listes sont introduites par « such as » dans la doc d'Ethena : ce sont des exemples, pas forcément la liste complète. La répartition n'est **pas** connue de notre graphe (poids 1.0 = borne haute). Elle se trouve dans les tableaux de bord de transparence d'Ethena : c'est une prochaine étape.
+  Both lists are introduced by "such as" in Ethena's docs: they are examples, not necessarily the complete list. The split is **not** known to our graph (weight 1.0 = upper bound). It can be found in Ethena's transparency dashboards: that is a next step.
 
-### 5. La chaîne · `ethereum`
-14 contrats ont du code au bloc #26162087 (`eth_getCode`), sur `eth_chainId = 1`.
+### 5. The chain · `ethereum`
+14 contracts have code at block #26162087 (`eth_getCode`), on `eth_chainId = 1`.
 
-### À côté de la pile : USDC · `usdc`, `circle`
-C'est l'actif de la dette. USDC est un **proxy upgradeable** (slot ZeppelinOS lu on-chain) : Circle peut en changer le code. L'adresse correspond à la page officielle de Circle.
+### Beside the stack: USDC · `usdc`, `circle`
+It is the debt asset. USDC is an **upgradeable proxy** (ZeppelinOS slot read on-chain): Circle can change its code. The address matches Circle's official page.
 
 ---
 
-## Questions ouvertes (vraies inconnues, pas des suppositions)
-- Quelle factory a déployé ce méta-oracle ? La doc Steakhouse ne publie pas son adresse, donc le lien avec Steakhouse n'est **pas prouvé on-chain** (`meta.design_note`).
-- Quelle est la répartition réelle des réserves et des hedges d'Ethena ? Elle est sur les tableaux de bord de transparence, mais n'est pas encore curée.
-- Quelle profondeur réelle pour une liquidation ? Il faudrait simuler une vente de PT sur le pool (glissement de prix). C'est le travail d'une autre équipe, mais `reserve_pt` et `reserve_sy` leur donnent la base.
+## Open questions (genuine unknowns, not assumptions)
+- Which factory deployed this meta-oracle? The Steakhouse docs do not publish its address, so the link with Steakhouse is **not proven on-chain** (`meta.design_note`).
+- What is the actual split of Ethena's reserves and hedges? It is on the transparency dashboards, but not curated yet.
+- What is the actual depth for a liquidation? We would need to simulate a PT sale on the pool (price slippage). That is another team's job, but `reserve_pt` and `reserve_sy` give them the basis.
 
 <details>
-<summary><b>Corrigé des 5 questions de compréhension</b> (essayez d'abord !)</summary>
+<summary><b>Answers to the 5 comprehension questions</b> (try first!)</summary>
 
-1. **L'USDe à 0,92 $ avec une décote linéaire sans feed USDe ?** Dans un marché à oracle *purement* fixe, on n'est pas liquidé : le prix ne bouge pas. Ce sont les prêteurs qui perdent si l'USDe ne remonte pas (dette irrécouvrable à l'échéance), et ils perdent plus tôt si des opportunistes empruntent contre du PT acheté au rabais. **Sur notre marché réel**, il y a le méta-oracle : après 16 h d'écart, il bascule sur le prix de marché. À 0,92 $ (< 0,9525 $), on devient liquidables.
-2. **Prouver les paramètres sans l'app Morpho :** on recalcule `keccak256(abi.encode(loanToken, collateralToken, oracle, irm, lltv))` à partir de `idToMarketParams(id)`, et on vérifie qu'on retombe sur `id` (champ `meta.market_id_check`).
-3. **1 PT à l'échéance :** il vaut 1 USDe (l'actif comptable du SY), payé en **SY**, échangeable en **sUSDe** (seul jeton de sortie). Ensuite, il faut un cooldown d'1 jour pour obtenir de l'USDe. « 1 PT = 1 sUSDe » est faux, car 1 sUSDe vaut déjà 1,25 USDe.
-4. **Non prouvable on-chain :** où sont les réserves d'Ethena (custodians) et sur quels exchanges sont ses hedges ; ou encore qui est derrière une adresse (ex. « cette adresse est l'USDC de Circle »). Preuve possible : l'URL officielle et sa date de relevé (`evidence_url`, `as_of` dans `curated.yaml`).
-5. **Le pool peu profond, même si l'oracle ne le lit pas :** les liquidateurs doivent revendre le PT saisi. S'ils ne peuvent pas le faire sans grosse perte, ils ne liquident pas, ou trop tard, et la dette irrécouvrable s'accumule.
+1. **USDe at $0.92 with a linear discount and no USDe feed?** In a market with a *purely* fixed oracle, we are not liquidated: the price does not move. The lenders are the ones who lose if USDe does not recover (bad debt at maturity), and they lose earlier if opportunists borrow against PT bought at a discount. **On our real market**, there is the meta-oracle: after 16 h of deviation, it switches to the market price. At $0.92 (< $0.9525), we become liquidatable.
+2. **Proving the parameters without the Morpho app:** we recompute `keccak256(abi.encode(loanToken, collateralToken, oracle, irm, lltv))` from `idToMarketParams(id)`, and check that we land on `id` (field `meta.market_id_check`).
+3. **1 PT at maturity:** it is worth 1 USDe (the SY's accounting asset), paid in **SY**, exchangeable for **sUSDe** (the only exit token). Then a 1-day cooldown is needed to get USDe. "1 PT = 1 sUSDe" is wrong, because 1 sUSDe is already worth 1.25 USDe.
+4. **Not provable on-chain:** where Ethena's reserves are (custodians) and on which exchanges its hedges are; or who is behind an address (e.g. "this address is Circle's USDC"). Possible evidence: the official URL and the date it was recorded (`evidence_url`, `as_of` in `curated.yaml`).
+5. **The shallow pool, even though the oracle does not read it:** liquidators must resell the seized PT. If they cannot do so without a big loss, they do not liquidate, or too late, and bad debt piles up.
 </details>

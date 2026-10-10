@@ -1,70 +1,70 @@
-# Script de démo (5 minutes) : « à 3 h du matin, Léa n'a qu'une question »
+# Demo script (5 minutes): "at 3 a.m., Léa has only one question"
 
-Fil rouge : les questions de Léa, risk manager d'astreinte (cadrage §1).
-1. Suis-je exposée, et par quel chemin ?
-2. Combien je peux perdre ?
-3. Combien coûte la sortie ?
-4. Je sors tout, une partie, ou j'attends ?
+Common thread: the questions of Léa, the on-call risk manager (framing note §1).
+1. Am I exposed, and through which path?
+2. How much can I lose?
+3. How much does exiting cost?
+4. Do I exit everything, part of it, or do I wait?
 
-Chiffres : réponses réelles enregistrées au bloc **#26162868** (`docs/api_examples/`), rejouées **sans réseau**.
+Numbers: real responses recorded at block **#26162868** (`docs/api_examples/`), replayed **without network**.
 
-## Avant la démo (une fois)
+## Before the demo (once)
 ```bash
 python -m pytest -q
 ```
 ```bash
 cd front && npm install && npm run dev
 ```
-Ouvrir http://localhost:5173 en plein écran (1280 px ou plus). La pastille en haut à droite doit dire **Enregistré**.
-**Coupez le Wi-Fi** : tout doit marcher.
+Open http://localhost:5173 in full screen (1280 px or more). The pill at the top right must say **Recorded**.
+**Turn off the Wi-Fi**: everything must work.
 
-Option « en direct » (RPC requis, `/book` prend ~1 min 30 au premier appel) : `PYTHONPATH=src python -m stacktrace.api`,
-puis choisir « direct » dans la pastille. À ne faire qu'après avoir préchauffé l'API.
-
----
-
-## 0:00 — Le portefeuille (30 s)
-**Écran :** diapositive 1, 11 poches, 26,4 M$.
-**À dire :** « On part d'une seule adresse réelle. L'outil trouve toutes ses poches, et chaque montant est prouvé on-chain
-au même bloc. Le brief parle d'un book en dix poches : en voici un vrai. »
-
-## 0:30 — Le verdict d'une poche (40 s) — *Décision, 25 %*
-**Action :** poche **Belem RWA EURCV**, diapositive 2.
-**À dire :** « STAY. Sortir maintenant coûte 643 $, mais seuls 22 % de la poche sont retirables tout de suite. Le seuil :
-sortez si vous croyez à plus de 0,6 % au risque principal. »
-
-## 1:10 — Par quel chemin ? (60 s) — *Découverte, 30 %*
-**Action :** diapositive 3, survoler le marché mGLOeuro, cliquer une arête pour afficher sa preuve.
-**À dire :** « Le graphe est construit par le code : vault, adapters, marchés, collatéraux, oracles. Chaque arête porte sa
-preuve : contrat, fonction, résultat, bloc. Et il révèle la concentration cachée : 85,8 % du vault est prêté contre un seul
-collatéral, mGLOeuro, dont le prix est posé par un administrateur. Il ne suit pas le marché. »
-
-## 2:10 — Combien je perds, combien coûte la sortie (50 s) — *Impact, 30 %*
-**Action :** diapositives 4 et 5.
-**À dire :** « Si mGLOeuro perd de la valeur, son oracle ne bouge pas : personne n'est liquidé à temps, et c'est la dette
-irrécouvrable des emprunteurs que paient les prêteurs, calculée emprunteur par emprunteur. »
-**Action :** passer (→) à la poche **Emprunt USDC contre PST**, diapositive 5.
-**À dire :** « Ici, la sortie coûte 13 % du capital, et au-delà de 25 % de la dette le marché ne peut plus absorber la
-vente. C'est l'arbitrage du brief : sortir coûte cher et c'est certain ; rester coûte peu, mais c'est incertain. »
-
-## 3:00 — Et si ça arrive ? (70 s) — *Décision, 25 %*
-**Action :** revenir à **Belem RWA EURCV**, diapositive 6, incident « Chute du collatéral mGLOeuro », sévérité 30 %.
-Monter « votre probabilité » de 0 à 20 %.
-**À dire :** « On ne demande pas à Léa d'estimer une perte : on lui demande si elle croit à plus de p\* (ici 0,7 % sur la semaine, soit un événement qui arrive à peu près
-une fois tous les 3 ans). Au-dessus du seuil,
-le verdict bascule en EXIT, et seulement pour la part sortable maintenant : 22 %. »
-
-## 4:10 — La concentration (30 s)
-**Action :** diapositive 7.
-**À dire :** « Morpho est présent dans les 11 poches, Chainlink ETH/USD dans 4, Circle dans 4 : une même dépendance
-cachée dans plusieurs poches. »
-
-## 4:40 — Phrase de fin (20 s)
-« Chaque chiffre a un statut : sourcé, on-chain, ou hypothèse affichée. Nos probabilités sont des hypothèses : c'est pour
-ça que la décision repose sur p\*. À 3 h du matin, Léa n'a qu'une question : est-ce que je crois à plus de p\* ? »
+"Live" option (RPC required, `/book` takes ~1 min 30 on the first call): `PYTHONPATH=src python -m stacktrace.api`,
+then choose "Live" in the pill. Only do this after warming up the API.
 
 ---
 
-## Plan B si quelque chose plante
-- Page blanche → vérifier que `npm run dev` tourne, recharger ; forcer `http://localhost:5173/?source=recorded`.
-- Plus rien ne marche → en terminal : `PYTHONPATH=src python -m risk.run` (fiche de risque de la position A, hors ligne).
+## 0:00 — The portfolio (30 s)
+**Screen:** slide 1, 11 pockets, $26.4M.
+**Say:** "We start from a single real address. The tool finds all its pockets, and every amount is proven on-chain
+at the same block. The brief talks about a book in ten pockets: here is a real one."
+
+## 0:30 — The verdict for one pocket (40 s) — *Decision, 25%*
+**Action:** pocket **Belem RWA EURCV**, slide 2.
+**Say:** "STAY. Exiting now costs $643, but only 22% of the pocket can be withdrawn right away. The threshold:
+exit if you put the main risk above 0.6%."
+
+## 1:10 — Which path? (60 s) — *Discovery, 30%*
+**Action:** slide 3, hover over the mGLOeuro market, click an edge to show its evidence.
+**Say:** "The graph is built by the code: vault, adapters, markets, collaterals, oracles. Every edge carries its
+evidence: contract, function, result, block. And it reveals the hidden concentration: 85.8% of the vault is lent against a single
+collateral, mGLOeuro, whose price is set by an administrator. It does not follow the market."
+
+## 2:10 — How much do I lose, what does exiting cost (50 s) — *Impact, 30%*
+**Action:** slides 4 and 5.
+**Say:** "If mGLOeuro loses value, its oracle does not move: nobody is liquidated in time, and it is the borrowers'
+bad debt that the lenders pay, computed borrower by borrower."
+**Action:** move on (→) to the pocket **Borrow USDC against PST**, slide 5.
+**Say:** "Here, exiting costs 13% of the capital, and beyond 25% of the debt the market can no longer absorb the
+sale. That is the brief's trade-off: exiting is expensive and certain; staying is cheap, but uncertain."
+
+## 3:00 — What if it happens? (70 s) — *Decision, 25%*
+**Action:** go back to **Belem RWA EURCV**, slide 6, incident "mGLOeuro collateral drop", severity 30%.
+Raise "Your estimate" from 0 to 20%.
+**Say:** "We do not ask Léa to estimate a loss: we ask her whether she believes in more than p\* (here 0.7% over the week, i.e. an event that happens roughly
+once every 3 years). Above the threshold,
+the verdict flips to EXIT, and only for the part that can be exited now: 22%."
+
+## 4:10 — Concentration (30 s)
+**Action:** slide 7.
+**Say:** "Morpho is present in all 11 pockets, Chainlink ETH/USD in 4, Circle in 4: the same dependency
+hidden in several pockets."
+
+## 4:40 — Closing line (20 s)
+"Every number has a status: sourced, on-chain, or displayed hypothesis. Our probabilities are hypotheses: that is
+why the decision rests on p\*. At 3 a.m., Léa has only one question: do I believe in more than p\*?"
+
+---
+
+## Plan B if something breaks
+- Blank page → check that `npm run dev` is running, reload; force `http://localhost:5173/?source=recorded`.
+- Nothing works anymore → in a terminal: `PYTHONPATH=src python -m risk.run` (risk sheet for position A, offline).
