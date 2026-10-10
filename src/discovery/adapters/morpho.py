@@ -10,13 +10,20 @@ Lectures utilisées (contrat Morpho Blue) :
     market(id)           → (totalSupplyAssets, totalSupplyShares, totalBorrowAssets, totalBorrowShares, lastUpdate, fee)
     position(id, user)   → (supplyShares, borrowShares, collateral)
 Liquidation : possible dès que  dette > collatéral × prix_oracle / 1e36 × lltv.
+
+Piège : Morpho ne met à jour les intérêts qu'à chaque interaction (`lastUpdate`). Entre deux,
+la dette stockée est EN RETARD. Comme Morpho, on accumule les intérêts « virtuellement » :
+    intérêts = totalBorrowAssets × wTaylorCompounded(taux_par_seconde, secondes_écoulées)
+avec taux_par_seconde = IRM.borrowRateView(MarketParams, Market).
 """
 from __future__ import annotations
+
+import math
 
 from eth_abi import encode
 from eth_utils import keccak
 
-from ..ctx import Ctx, checksum
+from ..ctx import Ctx, checksum, is_zero
 from ..graph import POSITION_KEY, Edge, Node
 from ..ids import morpho_market_id
 from . import Discovery, Task, jsonable, scaled
@@ -27,6 +34,10 @@ PARAMS_TYPES = ["address", "address", "address", "address", "uint256"]
 VIRTUAL_SHARES = 10**6   # constantes de SharesMathLib (Morpho Blue) : protègent contre l'inflation de parts
 VIRTUAL_ASSETS = 1
 ORACLE_PRICE_SCALE = 10**36
+WAD = 10**18
+SECONDS_PER_YEAR = 365 * 86400
+BORROW_RATE_VIEW = ("borrowRateView((address,address,address,address,uint256),"
+                    "(uint128,uint128,uint128,uint128,uint128,uint128))")
 
 
 def market_key(market_id: str) -> str:
@@ -38,6 +49,32 @@ def to_assets_up(shares: int, total_assets: int, total_shares: int) -> int:
     num = shares * (total_assets + VIRTUAL_ASSETS)
     den = total_shares + VIRTUAL_SHARES
     return -(-num // den)
+
+
+def w_taylor_compounded(x: int, n: int) -> int:
+    """e^(x·n) − 1 approché à l'ordre 3 (MathLib.wTaylorCompounded de Morpho Blue), en WAD."""
+    first = x * n
+    second = first * first // (2 * WAD)
+    third = second * first // (3 * WAD)
+    return first + second + third
+
+
+def accrue_interest(ctx: Ctx, m: dict) -> dict:
+    """Ajoute à `m` les totaux À JOUR des intérêts au bloc figé (comme MorphoBalancesLib.expectedMarketBalances)."""
+    elapsed = max(ctx.block_timestamp - m["last_update"], 0)
+    rate = None
+    if not is_zero(m["irm"]):
+        params = (m["loan_token"], m["collateral_token"], m["oracle"], m["irm"], m["lltv"])
+        rate = ctx.try_call(m["irm"], BORROW_RATE_VIEW, [params, m["state"]], ["uint256"])
+    interest = m["total_borrow_assets"] * w_taylor_compounded(rate, elapsed) // WAD if rate and elapsed else 0
+    m.update({
+        "borrow_rate_per_second": rate,
+        "seconds_since_last_update": elapsed,
+        "accrued_interest": interest,
+        "expected_total_borrow_assets": m["total_borrow_assets"] + interest,
+        "expected_total_supply_assets": m["total_supply_assets"] + interest,
+    })
+    return m
 
 
 def read_market(ctx: Ctx, market_id: str) -> dict:
@@ -52,14 +89,16 @@ def read_market(ctx: Ctx, market_id: str) -> dict:
     if recomputed != market_id.lower():
         raise ValueError(f"keccak256(MarketParams) = {recomputed} ≠ {market_id} : paramètres incohérents")
     state = ctx.call(morpho, "market(bytes32)", [mid], ["uint128"] * 6)
-    return {
+    m = {
         "morpho": checksum(morpho), "market_id": market_id.lower(), "mid": mid,
         "loan_token": loan, "collateral_token": collateral, "oracle": oracle, "irm": irm, "lltv": lltv,
+        "state": tuple(state),
         "total_supply_assets": state[0], "total_supply_shares": state[1],
         "total_borrow_assets": state[2], "total_borrow_shares": state[3],
         "last_update": state[4], "fee": state[5],
         "id_recomputed": recomputed,
     }
+    return accrue_interest(ctx, m)
 
 
 def discover_market(ctx: Ctx, m: dict) -> Discovery:
@@ -68,7 +107,8 @@ def discover_market(ctx: Ctx, m: dict) -> Discovery:
     if loan is None or coll is None:
         raise ValueError("loanToken / collateralToken n'est pas un ERC-20 lisible")
     lltv = scaled(m["lltv"], 18)
-    supply, borrow = m["total_supply_assets"], m["total_borrow_assets"]
+    supply, borrow = m["expected_total_supply_assets"], m["expected_total_borrow_assets"]
+    rate = m["borrow_rate_per_second"]
     official_irm = ctx.config.contracts.get("morpho_adaptive_curve_irm")
     meta = {
         "protocol": "morpho_blue",
@@ -86,6 +126,13 @@ def discover_market(ctx: Ctx, m: dict) -> Discovery:
         "total_borrow_human": scaled(borrow, loan["decimals"]),
         "available_liquidity_human": scaled(supply - borrow, loan["decimals"]),
         "utilization": round(borrow / supply, 6) if supply else None,
+        "totals_include_accrued_interest": True,
+        "accrued_interest_human": scaled(m["accrued_interest"], loan["decimals"]),
+        "seconds_since_last_update": m["seconds_since_last_update"],
+        "borrow_rate_per_second": jsonable(rate),
+        "borrow_apy": round(math.exp(rate * SECONDS_PER_YEAR / WAD) - 1, 6) if rate else None,
+        "borrow_rate_evidence": (ctx.ev(m["irm"], BORROW_RATE_VIEW.split("(")[0] + "(MarketParams,Market)", (), rate)
+                                 if rate is not None else "borrowRateView indisponible"),
         "fee": scaled(m["fee"], 18),
         "last_update": m["last_update"],
         "oracle_price_scale_decimals": 36 + loan["decimals"] - coll["decimals"],
@@ -141,7 +188,7 @@ def discover_position(ctx: Ctx, m: dict, user: str | None, value_usd_override: f
         m["morpho"], "position(bytes32,address)", [m["mid"], user], ["uint256", "uint128", "uint128"])
     if collateral == 0 and borrow_shares == 0 and supply_shares == 0:
         raise ValueError(f"L'utilisateur {user} n'a aucune position sur le marché {m['market_id']} au bloc {ctx.block}")
-    borrow = to_assets_up(borrow_shares, m["total_borrow_assets"], m["total_borrow_shares"])
+    borrow = to_assets_up(borrow_shares, m["expected_total_borrow_assets"], m["total_borrow_shares"])
     coll_value = collateral * price_raw // ORACLE_PRICE_SCALE             # en unités de l'actif prêté
     max_borrow = coll_value * lltv // 10**18
     hf = (max_borrow / borrow) if borrow else None

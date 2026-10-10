@@ -21,8 +21,10 @@ from eth_abi import decode, encode
 from eth_utils import keccak, to_checksum_address
 from web3 import Web3
 
+from .cache import CacheMissError
 from .config import Config
 from .http import CachedHttp
+from .rpc import OfflineError, RpcError
 
 ZERO_ADDRESS = "0x0000000000000000000000000000000000000000"
 
@@ -44,8 +46,19 @@ def selector(signature: str) -> bytes:
 
 
 def _arg_types(signature: str) -> list[str]:
+    """'f(address,(uint128,uint128))' → ['address', '(uint128,uint128)'] (virgules de 1er niveau seulement)."""
     inner = signature[signature.index("(") + 1: signature.rindex(")")]
-    return [t.strip() for t in inner.split(",") if t.strip()]
+    types, depth, current = [], 0, ""
+    for ch in inner:
+        if ch == "," and depth == 0:
+            types.append(current.strip())
+            current = ""
+            continue
+        depth += (ch == "(") - (ch == ")")
+        current += ch
+    if current.strip():
+        types.append(current.strip())
+    return types
 
 
 def _normalize(types: Sequence[str], values: Sequence[Any]) -> list[Any]:
@@ -91,9 +104,9 @@ class Ctx:
         try:
             raw = self.w3.eth.call({"to": checksum(address), "data": "0x" + data.hex()},
                                    block_identifier=self.block)
-        except Exception as e:  # revert, fonction absente...
-            if type(e).__name__ in ("CacheMissError", "OfflineError", "RpcError"):
-                raise
+        except (CacheMissError, OfflineError, RpcError):
+            raise                      # problème d'infrastructure : on ne le confond JAMAIS avec un revert
+        except Exception as e:         # revert, fonction absente... (ContractLogicError, etc.)
             raise CallFailed(f"{signature} @ {address}: {e}") from e
         if not raw:
             # Appeler une fonction sur une adresse sans code (EOA) renvoie "0x" : ce n'est PAS une réponse.

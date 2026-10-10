@@ -33,3 +33,63 @@ Nous sommes 3 débutants cherchant à apprendre un maximum de choses. Ne génèr
 2.  **Planifie :** Propose d'abord un plan d'action étape par étape et attends notre accord formel avant de coder.
 3.  **Code itératif :** Divise le travail en petites tâches testables (ex: d'abord se connecter au RPC, puis lire un contrat simple).
 4.  **Vérification :** Ne sors jamais une adresse de contrat ou un endpoint de ta mémoire. Demande-nous systématiquement de vérifier les adresses sur Etherscan ou dans la doc officielle.
+# Vocabulaire du graphe (FIGÉ — source de vérité : `src/discovery/vocab.py`)
+Toute modification passe par une PR relue par les 3 membres : les autres équipes consomment ces chaînes telles quelles.
+
+**Direction des arêtes (partout) :** `from` = celui qui DÉPEND, `to` = sa DÉPENDANCE. On lit « `<from>` `<type>` `<to>` ». Une panne se propage toujours à contre-courant des flèches (de `to` vers `from`) → « qui est touché si X casse » = les ancêtres de X.
+
+| `type` de nœud | Sens |
+|---|---|
+| `chain` | blockchain où le contrat s'exécute (`ethereum`) |
+| `asset` | tout token ERC-20 (PT, SY, sUSDe, USDe, USDC…), détail dans `meta.asset_kind` |
+| `issuer` | entité responsable d'un actif / protocole (Ethena Labs, Circle, Pendle, Morpho, Chainlink) |
+| `oracle` | tout contrat qui fournit un prix (assembleur ou feed), détail dans `meta.oracle_kind` |
+| `liquidity_venue` | AMM / pool où l'actif s'échange (pool Pendle PT/SY) |
+| `lending_market` | un marché de prêt isolé (1 marketId Morpho = 1 nœud) |
+| `vault` | coffre qui alloue des fonds dans des marchés (MetaMorpho / Morpho Vault V2) |
+| `offchain_counterparty` | entité hors chaîne qui détient des actifs ou des hedges (custodian, exchange) |
+
+| `type` d'arête | Lecture | Exemple |
+|---|---|---|
+| `deployed_in` | « mes fonds sont placés dans » | position → marché ; vault → marché ; PT → pool ; Ethena → custodian |
+| `collateralized_by` | « je suis garanti par » (= « est collatéral de » lu à l'envers) | marché → PT |
+| `lends` | « je prête cet actif » — **extension, à confirmer avec les orgas** | marché → USDC |
+| `priced_by` | « ma valeur est calculée par » | marché → oracle ; oracle → feed |
+| `redeemable_into` | « je peux être échangé contre » | PT → SY → sUSDe → USDe |
+| `issued_by` | « je suis émis / contrôlé par » | USDe → Ethena Labs ; feed → Chainlink |
+| `settled_on` | « je m'exécute sur » | tout contrat → ethereum |
+
+Formes autorisées (type du `from` → type du `to`) : voir `ALLOWED_EDGE_SHAPES` dans `vocab.py` (le validateur refuse le reste).
+
+**`source` :** `onchain` (preuve = `Contrat.fonction(args) = résultat @ 0xAdresse #bloc`), `api` (URL + date `fetched`), `curated` (URL officielle + date `relevé le`).
+
+**`meta.pricing_mode`** (oracles) : `market` | `fixed` | `internal_rate` | `hybrid` | `unknown`. On ne devine jamais : non prouvé = `unknown` + `meta.unresolved = true`.
+
+**`weight` :** part de l'exposition du `from` qui passe par cette arête, dans [0, 1]. 1.0 par défaut ; quand la part est inconnue (ex. répartition des hedges d'Ethena), 1.0 = borne haute conservatrice, et la preuve le dit.
+
+**Convention d'`id` :** slug snake_case déterministe calculé en un seul endroit (`graph.py::assign_ids`) :
+token → `symbol()` normalisé (`pt_susde_26nov2026`) · marché → `morpho_market_<8 hex de l'id>` · feed Chainlink → `feed_<description>` (`feed_usde_usd`) · autre contrat → `<kind>_<6 hex de l'adresse>` · hors chaîne → nom (`ethena_labs`) · chaîne → `ethereum`. Collision → suffixe `_<6 hex>`.
+La racine n'est pas un nœud : c'est l'objet `position`, et son `id` (`morpho:<marketId>:<user>`) peut être le `from` d'une arête `deployed_in`.
+`address` est toujours en checksum EIP-55 (ou `null` hors chaîne).
+
+# Règles d'implémentation (adaptateurs)
+1. Un adaptateur = une fonction `discover_xxx(ctx, cible) -> Discovery(nodes, edges, follow)`. Il ne modifie rien, il RENVOIE ; seul `build_graph.py` assemble.
+2. Aucun accès direct à web3 / requests : tout passe par `ctx.call / ctx.try_call / ctx.code / ctx.http` → caché dans `data/cache/` et lu au bloc figé `snapshot_block`.
+3. Un contrat inconnu n'est jamais deviné : nœud avec `meta.unresolved = true` + note.
+4. Une API sert à LOCALISER ; dès que possible on RE-PROUVE on-chain (ex. pool Pendle : `readTokens()` + `isValidMarket()`).
+5. Toute info hors chaîne va dans `curated.yaml` avec `evidence_url` (https) et `as_of` (date) — le chargeur refuse sinon.
+6. Les seules adresses écrites à la main sont les points d'entrée de `config.yaml` et les correspondances de `curated.yaml`, chacune avec sa source. Elles sont à cocher dans `docs/VERIFY.md`.
+
+# Commandes
+```bash
+pip install -r requirements.txt                       # Python 3.11
+python -m pytest                                       # tests (dont la position A rejouée hors ligne)
+$env:PYTHONPATH="src"; python -m discovery.build_graph --offline   # démo : 0 appel réseau (PowerShell)
+PYTHONPATH=src python -m discovery.build_graph --offline           # idem (bash)
+PYTHONPATH=src python -m discovery.inspect_graph [--impact usde] [--evidence]
+PYTHONPATH=src python -m discovery.validate output/graph.json
+```
+Rafraîchir les données : `snapshot_block: latest` dans `config.yaml` + `ETH_RPC_URL` dans `.env`, lancer `build_graph` en ligne, puis recopier le numéro de bloc affiché dans `config.yaml` (un bloc ancien exige un RPC archive).
+
+# Où en est-on (2026-10-10)
+Position A découverte de bout en bout : 28 nœuds, 45 arêtes, contrat valide, rejouable hors ligne. Voir `README.md`, `docs/POSITION_A.md` (ce qu'on a découvert), `docs/VERIFY.md` (à vérifier par l'équipe), `docs/NEXT_STEPS.md` (suite + prompts), `docs/AUDIT.md` (audits).

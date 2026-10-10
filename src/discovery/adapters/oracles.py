@@ -24,6 +24,7 @@ from .ens import chainlink_ens_name, resolve
 
 CHAINLINK_ISSUER_KEY = "issuer:chainlink"
 CHAINLINK_ENS_DOC = "https://docs.chain.link/data-feeds/ens"
+STEAKHOUSE_DOC = "https://steakhouse.financial/docs/products/infrastructure/metaoracle"
 
 ROUND = ("latestRoundData()", ["uint80", "int256", "uint256", "uint256", "uint80"])
 META_PROBES = [("primaryOracle()", ["address"]), ("backupOracle()", ["address"]), ("currentOracle()", ["address"])]
@@ -172,11 +173,14 @@ def _meta_oracle(ctx: Ctx, a: str, kind: str, scale: int | None) -> Discovery:
         "healing_timelock_seconds": ctx.try_call(a, "healingTimelockDuration()", returns=["uint256"]),
         "is_challenged": ctx.try_call(a, "isChallenged()", returns=["bool"]),
         "is_healing": ctx.try_call(a, "isHealing()", returns=["bool"]),
-        "switch_rule": ("Si l'écart primaire/secours dépasse deviation_threshold, n'importe qui peut ouvrir un "
-                        "« challenge » ; après challenge_timelock_seconds, l'oracle bascule sur le secours. "
-                        "Retour au primaire (« healing ») après healing_timelock_seconds. "
-                        "Interprétation des noms de fonctions et des messages de revert : à confirmer en lisant "
-                        "le code source vérifié sur Etherscan."),
+        "switch_rule": ("Écart = |primaire − secours| / moyenne. S'il dépasse deviation_threshold, n'importe qui "
+                        "peut appeler challenge() ; si l'écart tient encore après challenge_timelock_seconds, "
+                        "acceptChallenge() bascule sur le SECOURS. Retour au primaire via heal() puis "
+                        "acceptHealing() après healing_timelock_seconds de reconvergence. Fonctions sans permission."),
+        "switch_rule_source": STEAKHOUSE_DOC,
+        "design_note": ("Contrat MetaOracleDeviationTimelock conçu par Steakhouse Financial (doc ci-dessus), déployé "
+                        "en clones EIP-1167 par une factory. Lien entre CETTE adresse et la factory officielle : "
+                        "non prouvé on-chain (adresse de la factory non publiée dans la doc) → pas d'arête issued_by."),
         **_morpho_price(ctx, a, scale),
     }
     if scale is not None:

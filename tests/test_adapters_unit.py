@@ -167,3 +167,40 @@ def test_unknown_oracle_is_marked_unresolved_not_guessed():
 
 def test_round_constant_is_aggregator_v3_signature():
     assert ROUND[0] == "latestRoundData()" and len(ROUND[1]) == 5
+
+
+# ------------------------------------------------------------------ Position Morpho
+def _position_setup(collateral, borrow_shares):
+    from discovery.adapters.morpho import discover_position  # noqa: F401  (import local pour la lisibilité)
+    morpho, loan, coll, oracle, user = addr(100), addr(101), addr(102), addr(103), addr(104)
+    mid_hex = "0x" + "33" * 32
+    mid = bytes.fromhex(mid_hex[2:])
+    m = {"morpho": morpho, "market_id": mid_hex, "mid": mid, "loan_token": loan, "collateral_token": coll,
+         "oracle": oracle, "lltv": 915 * 10**15,
+         "expected_total_borrow_assets": 900 * 10**6, "total_borrow_shares": 900 * 10**6 * 10**6}
+    ctx = FakeCtx({
+        (loan, "decimals()", ()): 6, (coll, "decimals()", ()): 18,
+        (oracle, "price()", ()): 99 * 10**22,                       # 1 collatéral = 0,99 USDC (échelle 1e24)
+        (morpho, "position(bytes32,address)", (mid, user)): (0, borrow_shares, collateral),
+    })
+    return ctx, m, user
+
+
+def test_position_health_metrics():
+    from discovery.adapters.morpho import discover_position
+    ctx, m, user = _position_setup(collateral=1000 * 10**18, borrow_shares=800 * 10**6 * 10**6)
+    d, meta, value_usd = discover_position(ctx, m, user, None)
+    assert meta["collateral_value_in_loan_token"] == 990.0
+    assert abs(meta["borrow_human"] - 800.0) < 1e-3
+    assert abs(meta["health_factor"] - 990 * 0.915 / 800) < 1e-4
+    assert abs(value_usd - 990.0) < 1e-6
+    assert d.edges[0].type == "deployed_in" and "position(" in d.edges[0].evidence
+
+
+def test_empty_position_is_refused_and_hypothetical_is_allowed():
+    from discovery.adapters.morpho import discover_position
+    ctx, m, user = _position_setup(collateral=0, borrow_shares=0)
+    with pytest.raises(ValueError, match="aucune position"):
+        discover_position(ctx, m, user, None)
+    d, meta, value_usd = discover_position(ctx, m, None, 1_000_000)
+    assert meta["hypothetical"] is True and value_usd == 1_000_000

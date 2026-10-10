@@ -1,0 +1,16 @@
+{
+ "fetched_at": "2026-10-10T11:28:47+00:00",
+ "request": {
+  "method": "eth_call",
+  "params": [
+   {
+    "data": "0x56095e11",
+    "to": "0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465"
+   },
+   "0x18f3245"
+  ]
+ },
+ "response": {
+  "result": "0x000000000000000000000000c3866d726c204c0836e0677a31973c649888973d"
+ }
+}

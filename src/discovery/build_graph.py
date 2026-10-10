@@ -8,7 +8,8 @@ Déroulé :
   2. racine : le marché Morpho (paramètres prouvés par recalcul du hash) et la position ;
   3. exploration en largeur : chaque adaptateur renvoie des nœuds, des arêtes et les prochaines
      cibles (`follow`) — token, oracle, pool Pendle, vaults... jusqu'à épuisement ;
-  4. passes finales : émetteurs (curated.yaml), relations hors chaîne, chaîne de règlement ;
+  4. passes finales : valorisation (price_usd / tvl_usd), émetteurs (curated.yaml),
+     relations hors chaîne, chaîne de règlement ;
   5. validation stricte du contrat JSON, puis écriture de output/graph.json.
 """
 from __future__ import annotations
@@ -29,7 +30,7 @@ from .adapters.contracts import proxy_info
 from .adapters.curated import Curated, load_curated
 from .adapters.erc4626 import discover_erc4626
 from .adapters.erc20 import classify, read_token, token_node
-from .adapters.morpho import discover_market, discover_position, market_key, read_market
+from .adapters.morpho import discover_market, discover_position, loan_token_usd_price, market_key, read_market
 from .adapters.morpho_api import discover_supplying_vaults
 from .adapters.oracles import discover_oracle
 from .adapters.pendle import discover_pendle_market, discover_pt, discover_sy, find_market_via_api
@@ -41,6 +42,7 @@ from .http import CachedHttp
 from .ids import position_id
 from .rpc import check_chain, make_web3, resolve_snapshot_block
 from .validate import validate
+from .valuation import value_graph
 
 log = logging.getLogger("stacktrace")
 
@@ -172,6 +174,8 @@ def build(config: Config) -> tuple[dict, Report, DiskCache]:
         report.tasks_done += 1
 
     # --- passes finales
+    usd, usd_source = loan_token_usd_price(ctx)
+    value_graph(g, market_key(config.market_id), usd, usd_source, ctx.block_timestamp)
     add_issuers_and_offchain(g, curated, block, ctx.labels)
     onchain = [n for n in g.nodes.values() if n.address]
     apply(g, discover_chain(ctx, config.chain_name, chain_id, onchain), queue, report)

@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-10T11:21:18+00:00",
+ "fetched_at": "2026-10-10T11:28:50+00:00",
  "request": {
   "method": "GET",
   "params": {
@@ -765,27 +765,27 @@
     ],
     "chainId": 1,
     "details": {
-     "aggregatedApy": 0.10742652861956226,
+     "aggregatedApy": 0.10742672496630724,
      "feeRate": 0.003291613315749009,
-     "impliedApy": 0.18193110059826068,
-     "liquidity": 248493.10405364152,
-     "maxBoostedApy": 0.10742652861956226,
+     "impliedApy": 0.181931327314667,
+     "liquidity": 248495.1967123806,
+     "maxBoostedApy": 0.10742672496630724,
      "pendleApy": 0,
-     "ptRoi": 0.0281058259077398,
-     "swapFeeApy": 0.0023609849216104095,
+     "ptRoi": 0.02810340644881748,
+     "swapFeeApy": 0.002360981232590653,
      "totalActiveSupply": 124102.66771667732,
      "totalPt": 125390.1849120864,
      "totalSupply": 124102.66771667732,
      "totalSy": 126556.06866906633,
-     "totalTvl": 268446.2666923702,
+     "totalTvl": 268448.5596984814,
      "tradingVolume": 0,
      "underlyingApy": 0.030990055010993216,
      "yieldRange": {
       "max": 0.28,
       "min": 0.09
      },
-     "ytFloatingApy": -0.9999714939255673,
-     "ytRoi": -0.8236802742842408
+     "ytFloatingApy": -0.9999715200228096,
+     "ytRoi": -0.823680721561266
     },
     "expiry": "2026-12-10T00:00:00.000Z",
     "icon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/6cf7b875-a744-4217-8d28-615dee5732f2.svg",
@@ -799,29 +799,29 @@
      "amountPerSec": 5.574356590769611e-06,
      "buyPtApr": 1,
      "buyYtApr": 1,
-     "impliedApy": 0.18193110059826068,
+     "impliedApy": 0.181931327314667,
      "long": {
       "amountPerSec": 1.6250657996194056e-06,
-      "maxApy": 0.18593110059826068,
-      "minApy": 0.17793110059826067,
+      "maxApy": 0.185931327314667,
+      "minApy": 0.177931327314667,
       "mode": "RELATIVE"
      },
      "sellPtApr": 1,
      "sellYtApr": 1,
      "short": {
       "amountPerSec": 3.949290791150206e-06,
-      "maxApy": 0.18593110059826068,
-      "minApy": 0.17793110059826067,
+      "maxApy": 0.185931327314667,
+      "minApy": 0.177931327314667,
       "mode": "RELATIVE"
      }
     },
     "lpApyBreakdown": {
      "categories": [
       {
-       "apy": 0.015781454542313656,
+       "apy": 0.015781429912384112,
        "items": [
         {
-         "apy": 0.015781454542313656,
+         "apy": 0.015781429912384112,
          "id": "1-0xae8fc9288685516d2eca717056ca69303b348752",
          "source": "CONTRACT_DISCRETE",
          "tags": [
@@ -833,10 +833,10 @@
        "label": "Underlying Yield"
       },
       {
-       "apy": 0.08928404356960892,
+       "apy": 0.08928429942572191,
        "items": [
         {
-         "apy": 0.08928404356960892,
+         "apy": 0.08928429942572191,
          "id": "1-0xae8fc9288685516d2eca717056ca69303b348752",
          "tags": [
           "FIXED_YIELD",
@@ -847,10 +847,10 @@
        "label": "PT Fixed Yield"
       },
       {
-       "apy": 0.0023609849216104095,
+       "apy": 0.002360981232590653,
        "items": [
         {
-         "apy": 0.0023609849216104095,
+         "apy": 0.002360981232590653,
          "id": "1-0x03005432d0f02c46d48ccd859d677d261640e5e1",
          "tags": [
           "SWAP_FEE",
@@ -1669,7 +1669,7 @@
      "aggregatedApy": 0.32594544743753806,
      "feeRate": 0.0022185663433622604,
      "impliedApy": 0.33513457031239735,
-     "liquidity": 11970.732935088718,
+     "liquidity": 11970.560185088481,
      "maxBoostedApy": 0.32594544743753806,
      "pendleApy": 0,
      "ptRoi": 1.374772204965069e-07,
@@ -1678,7 +1678,7 @@
      "totalPt": 736291.5557322422,
      "totalSupply": 312906.0509005278,
      "totalSy": 26121.710075433486,
-     "totalTvl": 15235.35418348395,
+     "totalTvl": 15235.134321638141,
      "tradingVolume": 0,
      "underlyingApy": 0.0923449494558104,
      "yieldRange": {
@@ -2705,19 +2705,19 @@
     ],
     "chainId": 1,
     "details": {
-     "aggregatedApy": 0.0639211288882633,
+     "aggregatedApy": 0.06392516696928664,
      "feeRate": 0.002934884810274374,
-     "impliedApy": 0.14630088680940245,
-     "liquidity": 2232833.3804230276,
-     "maxBoostedApy": 0.06821160581119873,
-     "pendleApy": 0.002860317948623618,
-     "ptRoi": 0.020225431142832706,
-     "swapFeeApy": 0.00018552610322553065,
+     "impliedApy": 0.14630108992032098,
+     "liquidity": 2232851.112768048,
+     "maxBoostedApy": 0.06822147204732269,
+     "pendleApy": 0.0028642033853573698,
+     "ptRoi": 0.02022346989946322,
+     "swapFeeApy": 0.00018552590265730196,
      "totalActiveSupply": 970201.100391446,
      "totalPt": 947961.3701659205,
      "totalSupply": 970201.100391446,
      "totalSy": 1303891.7473460832,
-     "totalTvl": 5563860.494962492,
+     "totalTvl": 5563909.733845801,
      "tradingVolume": 26566.115196968814,
      "underlyingApy": 0,
      "yieldRange": {
@@ -2737,21 +2737,21 @@
     "isVolatile": false,
     "limitOrderIncentive": {
      "amountPerSec": 3.3741992177635814e-05,
-     "buyPtApr": 0.0034201446562190296,
-     "buyYtApr": 0.3803484419511128,
-     "impliedApy": 0.14630088680940245,
+     "buyPtApr": 0.0033088871903224045,
+     "buyYtApr": 0.3544465839454417,
+     "impliedApy": 0.14630108992032098,
      "long": {
       "amountPerSec": 1.803693261720533e-05,
-      "maxApy": 0.15030088680940246,
-      "minApy": 0.14230088680940245,
+      "maxApy": 0.15030108992032098,
+      "minApy": 0.14230108992032098,
       "mode": "RELATIVE"
      },
-     "sellPtApr": 0.00769565870561363,
-     "sellYtApr": 0.16906046762178628,
+     "sellPtApr": 0.007170956263563455,
+     "sellYtApr": 0.16357255446999236,
      "short": {
       "amountPerSec": 1.5705059560430487e-05,
-      "maxApy": 0.15030088680940246,
-      "minApy": 0.14230088680940245,
+      "maxApy": 0.15030108992032098,
+      "minApy": 0.14230108992032098,
       "mode": "RELATIVE"
      }
     },
@@ -2773,10 +2773,10 @@
        "label": "Underlying Yield"
       },
       {
-       "apy": 0.060875249747518706,
+       "apy": 0.06087542660054856,
        "items": [
         {
-         "apy": 0.060875249747518706,
+         "apy": 0.06087542660054856,
          "id": "1-0xa1fa7777974312f7d801a8880714a218f76233f8",
          "tags": [
           "FIXED_YIELD",
@@ -2787,10 +2787,10 @@
        "label": "PT Fixed Yield"
       },
       {
-       "apy": 0.003045844051849149,
+       "apy": 0.003049729288014672,
        "items": [
         {
-         "apy": 0.00018552610322553065,
+         "apy": 0.00018552590265730196,
          "id": "1-0x0bef762d2094ac80821c657dea6783fc43435292",
          "tags": [
           "SWAP_FEE",
@@ -2798,7 +2798,7 @@
          ]
         },
         {
-         "apy": 0.0028603179486236183,
+         "apy": 0.00286420338535737,
          "id": "PENDLE",
          "tags": [
           "INCENTIVE",
@@ -2906,7 +2906,7 @@
      "aggregatedApy": 0.07177037736350278,
      "feeRate": 0.0004999999993486881,
      "impliedApy": 0,
-     "liquidity": 189085.50110804316,
+     "liquidity": 189058.7484883301,
      "maxBoostedApy": 0.15316260445346955,
      "pendleApy": 0.05426148472664452,
      "ptRoi": 1.4823621441450996e-08,
@@ -2915,7 +2915,7 @@
      "totalPt": 1183.1415684935423,
      "totalSupply": 1303.9183462491064,
      "totalSy": 1475.7262594489882,
-     "totalTvl": 190170.35053143525,
+     "totalTvl": 190143.4444226186,
      "tradingVolume": 0,
      "underlyingApy": 0.030182717281217464,
      "yieldRange": {
@@ -3077,27 +3077,27 @@
     ],
     "chainId": 1,
     "details": {
-     "aggregatedApy": 0.1529197766211741,
+     "aggregatedApy": 0.15291994189498082,
      "feeRate": 0.002731891893999805,
-     "impliedApy": 0.15350000000000064,
-     "liquidity": 149808.62099114814,
-     "maxBoostedApy": 0.1529197766211741,
+     "impliedApy": 0.15350000000000108,
+     "liquidity": 149810.0546101526,
+     "maxBoostedApy": 0.15291994189498082,
      "pendleApy": 0,
-     "ptRoi": 0.010037196126848391,
-     "swapFeeApy": 1.0848314666578318e-06,
+     "ptRoi": 0.010035137993696264,
+     "swapFeeApy": 1.0848312583799924e-06,
      "totalActiveSupply": 73823.44337567432,
      "totalPt": 146355.6761384914,
      "totalSupply": 73823.44337567432,
      "totalSy": 5352.066033447991,
-     "totalTvl": 386441.11369201704,
+     "totalTvl": 386444.8136885781,
      "tradingVolume": 0,
-     "underlyingApy": 0.13949838571863338,
+     "underlyingApy": 0.13950236430527685,
      "yieldRange": {
       "max": 0.12999999999999998,
       "min": 0.07
      },
-     "ytFloatingApy": -0.846651285121268,
-     "ytRoi": -0.122901537102448
+     "ytFloatingApy": -0.8466553362015228,
+     "ytRoi": -0.12287968962622331
     },
     "expiry": "2026-11-05T00:00:00.000Z",
     "icon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/02532948-8884-4c44-9bf0-27723bc59245.svg",
@@ -3111,29 +3111,29 @@
      "amountPerSec": 1.7104042040139097e-06,
      "buyPtApr": 1,
      "buyYtApr": 1,
-     "impliedApy": 0.15350000000000064,
+     "impliedApy": 0.15350000000000108,
      "long": {
       "amountPerSec": 8.552021020069549e-07,
-      "maxApy": 0.15750000000000064,
-      "minApy": 0.14950000000000063,
+      "maxApy": 0.15750000000000108,
+      "minApy": 0.14950000000000108,
       "mode": "RELATIVE"
      },
-     "sellPtApr": 0.05088863849396939,
-     "sellYtApr": 1.0000000000000002,
+     "sellPtApr": 0.051047246338146286,
+     "sellYtApr": 1,
      "short": {
       "amountPerSec": 8.552021020069549e-07,
-      "maxApy": 0.15750000000000064,
-      "minApy": 0.14950000000000063,
+      "maxApy": 0.15750000000000108,
+      "minApy": 0.14950000000000108,
       "mode": "RELATIVE"
      }
     },
     "lpApyBreakdown": {
      "categories": [
       {
-       "apy": 0.005791586592506075,
+       "apy": 0.005791750708533435,
        "items": [
         {
-         "apy": 0.005791586592506075,
+         "apy": 0.005791750708533435,
          "id": "1-0xbd373c9d3d8976a4fecc504a93c768bbe8c3227c",
          "source": "CONTRACT",
          "tags": [
@@ -3145,10 +3145,10 @@
        "label": "Underlying Yield"
       },
       {
-       "apy": 0.14712710516419367,
+       "apy": 0.1471271063348128,
        "items": [
         {
-         "apy": 0.14712710516419367,
+         "apy": 0.1471271063348128,
          "id": "1-0xbd373c9d3d8976a4fecc504a93c768bbe8c3227c",
          "tags": [
           "FIXED_YIELD",
@@ -3159,10 +3159,10 @@
        "label": "PT Fixed Yield"
       },
       {
-       "apy": 1.0848314666578318e-06,
+       "apy": 1.0848312583799924e-06,
        "items": [
         {
-         "apy": 1.0848314666578318e-06,
+         "apy": 1.0848312583799924e-06,
          "id": "1-0x0e201d27ded56cf4a0da8853d7604743de217435",
          "tags": [
           "SWAP_FEE",
@@ -3188,7 +3188,7 @@
      "auditedUrl": "",
      "conversionRate": {
       "fromUnit": "srRoyAPYUSD",
-      "rate": 1.1727200737485082,
+      "rate": 1.1727230351829918,
       "toUnit": "USD worth of apyUSD staked in Royco Senior Tranche"
      },
      "deposit": {
@@ -3258,10 +3258,10 @@
     "ytApyBreakdown": {
      "categories": [
       {
-       "apy": 0.13949838571863338,
+       "apy": 0.13950236430527685,
        "items": [
         {
-         "apy": 0.13949838571863338,
+         "apy": 0.13950236430527685,
          "id": "1-0xbd373c9d3d8976a4fecc504a93c768bbe8c3227c",
          "source": "CONTRACT",
          "tags": [
@@ -4468,7 +4468,7 @@
      "aggregatedApy": 0.43240136354149783,
      "feeRate": 0.0013391879196598122,
      "impliedApy": 0.44485812591248974,
-     "liquidity": 1.4664845831595519,
+     "liquidity": 1.4670561757182232,
      "maxBoostedApy": 0.43240136354149783,
      "pendleApy": 0,
      "ptRoi": 1.750433629155168e-07,
@@ -4477,7 +4477,7 @@
      "totalPt": 937352.762847,
      "totalSupply": 3.84261624651e-07,
      "totalSy": 34084.677447,
-     "totalTvl": 647.6710482280772,
+     "totalTvl": 647.9232944464338,
      "tradingVolume": 0,
      "underlyingApy": 0.07455021811950968,
      "yieldRange": {
@@ -5334,27 +5334,27 @@
     ],
     "chainId": 1,
     "details": {
-     "aggregatedApy": 0.1036184782122551,
+     "aggregatedApy": 0.10362290419573575,
      "feeRate": 0.002216131296696844,
-     "impliedApy": 0.11786201080127001,
-     "liquidity": 12409834.500992844,
-     "maxBoostedApy": 0.10815970302791872,
-     "pendleApy": 0.0030274832104424092,
-     "ptRoi": 0.01864796731608087,
-     "swapFeeApy": 0.008374832857417358,
+     "impliedApy": 0.11786215373301401,
+     "liquidity": 12408944.019398814,
+     "maxBoostedApy": 0.10817066022382646,
+     "pendleApy": 0.003031837352060473,
+     "ptRoi": 0.01864636939823283,
+     "swapFeeApy": 0.008374825111719053,
      "totalActiveSupply": 5.734045993332971,
      "totalPt": 5492209.368841,
      "totalSupply": 5.734045993332971,
      "totalSy": 6343295.135047784,
-     "totalTvl": 234695406.46638837,
+     "totalTvl": 234678832.0720696,
      "tradingVolume": 2669709.9210240357,
      "underlyingApy": 0.07250958967277388,
      "yieldRange": {
       "max": 0.18999999999999997,
       "min": 0.060000000000000005
      },
-     "ytFloatingApy": -0.9512673628672327,
-     "ytRoi": -0.39409621175545384
+     "ytFloatingApy": -0.9512807462750273,
+     "ytRoi": -0.3940976840444924
     },
     "expiry": "2026-12-10T00:00:00.000Z",
     "externalProtocols": {
@@ -5368,7 +5368,7 @@
        "integrationUrl": "https://app.morpho.org/ethereum/market/0x1e9d614631a7df0ec07fb05b2c8cb2491575fd1a63a33bf187a6afb295a4fc64",
        "liquidity": 12760860.808058096,
        "liquidityToTargetUsd": 854690.8391872005,
-       "maxLoopingApy": 0.318915596738528,
+       "maxLoopingApy": 0.3189132866272922,
        "maxLtv": 0.915,
        "optimalUtilization": 0.9,
        "protocol": {
@@ -5390,7 +5390,7 @@
        "integrationUrl": "https://app.morpho.org/ethereum/market/0x6acd18854e43f93f5a90446004c35c72a68af1ad99f08cb247782ce6457914ca",
        "liquidity": 1552403.9668007249,
        "liquidityToTargetUsd": 559133.2296659275,
-       "maxLoopingApy": 0.414879572440238,
+       "maxLoopingApy": 0.41487621097573757,
        "maxLtv": 0.915,
        "optimalUtilization": 0.9,
        "protocol": {
@@ -5413,7 +5413,7 @@
        "integrationUrl": "https://app.euler.finance/positions/0x6876374e4ac054bfca389109570ae15b4d25e279/0xd5b786e64eb320940eefb1570fa4c82ec54dbf72?network=1",
        "liquidity": 4423.262108052972,
        "liquidityToTargetUsd": 0,
-       "maxLoopingApy": 0.3142388625948489,
+       "maxLoopingApy": 0.31423804527130167,
        "maxLtv": 0.92,
        "optimalUtilization": 0.9199999999254942,
        "protocol": {
@@ -5440,31 +5440,31 @@
     "isVolatile": false,
     "limitOrderIncentive": {
      "amountPerSec": 0.0004279996310383859,
-     "buyPtApr": 0.008801726371601065,
-     "buyYtApr": 0.3976913661022539,
-     "impliedApy": 0.11786201080127001,
+     "buyPtApr": 0.008831288746481357,
+     "buyYtApr": 0.3990230600304322,
+     "impliedApy": 0.11786215373301401,
      "long": {
       "amountPerSec": 0.00034660135314587196,
-      "maxApy": 0.12186201080127002,
-      "minApy": 0.11386201080127001,
+      "maxApy": 0.12186215373301401,
+      "minApy": 0.113862153733014,
       "mode": "RELATIVE"
      },
-     "sellPtApr": 0.00741674976836223,
-     "sellYtApr": 0.4719187560328106,
+     "sellPtApr": 0.007441149693791567,
+     "sellYtApr": 0.47353133661565705,
      "short": {
       "amountPerSec": 8.139827789251398e-05,
-      "maxApy": 0.12186201080127002,
-      "minApy": 0.11386201080127001,
+      "maxApy": 0.12186215373301401,
+      "minApy": 0.113862153733014,
       "mode": "RELATIVE"
      }
     },
     "lpApyBreakdown": {
      "categories": [
       {
-       "apy": 0.04100267565734693,
+       "apy": 0.041002637889552475,
        "items": [
         {
-         "apy": 0.04100267565734693,
+         "apy": 0.041002637889552475,
          "id": "1-0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
          "source": "CONTRACT",
          "tags": [
@@ -5476,10 +5476,10 @@
        "label": "Underlying Yield"
       },
       {
-       "apy": 0.05121347751048274,
+       "apy": 0.05121360100768918,
        "items": [
         {
-         "apy": 0.05121347751048274,
+         "apy": 0.05121360100768918,
          "id": "1-0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
          "tags": [
           "FIXED_YIELD",
@@ -5490,10 +5490,10 @@
        "label": "PT Fixed Yield"
       },
       {
-       "apy": 0.011402316067859767,
+       "apy": 0.011406662463779527,
        "items": [
         {
-         "apy": 0.008374832857417358,
+         "apy": 0.008374825111719053,
          "id": "1-0x13285bcbc27f92b47b4edb99d744c07b48c977c0",
          "tags": [
           "SWAP_FEE",
@@ -5501,7 +5501,7 @@
          ]
         },
         {
-         "apy": 0.0030274832104424092,
+         "apy": 0.0030318373520604736,
          "id": "PENDLE",
          "tags": [
           "INCENTIVE",
@@ -5775,7 +5775,7 @@
      "aggregatedApy": 0.2621064943157899,
      "feeRate": 0.0015580246493061,
      "impliedApy": 0.26862544834550217,
-     "liquidity": 2.465335160127421,
+     "liquidity": 2.4652995828029742,
      "maxBoostedApy": 0.2621064943157899,
      "pendleApy": 0,
      "ptRoi": 1.131725664293981e-07,
@@ -5784,7 +5784,7 @@
      "totalPt": 965967.69498,
      "totalSupply": 4.56325109269e-07,
      "totalSy": 43462.143148,
-     "totalTvl": 2.4707127764609016,
+     "totalTvl": 2.4706771215319145,
      "tradingVolume": 0,
      "underlyingApy": 0.09153187870724011,
      "yieldRange": {
@@ -6275,27 +6275,27 @@
     ],
     "chainId": 1,
     "details": {
-     "aggregatedApy": 0.08963961036406835,
+     "aggregatedApy": 0.08964224736704642,
      "feeRate": 0.0016561769372598345,
-     "impliedApy": 0.08608507018370726,
-     "liquidity": 1178641.4253468718,
-     "maxBoostedApy": 0.0925308328167134,
-     "pendleApy": 0.0019274816350966942,
-     "ptRoi": 0.0664900914890787,
-     "swapFeeApy": 1.1364172816108464e-05,
+     "impliedApy": 0.08608509207498072,
+     "liquidity": 1178644.6887322648,
+     "maxBoostedApy": 0.09253741221307483,
+     "pendleApy": 0.0019301098973522769,
+     "ptRoi": 0.06648885153591477,
+     "swapFeeApy": 1.1364165012572869e-05,
      "totalActiveSupply": 553786.7356078798,
      "totalPt": 554191.7965428163,
      "totalSupply": 553786.7356078798,
      "totalSy": 544635.1025022514,
-     "totalTvl": 1194753.2309420179,
+     "totalTvl": 1194756.553185405,
      "tradingVolume": 0,
      "underlyingApy": 0.08895561169132704,
      "yieldRange": {
       "max": 0.14,
       "min": 0.04
      },
-     "ytFloatingApy": 0.06021867158715977,
-     "ytRoi": 0.04663783694558088
+     "ytFloatingApy": 0.06021785619445019,
+     "ytRoi": 0.04663633615843055
     },
     "expiry": "2027-07-22T00:00:00.000Z",
     "icon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/99c2799d-583b-46da-ac06-e33de0c5a7b3.svg",
@@ -6307,31 +6307,31 @@
     "isPrime": false,
     "limitOrderIncentive": {
      "amountPerSec": 4.922479288043328e-06,
-     "buyPtApr": 0.09861855397951957,
-     "buyYtApr": 1.0000000000000002,
-     "impliedApy": 0.08608507018370726,
+     "buyPtApr": 0.09894200878907636,
+     "buyYtApr": 1,
+     "impliedApy": 0.08608509207498072,
      "long": {
       "amountPerSec": 2.461239644021664e-06,
-      "maxApy": 0.08909804764013701,
-      "minApy": 0.0830720927272775,
+      "maxApy": 0.08909807029760504,
+      "minApy": 0.0830721138523564,
       "mode": "RELATIVE"
      },
-     "sellPtApr": 0.2589453525866458,
+     "sellPtApr": 0.2597907800672649,
      "sellYtApr": 1,
      "short": {
       "amountPerSec": 2.461239644021664e-06,
-      "maxApy": 0.09008507018370726,
-      "minApy": 0.08208507018370725,
+      "maxApy": 0.09008509207498072,
+      "minApy": 0.08208509207498071,
       "mode": "RELATIVE"
      }
     },
     "lpApyBreakdown": {
      "categories": [
       {
-       "apy": 0.05006899162997187,
+       "apy": 0.0500689572415122,
        "items": [
         {
-         "apy": 0.05006899162997187,
+         "apy": 0.0500689572415122,
          "id": "1-0xda67b4284609d2d48e5d10cfac411572727dc1ed",
          "source": "CONTRACT",
          "tags": [
@@ -6343,10 +6343,10 @@
        "label": "Underlying Yield"
       },
       {
-       "apy": 0.03763177334786735,
+       "apy": 0.03763181619633163,
        "items": [
         {
-         "apy": 0.03763177334786735,
+         "apy": 0.03763181619633163,
          "id": "1-0xda67b4284609d2d48e5d10cfac411572727dc1ed",
          "tags": [
           "FIXED_YIELD",
@@ -6357,10 +6357,10 @@
        "label": "PT Fixed Yield"
       },
       {
-       "apy": 0.0019388458079128027,
+       "apy": 0.0019414740623648497,
        "items": [
         {
-         "apy": 1.1364172816108464e-05,
+         "apy": 1.1364165012572869e-05,
          "id": "1-0x16d3126ee82ee36816499fb9db6f647c6addd09c",
          "tags": [
           "SWAP_FEE",
@@ -6368,7 +6368,7 @@
          ]
         },
         {
-         "apy": 0.0019274816350966942,
+         "apy": 0.0019301098973522769,
          "id": "PENDLE",
          "tags": [
           "INCENTIVE",
@@ -6482,7 +6482,7 @@
      "aggregatedApy": 0.22150120371331877,
      "feeRate": 0.0007999999999999119,
      "impliedApy": 0.22759246388872745,
-     "liquidity": 2003577.4830050485,
+     "liquidity": 2003564.3795033693,
      "maxBoostedApy": 0.22350512791802096,
      "pendleApy": 0.0013359494698014596,
      "ptRoi": 9.753373042542535e-08,
@@ -6491,7 +6491,7 @@
      "totalPt": 6743824.728075795,
      "totalSupply": 2317401.8406985034,
      "totalSy": 227094.76947952792,
-     "totalTvl": 2040669.970973065,
+     "totalTvl": 2040656.6235295448,
      "tradingVolume": 0,
      "underlyingApy": 0.04077772549094805,
      "yieldRange": {
@@ -7346,7 +7346,7 @@
      "aggregatedApy": 0,
      "feeRate": 0.009999999999830145,
      "impliedApy": 0,
-     "liquidity": 199576.64196980587,
+     "liquidity": 199581.45365743755,
      "maxBoostedApy": 0,
      "pendleApy": 0,
      "ptRoi": 0,
@@ -7355,7 +7355,7 @@
      "totalPt": 134533.3593587664,
      "totalSupply": 251874.10087574038,
      "totalSy": 354908.29860788904,
-     "totalTvl": 375385.9132318119,
+     "totalTvl": 375394.9635882964,
      "tradingVolume": 0,
      "underlyingApy": 0,
      "yieldRange": {
@@ -9407,27 +9407,27 @@
     ],
     "chainId": 1,
     "details": {
-     "aggregatedApy": 0.08632636331805713,
+     "aggregatedApy": 0.08632409965168453,
      "feeRate": 0.0018401983250324605,
-     "impliedApy": 0.09826736265275549,
-     "liquidity": 3320260.3952309187,
-     "maxBoostedApy": 0.09033189895015792,
-     "pendleApy": 0.002670357088067195,
-     "ptRoi": 0.0029646427317502333,
-     "swapFeeApy": 0.001071889118588354,
+     "impliedApy": 0.09826798357160693,
+     "liquidity": 3320287.668193271,
+     "maxBoostedApy": 0.09033507528368546,
+     "pendleApy": 0.002673983754667293,
+     "ptRoi": 0.002963319141303211,
+     "swapFeeApy": 0.0010718886476548395,
      "totalActiveSupply": 1578716.7530487252,
      "totalPt": 1902551.002096878,
      "totalSupply": 1578716.7530487252,
      "totalSy": 1301628.9873521142,
-     "totalTvl": 8269719.147401443,
+     "totalTvl": 8269788.706927676,
      "tradingVolume": 747812.4945580853,
-     "underlyingApy": 0.061687466623006726,
+     "underlyingApy": 0.06167288978279162,
      "yieldRange": {
       "max": 0.13999999999999999,
       "min": 0.045000000000000005
      },
-     "ytFloatingApy": -0.9999998551190811,
-     "ytRoi": -0.3918449771541507
+     "ytFloatingApy": -0.9999998572214838,
+     "ytRoi": -0.3919889292651004
     },
     "expiry": "2026-10-22T00:00:00.000Z",
     "icon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/f12d8b2c-ca75-4df5-8a60-5c157afc2c6a.svg",
@@ -9442,30 +9442,30 @@
     "limitOrderIncentive": {
      "amountPerSec": 2.8395870695408664e-05,
      "buyPtApr": 1,
-     "buyYtApr": 0.4450399393510124,
-     "impliedApy": 0.09826736265275549,
+     "buyYtApr": 0.44647343940993967,
+     "impliedApy": 0.09826798357160693,
      "long": {
       "amountPerSec": 1.2873758369224598e-05,
-      "maxApy": 0.10170672034560192,
-      "minApy": 0.09482800495990905,
+      "maxApy": 0.10170736299661318,
+      "minApy": 0.09482860414660069,
       "mode": "RELATIVE"
      },
-     "sellPtApr": 0.001320517945516892,
-     "sellYtApr": 1.0000000000000002,
+     "sellPtApr": 0.001324371849636592,
+     "sellYtApr": 1,
      "short": {
       "amountPerSec": 1.5522112326184065e-05,
-      "maxApy": 0.10226736265275549,
-      "minApy": 0.09426736265275548,
+      "maxApy": 0.10226798357160694,
+      "minApy": 0.09426798357160693,
       "mode": "RELATIVE"
      }
     },
     "lpApyBreakdown": {
      "categories": [
       {
-       "apy": 0.02644785667303735,
+       "apy": 0.026441595394013855,
        "items": [
         {
-         "apy": 0.02644785667303735,
+         "apy": 0.026441595394013855,
          "id": "1-0x48f9e38f3070ad8945dfeae3fa70987722e3d89c",
          "source": "CONTRACT",
          "tags": [
@@ -9477,10 +9477,10 @@
        "label": "Underlying Yield"
       },
       {
-       "apy": 0.056136257821354264,
+       "apy": 0.0561366310285801,
        "items": [
         {
-         "apy": 0.056136257821354264,
+         "apy": 0.0561366310285801,
          "id": "1-0x48f9e38f3070ad8945dfeae3fa70987722e3d89c",
          "tags": [
           "FIXED_YIELD",
@@ -9491,10 +9491,10 @@
        "label": "PT Fixed Yield"
       },
       {
-       "apy": 0.0037422462066555493,
+       "apy": 0.003745872402322133,
        "items": [
         {
-         "apy": 0.001071889118588354,
+         "apy": 0.0010718886476548395,
          "id": "1-0x1f34887b270bfaf56cf7973572654874c8ed740e",
          "tags": [
           "SWAP_FEE",
@@ -9502,7 +9502,7 @@
          ]
         },
         {
-         "apy": 0.0026703570880671954,
+         "apy": 0.0026739837546672935,
          "id": "PENDLE",
          "tags": [
           "INCENTIVE",
@@ -9519,7 +9519,7 @@
      "assetDescription": "<p>iUSD is a non-yield bearing token from InfiniFi, a protocol that enables depositors to allocate USDC deposits into other defi protocols based on votes.</p>\n<p>siUSD is the yield-bearing version of iUSD, which yields are by depositing funds into different farms such as Aave, Euler, Fluid. For more information on allocation of funds, refer <a href=\"https://stats.infinifi.xyz/\">here</a>.</p>",
      "conversionRate": {
       "fromUnit": "siUSD",
-      "rate": 1.0937613391204504,
+      "rate": 1.0937624489157136,
       "toUnit": "iUSD staked in InfiniFi"
      },
      "deposit": {
@@ -9585,10 +9585,10 @@
     "ytApyBreakdown": {
      "categories": [
       {
-       "apy": 0.061687466623006726,
+       "apy": 0.06167288978279162,
        "items": [
         {
-         "apy": 0.061687466623006726,
+         "apy": 0.06167288978279162,
          "id": "1-0x48f9e38f3070ad8945dfeae3fa70987722e3d89c",
          "source": "CONTRACT",
          "tags": [
@@ -9615,7 +9615,7 @@
      "aggregatedApy": -0.9240696986694039,
      "feeRate": 0.0018785605053279752,
      "impliedApy": -1,
-     "liquidity": 0.2567552077749093,
+     "liquidity": 0.2567515025329291,
      "maxBoostedApy": -0.9110038144698213,
      "pendleApy": 0.000479796067441743,
      "ptRoi": -1.842710065480535e-05,
@@ -9624,7 +9624,7 @@
      "totalPt": 19155367.492878,
      "totalSupply": 9.563678175787e-06,
      "totalSy": 1261243.397068,
-     "totalTvl": 913.9658272228153,
+     "totalTvl": 913.9526377549919,
      "tradingVolume": 0,
      "underlyingApy": 0.050997715462867355,
      "yieldRange": {
@@ -10120,7 +10120,7 @@
      "aggregatedApy": 0.49987055565034,
      "feeRate": 0.002176343600390096,
      "impliedApy": 0.5271142697895179,
-     "liquidity": 6202160.959061609,
+     "liquidity": 6198952.887719214,
      "maxBoostedApy": 0.49987055565034,
      "pendleApy": 0,
      "ptRoi": 2.0137932787989143e-07,
@@ -10129,7 +10129,7 @@
      "totalPt": 6750407.707669063,
      "totalSupply": 3401932.581232915,
      "totalSy": 399243.0274953481,
-     "totalTvl": 10975208.072514806,
+     "totalTvl": 10969531.139793023,
      "tradingVolume": 0,
      "underlyingApy": 0.06632744471056173,
      "yieldRange": {
@@ -10469,27 +10469,27 @@
     ],
     "chainId": 1,
     "details": {
-     "aggregatedApy": 0.07900200766524122,
+     "aggregatedApy": 0.07932051581613896,
      "feeRate": 0.0018586005001834938,
-     "impliedApy": 0.0973693056433993,
-     "liquidity": 10980336.538809096,
-     "maxBoostedApy": 0.08015158654659495,
-     "pendleApy": 0.0007663859209024824,
-     "ptRoi": 0.002938731588566501,
-     "swapFeeApy": 0.000402892656119036,
+     "impliedApy": 0.09770012834807829,
+     "liquidity": 10980373.482299965,
+     "maxBoostedApy": 0.08047166154663211,
+     "pendleApy": 0.0007674304869954384,
+     "ptRoi": 0.0029469449468064735,
+     "swapFeeApy": 0.0004066991231850281,
      "totalActiveSupply": 5.394283239551e-06,
-     "totalPt": 5063593.492214,
+     "totalPt": 5112524.34325,
      "totalSupply": 5.394283239551e-06,
-     "totalSy": 5716426.462125,
-     "totalTvl": 30914608.81661229,
-     "tradingVolume": 828374.312139766,
+     "totalSy": 5669513.437018,
+     "totalTvl": 30914628.424267028,
+     "tradingVolume": 928437.5681979049,
      "underlyingApy": 0.0612405939315368,
      "yieldRange": {
       "max": 0.14,
       "min": 0.05999999999999999
      },
-     "ytFloatingApy": -0.9999998471643067,
-     "ytRoi": -0.39081749995447634
+     "ytFloatingApy": -0.9999998630267664,
+     "ytRoi": -0.3927851009401505
     },
     "expiry": "2026-10-22T00:00:00.000Z",
     "icon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/fec81feb-0732-4030-9853-41ccf8310221.svg",
@@ -10502,31 +10502,31 @@
     "isVolatile": false,
     "limitOrderIncentive": {
      "amountPerSec": 3.7623498874397835e-05,
-     "buyPtApr": 0.009693765812545024,
-     "buyYtApr": 0.9999999999999998,
-     "impliedApy": 0.0973693056433993,
+     "buyPtApr": 0.009725570554932356,
+     "buyYtApr": 1,
+     "impliedApy": 0.09770012834807829,
      "long": {
       "amountPerSec": 7.618596152522775e-06,
-      "maxApy": 0.10077723134091827,
-      "minApy": 0.09396137994588032,
+      "maxApy": 0.10111963284026103,
+      "minApy": 0.09428062385589554,
       "mode": "RELATIVE"
      },
-     "sellPtApr": 0.0034759626404469415,
+     "sellPtApr": 0.003486130465273336,
      "sellYtApr": 1,
      "short": {
       "amountPerSec": 3.000490272187506e-05,
-      "maxApy": 0.1013693056433993,
-      "minApy": 0.09336930564339929,
+      "maxApy": 0.10170012834807829,
+      "minApy": 0.09370012834807828,
       "mode": "RELATIVE"
      }
     },
     "lpApyBreakdown": {
      "categories": [
       {
-       "apy": 0.033115820189658016,
+       "apy": 0.032844163253895775,
        "items": [
         {
-         "apy": 0.033115820189658016,
+         "apy": 0.032844163253895775,
          "id": "1-0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
          "source": "CONTRACT",
          "tags": [
@@ -10538,10 +10538,10 @@
        "label": "Underlying Yield"
       },
       {
-       "apy": 0.04471690287141743,
+       "apy": 0.045302221022454,
        "items": [
         {
-         "apy": 0.04471690287141743,
+         "apy": 0.045302221022454,
          "id": "1-0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
          "tags": [
           "FIXED_YIELD",
@@ -10552,10 +10552,10 @@
        "label": "PT Fixed Yield"
       },
       {
-       "apy": 0.0011692785770215184,
+       "apy": 0.0011741296101804666,
        "items": [
         {
-         "apy": 0.000402892656119036,
+         "apy": 0.0004066991231850281,
          "id": "1-0x22fcdf7be34a72bddbf4a6eeeb489b1f29062f0b",
          "tags": [
           "SWAP_FEE",
@@ -10563,7 +10563,7 @@
          ]
         },
         {
-         "apy": 0.0007663859209024824,
+         "apy": 0.0007674304869954385,
          "id": "PENDLE",
          "tags": [
           "INCENTIVE",
@@ -11861,7 +11861,7 @@
      "aggregatedApy": 0,
      "feeRate": 0.0010473557540802148,
      "impliedApy": 0,
-     "liquidity": 144217.7665943835,
+     "liquidity": 144218.41906698217,
      "maxBoostedApy": 0,
      "pendleApy": 0,
      "ptRoi": 2.1041178355218904e-08,
@@ -11870,7 +11870,7 @@
      "totalPt": 20748.799838581275,
      "totalSupply": 62729.08993356378,
      "totalSy": 129075.21928102439,
-     "totalTvl": 144218.77711808824,
+     "totalTvl": 144219.42959525876,
      "tradingVolume": 0,
      "underlyingApy": 0,
      "yieldRange": {
@@ -12397,7 +12397,7 @@
      "aggregatedApy": 0.4488543149533803,
      "feeRate": 0.0013391518237055866,
      "impliedApy": 0.4674877137795961,
-     "liquidity": 1408608.8027124084,
+     "liquidity": 1407880.1989946954,
      "maxBoostedApy": 0.4488543149533803,
      "pendleApy": 0,
      "ptRoi": 1.824352813262209e-07,
@@ -12406,7 +12406,7 @@
      "totalPt": 1526049.7818412667,
      "totalSupply": 728002.8834543916,
      "totalSy": 64851.12985263882,
-     "totalTvl": 1408609.0579065846,
+     "totalTvl": 1407880.4540568723,
      "tradingVolume": 0,
      "underlyingApy": 0,
      "yieldRange": {
@@ -16094,27 +16094,27 @@
     ],
     "chainId": 1,
     "details": {
-     "aggregatedApy": 0.06375301992572689,
+     "aggregatedApy": 0.0637530466082028,
      "feeRate": 0.0012662558903497878,
-     "impliedApy": 0.06531747323449255,
-     "liquidity": 125987.46861237628,
-     "maxBoostedApy": 0.06375301992572689,
+     "impliedApy": 0.06531754256804478,
+     "liquidity": 125988.39019168324,
+     "maxBoostedApy": 0.0637530466082028,
      "pendleApy": 0,
-     "ptRoi": 0.011774650605255177,
+     "ptRoi": 0.011773749290194813,
      "swapFeeApy": 0,
      "totalActiveSupply": 49034.59020903629,
      "totalPt": 48100.46433639401,
      "totalSupply": 49034.59020903629,
      "totalSy": 59725.83021285741,
-     "totalTvl": 146840.3286441058,
+     "totalTvl": 146841.41839177377,
      "tradingVolume": 0,
      "underlyingApy": 0.06280526865558445,
      "yieldRange": {
       "max": 0.11999999999999998,
       "min": 0.030000000000000002
      },
-     "ytFloatingApy": -0.343420269094008,
-     "ytRoi": -0.07488216750344612
+     "ytFloatingApy": -0.3434483494976923,
+     "ytRoi": -0.07488393313467767
     },
     "expiry": "2026-12-17T00:00:00.000Z",
     "icon": "https://storage.googleapis.com/prod-pendle-bucket-a/images/uploads/e6be4b97-48fd-47ac-afc6-54165da49c53.svg",
@@ -16127,31 +16127,31 @@
     "isVolatile": false,
     "limitOrderIncentive": {
      "amountPerSec": 5.864939468544069e-07,
-     "buyPtApr": 0.0003903733240503157,
+     "buyPtApr": 0.0003916543780295822,
      "buyYtApr": 1,
-     "impliedApy": 0.06531747323449255,
+     "impliedApy": 0.06531754256804478,
      "long": {
       "amountPerSec": 2.9324697342720344e-07,
-      "maxApy": 0.06760358479769979,
-      "minApy": 0.06303136167128531,
+      "maxApy": 0.06760365655792636,
+      "minApy": 0.06303142857816321,
       "mode": "RELATIVE"
      },
      "sellPtApr": 1,
-     "sellYtApr": 0.03309640487825886,
+     "sellYtApr": 0.03320672896129583,
      "short": {
       "amountPerSec": 2.9324697342720344e-07,
-      "maxApy": 0.06931747323449255,
-      "minApy": 0.06131747323449255,
+      "maxApy": 0.06931754256804479,
+      "minApy": 0.06131754256804478,
       "mode": "RELATIVE"
      }
     },
     "lpApyBreakdown": {
      "categories": [
       {
-       "apy": 0.03911143548492917,
+       "apy": 0.03911141772241751,
        "items": [
         {
-         "apy": 0.03911143548492917,
+         "apy": 0.03911141772241751,
          "id": "1-0x2a8e1e676ec238d8a992307b495b45b3feaa5e86",
          "source": "CONTRACT",
          "tags": [
@@ -16163,10 +16163,10 @@
        "label": "Underlying Yield"
       },
       {
-       "apy": 0.024641584170808226,
+       "apy": 0.024641628800523077,
        "items": [
         {
-         "apy": 0.024641584170808226,
+         "apy": 0.024641628800523077,
          "id": "1-0x2a8e1e676ec238d8a992307b495b45b3feaa5e86",
          "tags": [
           "FIXED_YIELD",
@@ -16449,27 +16449,27 @@
     ],
     "chainId": 1,
     "details": {
-     "aggregatedApy": 0.02357472818967642,
+     "aggregatedApy": 0.023575991465961062,
      "feeRate": 0.0004999999993486881,
-     "impliedApy": 0.0213130879305381,
-     "liquidity": 5119396.598706534,
-     "maxBoostedApy": 0.024976859217634994,
-     "pendleApy": 0.00093475401863905,
-     "ptRoi": 0.026076065543839233,
-     "swapFeeApy": 6.552724425734624e-06,
+     "impliedApy": 0.0213130912878714,
+     "liquidity": 5119473.500624102,
+     "maxBoostedApy": 0.02498001719882935,
+     "pendleApy": 0.0009360171552455249,
+     "ptRoi": 0.02607576088441066,
+     "swapFeeApy": 6.552724298503065e-06,
      "totalActiveSupply": 370.50262830704366,
      "totalPt": 99.3696496703288,
      "totalSupply": 922.6392038326272,
      "totalSy": 1570.9015956303774,
-     "totalTvl": 5623041.167356514,
+     "totalTvl": 5623125.827416993,
      "tradingVolume": 27.805399046100618,
      "underlyingApy": 0.022698751409153006,
      "yieldRange": {
       "max": 0.07247767045580256,
       "min": 0.029978328225930276
      },
-     "ytFloatingApy": 0.03127310789842874,
-     "ytRoi": 0.03830329488390083
+     "ytFloatingApy": 0.03127308664705564,
+     "ytRoi": 0.03830281252356804
     },
     "expiry": "2027-12-30T00:00:00.000Z",
     "externalProtocols": {
@@ -16506,10 +16506,10 @@
     "lpApyBreakdown": {
      "categories": [
       {
-       "apy": 0.021628572114727337,
+       "apy": 0.02162857170557417,
        "items": [
         {
-         "apy": 0.021628572114727337,
+         "apy": 0.02162857170557417,
          "id": "1-0xae7ab96520de3a18e5e111b5eaab095312d7fe84",
          "source": "CONTRACT",
          "tags": [
@@ -16521,10 +16521,10 @@
        "label": "Underlying Yield"
       },
       {
-       "apy": 0.001004849341375584,
+       "apy": 0.0010048498838401052,
        "items": [
         {
-         "apy": 0.001004849341375584,
+         "apy": 0.0010048498838401052,
          "id": "1-0xae7ab96520de3a18e5e111b5eaab095312d7fe84",
          "tags": [
           "FIXED_YIELD",
@@ -16535,10 +16535,10 @@
        "label": "PT Fixed Yield"
       },
       {
-       "apy": 0.00038045433188135466,
+       "apy": 0.00038095958639671303,
        "items": [
         {
-         "apy": 6.552724425734624e-06,
+         "apy": 6.552724298503065e-06,
          "id": "1-0x34280882267ffa6383b363e278b027be083bbe3b",
          "tags": [
           "SWAP_FEE",
@@ -16546,7 +16546,7 @@
          ]
         },
         {
-         "apy": 0.00037390160745562004,
+         "apy": 0.00037440686209820996,
          "id": "PENDLE",
          "tags": [
           "INCENTIVE",
