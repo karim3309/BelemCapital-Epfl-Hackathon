@@ -31,7 +31,10 @@ Located by the Morpho API (`userByAddress` of `0x4F87…0545`) and proven on-cha
 | ☐ | RockawayX USDC Yield | `0xE0181090c22579B6A217f1522cbf8c9f1F0C1965` | same |
 | ☐ | RockawayX wETH | `0x64C18DCC4Ccb3b8D27877a4aeBB4C3126CB39cB9` | same |
 | ☐ | RockawayX Tori Ecosystem | `0x3BD9AdAE6643dDcddD02746b8B60075E56DF9478` | same |
-| ☐ | Vaults of the Dune dashboard missing from this list (e.g. RockawayX USDC Prime) | — | add them to `config.yaml` with their source; Kamino (Solana) vaults are out of scope |
+| ☐ | RockawayX Confidential RWA USDC | `0xc207d3f66537D7F66456808379A0E560cF20Da36` | copied from the Dune list ("ethereum · morpho"): Etherscan `name()` + Morpho app |
+| ☐ | Huma USDC Main | `0x8aC91877b93330f52b2979a31a4879506021475c` | same |
+| ☐ | RockawayX NUVA Ecosystem | `0x93e0F9d502eEfce8D34924ab3478C7EA0CBC5a2E` | same |
+| ☐ | Other Dune vaults | — | out of scope today: Solana (Kamino), Base, BSC, Sei, Pharos, Citrea, and Ethereum vaults on Upshift / Ember / Accountable / Midas |
 
 ## B. `curated.yaml` (the off-chain part)
 | ☐ | Claim | Source | How to verify |

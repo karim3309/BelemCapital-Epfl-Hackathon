@@ -78,6 +78,12 @@ curator_books:
       - {name: "RockawayX USDC Yield", address: "0xE0181090c22579B6A217f1522cbf8c9f1F0C1965"}
       - {name: "RockawayX wETH", address: "0x64C18DCC4Ccb3b8D27877a4aeBB4C3126CB39cB9"}
       - {name: "RockawayX Tori Ecosystem", address: "0x3BD9AdAE6643dDcddD02746b8B60075E56DF9478"}
+      # Copied by the team from the Dune dashboard's vault list (2026-10-10), rows "ethereum · morpho":
+      - {name: "RockawayX Confidential RWA USDC", address: "0xc207d3f66537D7F66456808379A0E560cF20Da36"}
+      - {name: "Huma USDC Main", address: "0x8aC91877b93330f52b2979a31a4879506021475c"}
+      - {name: "RockawayX NUVA Ecosystem", address: "0x93e0F9d502eEfce8D34924ab3478C7EA0CBC5a2E"}
+    # Out of scope (no adapter yet): Solana/Kamino, Base, BSC, Sei, Pharos, Citrea vaults, and Ethereum vaults
+    # on Upshift, Ember, Accountable and Midas. Only Morpho Vault V2 on Ethereum is analysed.
 
 # Reference USD feed to convert the lent asset's price to USD (resolved on-chain via ENS).
 usd_reference:
