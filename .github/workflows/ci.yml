@@ -1,0 +1,47 @@
+# Runs on every push and pull request. No secret needed: everything replays from the committed cache (data/cache/).
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  python:
+    name: Tests + offline pipeline (Python 3.11)
+    runs-on: ubuntu-latest
+    env:
+      STACKTRACE_OFFLINE: "1"     # any network call fails: proves the demo survives without network
+      PYTHONPATH: src
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Tests (network tests are skipped)
+        run: python -m pytest -q
+      - name: Rebuild the graph offline and validate the contract
+        run: |
+          python -m discovery.build_graph --offline
+          python -m discovery.validate output/graph.json
+      - name: Risk engine reproduces the committed report
+        run: |
+          python -m risk.run
+          git diff --exit-code output/
+
+  front:
+    name: Front build (type check + Vite)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: front
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: front/package-lock.json
+      - run: npm ci
+      - run: npm run build
