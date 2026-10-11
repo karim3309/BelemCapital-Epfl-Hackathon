@@ -11,7 +11,7 @@ at 3 a.m., with the **STAY / EXIT** verdict always visible.
 | 4 | How much do I lose? | Monte Carlo (expected loss, VaR), incidents ranked with their rule and their path | `/risk` |
 | 5 | What does exiting cost? | certain cost, share exitable now, vault details or slippage quotes, markets | `/risk` |
 | 6 | What if it happens? | your probability estimate against p\*, the severity (live), the verdict that flips, the highlighted path | `/incident` |
-| 7 | Validated on real crises | real USDe crises (Oct. 2025, Feb. 2025) replayed through the engine: which oracle design holds, which one is liquidated | `/validation` (recorded copy offline) |
+| 7 | Counterfactual on real crises | TODAY's position put through real USDe price paths (Oct. 2025, Feb. 2025) — not a back-test: which oracle design holds, which one is liquidated | `/validation` (recorded copy offline) |
 | 8 | Concentration | the dependencies shared by several pockets | `/book` |
 
 **Keyboard**: ← → previous / next pocket, ↑ ↓ or mouse wheel: next slide.

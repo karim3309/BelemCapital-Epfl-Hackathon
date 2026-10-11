@@ -51,18 +51,42 @@ class Event:
     loss_fn: Callable[[float], float]   # absolute severity → pocket loss in $
     rule: str                    # transmission rule, in plain words
     weight: float = 1.0          # share of λ (e.g. 0.5 for "upwards" on a 50/50 feed)
+    # Loss that REMAINS after exiting (severity → $). None = exiting removes the whole loss.
+    # E.g. a depeg of the pocket's own asset (EURCV): withdrawing from the vault still leaves you holding EURCV.
+    residual_fn: Callable[[float], float] | None = None
+    residual_why: str = ""
     losses: np.ndarray = field(default_factory=lambda: np.zeros(0))
+    residuals: np.ndarray = field(default_factory=lambda: np.zeros(0))
 
     def severities(self) -> np.ndarray:
         return self.sev_lo + GRID * (self.sev_hi - self.sev_lo)
 
     def tabulate(self) -> None:
-        self.losses = np.array([max(0.0, self.loss_fn(s)) for s in self.severities()])
+        sev = self.severities()
+        self.losses = np.array([max(0.0, self.loss_fn(s)) for s in sev])
+        res = [max(0.0, self.residual_fn(s)) for s in sev] if self.residual_fn else [0.0] * len(sev)
+        self.residuals = np.minimum(np.array(res), self.losses)
+
+    @property
+    def avoidable(self) -> np.ndarray:
+        """Loss that exiting AVOIDS, per severity of the grid."""
+        return self.losses - self.residuals
 
     @property
     def lgi_usd(self) -> float:
         """Average loss IF the incident happens (uniform severity within the range)."""
         return float(self.losses.mean())
+
+    @property
+    def lgi_avoidable_usd(self) -> float:
+        """Average loss IF the incident happens that exiting would have avoided."""
+        return float(self.avoidable.mean())
+
+    def split(self, severity: float) -> tuple[float, float]:
+        """(total loss, avoidable loss) for one severity."""
+        total = max(0.0, self.loss_fn(severity))
+        residual = min(max(0.0, self.residual_fn(severity)), total) if self.residual_fn else 0.0
+        return total, total - residual
 
     def p_horizon(self, days: float) -> float:
         return 1 - math.exp(-self.annual_rate * self.weight * days / 365)
@@ -76,12 +100,13 @@ class VaultPocket:
     value_units: float
     unit_usd: float              # price of one unit of the pocket's asset (EURCV, USDC…)
     holder_share: float          # share of the vault held by the holder
-    asset_id: str
+    asset_id: str | None         # node of the pocket's asset (None if no known market lends it: all-idle vault…)
     markets: list[Market]
     exit_fraction_now: float     # share of the pocket withdrawable right away (liquidity)
     force_penalty: float
     vault_id: str
     curator_id: str | None
+    asset_symbol: str = "?"
 
 
 def vault_market_loss(mk: Market, drop: float, tracks: bool, speed: str, slip: float) -> float:
@@ -173,10 +198,15 @@ def vault_events(g: G, vp: VaultPocket, p: Params) -> list[Event]:
 
     # 3. the pocket's own asset (EURCV, USDC…) and its issuers
     lo, hi = E("stable_depeg", "severity")
-    ev.append(Event(f"stable_depeg:{vp.asset_id}", f"{g.nodes[vp.asset_id]['label']} depeg (pocket asset)",
-                    "stable_depeg", vp.asset_id, E("stable_depeg", "annual_rate"), lo, hi,
-                    lambda s: vp.value_usd * s, "the pocket is denominated in this asset: loss = value × d"))
-    ev += issuer_events(g, p, vp.asset_id, lambda s: vp.value_usd * s, vault=vp)
+    asset_label = g.nodes[vp.asset_id]["label"] if vp.asset_id else vp.asset_symbol
+    keep = "withdrawing from the vault gives back this same asset: exiting does not avoid its depeg"
+    ev.append(Event(f"stable_depeg:{vp.asset_id or vp.asset_symbol.lower()}", f"{asset_label} depeg (pocket asset)",
+                    "stable_depeg", vp.asset_id or vp.vault_id, E("stable_depeg", "annual_rate"), lo, hi,
+                    lambda s: vp.value_usd * s, "the pocket is denominated in this asset: loss = value × d",
+                    residual_fn=lambda s: vp.value_usd * s, residual_why=keep))
+    if vp.asset_id:
+        ev += issuer_events(g, p, vp.asset_id, lambda s: vp.value_usd * s, vault=vp,
+                            residual_fn=lambda s: vp.value_usd * s, residual_why=keep)
 
     # 4. protocol and curator
     lo, hi = E("protocol_exploit", "severity")
@@ -196,7 +226,8 @@ def vp_speed(p: Params, fam: str) -> str:
     return p.raw["events"][fam]["speed"]
 
 
-def issuer_events(g: G, p: Params, asset_id: str, loss: Callable[[float], float], vault=None) -> list[Event]:
+def issuer_events(g: G, p: Params, asset_id: str, loss: Callable[[float], float], vault=None,
+                  residual_fn: Callable[[float], float] | None = None, residual_why: str = "") -> list[Event]:
     out = []
     lo, hi = p["events.issuer_failure.severity"]
     for e in g.out(asset_id, "issued_by"):
@@ -205,7 +236,7 @@ def issuer_events(g: G, p: Params, asset_id: str, loss: Callable[[float], float]
             continue
         out.append(Event(f"issuer_failure:{e['to']}", f"Issuer failure: {iss['label']} ({g.nodes[asset_id]['label']})",
                          "issuer_failure", e["to"], p["events.issuer_failure.annual_rate"], lo, hi, loss,
-                         "the issued asset loses s of its value"))
+                         "the issued asset loses s of its value", residual_fn=residual_fn, residual_why=residual_why))
     return out
 
 
@@ -234,6 +265,18 @@ def borrow_loss_drop(bp: BorrowPocket, d: float, tracks: bool, p: Params, beta: 
     return min(loss, bp.equity) * bp.unit_usd
 
 
+def borrow_residual(bp: BorrowPocket, d: float, p: Params, beta: bool = False) -> float:
+    """After unwinding (enough collateral sold to repay the debt), the equity is still held IN the collateral token:
+    its own value loss stays (E × d); a volatile beta does not count (borrow_market_beta_excluded)."""
+    if beta and p["borrow_market_beta_excluded"]:
+        return 0.0
+    return min(bp.equity * d, bp.equity) * bp.unit_usd
+
+
+KEEP_COLLATERAL = ("after unwinding, the equity is still held in the collateral token: its own value loss "
+                   "(equity × d) is not avoided, only the leverage and the liquidation are")
+
+
 def borrow_events(g: G, bp: BorrowPocket, p: Params) -> list[Event]:
     mk, E = bp.market, (lambda fam, k: p[f"events.{fam}.{k}"])
     ev = []
@@ -246,8 +289,10 @@ def borrow_events(g: G, bp: BorrowPocket, p: Params) -> list[Event]:
             "(penalty ρ·D·(LIF−1) if HF·(1−d) < 1)" if beta and p["borrow_market_beta_excluded"] else
             "value loss specific to the collateral; + liquidation penalty ρ·D·(LIF−1) if the oracle follows and HF·(1−d) < 1")
     ev.append(Event(f"{fam}:{mk.collateral_id}", f"{mk.collateral_symbol} collateral drop", fam, mk.collateral_id,
-                    E(fam, "annual_rate"), lo, hi, lambda s: borrow_loss_drop(bp, s, tracks, p, beta), rule))
-    ev += issuer_events(g, p, mk.collateral_id, lambda s: borrow_loss_drop(bp, s, mk.tracks_market, p))
+                    E(fam, "annual_rate"), lo, hi, lambda s: borrow_loss_drop(bp, s, tracks, p, beta), rule,
+                    residual_fn=lambda s: borrow_residual(bp, s, p, beta), residual_why=KEEP_COLLATERAL))
+    ev += issuer_events(g, p, mk.collateral_id, lambda s: borrow_loss_drop(bp, s, mk.tracks_market, p),
+                        residual_fn=lambda s: borrow_residual(bp, s, p), residual_why=KEEP_COLLATERAL)
     rho, L = p["liquidation_repaid_fraction"], lif(mk.lltv, p)
     for f in mk.feeds:
         if f.mode == "fixed" and f.bounds is None:
@@ -282,15 +327,22 @@ def monte_carlo(events: list[Event], cap_usd: float, days: float, p: Params) -> 
     """Each incident happens (or not) over the horizon; uniform severity within its range; losses added up,
     capped at the pocket's value. Events assumed independent (stated limit)."""
     n, rng = int(p["monte_carlo.samples"]), np.random.default_rng(int(p["monte_carlo.seed"]))
-    total = np.zeros(n)
+    total, kept = np.zeros(n), np.zeros(n)
     for e in events:
         if not len(e.losses):
             e.tabulate()
         hit = rng.random(n) < e.p_horizon(days)
         u = rng.random(n)
         total += np.where(hit, np.interp(u, GRID, e.losses), 0.0)
+        kept += np.where(hit, np.interp(u, GRID, e.residuals), 0.0)
     total = np.minimum(total, cap_usd)
+    kept = np.minimum(kept, total)
+    avoidable = total - kept
     return {"samples": n, "horizon_days": days, "expected_loss_usd": float(total.mean()),
+            "expected_loss_avoidable_usd": float(avoidable.mean()),
+            "expected_loss_unavoidable_usd": float(kept.mean()),
+            "avoidable_note": "avoidable = what exiting removes; unavoidable = what stays with the asset you get back "
+                              "(e.g. a depeg of the pocket's own asset)",
             "var95_usd": float(np.quantile(total, 0.95)), "var99_usd": float(np.quantile(total, 0.99)),
             "var999_usd": float(np.quantile(total, 0.999)),
             "p_any_loss": float((total > 0).mean()),

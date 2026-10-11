@@ -43,7 +43,7 @@ from .http import CachedHttp
 from .ids import position_id
 from .rpc import OfflineError, RpcError, check_chain, make_web3, resolve_snapshot_block
 from .validate import validate
-from .valuation import value_graph
+from .valuation import link_market_feeds, value_graph
 
 log = logging.getLogger("stacktrace")
 
@@ -174,6 +174,7 @@ def build(config: Config) -> tuple[dict, Report, DiskCache]:
     # --- final passes
     usd, usd_source = loan_token_usd_price(ctx)
     value_graph(g, market_key(config.market_id), usd, usd_source, ctx.block_timestamp)
+    link_market_feeds(g, block)          # feed "USDe / USD" --priced_by--> USDe (impact analysis reaches the oracles)
     add_issuers_and_offchain(g, curated, block, ctx.labels)
     onchain = [n for n in g.nodes.values() if n.address]
     for n in onchain:   # upgradeability of EVERY contract: risk information for the other teams

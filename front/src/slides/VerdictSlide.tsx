@@ -27,8 +27,13 @@ export default function VerdictSlide() {
   const v = usePocketView()
   const d = v.decision
   const partial = d && d.verdict === 'EXIT' && d.exit_fraction > 0 && d.exit_fraction < 0.999
-  const avoided = v.expectedLoss !== null && v.exitableNow !== null ? v.expectedLoss * v.exitableNow : null
-  const scale = Math.max(avoided ?? 0, v.exitCost ?? 0, 1)
+  // Both bars come from the backend (decision.avoided_usd / exit_cost_usd): the front computes no risk, so the
+  // bars can never contradict the sentence. Fallback only for an old recording without those fields.
+  const avoided =
+    d?.avoided_usd ?? (v.expectedLoss !== null && v.exitableNow !== null ? v.expectedLoss * v.exitableNow : null)
+  const exitCost = d?.exit_cost_usd ?? v.exitCost
+  const unavoidable = d?.expected_loss_unavoidable_usd ?? 0
+  const scale = Math.max(avoided ?? 0, exitCost ?? 0, 1)
   const top = v.topRisk
   const days = v.risk?.monte_carlo.horizon_days ?? DEFAULT_HORIZON_DAYS
   const fullAnalysis = v.risk !== null || (source.mode === 'recorded' && v.holding && recordedCoverage(holder, v.holding.id).risk)
@@ -111,19 +116,21 @@ export default function VerdictSlide() {
                 />
               </div>
               <p className="mt-2 text-caption font-normal text-neutral1 tabular">
-                expected loss {usd(v.expectedLoss)} × {pctAuto(v.exitableNow)} exitable now
+                avoidable expected loss {usd(d?.expected_loss_avoidable_usd ?? v.expectedLoss)} ×{' '}
+                {pctAuto(v.exitableNow)} exitable now
+                {unavoidable >= 1 ? ` · ${usd(unavoidable)} not avoidable by exiting (stays with the asset you get back)` : ''}
               </p>
             </div>
             <div>
               <div className="flex items-baseline justify-between gap-4">
                 <span className="text-body font-normal text-neutral1">Exiting would cost</span>
-                <span className="text-sub font-semibold tabular text-chalk">{usd(v.exitCost)}</span>
+                <span className="text-sub font-semibold tabular text-chalk">{usd(exitCost)}</span>
               </div>
               <div className="mt-2 h-[8px] bg-surface2">
                 <motion.div
                   className="h-full bg-accent"
                   initial={false}
-                  animate={{ width: `${((v.exitCost ?? 0) / scale) * 100}%` }}
+                  animate={{ width: `${((exitCost ?? 0) / scale) * 100}%` }}
                   transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                 />
               </div>
@@ -142,7 +149,7 @@ export default function VerdictSlide() {
             >
               <span className="text-caption font-normal text-neutral1">The 3 a.m. question</span>
               <span className="text-body font-normal text-chalk">
-                Do you believe the risk “{top.title}” is above <span className="font-semibold">{pctFreq(top.p_star, days)}</span>
+                Do you believe the risk “{top.title}” is above <span className="font-semibold">{pctAuto(top.p_star)}</span>
                 ?
               </span>
               <span className="text-caption font-normal text-neutral1 tabular">

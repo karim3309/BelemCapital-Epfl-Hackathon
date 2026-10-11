@@ -23,7 +23,10 @@ How it works:
     or NEVER with --hold-block (demo: everything computed during the warm-up stays instant until restart);
   - every result is cached FOR THAT BLOCK: calling a route again is instant, and all responses
     of the same block are consistent with each other (each response states its `block`);
-  - computations run one at a time (lock): a full analysis takes time (hundreds of RPC calls).
+  - computations run one at a time (lock): a full analysis takes time (hundreds of RPC calls). An answer that is
+    ALREADY cached is served without waiting for a running computation (e.g. /health or /graph during a cold /book);
+  - one pocket that fails (RPC 429, empty API answer, unknown contract...) is reported in `skipped`, never a 500 for
+    the whole book; error messages never show the key of the RPC URL (discovery.rpc.redact).
 """
 from __future__ import annotations
 
@@ -33,14 +36,17 @@ import time
 from typing import Any
 
 import requests
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
 from .analyze import UnknownIncident, analyze_pocket, incident_decision, public, shared_dependencies
 from .graph_build import build_position_graph
 from .params import load_params
 from .portfolio import BOOK_PREFIX, Holding, Portfolio, curator_book, scan_holder
+from discovery.rpc import redact
+
 from .session import Session, SessionError, mask_url, open_session
 
 SESSION_TTL_S: float | None = 120     # None = hold the block until restart (--hold-block)
@@ -50,6 +56,12 @@ app = FastAPI(title="StackTrace API", version=API_VERSION,
               description="Proven dependencies of a DeFi position, impact of an incident, STAY / EXIT decision.")
 # Read-only, no private data: the front (local dev) is allowed to call the API from the browser.
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["GET", "POST"], allow_headers=["*"])
+
+
+@app.exception_handler(Exception)
+def _unexpected(_: Request, exc: Exception) -> JSONResponse:
+    """Last line of defence: a JSON 500 whose message never contains the RPC key."""
+    return JSONResponse(status_code=500, content={"detail": f"{type(exc).__name__}: {redact(exc)}"})
 
 
 class _State:
@@ -65,7 +77,7 @@ class _State:
             try:
                 self.session = open_session()
             except SessionError as e:
-                raise HTTPException(503, detail=f"RPC unavailable: {e}") from e
+                raise HTTPException(503, detail=f"RPC unavailable: {redact(e)}") from e
             self.opened_at = time.time()
             self.cache.clear()                 # new block → new results
         return self.session
@@ -74,6 +86,13 @@ class _State:
         if key not in self.cache:
             self.cache[key] = fn()
         return self.cache[key]
+
+    def current(self) -> Session | None:
+        """The session if it is still valid - read WITHOUT the lock, so it never waits for a computation."""
+        s = self.session
+        if s is None or (SESSION_TTL_S is not None and time.time() - self.opened_at > SESSION_TTL_S):
+            return None
+        return s
 
 
 STATE = _State()
@@ -88,11 +107,12 @@ def _meta(s: Session) -> dict:
     return {"block": s.block, "block_timestamp": s.block_timestamp, "chain_id": s.chain_id}
 
 
-def _portfolio(s: Session, holder: str) -> Portfolio:
+def _portfolio(s: Session, holder: str, min_usd: float = 1.0) -> Portfolio:
     try:
-        return STATE.memo(("portfolio", s.block, holder.lower()), lambda: scan_holder(s.ctx, holder, s.chain_id))
+        return STATE.memo(("portfolio", s.block, holder.lower(), min_usd),
+                          lambda: scan_holder(s.ctx, holder, s.chain_id, min_usd))
     except ValueError as e:
-        raise HTTPException(400, detail=f"invalid holder (address, vault:0x… or book:<key>): {e}") from e
+        raise HTTPException(400, detail=f"invalid holder (address, vault:0x… or book:<key>): {redact(e)}") from e
 
 
 def _pocket(p: Portfolio, key: str) -> Holding:
@@ -120,12 +140,25 @@ def _report(s: Session, holder: str, pocket: str, horizon: float | None) -> tupl
     return STATE.memo(("risk", s.block, port.holder, h.id, days), run), h
 
 
+def _cached_report(holder: str, pocket: str, horizon: float | None):
+    """(session, report, pocket) if this analysis is ALREADY cached for the current block, else None (no lock)."""
+    s = STATE.current()
+    port = STATE.cache.get(("portfolio", s.block, holder.lower(), 1.0)) if s else None
+    if not port:
+        return None
+    h = _pocket(port, pocket)
+    r = STATE.cache.get(("risk", s.block, port.holder, h.id, horizon or load_params()["horizon_days"]))
+    return (s, r, h) if r is not None else None
+
+
 # ----------------------------------------------------------------------------- routes
 @app.get("/health")
 def health() -> dict:
     # The CURRENT session (no forced renewal): a health check must not throw away the results already computed.
-    with STATE.lock:
-        s = STATE.get_session()
+    s = STATE.current()
+    if s is None:                                    # no valid session yet: open one (otherwise never block)
+        with STATE.lock:
+            s = STATE.get_session()
     out = {"status": "ok", "version": API_VERSION, **_meta(s), "rpc_host": mask_url(s.config.rpc_url),
            "block_age_s": round(time.time() - s.block_timestamp), "block_held": SESSION_TTL_S is None, "apis": {}}
     checks = {"morpho": lambda u: requests.post(u, json={"query": "{ __typename }"}, timeout=15),
@@ -155,7 +188,7 @@ def books() -> dict:
 
 @app.get("/validation")
 def validation() -> dict:
-    """Real crises replayed through the risk engine (src/risk/validation.py). Read from the committed risk report at
+    """Counterfactual: today's position put through real past crises (src/risk/validation.py). Read from the committed risk report at
     its frozen block: no RPC, so it answers even when the chain is unreachable."""
     from risk.validation import load
     try:
@@ -166,27 +199,33 @@ def validation() -> dict:
 
 @app.get("/holders/{holder}/pockets")
 def pockets(holder: str, min_usd: float = Query(1.0, ge=0)) -> dict:
-    with STATE.lock:
-        s = STATE.get_session()
-        port = STATE.memo(("portfolio", s.block, holder.lower(), min_usd),
-                          lambda: scan_holder(s.ctx, holder, s.chain_id, min_usd))
-        data = port.to_json()
-        for i, h in enumerate(data["holdings"], 1):
-            h["index"] = i
-        return _json({**_meta(s), **data})
+    s = STATE.current()
+    port = STATE.cache.get(("portfolio", s.block, holder.lower(), min_usd)) if s else None
+    if not port:
+        with STATE.lock:
+            s = STATE.get_session()
+            port = _portfolio(s, holder, min_usd)     # invalid holder -> 400, not 500
+    data = port.to_json()
+    for i, h in enumerate(data["holdings"], 1):
+        h["index"] = i
+    return _json({**_meta(s), **data})
 
 
 @app.get("/holders/{holder}/pockets/{pocket}/graph")
 def graph(holder: str, pocket: str) -> dict:
+    hit = _cached_report(holder, pocket, None)
+    if hit:                                          # the risk analysis already built this graph
+        s, r, h = hit
+        return _json({**_meta(s), "pocket": {"id": h.id, "label": h.label, "kind": h.kind}, "graph": r["_graph"]})
     with STATE.lock:
         s = STATE.get_session()
         port = _portfolio(s, holder)
         h = _pocket(port, pocket)
 
         def build():
-            # if the risk analysis already built this graph, reuse it
-            for k, v in STATE.cache.items():
-                if k[0] == "risk" and k[1] == s.block and k[3] == h.id:
+            # if the risk analysis of THIS holder already built this graph, reuse it
+            for k, v in list(STATE.cache.items()):
+                if k[0] == "risk" and k[1] == s.block and k[2] == port.holder and k[3] == h.id:
                     return v["_graph"]
             try:
                 return build_position_graph(s, h, port.holder)[0]
@@ -198,6 +237,9 @@ def graph(holder: str, pocket: str) -> dict:
 
 @app.get("/holders/{holder}/pockets/{pocket}/risk")
 def risk(holder: str, pocket: str, horizon: float | None = Query(None, gt=0, le=365)) -> dict:
+    hit = _cached_report(holder, pocket, horizon)
+    if hit:
+        return _json({**_meta(hit[0]), **public(hit[1])})
     with STATE.lock:
         s = STATE.get_session()
         r, _ = _report(s, holder, pocket, horizon)
@@ -213,15 +255,19 @@ class IncidentIn(BaseModel):
 
 @app.post("/holders/{holder}/pockets/{pocket}/incident")
 def incident(holder: str, pocket: str, body: IncidentIn) -> dict:
-    with STATE.lock:
-        s = STATE.get_session()
-        r, h = _report(s, holder, pocket, body.horizon)
-        try:
-            inc = incident_decision(r, load_params(), body.incident, body.severity, body.p)
-        except UnknownIncident:
-            raise HTTPException(404, detail={"error": f"incident \"{body.incident}\" unknown",
-                                             "incidents": [x["id"] for x in r["incidents"]]})
-        return _json({**_meta(s), "pocket": r["pocket"], "baseline_decision": r["decision"], "incident_mode": inc})
+    hit = _cached_report(holder, pocket, body.horizon)
+    if hit:
+        s, r, h = hit                                # pure computation, no network: no need to wait for the lock
+    else:
+        with STATE.lock:
+            s = STATE.get_session()
+            r, h = _report(s, holder, pocket, body.horizon)
+    try:
+        inc = incident_decision(r, load_params(), body.incident, body.severity, body.p)
+    except UnknownIncident:
+        raise HTTPException(404, detail={"error": f"incident \"{body.incident}\" unknown",
+                                         "incidents": [x["id"] for x in r["incidents"]]})
+    return _json({**_meta(s), "pocket": r["pocket"], "baseline_decision": r["decision"], "incident_mode": inc})
 
 
 @app.get("/holders/{holder}/book")
@@ -229,23 +275,26 @@ def book(holder: str, horizon: float | None = Query(None, gt=0, le=365)) -> dict
     with STATE.lock:
         s = STATE.get_session()
         port = _portfolio(s, holder)
-        reports, skipped = [], []
-        for h in port.holdings:
+    reports, skipped = [], []
+    for h in port.holdings:
+        with STATE.lock:                             # pocket by pocket: other requests get through in between
             try:
                 reports.append(_report(s, holder, h.id, horizon)[0])
             except HTTPException as e:
                 skipped.append({"id": h.id, "label": h.label, "reason": e.detail})
-        summary = [{"index": i, "id": r["pocket"]["id"], "label": r["pocket"]["label"], "kind": r["pocket"]["kind"],
-                    "value_usd": r["pocket"]["value_usd"], "share_of_book": r["pocket"]["share_of_book"],
-                    "verdict": r["decision"]["verdict"], "exit_fraction": r["decision"]["exit_fraction"],
-                    "expected_loss_usd": r["monte_carlo"]["expected_loss_usd"], "exit_cost_usd": r["exit"]["cost_full_usd"],
-                    "exit_fraction_now": r["exit"]["f_max_now"], "sentence": r["decision"]["sentence"],
-                    "top_risk": next((x for x in r["incidents"] if x["loss_if_incident_usd"] > 0), None)}
-                   for i, r in enumerate(reports, 1)]
-        return _json({**_meta(s), "holder": port.holder,
-                      "total_value_usd": sum(r["pocket"]["value_usd"] or 0 for r in reports),
-                      "expected_loss_usd": sum(r["monte_carlo"]["expected_loss_usd"] for r in reports),
-                      "pockets": summary, "skipped": skipped, "shared_dependencies": shared_dependencies(reports)})
+            except Exception as e:                   # RPC 429, empty API answer, unexpected contract...
+                skipped.append({"id": h.id, "label": h.label, "reason": f"{type(e).__name__}: {redact(e)}"})
+    summary = [{"index": i, "id": r["pocket"]["id"], "label": r["pocket"]["label"], "kind": r["pocket"]["kind"],
+                "value_usd": r["pocket"]["value_usd"], "share_of_book": r["pocket"]["share_of_book"],
+                "verdict": r["decision"]["verdict"], "exit_fraction": r["decision"]["exit_fraction"],
+                "expected_loss_usd": r["monte_carlo"]["expected_loss_usd"], "exit_cost_usd": r["exit"]["cost_full_usd"],
+                "exit_fraction_now": r["exit"]["f_max_now"], "sentence": r["decision"]["sentence"],
+                "top_risk": next((x for x in r["incidents"] if x["loss_if_incident_usd"] > 0), None)}
+               for i, r in enumerate(reports, 1)]
+    return _json({**_meta(s), "holder": port.holder,
+                  "total_value_usd": sum(r["pocket"]["value_usd"] or 0 for r in reports),
+                  "expected_loss_usd": sum(r["monte_carlo"]["expected_loss_usd"] for r in reports),
+                  "pockets": summary, "skipped": skipped, "shared_dependencies": shared_dependencies(reports)})
 
 
 def main(argv: list[str] | None = None) -> None:

@@ -792,6 +792,14 @@
     },
     {
       "from": "feed_usde_usd",
+      "to": "usde",
+      "type": "priced_by",
+      "weight": 1.0,
+      "source": "onchain",
+      "evidence": "Chainlink USDe / USD.description() = \"USDe / USD\" @ 0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961 #26162087 ; USDe.symbol() = \"USDe\" @ 0x4c9EDD5852cd905f086C759E8383e09bff1E68B3 #26162087 ; ENS usde-usd.data.eth → this feed (official Chainlink) — the feed measures the market price of this asset (matched on the symbol)"
+    },
+    {
+      "from": "feed_usde_usd",
       "to": "ethereum",
       "type": "settled_on",
       "weight": 1.0,

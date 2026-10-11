@@ -148,3 +148,74 @@ def test_warmup_calls_every_route_of_the_deck(client, monkeypatch):
     assert warmup.warmup(HOLDER) == 0
     assert any(p.endswith("/book") for p in seen) and sum(p.endswith("/graph") for p in seen) == 2
     assert calls["analyze"] == 2                         # each pocket analysed once, then served from the cache
+
+
+# ------------------------------------------------------------------ audit 2026-10-11: robustness before the live demo
+def test_one_failing_pocket_is_skipped_not_a_500_for_the_whole_book(client, monkeypatch):
+    c, _ = client
+    real = api.analyze_pocket
+
+    def flaky(s, h, holder, p, days, *a, **k):
+        if h.label == "Pocket 2":
+            raise RuntimeError("429 Client Error: Too Many Requests for url: https://x.rpc-provider.example/SECRETKEY/")
+        return real(s, h, holder, p, days, *a, **k)
+    monkeypatch.setattr(api, "analyze_pocket", flaky)
+    r = c.get(f"/holders/{HOLDER}/book")
+    assert r.status_code == 200
+    d = r.json()
+    assert [p["label"] for p in d["pockets"]] == ["Pocket 1"]
+    assert d["skipped"][0]["label"] == "Pocket 2" and "SECRETKEY" not in d["skipped"][0]["reason"]
+
+
+def test_invalid_holder_is_400(client, monkeypatch):
+    c, _ = client
+
+    def bad(ctx, holder, chain_id, min_usd=1.0):
+        raise ValueError(f"not an address: {holder!r}")
+    monkeypatch.setattr(api, "scan_holder", bad)
+    assert c.get("/holders/0xNOT_AN_ADDRESS/pockets").status_code == 400
+
+
+def test_graph_never_serves_another_holders_graph(client, monkeypatch):
+    c, _ = client
+    c.get(f"/holders/{HOLDER}/pockets/1/risk")                       # graph of HOLDER cached by the analysis
+    other = "0x" + "cd" * 20
+    built = []
+    monkeypatch.setattr(api, "build_position_graph",
+                        lambda s, h, holder: built.append(holder) or ({"position": {"id": holder}, "nodes": [], "edges": []}, None))
+    monkeypatch.setattr(api, "scan_holder", lambda ctx, holder, chain_id, min_usd=1.0: Portfolio(
+        other, "ethereum", 123, 1_700_000_000, "test", [holding(1)], [], []))
+    r = c.get(f"/holders/{other}/pockets/1/graph").json()
+    assert built == [other] and r["graph"]["position"]["id"] == other
+
+
+def test_cached_answers_do_not_wait_for_a_running_computation(client):
+    import threading
+    c, _ = client
+    c.get(f"/holders/{HOLDER}/pockets/1/risk")                       # cached
+    busy, release = threading.Event(), threading.Event()
+
+    def long_job():                                                  # simulates a cold /book holding the lock
+        with api.STATE.lock:
+            busy.set()
+            release.wait(5)
+    t = threading.Thread(target=long_job)
+    t.start()
+    busy.wait(2)
+    try:
+        assert c.get(f"/holders/{HOLDER}/pockets/1/risk").status_code == 200
+        assert c.get(f"/holders/{HOLDER}/pockets/1/graph").status_code == 200
+        assert c.get("/health").json()["block"] == 123                # the front's "API reachable?" check too
+    finally:
+        release.set()
+        t.join()
+
+
+def test_unexpected_error_is_a_json_500_without_the_key(client, monkeypatch):
+    c, _ = client
+
+    def boom(*a, **k):
+        raise RuntimeError("HTTPSConnectionPool(host='x.rpc-provider.example', port=443): Max retries exceeded with url: /SECRETKEY/")
+    monkeypatch.setattr(api, "analyze_pocket", boom)
+    r = TestClient(api.app, raise_server_exceptions=False).get(f"/holders/{HOLDER}/pockets/1/risk")
+    assert r.status_code == 500 and "SECRETKEY" not in r.text

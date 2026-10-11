@@ -123,6 +123,12 @@ events:
     severity: {value: [0.0, 0.20], hypothesis: true, why: "Per-market caps bound the possible loss."}
     speed: jump
 
+decision_materiality_usd:
+  value: 100
+  hypothesis: true
+  why: "Zone of indifference: an exit is only recommended if it saves more than this (avoided loss − exit cost). Below it the two options are equivalent and STAY (no action) is kept — no EXIT for a few cents."
+  range: [0, 1000]
+
 incident_p_default:
   value: 0.5
   hypothesis: true

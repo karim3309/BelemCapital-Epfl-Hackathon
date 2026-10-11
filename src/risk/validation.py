@@ -1,9 +1,11 @@
-"""Validation on real incidents: what the engine says when a crisis that REALLY happened is replayed.
+"""Counterfactual replays on real price paths: TODAY's position put through crises that REALLY happened.
 
     PYTHONPATH=src python -m risk.validation        # 100 % offline → docs/api_examples/validation.json
 
-A stress test asks "what if USDe lost 30 %?". A validation asks something else: take a real price path (its depth AND
-its duration), run it through the same engine, and check that what the model predicts matches what was observed.
+A stress test asks "what if USDe lost 30 %?". A counterfactual replay asks something else: take a real price path
+(its depth AND its duration) and run it through the same engine, applied to the position AS IT IS TODAY.
+It is NOT a back-test: it does not compare the model with what really happened to this position (which may not have
+existed on that date). It shows how today's design (oracle, health factor) would cope with a shock of that shape.
 
 The replays themselves are computed by `risk.run` (src/risk/replay.py) at the frozen block of position A and stored in
 output/risk_report.json. This module only reshapes them for the front and states the takeaway of each replay in plain
@@ -68,9 +70,10 @@ def build(report: dict) -> dict:
         "position": {"id": pos["id"], "label": "PT-sUSDe collateral on Morpho Blue, USDC borrowed (position A)",
                      "health_factor": pos["health_factor"], "equity_usd": pos["equity_usd"],
                      "oracle_drop_to_liquidation": pos["oracle_drop_to_liquidation"]},
-        "method": ("Real price paths replayed through the same engine as the stress scenarios. On-chain path: every "
-                   "round of the Chainlink USDe/USD feed, read at the frozen block. Off-chain price (exchange order "
-                   "book): curated, with its source and date."),
+        "method": ("Counterfactual, not a back-test: TODAY's position put through real past price paths, with the "
+                   "same engine as the stress scenarios. On-chain path: every round of the Chainlink USDe/USD feed, "
+                   "read at the frozen block. Off-chain price (exchange order book): curated, with its source and "
+                   "date."),
         "replays": replays,
     }
 

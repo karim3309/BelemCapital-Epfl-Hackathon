@@ -8,9 +8,10 @@ replays:
   - id: R-OCT2025
     title: "10 October 2025: USDe at $0.65 on Binance"
     story: >
-      Crash of 10 October 2025: on the Binance order book, USDe falls to $0.65 for about
-      forty minutes, while on-chain it stays close to $1. Binance valued this
-      collateral with ITS own price: positions were liquidated there. What would position A have lived through?
+      Crash of 10 October 2025: on the Binance spot order book, USDe briefly falls to $0.65 and recovers
+      within about forty minutes, while on decentralised venues it stays close to $1 (source below).
+      Counterfactual: if TODAY's position A (its size, health factor and oracle) had faced this price path,
+      what would have happened? (Position A's PT may not even have existed on that date.)
     window: {start: "2025-10-10T00:00:00+00:00", end: "2025-10-12T00:00:00+00:00"}
     offchain_path:
       venue: Binance (spot order book)

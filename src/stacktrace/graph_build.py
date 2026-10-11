@@ -34,6 +34,7 @@ from discovery.console import utf8_console
 from discovery.graph import POSITION_KEY, Edge, GraphBuilder
 from discovery.ids import position_id, slugify
 from discovery.validate import validate
+from discovery.valuation import link_market_feeds
 from discovery.vocab import ALLOWED_EDGE_SHAPES
 
 from .portfolio import OUTPUT_DIR, Holding, scan_holder
@@ -92,6 +93,7 @@ def build_position_graph(s: Session, h: Holding, holder: str) -> tuple[dict, Rep
         apply(g, found, queue, report)
         report.tasks_done += 1
 
+    link_market_feeds(g, s.block)        # Chainlink "X / USD" feed --priced_by--> asset X of the graph
     add_issuers_and_offchain(g, load_curated(s.config.curated_file), s.block, ctx.labels)
     onchain = [n for n in g.nodes.values() if n.address and n.type in SETTLED_ON_TYPES]
     for n in onchain:

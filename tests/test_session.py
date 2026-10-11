@@ -44,3 +44,12 @@ def test_open_session_live_mainnet():
     before = s.network_calls
     s.w3.eth.get_balance("0x0000000000000000000000000000000000000000", block_identifier=s.block)
     assert s.network_calls == before
+
+
+def test_redact_hides_the_key_in_every_shape_of_error_message():
+    from discovery.rpc import redact
+    full = "429 Client Error: Too Many Requests for url: https://abc.rpc-provider.example/SECRETKEY123/"
+    bare = "HTTPSConnectionPool(host='abc.rpc-provider.example', port=443): Max retries exceeded with url: /SECRETKEY123/ (Caused by x)"
+    for msg in (full, bare):
+        out = redact(msg)
+        assert "SECRETKEY" not in out and "abc.rpc-provider.example" in out

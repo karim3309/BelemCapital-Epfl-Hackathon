@@ -1,0 +1,1368 @@
+{
+ "block": 26167512,
+ "block_timestamp": 1791701255,
+ "chain_id": 1,
+ "pocket": {
+  "id": "morpho_vault_v2:0x9C57E02bC31e7e463f439353D97bd8f42F5a7F9c",
+  "label": "RockawayX EUROP",
+  "kind": "morpho_vault_v2"
+ },
+ "graph": {
+  "position": {
+   "id": "morpho_vault_v2:0x9C57E02bC31e7e463f439353D97bd8f42F5a7F9c:0x9C57E02bC31e7e463f439353D97bd8f42F5a7F9c",
+   "value_usd": 11196.57
+  },
+  "nodes": [
+   {
+    "id": "morpho_market_489a15bd",
+    "type": "lending_market",
+    "label": "Morpho Blue WBTC / EUROP (LLTV 86.0%)",
+    "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+    "chain": "ethereum",
+    "meta": {
+     "protocol": "morpho_blue",
+     "market_id": "0x489a15bd078659aebeed66d5eda8993cebdb79d439cde64f32b5b40935add500",
+     "market_id_check": "keccak256(abi.encode(MarketParams)) = 0x489a15bd078659aebeed66d5eda8993cebdb79d439cde64f32b5b40935add500 (identical to the requested ID)",
+     "loan_token": "0x888883b5F5D21fb10Dfeb70e8f9722B9FB0E5E51",
+     "collateral_token": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+     "oracle": "0x9DA0B80a85E6892c10e83267611B8380666D04e2",
+     "irm": "0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC",
+     "irm_is_official_adaptive_curve": true,
+     "lltv": 0.86,
+     "total_supply_assets": 2502266304,
+     "total_borrow_assets": 2266304,
+     "total_supply_human": 2502.266304,
+     "total_borrow_human": 2.266304,
+     "available_liquidity_human": 2500.0,
+     "utilization": 0.000906,
+     "totals_include_accrued_interest": true,
+     "accrued_interest_human": 0.011916,
+     "seconds_since_last_update": 1711848,
+     "borrow_rate_per_second": 3079683986,
+     "borrow_apy": 0.101994,
+     "borrow_rate_evidence": "Contract.borrowRateView() = 3079683986 @ 0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC #26167512",
+     "fee": 0.0,
+     "last_update": 1789989407,
+     "oracle_price_scale_decimals": 34,
+     "proxy": {
+      "detected": false,
+      "upgradeable": null,
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
+     }
+    }
+   },
+   {
+    "id": "morpho_market_750817c3",
+    "type": "lending_market",
+    "label": "Morpho Blue weETH / EUROP (LLTV 86.0%)",
+    "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+    "chain": "ethereum",
+    "meta": {
+     "protocol": "morpho_blue",
+     "market_id": "0x750817c38e23857c6a970f545857f58d354b7ac53118c3986063a84cfe0e9a63",
+     "market_id_check": "keccak256(abi.encode(MarketParams)) = 0x750817c38e23857c6a970f545857f58d354b7ac53118c3986063a84cfe0e9a63 (identical to the requested ID)",
+     "loan_token": "0x888883b5F5D21fb10Dfeb70e8f9722B9FB0E5E51",
+     "collateral_token": "0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee",
+     "oracle": "0x9BfA4b2c90FA27f8CeA8F265f3c61778719A9813",
+     "irm": "0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC",
+     "irm_is_official_adaptive_curve": true,
+     "lltv": 0.86,
+     "total_supply_assets": 2501273773,
+     "total_borrow_assets": 1273773,
+     "total_supply_human": 2501.273773,
+     "total_borrow_human": 1.273773,
+     "available_liquidity_human": 2500.0,
+     "utilization": 0.000509,
+     "totals_include_accrued_interest": true,
+     "accrued_interest_human": 0.013619,
+     "seconds_since_last_update": 1711848,
+     "borrow_rate_per_second": 6279492425,
+     "borrow_apy": 0.218999,
+     "borrow_rate_evidence": "Contract.borrowRateView() = 6279492425 @ 0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC #26167512",
+     "fee": 0.0,
+     "last_update": 1789989407,
+     "oracle_price_scale_decimals": 24,
+     "proxy": {
+      "detected": false,
+      "upgradeable": null,
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
+     }
+    }
+   },
+   {
+    "id": "morpho_market_cb330367",
+    "type": "lending_market",
+    "label": "Morpho Blue cbBTC / EUROP (LLTV 86.0%)",
+    "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+    "chain": "ethereum",
+    "meta": {
+     "protocol": "morpho_blue",
+     "market_id": "0xcb330367d8241ad8b4831a1250a9a473ccc59ae51bbded0ddbed57317e4e7492",
+     "market_id_check": "keccak256(abi.encode(MarketParams)) = 0xcb330367d8241ad8b4831a1250a9a473ccc59ae51bbded0ddbed57317e4e7492 (identical to the requested ID)",
+     "loan_token": "0x888883b5F5D21fb10Dfeb70e8f9722B9FB0E5E51",
+     "collateral_token": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+     "oracle": "0x735CbB2A5A885d922da083fC00B7851E10ea9C59",
+     "irm": "0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC",
+     "irm_is_official_adaptive_curve": true,
+     "lltv": 0.86,
+     "total_supply_assets": 2512010959,
+     "total_borrow_assets": 2010959,
+     "total_supply_human": 2512.010959,
+     "total_borrow_human": 2.010959,
+     "available_liquidity_human": 2510.0,
+     "utilization": 0.000801,
+     "totals_include_accrued_interest": true,
+     "accrued_interest_human": 1e-05,
+     "seconds_since_last_update": 669072,
+     "borrow_rate_per_second": 7948601,
+     "borrow_apy": 0.000251,
+     "borrow_rate_evidence": "Contract.borrowRateView() = 7948601 @ 0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC #26167512",
+     "fee": 0.0,
+     "last_update": 1791032183,
+     "oracle_price_scale_decimals": 34,
+     "proxy": {
+      "detected": false,
+      "upgradeable": null,
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
+     }
+    }
+   },
+   {
+    "id": "morpho_market_dc720324",
+    "type": "lending_market",
+    "label": "Morpho Blue wstETH / EUROP (LLTV 86.0%)",
+    "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+    "chain": "ethereum",
+    "meta": {
+     "protocol": "morpho_blue",
+     "market_id": "0xdc72032470dda00c7cd556f3184c10babbbea7639045e2ea74580ae3f06098e8",
+     "market_id_check": "keccak256(abi.encode(MarketParams)) = 0xdc72032470dda00c7cd556f3184c10babbbea7639045e2ea74580ae3f06098e8 (identical to the requested ID)",
+     "loan_token": "0x888883b5F5D21fb10Dfeb70e8f9722B9FB0E5E51",
+     "collateral_token": "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
+     "oracle": "0xCF3eAd73F82E1E672943d819A3D3dB76b406F91e",
+     "irm": "0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC",
+     "irm_is_official_adaptive_curve": true,
+     "lltv": 0.86,
+     "total_supply_assets": 2502266304,
+     "total_borrow_assets": 2266304,
+     "total_supply_human": 2502.266304,
+     "total_borrow_human": 2.266304,
+     "available_liquidity_human": 2500.0,
+     "utilization": 0.000906,
+     "totals_include_accrued_interest": true,
+     "accrued_interest_human": 0.011916,
+     "seconds_since_last_update": 1711848,
+     "borrow_rate_per_second": 3079683986,
+     "borrow_apy": 0.101994,
+     "borrow_rate_evidence": "Contract.borrowRateView() = 3079683986 @ 0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC #26167512",
+     "fee": 0.0,
+     "last_update": 1789989407,
+     "oracle_price_scale_decimals": 24,
+     "proxy": {
+      "detected": false,
+      "upgradeable": null,
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
+     }
+    }
+   },
+   {
+    "id": "vault_rockawayx_europ",
+    "type": "vault",
+    "label": "RockawayX EUROP",
+    "address": "0x9C57E02bC31e7e463f439353D97bd8f42F5a7F9c",
+    "chain": "ethereum",
+    "meta": {
+     "vault_version": "Morpho Vault V2",
+     "source_interface": "https://github.com/morpho-org/vault-v2/blob/main/src/interfaces/IVaultV2.sol",
+     "asset": "0x888883b5F5D21fb10Dfeb70e8f9722B9FB0E5E51",
+     "asset_symbol": "EUROP",
+     "asset_decimals": 6,
+     "total_assets": "10011038090",
+     "total_assets_human": 10011.03809,
+     "idle_assets_human": 1.0,
+     "curator": "0xbBacDCFB9691DFA1066aB29edfcc4A73f6DEf918",
+     "owner": "0xbBacDCFB9691DFA1066aB29edfcc4A73f6DEf918",
+     "liquidity_adapter": "0x8f4FAb38B861471A24F51C1447594809dfa3435a",
+     "adapters": [
+      {
+       "address": "0x8f4FAb38B861471A24F51C1447594809dfa3435a",
+       "kind": "morpho_market_v1_adapter_v2",
+       "parent_vault_ok": true,
+       "force_deallocate_penalty": 0.01,
+       "is_liquidity_adapter": true,
+       "evidence": "RockawayX EUROP.adapters(0) = 0x8f4FAb38B861471A24F51C1447594809dfa3435a @ 0x9C57E02bC31e7e463f439353D97bd8f42F5a7F9c #26167512"
+      }
+     ],
+     "allocations": [
+      {
+       "market_id": "0xcb330367d8241ad8b4831a1250a9a473ccc59ae51bbded0ddbed57317e4e7492",
+       "adapter": "0x8f4FAb38B861471A24F51C1447594809dfa3435a",
+       "supplied": 2510.000668,
+       "share_of_vault": 0.250723,
+       "market_utilization": 0.000801,
+       "market_available_liquidity": 2510.0,
+       "withdrawable_now": 2510.0
+      },
+      {
+       "market_id": "0x489a15bd078659aebeed66d5eda8993cebdb79d439cde64f32b5b40935add500",
+       "adapter": "0x8f4FAb38B861471A24F51C1447594809dfa3435a",
+       "supplied": 2500.011905,
+       "share_of_vault": 0.249726,
+       "market_utilization": 0.000906,
+       "market_available_liquidity": 2500.0,
+       "withdrawable_now": 2500.0
+      },
+      {
+       "market_id": "0xdc72032470dda00c7cd556f3184c10babbbea7639045e2ea74580ae3f06098e8",
+       "adapter": "0x8f4FAb38B861471A24F51C1447594809dfa3435a",
+       "supplied": 2500.011905,
+       "share_of_vault": 0.249726,
+       "market_utilization": 0.000906,
+       "market_available_liquidity": 2500.0,
+       "withdrawable_now": 2500.0
+      },
+      {
+       "market_id": "0x750817c38e23857c6a970f545857f58d354b7ac53118c3986063a84cfe0e9a63",
+       "adapter": "0x8f4FAb38B861471A24F51C1447594809dfa3435a",
+       "supplied": 2500.013612,
+       "share_of_vault": 0.249726,
+       "market_utilization": 0.000509,
+       "market_available_liquidity": 2500.0,
+       "withdrawable_now": 2500.0
+      }
+     ],
+     "holder": "0x9C57E02bC31e7e463f439353D97bd8f42F5a7F9c",
+     "holder_shares": "10011004683095146936334",
+     "holder_assets_human": 10011.03809,
+     "whole_vault": true,
+     "holder_share_of_vault": 1.0,
+     "liquidity_market_id": "0xcb330367d8241ad8b4831a1250a9a473ccc59ae51bbded0ddbed57317e4e7492",
+     "exit_liquidity": {
+      "withdrawable_now_human": 10011.0,
+      "penalty_free_human": 2511.0,
+      "covers_holder_share_penalty_free": 0.250823,
+      "penalty_free_definition": "idle + liquidity of the \"liquidity source\" market (liquidityData): normal withdrawal without penalty",
+      "definition": "idle + Σ min(supplied by the vault, available market liquidity) — what all the depositors together can withdraw now (forceDeallocate, penalty above)",
+      "covers_holder_share": 0.999996
+     },
+     "proxy": {
+      "detected": false,
+      "upgradeable": null,
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
+     }
+    }
+   },
+   {
+    "id": "feed_btc_usd",
+    "type": "oracle",
+    "label": "Chainlink BTC / USD",
+    "address": "0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c",
+    "chain": "ethereum",
+    "meta": {
+     "oracle_kind": "chainlink_aggregator_proxy",
+     "pricing_mode": "market",
+     "description": "BTC / USD",
+     "aggregator": "0x4a3411ac2948B33c69666B35cc6d055B27Ea84f1",
+     "phase_id": 7,
+     "version": 6,
+     "owner": "0x21f73D42Eb58Ba49dDB685dc29D3bF5c0f0373CA",
+     "answer_raw": 8300027586510,
+     "decimals": 8,
+     "answer": 83000.2758651,
+     "round_id": "129127208515966886340",
+     "updated_at": 1791700643,
+     "age_seconds": 612,
+     "ens_name": "btc-usd.data.eth",
+     "ens_resolves_to_this_feed": true,
+     "proxy": {
+      "detected": false,
+      "upgradeable": null,
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
+     }
+    }
+   },
+   {
+    "id": "feed_eth_usd",
+    "type": "oracle",
+    "label": "Chainlink ETH / USD",
+    "address": "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",
+    "chain": "ethereum",
+    "meta": {
+     "oracle_kind": "chainlink_aggregator_proxy",
+     "pricing_mode": "market",
+     "description": "ETH / USD",
+     "aggregator": "0x7d4E742018fb52E48b08BE73d041C18B21de6Fb5",
+     "phase_id": 7,
+     "version": 6,
+     "owner": "0x21f73D42Eb58Ba49dDB685dc29D3bF5c0f0373CA",
+     "answer_raw": 250290000000,
+     "decimals": 8,
+     "answer": 2502.9,
+     "round_id": "129127208515966895820",
+     "updated_at": 1791701135,
+     "age_seconds": 120,
+     "ens_name": "eth-usd.data.eth",
+     "ens_resolves_to_this_feed": true,
+     "proxy": {
+      "detected": false,
+      "upgradeable": null,
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
+     }
+    }
+   },
+   {
+    "id": "feed_eur_usd",
+    "type": "oracle",
+    "label": "Chainlink EUR / USD",
+    "address": "0xb49f677943BC038e9857d61E7d053CaA2C1734C1",
+    "chain": "ethereum",
+    "meta": {
+     "oracle_kind": "chainlink_aggregator_proxy",
+     "pricing_mode": "market",
+     "description": "EUR / USD",
+     "aggregator": "0x966Dad3B93C207A9EE3a79C336145e013C5cD3fc",
+     "phase_id": 5,
+     "version": 6,
+     "owner": "0x21f73D42Eb58Ba49dDB685dc29D3bF5c0f0373CA",
+     "answer_raw": 112015000,
+     "decimals": 8,
+     "answer": 1.12015,
+     "round_id": "92233720368547762548",
+     "updated_at": 1791635759,
+     "age_seconds": 65496,
+     "ens_name": "eur-usd.data.eth",
+     "ens_resolves_to_this_feed": true,
+     "proxy": {
+      "detected": false,
+      "upgradeable": null,
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
+     }
+    }
+   },
+   {
+    "id": "feed_steth_eth",
+    "type": "oracle",
+    "label": "Chainlink STETH / ETH",
+    "address": "0x86392dC19c0b719886221c78AB11eb8Cf5c52812",
+    "chain": "ethereum",
+    "meta": {
+     "oracle_kind": "chainlink_aggregator_proxy",
+     "pricing_mode": "market",
+     "description": "STETH / ETH",
+     "aggregator": "0xC9c8Efa84eaB332d1950e5Ba0a913b090775825c",
+     "phase_id": 2,
+     "version": 6,
+     "owner": "0x21f73D42Eb58Ba49dDB685dc29D3bF5c0f0373CA",
+     "answer_raw": "999738380000000000",
+     "decimals": 18,
+     "answer": 0.99973838,
+     "round_id": "36893488147419104155",
+     "updated_at": 1791694631,
+     "age_seconds": 6624,
+     "ens_name": "steth-eth.data.eth",
+     "ens_resolves_to_this_feed": true,
+     "proxy": {
+      "detected": false,
+      "upgradeable": null,
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
+     }
+    }
+   },
+   {
+    "id": "feed_wbtc_btc",
+    "type": "oracle",
+    "label": "Chainlink WBTC / BTC",
+    "address": "0xfdFD9C85aD200c506Cf9e21F1FD8dd01932FBB23",
+    "chain": "ethereum",
+    "meta": {
+     "oracle_kind": "chainlink_aggregator_proxy",
+     "pricing_mode": "market",
+     "description": "WBTC / BTC",
+     "aggregator": "0xA5e3A55cEa42B86560a5215094981c300899199D",
+     "phase_id": 2,
+     "version": 6,
+     "owner": "0x21f73D42Eb58Ba49dDB685dc29D3bF5c0f0373CA",
+     "answer_raw": 99855000,
+     "decimals": 8,
+     "answer": 0.99855,
+     "round_id": "36893488147419104058",
+     "updated_at": 1791667379,
+     "age_seconds": 33876,
+     "ens_name": "wbtc-btc.data.eth",
+     "ens_resolves_to_this_feed": true,
+     "proxy": {
+      "detected": false,
+      "upgradeable": null,
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
+     }
+    }
+   },
+   {
+    "id": "feed_weeth_eth",
+    "type": "oracle",
+    "label": "Chainlink weETH / ETH",
+    "address": "0x5c9C449BbC9a6075A2c061dF312a35fd1E05fF22",
+    "chain": "ethereum",
+    "meta": {
+     "oracle_kind": "chainlink_aggregator_proxy",
+     "pricing_mode": "market",
+     "description": "weETH / ETH",
+     "aggregator": "0x0F316F6b0c2e2eBE3C3a8b23F6c61009238D51fD",
+     "phase_id": 2,
+     "version": 6,
+     "owner": "0x21f73D42Eb58Ba49dDB685dc29D3bF5c0f0373CA",
+     "answer_raw": "1105357917085960650",
+     "decimals": 18,
+     "answer": 1.1053579170859607,
+     "round_id": "36893488147419104091",
+     "updated_at": 1791693323,
+     "age_seconds": 7932,
+     "ens_name": "weeth-eth.data.eth",
+     "ens_resolves_to_this_feed": true,
+     "proxy": {
+      "detected": false,
+      "upgradeable": null,
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
+     }
+    }
+   },
+   {
+    "id": "feed_wsteth_4f67e4",
+    "type": "oracle",
+    "label": "Feed wstETH/ETH (Compound)",
+    "address": "0x4F67e4d9BD67eFa28236013288737D39AeF48e79",
+    "chain": "ethereum",
+    "meta": {
+     "oracle_kind": "wsteth_price_feed",
+     "pricing_mode": "market",
+     "description": "Custom price feed for wstETH / ETH",
+     "answer_raw": 124568769,
+     "decimals": 8,
+     "answer": 1.24568769,
+     "round_id": "36893488147419104155",
+     "updated_at": 1791694631,
+     "age_seconds": 6624,
+     "formula": "price = stETHtoETHPriceFeed × wstETH (internal rate, stETH per wstETH)",
+     "verified_source": "https://etherscan.io/address/0x4F67e4d9BD67eFa28236013288737D39AeF48e79#code",
+     "proxy": {
+      "detected": false,
+      "upgradeable": null,
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
+     }
+    }
+   },
+   {
+    "id": "oracle_morpho_v2_735cbb",
+    "type": "oracle",
+    "label": "MorphoChainlinkOracleV2 (market)",
+    "address": "0x735CbB2A5A885d922da083fC00B7851E10ea9C59",
+    "chain": "ethereum",
+    "meta": {
+     "oracle_kind": "morpho_chainlink_oracle_v2",
+     "pricing_mode": "market",
+     "scale_factor": "10000000000000000000000000000000000",
+     "price_raw": "740974653975806811587733785653707092800",
+     "price": 74097.46539758069,
+     "price_scale": "1e34",
+     "formula": "SCALE_FACTOR × BASE_VAULT × BASE_FEED_1 × BASE_FEED_2 / (QUOTE_VAULT × QUOTE_FEED_1 × QUOTE_FEED_2), empty slot = 1",
+     "price_recomputed_raw": "740974653975806811587733785653707092800",
+     "price_recomputed_matches": true,
+     "components": {
+      "BASE_VAULT": {
+       "address": null,
+       "sample": 1,
+       "role": "base"
+      },
+      "QUOTE_VAULT": {
+       "address": null,
+       "sample": 1,
+       "role": "quote"
+      },
+      "BASE_FEED_1": {
+       "address": "0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c",
+       "role": "base",
+       "pricing_mode": "market",
+       "value": 8300027586510
+      },
+      "BASE_FEED_2": {
+       "address": null,
+       "role": "base"
+      },
+      "QUOTE_FEED_1": {
+       "address": "0xb49f677943BC038e9857d61E7d053CaA2C1734C1",
+       "role": "quote",
+       "pricing_mode": "market",
+       "value": 112015000
+      },
+      "QUOTE_FEED_2": {
+       "address": null,
+       "role": "quote"
+      }
+     },
+     "implicit_unit_slots": [
+      "BASE_VAULT",
+      "QUOTE_VAULT",
+      "BASE_FEED_2",
+      "QUOTE_FEED_2"
+     ],
+     "implicit_unit_note": "Each slot listed here counts as 1 in the formula: the matching conversion is FIXED (e.g. no QUOTE_FEED = the lent asset is assumed to be worth 1 unit of the base feeds' currency).",
+     "created_by_official_factory": true,
+     "factory_evidence": "MorphoChainlinkOracleV2Factory.isMorphoChainlinkOracleV2(0x735CbB2A5A885d922da083fC00B7851E10ea9C59) = True @ 0x3A7bB36Ee3f3eE32A60e9f2b33c1e5f2E83ad766 #26167512",
+     "proxy": {
+      "detected": false,
+      "upgradeable": null,
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
+     }
+    }
+   },
+   {
+    "id": "oracle_morpho_v2_9bfa4b",
+    "type": "oracle",
+    "label": "MorphoChainlinkOracleV2 (market)",
+    "address": "0x9BfA4b2c90FA27f8CeA8F265f3c61778719A9813",
+    "chain": "ethereum",
+    "meta": {
+     "oracle_kind": "morpho_chainlink_oracle_v2",
+     "pricing_mode": "market",
+     "scale_factor": 1000000,
+     "price_raw": "2469848083448155078235057804",
+     "price": 2469.848083448155,
+     "price_scale": "1e24",
+     "formula": "SCALE_FACTOR × BASE_VAULT × BASE_FEED_1 × BASE_FEED_2 / (QUOTE_VAULT × QUOTE_FEED_1 × QUOTE_FEED_2), empty slot = 1",
+     "price_recomputed_raw": "2469848083448155078235057804",
+     "price_recomputed_matches": true,
+     "components": {
+      "BASE_VAULT": {
+       "address": null,
+       "sample": 1,
+       "role": "base"
+      },
+      "QUOTE_VAULT": {
+       "address": null,
+       "sample": 1,
+       "role": "quote"
+      },
+      "BASE_FEED_1": {
+       "address": "0x5c9C449BbC9a6075A2c061dF312a35fd1E05fF22",
+       "role": "base",
+       "pricing_mode": "market",
+       "value": "1105357917085960650"
+      },
+      "BASE_FEED_2": {
+       "address": "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",
+       "role": "base",
+       "pricing_mode": "market",
+       "value": 250290000000
+      },
+      "QUOTE_FEED_1": {
+       "address": "0xb49f677943BC038e9857d61E7d053CaA2C1734C1",
+       "role": "quote",
+       "pricing_mode": "market",
+       "value": 112015000
+      },
+      "QUOTE_FEED_2": {
+       "address": null,
+       "role": "quote"
+      }
+     },
+     "implicit_unit_slots": [
+      "BASE_VAULT",
+      "QUOTE_VAULT",
+      "QUOTE_FEED_2"
+     ],
+     "implicit_unit_note": "Each slot listed here counts as 1 in the formula: the matching conversion is FIXED (e.g. no QUOTE_FEED = the lent asset is assumed to be worth 1 unit of the base feeds' currency).",
+     "created_by_official_factory": true,
+     "factory_evidence": "MorphoChainlinkOracleV2Factory.isMorphoChainlinkOracleV2(0x9BfA4b2c90FA27f8CeA8F265f3c61778719A9813) = True @ 0x3A7bB36Ee3f3eE32A60e9f2b33c1e5f2E83ad766 #26167512",
+     "proxy": {
+      "detected": false,
+      "upgradeable": null,
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
+     }
+    }
+   },
+   {
+    "id": "oracle_morpho_v2_9da0b8",
+    "type": "oracle",
+    "label": "MorphoChainlinkOracleV2 (market)",
+    "address": "0x9DA0B80a85E6892c10e83267611B8380666D04e2",
+    "chain": "ethereum",
+    "meta": {
+     "oracle_kind": "morpho_chainlink_oracle_v2",
+     "pricing_mode": "market",
+     "scale_factor": "100000000000000000000000000",
+     "price_raw": "739900240727541891710931571664509217515",
+     "price": 73990.02407275418,
+     "price_scale": "1e34",
+     "formula": "SCALE_FACTOR × BASE_VAULT × BASE_FEED_1 × BASE_FEED_2 / (QUOTE_VAULT × QUOTE_FEED_1 × QUOTE_FEED_2), empty slot = 1",
+     "price_recomputed_raw": "739900240727541891710931571664509217515",
+     "price_recomputed_matches": true,
+     "components": {
+      "BASE_VAULT": {
+       "address": null,
+       "sample": 1,
+       "role": "base"
+      },
+      "QUOTE_VAULT": {
+       "address": null,
+       "sample": 1,
+       "role": "quote"
+      },
+      "BASE_FEED_1": {
+       "address": "0xfdFD9C85aD200c506Cf9e21F1FD8dd01932FBB23",
+       "role": "base",
+       "pricing_mode": "market",
+       "value": 99855000
+      },
+      "BASE_FEED_2": {
+       "address": "0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c",
+       "role": "base",
+       "pricing_mode": "market",
+       "value": 8300027586510
+      },
+      "QUOTE_FEED_1": {
+       "address": "0xb49f677943BC038e9857d61E7d053CaA2C1734C1",
+       "role": "quote",
+       "pricing_mode": "market",
+       "value": 112015000
+      },
+      "QUOTE_FEED_2": {
+       "address": null,
+       "role": "quote"
+      }
+     },
+     "implicit_unit_slots": [
+      "BASE_VAULT",
+      "QUOTE_VAULT",
+      "QUOTE_FEED_2"
+     ],
+     "implicit_unit_note": "Each slot listed here counts as 1 in the formula: the matching conversion is FIXED (e.g. no QUOTE_FEED = the lent asset is assumed to be worth 1 unit of the base feeds' currency).",
+     "created_by_official_factory": true,
+     "factory_evidence": "MorphoChainlinkOracleV2Factory.isMorphoChainlinkOracleV2(0x9DA0B80a85E6892c10e83267611B8380666D04e2) = True @ 0x3A7bB36Ee3f3eE32A60e9f2b33c1e5f2E83ad766 #26167512",
+     "proxy": {
+      "detected": false,
+      "upgradeable": null,
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
+     }
+    }
+   },
+   {
+    "id": "oracle_morpho_v2_cf3ead",
+    "type": "oracle",
+    "label": "MorphoChainlinkOracleV2 (market)",
+    "address": "0xCF3eAd73F82E1E672943d819A3D3dB76b406F91e",
+    "chain": "ethereum",
+    "meta": {
+     "oracle_kind": "morpho_chainlink_oracle_v2",
+     "pricing_mode": "market",
+     "scale_factor": "10000000000000000",
+     "price_raw": "2783405543276346917823505780",
+     "price": 2783.405543276347,
+     "price_scale": "1e24",
+     "formula": "SCALE_FACTOR × BASE_VAULT × BASE_FEED_1 × BASE_FEED_2 / (QUOTE_VAULT × QUOTE_FEED_1 × QUOTE_FEED_2), empty slot = 1",
+     "price_recomputed_raw": "2783405543276346917823505780",
+     "price_recomputed_matches": true,
+     "components": {
+      "BASE_VAULT": {
+       "address": null,
+       "sample": 1,
+       "role": "base"
+      },
+      "QUOTE_VAULT": {
+       "address": null,
+       "sample": 1,
+       "role": "quote"
+      },
+      "BASE_FEED_1": {
+       "address": "0x4F67e4d9BD67eFa28236013288737D39AeF48e79",
+       "role": "base",
+       "pricing_mode": "market",
+       "value": 124568769
+      },
+      "BASE_FEED_2": {
+       "address": "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",
+       "role": "base",
+       "pricing_mode": "market",
+       "value": 250290000000
+      },
+      "QUOTE_FEED_1": {
+       "address": "0xb49f677943BC038e9857d61E7d053CaA2C1734C1",
+       "role": "quote",
+       "pricing_mode": "market",
+       "value": 112015000
+      },
+      "QUOTE_FEED_2": {
+       "address": null,
+       "role": "quote"
+      }
+     },
+     "implicit_unit_slots": [
+      "BASE_VAULT",
+      "QUOTE_VAULT",
+      "QUOTE_FEED_2"
+     ],
+     "implicit_unit_note": "Each slot listed here counts as 1 in the formula: the matching conversion is FIXED (e.g. no QUOTE_FEED = the lent asset is assumed to be worth 1 unit of the base feeds' currency).",
+     "created_by_official_factory": true,
+     "factory_evidence": "MorphoChainlinkOracleV2Factory.isMorphoChainlinkOracleV2(0xCF3eAd73F82E1E672943d819A3D3dB76b406F91e) = True @ 0x3A7bB36Ee3f3eE32A60e9f2b33c1e5f2E83ad766 #26167512",
+     "proxy": {
+      "detected": false,
+      "upgradeable": null,
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
+     }
+    }
+   },
+   {
+    "id": "cbbtc",
+    "type": "asset",
+    "label": "cbBTC",
+    "address": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+    "chain": "ethereum",
+    "meta": {
+     "asset_kind": "erc20",
+     "symbol": "cbBTC",
+     "decimals": 8,
+     "total_supply": 4444193468231,
+     "total_supply_human": 44441.93468231,
+     "proxy": {
+      "detected": true,
+      "standard": "ZeppelinOS (legacy) (upgradeable)",
+      "implementation": "0x7458bfDC30034EB860B265E6068121D18Fa5Aa72",
+      "upgradeable": true,
+      "evidence": "eth_getStorageAt(0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf, slot ZeppelinOS (legacy)) = 0x7458bfDC30034EB860B265E6068121D18Fa5Aa72 #26167512"
+     }
+    }
+   },
+   {
+    "id": "europ",
+    "type": "asset",
+    "label": "EUROP",
+    "address": "0x888883b5F5D21fb10Dfeb70e8f9722B9FB0E5E51",
+    "chain": "ethereum",
+    "meta": {
+     "asset_kind": "erc20",
+     "symbol": "EUROP",
+     "decimals": 6,
+     "total_supply": 7865951274495,
+     "total_supply_human": 7865951.274495,
+     "proxy": {
+      "detected": true,
+      "standard": "EIP-1967 (upgradeable)",
+      "implementation": "0xfbdAF9745Da69f927BC14Bd73860ffdBA82cff43",
+      "upgradeable": true,
+      "evidence": "eth_getStorageAt(0x888883b5F5D21fb10Dfeb70e8f9722B9FB0E5E51, slot EIP-1967) = 0xfbdAF9745Da69f927BC14Bd73860ffdBA82cff43 #26167512"
+     }
+    }
+   },
+   {
+    "id": "wbtc",
+    "type": "asset",
+    "label": "WBTC",
+    "address": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+    "chain": "ethereum",
+    "meta": {
+     "asset_kind": "erc20",
+     "symbol": "WBTC",
+     "decimals": 8,
+     "total_supply": 11613218273262,
+     "total_supply_human": 116132.18273262,
+     "proxy": {
+      "detected": false,
+      "upgradeable": null,
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
+     }
+    }
+   },
+   {
+    "id": "weeth",
+    "type": "asset",
+    "label": "weETH",
+    "address": "0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee",
+    "chain": "ethereum",
+    "meta": {
+     "asset_kind": "erc20",
+     "symbol": "weETH",
+     "decimals": 18,
+     "total_supply": "1999169106330493302200054",
+     "total_supply_human": 1999169.1063304932,
+     "proxy": {
+      "detected": true,
+      "standard": "EIP-1967 (upgradeable)",
+      "implementation": "0xA6Ca0607190d03CF16fe6F2865Cf40c3D160ccf3",
+      "upgradeable": true,
+      "evidence": "eth_getStorageAt(0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee, slot EIP-1967) = 0xA6Ca0607190d03CF16fe6F2865Cf40c3D160ccf3 #26167512"
+     }
+    }
+   },
+   {
+    "id": "wsteth",
+    "type": "asset",
+    "label": "wstETH",
+    "address": "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
+    "chain": "ethereum",
+    "meta": {
+     "asset_kind": "erc20",
+     "symbol": "wstETH",
+     "decimals": 18,
+     "total_supply": "3676526405255105621292388",
+     "total_supply_human": 3676526.405255106,
+     "proxy": {
+      "detected": false,
+      "upgradeable": null,
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
+     }
+    }
+   },
+   {
+    "id": "chainlink",
+    "type": "issuer",
+    "label": "Chainlink",
+    "address": null,
+    "chain": null,
+    "meta": {
+     "evidence_url": "https://docs.chain.link/data-feeds/ens",
+     "as_of": "2026-10-10",
+     "note": "Official Chainlink feeds are registered under the ENS domain data.eth."
+    }
+   },
+   {
+    "id": "curator_rockawayx",
+    "type": "issuer",
+    "label": "RockawayX (curator)",
+    "address": null,
+    "chain": null,
+    "meta": {
+     "role": "vault_curator",
+     "curator_address": "0xbBacDCFB9691DFA1066aB29edfcc4A73f6DEf918",
+     "identity_source": "API Morpho https://api.morpho.org/graphql vaultV2ByAddress(0x9C57E02bC31e7e463f439353D97bd8f42F5a7F9c).curators (fetched 2026-10-11T06:49:29+00:00)",
+     "verified_by_morpho": true,
+     "website": "https://rockawayx.com/",
+     "note": "Curator address proven on-chain (curator()); the NAME comes from the Morpho API, which links this address to the entity."
+    }
+   },
+   {
+    "id": "morpho",
+    "type": "issuer",
+    "label": "Morpho",
+    "address": null,
+    "chain": null,
+    "meta": {
+     "evidence_url": "https://docs.morpho.org/developers/contracts/addresses/",
+     "as_of": "2026-10-10",
+     "note": "Morpho Blue protocol (singleton contract listed in the official docs)."
+    }
+   },
+   {
+    "id": "ethereum",
+    "type": "chain",
+    "label": "Ethereum",
+    "address": null,
+    "chain": "ethereum",
+    "meta": {
+     "chain_id": 1,
+     "snapshot_block": 26167512,
+     "snapshot_block_hash": "0x4067a48dfeddb1871b18209f0797273ba4c2dd447a250936a5607dcd4696fbd7",
+     "snapshot_timestamp": 1791701255,
+     "snapshot_time_iso": "2026-10-11T06:47:35+00:00",
+     "note": "Every on-chain read of the graph is made at this block."
+    }
+   }
+  ],
+  "edges": [
+   {
+    "from": "cbbtc",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf) = 1550 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "europ",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0x888883b5F5D21fb10Dfeb70e8f9722B9FB0E5E51) = 170 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "feed_btc_usd",
+    "to": "chainlink",
+    "type": "issued_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "ENS btc-usd.data.eth → 0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26167512; the data.eth domain is the Chainlink feeds' domain (https://docs.chain.link/data-feeds/ens)"
+   },
+   {
+    "from": "feed_btc_usd",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c) = 9571 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "feed_eth_usd",
+    "to": "chainlink",
+    "type": "issued_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "ENS eth-usd.data.eth → 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26167512; the data.eth domain is the Chainlink feeds' domain (https://docs.chain.link/data-feeds/ens)"
+   },
+   {
+    "from": "feed_eth_usd",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419) = 9571 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "feed_eur_usd",
+    "to": "chainlink",
+    "type": "issued_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "ENS eur-usd.data.eth → 0xb49f677943BC038e9857d61E7d053CaA2C1734C1 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26167512; the data.eth domain is the Chainlink feeds' domain (https://docs.chain.link/data-feeds/ens)"
+   },
+   {
+    "from": "feed_eur_usd",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0xb49f677943BC038e9857d61E7d053CaA2C1734C1) = 9571 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "feed_steth_eth",
+    "to": "chainlink",
+    "type": "issued_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "ENS steth-eth.data.eth → 0x86392dC19c0b719886221c78AB11eb8Cf5c52812 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26167512; the data.eth domain is the Chainlink feeds' domain (https://docs.chain.link/data-feeds/ens)"
+   },
+   {
+    "from": "feed_steth_eth",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0x86392dC19c0b719886221c78AB11eb8Cf5c52812) = 9571 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "feed_wbtc_btc",
+    "to": "chainlink",
+    "type": "issued_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "ENS wbtc-btc.data.eth → 0xfdFD9C85aD200c506Cf9e21F1FD8dd01932FBB23 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26167512; the data.eth domain is the Chainlink feeds' domain (https://docs.chain.link/data-feeds/ens)"
+   },
+   {
+    "from": "feed_wbtc_btc",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0xfdFD9C85aD200c506Cf9e21F1FD8dd01932FBB23) = 9571 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "feed_weeth_eth",
+    "to": "chainlink",
+    "type": "issued_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "ENS weeth-eth.data.eth → 0x5c9C449BbC9a6075A2c061dF312a35fd1E05fF22 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26167512; the data.eth domain is the Chainlink feeds' domain (https://docs.chain.link/data-feeds/ens)"
+   },
+   {
+    "from": "feed_weeth_eth",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0x5c9C449BbC9a6075A2c061dF312a35fd1E05fF22) = 9571 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "feed_wsteth_4f67e4",
+    "to": "feed_steth_eth",
+    "type": "priced_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "WstETHPriceFeed.stETHtoETHPriceFeed() = 0x86392dC19c0b719886221c78AB11eb8Cf5c52812 @ 0x4F67e4d9BD67eFa28236013288737D39AeF48e79 #26167512"
+   },
+   {
+    "from": "feed_wsteth_4f67e4",
+    "to": "wsteth",
+    "type": "priced_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "WstETHPriceFeed.wstETH() = 0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0 @ 0x4F67e4d9BD67eFa28236013288737D39AeF48e79 #26167512 (token internal rate)"
+   },
+   {
+    "from": "feed_wsteth_4f67e4",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0x4F67e4d9BD67eFa28236013288737D39AeF48e79) = 1581 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "morpho_market_489a15bd",
+    "to": "wbtc",
+    "type": "collateralized_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "Morpho.idToMarketParams(0x489a15bd078659aebeed66d5eda8993cebdb79d439cde64f32b5b40935add500) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26167512 → collateralToken = 0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599"
+   },
+   {
+    "from": "morpho_market_489a15bd",
+    "to": "morpho",
+    "type": "issued_by",
+    "weight": 1.0,
+    "source": "curated",
+    "evidence": "Morpho Blue (singleton) = 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb according to https://docs.morpho.org/developers/contracts/addresses/ (as of 2026-10-10)"
+   },
+   {
+    "from": "morpho_market_489a15bd",
+    "to": "europ",
+    "type": "lends",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "Morpho.idToMarketParams(0x489a15bd078659aebeed66d5eda8993cebdb79d439cde64f32b5b40935add500) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26167512 → loanToken = 0x888883b5F5D21fb10Dfeb70e8f9722B9FB0E5E51"
+   },
+   {
+    "from": "morpho_market_489a15bd",
+    "to": "oracle_morpho_v2_9da0b8",
+    "type": "priced_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "Morpho.idToMarketParams(0x489a15bd078659aebeed66d5eda8993cebdb79d439cde64f32b5b40935add500) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26167512 → oracle = 0x9DA0B80a85E6892c10e83267611B8380666D04e2"
+   },
+   {
+    "from": "morpho_market_489a15bd",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb) = 15623 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "morpho_market_750817c3",
+    "to": "weeth",
+    "type": "collateralized_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "Morpho.idToMarketParams(0x750817c38e23857c6a970f545857f58d354b7ac53118c3986063a84cfe0e9a63) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26167512 → collateralToken = 0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee"
+   },
+   {
+    "from": "morpho_market_750817c3",
+    "to": "morpho",
+    "type": "issued_by",
+    "weight": 1.0,
+    "source": "curated",
+    "evidence": "Morpho Blue (singleton) = 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb according to https://docs.morpho.org/developers/contracts/addresses/ (as of 2026-10-10)"
+   },
+   {
+    "from": "morpho_market_750817c3",
+    "to": "europ",
+    "type": "lends",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "Morpho.idToMarketParams(0x750817c38e23857c6a970f545857f58d354b7ac53118c3986063a84cfe0e9a63) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26167512 → loanToken = 0x888883b5F5D21fb10Dfeb70e8f9722B9FB0E5E51"
+   },
+   {
+    "from": "morpho_market_750817c3",
+    "to": "oracle_morpho_v2_9bfa4b",
+    "type": "priced_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "Morpho.idToMarketParams(0x750817c38e23857c6a970f545857f58d354b7ac53118c3986063a84cfe0e9a63) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26167512 → oracle = 0x9BfA4b2c90FA27f8CeA8F265f3c61778719A9813"
+   },
+   {
+    "from": "morpho_market_750817c3",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb) = 15623 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "morpho_market_cb330367",
+    "to": "cbbtc",
+    "type": "collateralized_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "Morpho.idToMarketParams(0xcb330367d8241ad8b4831a1250a9a473ccc59ae51bbded0ddbed57317e4e7492) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26167512 → collateralToken = 0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf"
+   },
+   {
+    "from": "morpho_market_cb330367",
+    "to": "morpho",
+    "type": "issued_by",
+    "weight": 1.0,
+    "source": "curated",
+    "evidence": "Morpho Blue (singleton) = 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb according to https://docs.morpho.org/developers/contracts/addresses/ (as of 2026-10-10)"
+   },
+   {
+    "from": "morpho_market_cb330367",
+    "to": "europ",
+    "type": "lends",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "Morpho.idToMarketParams(0xcb330367d8241ad8b4831a1250a9a473ccc59ae51bbded0ddbed57317e4e7492) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26167512 → loanToken = 0x888883b5F5D21fb10Dfeb70e8f9722B9FB0E5E51"
+   },
+   {
+    "from": "morpho_market_cb330367",
+    "to": "oracle_morpho_v2_735cbb",
+    "type": "priced_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "Morpho.idToMarketParams(0xcb330367d8241ad8b4831a1250a9a473ccc59ae51bbded0ddbed57317e4e7492) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26167512 → oracle = 0x735CbB2A5A885d922da083fC00B7851E10ea9C59"
+   },
+   {
+    "from": "morpho_market_cb330367",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb) = 15623 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "morpho_market_dc720324",
+    "to": "wsteth",
+    "type": "collateralized_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "Morpho.idToMarketParams(0xdc72032470dda00c7cd556f3184c10babbbea7639045e2ea74580ae3f06098e8) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26167512 → collateralToken = 0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0"
+   },
+   {
+    "from": "morpho_market_dc720324",
+    "to": "morpho",
+    "type": "issued_by",
+    "weight": 1.0,
+    "source": "curated",
+    "evidence": "Morpho Blue (singleton) = 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb according to https://docs.morpho.org/developers/contracts/addresses/ (as of 2026-10-10)"
+   },
+   {
+    "from": "morpho_market_dc720324",
+    "to": "europ",
+    "type": "lends",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "Morpho.idToMarketParams(0xdc72032470dda00c7cd556f3184c10babbbea7639045e2ea74580ae3f06098e8) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26167512 → loanToken = 0x888883b5F5D21fb10Dfeb70e8f9722B9FB0E5E51"
+   },
+   {
+    "from": "morpho_market_dc720324",
+    "to": "oracle_morpho_v2_cf3ead",
+    "type": "priced_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "Morpho.idToMarketParams(0xdc72032470dda00c7cd556f3184c10babbbea7639045e2ea74580ae3f06098e8) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26167512 → oracle = 0xCF3eAd73F82E1E672943d819A3D3dB76b406F91e"
+   },
+   {
+    "from": "morpho_market_dc720324",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb) = 15623 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "morpho_vault_v2:0x9C57E02bC31e7e463f439353D97bd8f42F5a7F9c:0x9C57E02bC31e7e463f439353D97bd8f42F5a7F9c",
+    "to": "vault_rockawayx_europ",
+    "type": "deployed_in",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "RockawayX EUROP.totalAssets() = 10011038090 @ 0x9C57E02bC31e7e463f439353D97bd8f42F5a7F9c #26167512 — whole vault: the position is all its depositors together (curator view)"
+   },
+   {
+    "from": "oracle_morpho_v2_735cbb",
+    "to": "feed_btc_usd",
+    "type": "priced_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "MorphoChainlinkOracleV2.BASE_FEED_1() = 0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c @ 0x735CbB2A5A885d922da083fC00B7851E10ea9C59 #26167512; value read = 8300027586510"
+   },
+   {
+    "from": "oracle_morpho_v2_735cbb",
+    "to": "feed_eur_usd",
+    "type": "priced_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "MorphoChainlinkOracleV2.QUOTE_FEED_1() = 0xb49f677943BC038e9857d61E7d053CaA2C1734C1 @ 0x735CbB2A5A885d922da083fC00B7851E10ea9C59 #26167512; value read = 112015000"
+   },
+   {
+    "from": "oracle_morpho_v2_735cbb",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0x735CbB2A5A885d922da083fC00B7851E10ea9C59) = 2598 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "oracle_morpho_v2_9bfa4b",
+    "to": "feed_eth_usd",
+    "type": "priced_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "MorphoChainlinkOracleV2.BASE_FEED_2() = 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419 @ 0x9BfA4b2c90FA27f8CeA8F265f3c61778719A9813 #26167512; value read = 250290000000"
+   },
+   {
+    "from": "oracle_morpho_v2_9bfa4b",
+    "to": "feed_eur_usd",
+    "type": "priced_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "MorphoChainlinkOracleV2.QUOTE_FEED_1() = 0xb49f677943BC038e9857d61E7d053CaA2C1734C1 @ 0x9BfA4b2c90FA27f8CeA8F265f3c61778719A9813 #26167512; value read = 112015000"
+   },
+   {
+    "from": "oracle_morpho_v2_9bfa4b",
+    "to": "feed_weeth_eth",
+    "type": "priced_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "MorphoChainlinkOracleV2.BASE_FEED_1() = 0x5c9C449BbC9a6075A2c061dF312a35fd1E05fF22 @ 0x9BfA4b2c90FA27f8CeA8F265f3c61778719A9813 #26167512; value read = 1105357917085960650"
+   },
+   {
+    "from": "oracle_morpho_v2_9bfa4b",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0x9BfA4b2c90FA27f8CeA8F265f3c61778719A9813) = 2598 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "oracle_morpho_v2_9da0b8",
+    "to": "feed_btc_usd",
+    "type": "priced_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "MorphoChainlinkOracleV2.BASE_FEED_2() = 0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c @ 0x9DA0B80a85E6892c10e83267611B8380666D04e2 #26167512; value read = 8300027586510"
+   },
+   {
+    "from": "oracle_morpho_v2_9da0b8",
+    "to": "feed_eur_usd",
+    "type": "priced_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "MorphoChainlinkOracleV2.QUOTE_FEED_1() = 0xb49f677943BC038e9857d61E7d053CaA2C1734C1 @ 0x9DA0B80a85E6892c10e83267611B8380666D04e2 #26167512; value read = 112015000"
+   },
+   {
+    "from": "oracle_morpho_v2_9da0b8",
+    "to": "feed_wbtc_btc",
+    "type": "priced_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "MorphoChainlinkOracleV2.BASE_FEED_1() = 0xfdFD9C85aD200c506Cf9e21F1FD8dd01932FBB23 @ 0x9DA0B80a85E6892c10e83267611B8380666D04e2 #26167512; value read = 99855000"
+   },
+   {
+    "from": "oracle_morpho_v2_9da0b8",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0x9DA0B80a85E6892c10e83267611B8380666D04e2) = 2598 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "oracle_morpho_v2_cf3ead",
+    "to": "feed_eth_usd",
+    "type": "priced_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "MorphoChainlinkOracleV2.BASE_FEED_2() = 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419 @ 0xCF3eAd73F82E1E672943d819A3D3dB76b406F91e #26167512; value read = 250290000000"
+   },
+   {
+    "from": "oracle_morpho_v2_cf3ead",
+    "to": "feed_eur_usd",
+    "type": "priced_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "MorphoChainlinkOracleV2.QUOTE_FEED_1() = 0xb49f677943BC038e9857d61E7d053CaA2C1734C1 @ 0xCF3eAd73F82E1E672943d819A3D3dB76b406F91e #26167512; value read = 112015000"
+   },
+   {
+    "from": "oracle_morpho_v2_cf3ead",
+    "to": "feed_wsteth_4f67e4",
+    "type": "priced_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "MorphoChainlinkOracleV2.BASE_FEED_1() = 0x4F67e4d9BD67eFa28236013288737D39AeF48e79 @ 0xCF3eAd73F82E1E672943d819A3D3dB76b406F91e #26167512; value read = 124568769"
+   },
+   {
+    "from": "oracle_morpho_v2_cf3ead",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0xCF3eAd73F82E1E672943d819A3D3dB76b406F91e) = 2598 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "vault_rockawayx_europ",
+    "to": "morpho_market_489a15bd",
+    "type": "deployed_in",
+    "weight": 0.24972554120009346,
+    "source": "onchain",
+    "evidence": "RockawayX EUROP.adapters(0) = 0x8f4FAb38B861471A24F51C1447594809dfa3435a @ 0x9C57E02bC31e7e463f439353D97bd8f42F5a7F9c #26167512; VaultV2Adapter.marketIds(1) = 0x489a15bd078659aebeed66d5eda8993cebdb79d439cde64f32b5b40935add500 @ 0x8f4FAb38B861471A24F51C1447594809dfa3435a #26167512 ; VaultV2Adapter.expectedSupplyAssets(0x489a15bd078659aebeed66d5eda8993cebdb79d439cde64f32b5b40935add500) = 2500011905 @ 0x8f4FAb38B861471A24F51C1447594809dfa3435a #26167512; vault share = 24.9726% (÷ totalAssets 10011038090)"
+   },
+   {
+    "from": "vault_rockawayx_europ",
+    "to": "morpho_market_750817c3",
+    "type": "deployed_in",
+    "weight": 0.24972571171188102,
+    "source": "onchain",
+    "evidence": "RockawayX EUROP.adapters(0) = 0x8f4FAb38B861471A24F51C1447594809dfa3435a @ 0x9C57E02bC31e7e463f439353D97bd8f42F5a7F9c #26167512; VaultV2Adapter.marketIds(3) = 0x750817c38e23857c6a970f545857f58d354b7ac53118c3986063a84cfe0e9a63 @ 0x8f4FAb38B861471A24F51C1447594809dfa3435a #26167512 ; VaultV2Adapter.expectedSupplyAssets(0x750817c38e23857c6a970f545857f58d354b7ac53118c3986063a84cfe0e9a63) = 2500013612 @ 0x8f4FAb38B861471A24F51C1447594809dfa3435a #26167512; vault share = 24.9726% (÷ totalAssets 10011038090)"
+   },
+   {
+    "from": "vault_rockawayx_europ",
+    "to": "morpho_market_cb330367",
+    "type": "deployed_in",
+    "weight": 0.25072331614712695,
+    "source": "onchain",
+    "evidence": "RockawayX EUROP.adapters(0) = 0x8f4FAb38B861471A24F51C1447594809dfa3435a @ 0x9C57E02bC31e7e463f439353D97bd8f42F5a7F9c #26167512; VaultV2Adapter.marketIds(0) = 0xcb330367d8241ad8b4831a1250a9a473ccc59ae51bbded0ddbed57317e4e7492 @ 0x8f4FAb38B861471A24F51C1447594809dfa3435a #26167512 ; VaultV2Adapter.expectedSupplyAssets(0xcb330367d8241ad8b4831a1250a9a473ccc59ae51bbded0ddbed57317e4e7492) = 2510000668 @ 0x8f4FAb38B861471A24F51C1447594809dfa3435a #26167512; vault share = 25.0723% (÷ totalAssets 10011038090)"
+   },
+   {
+    "from": "vault_rockawayx_europ",
+    "to": "morpho_market_dc720324",
+    "type": "deployed_in",
+    "weight": 0.24972554120009346,
+    "source": "onchain",
+    "evidence": "RockawayX EUROP.adapters(0) = 0x8f4FAb38B861471A24F51C1447594809dfa3435a @ 0x9C57E02bC31e7e463f439353D97bd8f42F5a7F9c #26167512; VaultV2Adapter.marketIds(2) = 0xdc72032470dda00c7cd556f3184c10babbbea7639045e2ea74580ae3f06098e8 @ 0x8f4FAb38B861471A24F51C1447594809dfa3435a #26167512 ; VaultV2Adapter.expectedSupplyAssets(0xdc72032470dda00c7cd556f3184c10babbbea7639045e2ea74580ae3f06098e8) = 2500011905 @ 0x8f4FAb38B861471A24F51C1447594809dfa3435a #26167512; vault share = 24.9726% (÷ totalAssets 10011038090)"
+   },
+   {
+    "from": "vault_rockawayx_europ",
+    "to": "curator_rockawayx",
+    "type": "issued_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "RockawayX EUROP.curator() = 0xbBacDCFB9691DFA1066aB29edfcc4A73f6DEf918 @ 0x9C57E02bC31e7e463f439353D97bd8f42F5a7F9c #26167512; identity: API Morpho https://api.morpho.org/graphql vaultV2ByAddress(0x9C57E02bC31e7e463f439353D97bd8f42F5a7F9c).curators (fetched 2026-10-11T06:49:29+00:00)"
+   },
+   {
+    "from": "vault_rockawayx_europ",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0x9C57E02bC31e7e463f439353D97bd8f42F5a7F9c) = 21808 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "wbtc",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599) = 4582 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "weeth",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee) = 845 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "wsteth",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0) = 6492 bytes #26167512; eth_chainId = 1"
+   }
+  ]
+ }
+}

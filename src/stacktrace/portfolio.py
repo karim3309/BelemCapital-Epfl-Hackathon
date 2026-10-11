@@ -30,6 +30,7 @@ from pathlib import Path
 from discovery.config import REPO_ROOT, _check_address
 from discovery.console import utf8_console
 from discovery.ctx import CallFailed, Ctx, checksum
+from discovery.rpc import redact
 from discovery.adapters.morpho import ORACLE_PRICE_SCALE, VIRTUAL_ASSETS, VIRTUAL_SHARES, read_market, to_assets_up
 
 OUTPUT_DIR = REPO_ROOT / "output" / "live"
@@ -278,6 +279,9 @@ def scan_vaults(ctx: Ctx, key: str, vaults: list[str], located: str, chain_id: i
         except (CallFailed, ValueError) as e:
             ignored.append({"id": f"morpho_vault_v2:{v}", "reason": f"on-chain proof impossible: {e}"})
             continue
+        except Exception as e:      # RPC 429 / network: ONE vault is left out with the reason, the book goes on
+            ignored.append({"id": f"morpho_vault_v2:{v}", "reason": f"read failed ({type(e).__name__}): {redact(e)}"})
+            continue
         if h.value_usd is None:
             ignored.append({"id": h.id, "label": h.label, "reason": f"no USD price ({h.price_source}): "
                             "a loss in dollars cannot be computed, so the vault is left out rather than guessed"})
@@ -346,6 +350,9 @@ def scan_holder(ctx: Ctx, holder: str, chain_id: int = 1, min_usd: float = 1.0) 
                 [prove_vault(ctx, holder, item, kind, located)]
         except (CallFailed, ValueError) as e:
             ignored.append({"kind": kind, "reason": f"on-chain proof impossible: {e}", "api_item": item})
+            continue
+        except Exception as e:      # RPC 429 / network: this position is left out with the reason
+            ignored.append({"kind": kind, "reason": f"read failed ({type(e).__name__}): {redact(e)}", "api_item": item})
             continue
         for h in found:
             if h.amount == 0 or (h.value_usd is not None and abs(h.value_usd) < min_usd):

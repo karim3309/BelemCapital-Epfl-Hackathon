@@ -1,4 +1,4 @@
-"""Validation on real incidents: the view served to the front, and the copy recorded for the offline deck."""
+"""Counterfactual replays on real price paths: the view served to the front, and the copy recorded offline."""
 import json
 
 from fastapi.testclient import TestClient

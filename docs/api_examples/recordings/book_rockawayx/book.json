@@ -1,0 +1,763 @@
+{
+ "block": 26167512,
+ "block_timestamp": 1791701255,
+ "chain_id": 1,
+ "holder": "book:rockawayx",
+ "total_value_usd": 99230342.68428636,
+ "expected_loss_usd": 23172.846879699107,
+ "pockets": [
+  {
+   "index": 1,
+   "id": "morpho_vault_v2:0xc207d3f66537D7F66456808379A0E560cF20Da36",
+   "label": "RockawayX Confidential RWA USDC",
+   "kind": "morpho_vault_v2",
+   "value_usd": 26139777.07286866,
+   "share_of_book": 0.263425,
+   "verdict": "STAY",
+   "exit_fraction": 0.0,
+   "expected_loss_usd": 6181.652165077771,
+   "exit_cost_usd": 47276.305410936504,
+   "exit_fraction_now": 0.280662,
+   "sentence": "Curator view (whole vault, all depositors): EXIT means pulling the vault's money out of its markets, STAY means keeping the allocation. STAY — exiting (only 28% can be exited now) would avoid $1,180 of expected loss over the horizon, but would cost $47,276. ($1,979 of expected loss cannot be avoided by exiting: it stays with the asset you get back.) Exit if you put the risk \"PST collateral drop\" above 4.4% (our estimate: 0.10%, i.e. ≈ once every 20 years).",
+   "top_risk": {
+    "id": "rwa_credit_event:pst",
+    "title": "PST collateral drop",
+    "family": "rwa_credit_event",
+    "target": "pst",
+    "annual_rate": 0.05,
+    "p_horizon": 0.0009584445079596771,
+    "severity_range": [
+     0.05,
+     0.5
+    ],
+    "loss_if_incident_usd": 3830790.6901499666,
+    "loss_if_incident_avoidable_usd": 3830790.6901499666,
+    "loss_if_incident_max_usd": 8650687.900750909,
+    "expected_loss_usd": 3671.6002981172965,
+    "expected_loss_avoidable_usd": 3671.6002981172965,
+    "avoidable_by_exit": true,
+    "not_avoided_because": null,
+    "p_star": 0.04397152122694041,
+    "rule": "sudden shock on a collateral whose oracle does NOT follow the market (internal rate / set price): no timely liquidation → bad debt max(0, D − V·(1−d)·(1−slippage)), borrower by borrower",
+    "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX Confidential RWA USDC → [deployed_in] Morpho Blue PST / USDC (LLTV 86.0%) → [collateralized_by] PST"
+   }
+  },
+  {
+   "index": 2,
+   "id": "morpho_vault_v2:0x2cA22cb25558fa2018ecb1CE4eD8AF92Ee7ea423",
+   "label": "RockawayX f(x) Protocol Ecosystem USDC",
+   "kind": "morpho_vault_v2",
+   "value_usd": 21376490.635270845,
+   "share_of_book": 0.215423,
+   "verdict": "STAY",
+   "exit_fraction": 0.0,
+   "expected_loss_usd": 4673.457582900485,
+   "exit_cost_usd": 5872.590422635936,
+   "exit_fraction_now": 0.162181,
+   "sentence": "Curator view (whole vault, all depositors): EXIT means pulling the vault's money out of its markets, STAY means keeping the allocation. STAY — exiting (only 16% can be exited now) would avoid $446 of expected loss over the horizon, but would cost $5,873. ($1,921 of expected loss cannot be avoided by exiting: it stays with the asset you get back.) Exit if you put the risk \"fxSAVE collateral drop\" above 1.2% (our estimate: 0.10%, i.e. ≈ once every 20 years).",
+   "top_risk": {
+    "id": "rwa_credit_event:fxsave",
+    "title": "fxSAVE collateral drop",
+    "family": "rwa_credit_event",
+    "target": "fxsave",
+    "annual_rate": 0.05,
+    "p_horizon": 0.0009584445079596771,
+    "severity_range": [
+     0.05,
+     0.5
+    ],
+    "loss_if_incident_usd": 3030785.6531607364,
+    "loss_if_incident_avoidable_usd": 3030785.6531607364,
+    "loss_if_incident_max_usd": 7666688.820525311,
+    "expected_loss_usd": 2904.8398640748906,
+    "expected_loss_avoidable_usd": 2904.8398640748906,
+    "avoidable_by_exit": true,
+    "not_avoided_because": null,
+    "p_star": 0.011947430581815067,
+    "rule": "sudden shock on a collateral whose oracle does NOT follow the market (internal rate / set price): no timely liquidation → bad debt max(0, D − V·(1−d)·(1−slippage)), borrower by borrower",
+    "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX f(x) Protocol Ecosystem USDC → [deployed_in] Morpho Blue fxSAVE / USDC (LLTV 91.5%) → [collateralized_by] fxSAVE"
+   }
+  },
+  {
+   "index": 3,
+   "id": "morpho_vault_v2:0xE0181090c22579B6A217f1522cbf8c9f1F0C1965",
+   "label": "RockawayX USDC Yield",
+   "kind": "morpho_vault_v2",
+   "value_usd": 18435263.322401013,
+   "share_of_book": 0.185783,
+   "verdict": "STAY",
+   "exit_fraction": 0.0,
+   "expected_loss_usd": 5039.977864356959,
+   "exit_cost_usd": 76515.66293743758,
+   "exit_fraction_now": 0.668385,
+   "sentence": "Curator view (whole vault, all depositors): EXIT means pulling the vault's money out of its markets, STAY means keeping the allocation. STAY — exiting (only 67% can be exited now) would avoid $1,922 of expected loss over the horizon, but would cost $76,516. ($2,165 of expected loss cannot be avoided by exiting: it stays with the asset you get back.) Exit if you put the risk \"PT-reUSD-10DEC2026 collateral drop\" above 8.3% (our estimate: 0.10%, i.e. ≈ once every 20 years).",
+   "top_risk": {
+    "id": "rwa_credit_event:pt_reusd_10dec2026",
+    "title": "PT-reUSD-10DEC2026 collateral drop",
+    "family": "rwa_credit_event",
+    "target": "pt_reusd_10dec2026",
+    "annual_rate": 0.05,
+    "p_horizon": 0.0009584445079596771,
+    "severity_range": [
+     0.05,
+     0.5
+    ],
+    "loss_if_incident_usd": 1378544.335915577,
+    "loss_if_incident_avoidable_usd": 1378544.335915577,
+    "loss_if_incident_max_usd": 3311053.226530331,
+    "expected_loss_usd": 1321.2582477372048,
+    "expected_loss_avoidable_usd": 1321.2582477372048,
+    "avoidable_by_exit": true,
+    "not_avoided_because": null,
+    "p_star": 0.08304297749439637,
+    "rule": "sudden shock on a collateral whose oracle does NOT follow the market (internal rate / set price): no timely liquidation → bad debt max(0, D − V·(1−d)·(1−slippage)), borrower by borrower",
+    "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX USDC Yield → [deployed_in] Morpho Blue PT-reUSD-10DEC2026 / USDC (LLTV 91.5%) → [collateralized_by] PT-reUSD-10DEC2026"
+   }
+  },
+  {
+   "index": 4,
+   "id": "morpho_vault_v2:0x3BD9AdAE6643dDcddD02746b8B60075E56DF9478",
+   "label": "RockawayX Tori Ecosystem",
+   "kind": "morpho_vault_v2",
+   "value_usd": 13601181.000962164,
+   "share_of_book": 0.137067,
+   "verdict": "STAY",
+   "exit_fraction": 0.0,
+   "expected_loss_usd": 2881.824031387884,
+   "exit_cost_usd": 7820.110717421314,
+   "exit_fraction_now": 0.17449,
+   "sentence": "Curator view (whole vault, all depositors): EXIT means pulling the vault's money out of its markets, STAY means keeping the allocation. STAY — exiting (only 17% can be exited now) would avoid $357 of expected loss over the horizon, but would cost $7,820. ($837 of expected loss cannot be avoided by exiting: it stays with the asset you get back.) Exit if you put the risk \"strUSD collateral drop\" above 3.2% (our estimate: 0.10%, i.e. ≈ once every 20 years).",
+   "top_risk": {
+    "id": "rwa_credit_event:strusd",
+    "title": "strUSD collateral drop",
+    "family": "rwa_credit_event",
+    "target": "strusd",
+    "annual_rate": 0.05,
+    "p_horizon": 0.0009584445079596771,
+    "severity_range": [
+     0.05,
+     0.5
+    ],
+    "loss_if_incident_usd": 1384380.113526171,
+    "loss_if_incident_avoidable_usd": 1384380.113526171,
+    "loss_if_incident_max_usd": 3377554.587695245,
+    "expected_loss_usd": 1326.851516737753,
+    "expected_loss_avoidable_usd": 1326.851516737753,
+    "avoidable_by_exit": true,
+    "not_avoided_because": null,
+    "p_star": 0.032373302631640156,
+    "rule": "sudden shock on a collateral whose oracle does NOT follow the market (internal rate / set price): no timely liquidation → bad debt max(0, D − V·(1−d)·(1−slippage)), borrower by borrower",
+    "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX Tori Ecosystem → [deployed_in] Morpho Blue strUSD / USDC (LLTV 86.0%) → [collateralized_by] strUSD"
+   }
+  },
+  {
+   "index": 5,
+   "id": "morpho_vault_v2:0x8aC91877b93330f52b2979a31a4879506021475c",
+   "label": "Huma USDC Main",
+   "kind": "morpho_vault_v2",
+   "value_usd": 12840670.049463464,
+   "share_of_book": 0.129403,
+   "verdict": "STAY",
+   "exit_fraction": 0.0,
+   "expected_loss_usd": 3422.0723748377154,
+   "exit_cost_usd": 5017.220721563477,
+   "exit_fraction_now": 0.281675,
+   "sentence": "Curator view (whole vault, all depositors): EXIT means pulling the vault's money out of its markets, STAY means keeping the allocation. STAY — exiting (only 28% can be exited now) would avoid $581 of expected loss over the horizon, but would cost $5,017. ($1,359 of expected loss cannot be avoided by exiting: it stays with the asset you get back.) Exit if you put the risk \"PST collateral drop\" above 0.8% (our estimate: 0.10%, i.e. ≈ once every 20 years).",
+   "top_risk": {
+    "id": "rwa_credit_event:pst",
+    "title": "PST collateral drop",
+    "family": "rwa_credit_event",
+    "target": "pst",
+    "annual_rate": 0.05,
+    "p_horizon": 0.0009584445079596771,
+    "severity_range": [
+     0.05,
+     0.5
+    ],
+    "loss_if_incident_usd": 2248101.4020129144,
+    "loss_if_incident_avoidable_usd": 2248101.4020129144,
+    "loss_if_incident_max_usd": 5076660.452386383,
+    "expected_loss_usd": 2154.680442095728,
+    "expected_loss_avoidable_usd": 2154.680442095728,
+    "avoidable_by_exit": true,
+    "not_avoided_because": null,
+    "p_star": 0.007923170612095546,
+    "rule": "sudden shock on a collateral whose oracle does NOT follow the market (internal rate / set price): no timely liquidation → bad debt max(0, D − V·(1−d)·(1−slippage)), borrower by borrower",
+    "contagion_path": "morpho_vault_v2:0x… → [deployed_in] Huma USDC Main → [deployed_in] Morpho Blue PST / USDC (LLTV 86.0%) → [collateralized_by] PST"
+   }
+  },
+  {
+   "index": 6,
+   "id": "morpho_vault_v2:0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec",
+   "label": "Belem RWA EURCV",
+   "kind": "morpho_vault_v2",
+   "value_usd": 5273555.472656275,
+   "share_of_book": 0.053145,
+   "verdict": "STAY",
+   "exit_fraction": 0.0,
+   "expected_loss_usd": 699.871484472586,
+   "exit_cost_usd": 632.1288913177605,
+   "exit_fraction_now": 0.21901,
+   "sentence": "Curator view (whole vault, all depositors): EXIT means pulling the vault's money out of its markets, STAY means keeping the allocation. STAY — exiting (only 22% can be exited now) would avoid $124 of expected loss over the horizon, but would cost $632. ($134 of expected loss cannot be avoided by exiting: it stays with the asset you get back.) Exit if you put the risk \"mGLOeuro collateral drop\" above 0.6% (our estimate: 0.10%, i.e. ≈ once every 20 years).",
+   "top_risk": {
+    "id": "rwa_credit_event:mgloeuro",
+    "title": "mGLOeuro collateral drop",
+    "family": "rwa_credit_event",
+    "target": "mgloeuro",
+    "annual_rate": 0.05,
+    "p_horizon": 0.0009584445079596771,
+    "severity_range": [
+     0.05,
+     0.5
+    ],
+    "loss_if_incident_usd": 460090.75954323146,
+    "loss_if_incident_avoidable_usd": 460090.75954323146,
+    "loss_if_incident_max_usd": 1469738.0683475018,
+    "expected_loss_usd": 440.9714616472066,
+    "expected_loss_avoidable_usd": 440.9714616472066,
+    "avoidable_by_exit": true,
+    "not_avoided_because": null,
+    "p_star": 0.006273330727104504,
+    "rule": "sudden shock on a collateral whose oracle does NOT follow the market (internal rate / set price): no timely liquidation → bad debt max(0, D − V·(1−d)·(1−slippage)), borrower by borrower",
+    "contagion_path": "morpho_vault_v2:0x… → [deployed_in] Belem RWA EURCV → [deployed_in] Morpho Blue mGLOeuro / EURCV (LLTV 77.0%) → [collateralized_by] mGLOeuro"
+   }
+  },
+  {
+   "index": 7,
+   "id": "morpho_vault_v2:0x93e0F9d502eEfce8D34924ab3478C7EA0CBC5a2E",
+   "label": "RockawayX NUVA Ecosystem",
+   "kind": "morpho_vault_v2",
+   "value_usd": 1546546.47743894,
+   "share_of_book": 0.015585,
+   "verdict": "STAY",
+   "exit_fraction": 0.0,
+   "expected_loss_usd": 272.2414098513417,
+   "exit_cost_usd": 1636.0394953568052,
+   "exit_fraction_now": 0.245872,
+   "sentence": "Curator view (whole vault, all depositors): EXIT means pulling the vault's money out of its markets, STAY means keeping the allocation. STAY — exiting (only 25% can be exited now) would avoid $38 of expected loss over the horizon, but would cost $1,636. ($118 of expected loss cannot be avoided by exiting: it stays with the asset you get back.) Exit if you put the risk \"nvPRIME collateral drop\" above 5.5% (our estimate: 0.10%, i.e. ≈ once every 20 years).",
+   "top_risk": {
+    "id": "rwa_credit_event:nvprime",
+    "title": "nvPRIME collateral drop",
+    "family": "rwa_credit_event",
+    "target": "nvprime",
+    "annual_rate": 0.05,
+    "p_horizon": 0.0009584445079596771,
+    "severity_range": [
+     0.05,
+     0.5
+    ],
+    "loss_if_incident_usd": 121913.45794961881,
+    "loss_if_incident_avoidable_usd": 121913.45794961881,
+    "loss_if_incident_max_usd": 405162.0991958834,
+    "expected_loss_usd": 116.84728421818518,
+    "expected_loss_avoidable_usd": 116.84728421818518,
+    "avoidable_by_exit": true,
+    "not_avoided_because": null,
+    "p_star": 0.05457994076585643,
+    "rule": "sudden shock on a collateral whose oracle does NOT follow the market (internal rate / set price): no timely liquidation → bad debt max(0, D − V·(1−d)·(1−slippage)), borrower by borrower",
+    "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX NUVA Ecosystem → [deployed_in] Morpho Blue nvPRIME / USDC (LLTV 86.0%) → [collateralized_by] nvPRIME"
+   }
+  },
+  {
+   "index": 8,
+   "id": "morpho_vault_v2:0x9C57E02bC31e7e463f439353D97bd8f42F5a7F9c",
+   "label": "RockawayX EUROP",
+   "kind": "morpho_vault_v2",
+   "value_usd": 11196.571802526614,
+   "share_of_book": 0.000113,
+   "verdict": "STAY",
+   "exit_fraction": 0.0,
+   "expected_loss_usd": 1.0673814574691007,
+   "exit_cost_usd": 83.96242898801694,
+   "exit_fraction_now": 0.999996,
+   "sentence": "Curator view (whole vault, all depositors): EXIT means pulling the vault's money out of its markets, STAY means keeping the allocation. STAY — exiting would avoid $1 of expected loss over the horizon, but would cost $84. Exit if you put the risk \"Morpho Blue protocol exploit\" above 2.7% (our estimate: 0.01%, i.e. ≈ once every 333 years). (Exiting would save less than $100: the two options are equivalent, no action needed.)",
+   "top_risk": {
+    "id": "stable_depeg:europ",
+    "title": "EUROP depeg (pocket asset)",
+    "family": "stable_depeg",
+    "target": "europ",
+    "annual_rate": 0.02,
+    "p_horizon": 0.0003834880934723284,
+    "severity_range": [
+     0.02,
+     0.12
+    ],
+    "loss_if_incident_usd": 783.760026176863,
+    "loss_if_incident_avoidable_usd": 0.0,
+    "loss_if_incident_max_usd": 1343.5886163031937,
+    "expected_loss_usd": 0.30056263817838735,
+    "expected_loss_avoidable_usd": 0.0,
+    "avoidable_by_exit": false,
+    "not_avoided_because": "withdrawing from the vault gives back this same asset: exiting does not avoid its depeg",
+    "p_star": null,
+    "rule": "the pocket is denominated in this asset: loss = value × d",
+    "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX EUROP → [deployed_in] Morpho Blue WBTC / EUROP (LLTV 86.0%) → [lends] EUROP"
+   }
+  },
+  {
+   "index": 9,
+   "id": "morpho_vault_v2:0xe99A27169c2aA26a8f2757949d09Fa3f9A8f0B3B",
+   "label": "RockawayX Midas USDC Prime",
+   "kind": "morpho_vault_v2",
+   "value_usd": 3513.4294452955883,
+   "share_of_book": 3.5e-05,
+   "verdict": "STAY",
+   "exit_fraction": 0.0,
+   "expected_loss_usd": 0.4020427009188096,
+   "exit_cost_usd": 3.121340901707835,
+   "exit_fraction_now": 1.0,
+   "sentence": "Curator view (whole vault, all depositors): EXIT means pulling the vault's money out of its markets, STAY means keeping the allocation. STAY — exiting would avoid $0 of expected loss over the horizon, but would cost $3. Exit if you put the risk \"Morpho Blue protocol exploit\" above 0.3% (our estimate: 0.01%, i.e. ≈ once every 333 years).",
+   "top_risk": {
+    "id": "issuer_failure:circle",
+    "title": "Issuer failure: Circle (USDC)",
+    "family": "issuer_failure",
+    "target": "circle",
+    "annual_rate": 0.005,
+    "p_horizon": 9.588581362041104e-05,
+    "severity_range": [
+     0.1,
+     1.0
+    ],
+    "loss_if_incident_usd": 1932.386194912574,
+    "loss_if_incident_avoidable_usd": 0.0,
+    "loss_if_incident_max_usd": 3513.4294452955883,
+    "expected_loss_usd": 0.18528842252804234,
+    "expected_loss_avoidable_usd": 0.0,
+    "avoidable_by_exit": false,
+    "not_avoided_because": "withdrawing from the vault gives back this same asset: exiting does not avoid its depeg",
+    "p_star": null,
+    "rule": "the issued asset loses s of its value",
+    "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX Midas USDC Prime → [deployed_in] Morpho Blue WBTC / USDC (LLTV 86.0%) → [lends] USDC → [issued_by] Circle"
+   }
+  },
+  {
+   "index": 10,
+   "id": "morpho_vault_v2:0x64C18DCC4Ccb3b8D27877a4aeBB4C3126CB39cB9",
+   "label": "RockawayX wETH",
+   "kind": "morpho_vault_v2",
+   "value_usd": 2127.010855118539,
+   "share_of_book": 2.1e-05,
+   "verdict": "STAY",
+   "exit_fraction": 0.0,
+   "expected_loss_usd": 0.27729311443391697,
+   "exit_cost_usd": 0.10900766240662592,
+   "exit_fraction_now": 0.010149,
+   "sentence": "Curator view (whole vault, all depositors): EXIT means pulling the vault's money out of its markets, STAY means keeping the allocation. STAY — exiting (only 1% can be exited now) would avoid $0 of expected loss over the horizon, but would cost $0. Exit if you put the risk \"ETH+ collateral drop\" above 4.4% (our estimate: 0.10%, i.e. ≈ once every 20 years).",
+   "top_risk": {
+    "id": "rwa_credit_event:eth",
+    "title": "ETH+ collateral drop",
+    "family": "rwa_credit_event",
+    "target": "eth",
+    "annual_rate": 0.05,
+    "p_horizon": 0.0009584445079596771,
+    "severity_range": [
+     0.05,
+     0.5
+    ],
+    "loss_if_incident_usd": 242.62625783311034,
+    "loss_if_incident_avoidable_usd": 242.62625783311034,
+    "loss_if_incident_max_usd": 748.6321289840037,
+    "expected_loss_usd": 0.23254380430695318,
+    "expected_loss_avoidable_usd": 0.23254380430695318,
+    "avoidable_by_exit": true,
+    "not_avoided_because": null,
+    "p_star": 0.04426861902306054,
+    "rule": "sudden shock on a collateral whose oracle does NOT follow the market (internal rate / set price): no timely liquidation → bad debt max(0, D − V·(1−d)·(1−slippage)), borrower by borrower",
+    "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX wETH → [deployed_in] Morpho Blue ETH+ / WETH (LLTV 94.5%) → [collateralized_by] ETH+"
+   }
+  },
+  {
+   "index": 11,
+   "id": "morpho_vault_v2:0xd65d6E8dbC3Cd3D12418199E6f4014dB3aaa0097",
+   "label": "Figure USDC Main",
+   "kind": "morpho_vault_v2",
+   "value_usd": 11.359262956134481,
+   "share_of_book": 0.0,
+   "verdict": "STAY",
+   "exit_fraction": 0.0,
+   "expected_loss_usd": 0.0022719605476092496,
+   "exit_cost_usd": 0.0749545802713308,
+   "exit_fraction_now": 0.999999,
+   "sentence": "Curator view (whole vault, all depositors): EXIT means pulling the vault's money out of its markets, STAY means keeping the allocation. STAY — exiting would avoid $0 of expected loss over the horizon, but would cost $0. Exit if you put the risk \"PRIME collateral drop\" above 5.1% (our estimate: 0.10%, i.e. ≈ once every 20 years).",
+   "top_risk": {
+    "id": "rwa_credit_event:prime",
+    "title": "PRIME collateral drop",
+    "family": "rwa_credit_event",
+    "target": "prime",
+    "annual_rate": 0.05,
+    "p_horizon": 0.0009584445079596771,
+    "severity_range": [
+     0.05,
+     0.5
+    ],
+    "loss_if_incident_usd": 1.476576757559016,
+    "loss_if_incident_avoidable_usd": 1.476576757559016,
+    "loss_if_incident_max_usd": 3.9812562210149625,
+    "expected_loss_usd": 0.0014152168838633466,
+    "expected_loss_avoidable_usd": 0.0014152168838633466,
+    "avoidable_by_exit": true,
+    "not_avoided_because": null,
+    "p_star": 0.05076245094762046,
+    "rule": "sudden shock on a collateral whose oracle does NOT follow the market (internal rate / set price): no timely liquidation → bad debt max(0, D − V·(1−d)·(1−slippage)), borrower by borrower",
+    "contagion_path": "morpho_vault_v2:0x… → [deployed_in] Figure USDC Main → [deployed_in] Morpho Blue PRIME / USDC (LLTV 86.0%) → [collateralized_by] PRIME"
+   }
+  },
+  {
+   "index": 12,
+   "id": "morpho_vault_v2:0x5f829B1B473cBA86838E1B7BB7E144DbDE228e21",
+   "label": "RockawayX USDC Prime",
+   "kind": "morpho_vault_v2",
+   "value_usd": 10.281859101757266,
+   "share_of_book": 0.0,
+   "verdict": "STAY",
+   "exit_fraction": 0.0,
+   "expected_loss_usd": 0.0009775809946067512,
+   "exit_cost_usd": 0.07383346648307668,
+   "exit_fraction_now": 1.0,
+   "sentence": "Curator view (whole vault, all depositors): EXIT means pulling the vault's money out of its markets, STAY means keeping the allocation. STAY — exiting would avoid $0 of expected loss over the horizon, but would cost $0. Exit if you put the risk \"Morpho Blue protocol exploit\" above 2.6% (our estimate: 0.01%, i.e. ≈ once every 333 years).",
+   "top_risk": {
+    "id": "issuer_failure:circle",
+    "title": "Issuer failure: Circle (USDC)",
+    "family": "issuer_failure",
+    "target": "circle",
+    "annual_rate": 0.005,
+    "p_horizon": 9.588581362041104e-05,
+    "severity_range": [
+     0.1,
+     1.0
+    ],
+    "loss_if_incident_usd": 5.655022505966497,
+    "loss_if_incident_avoidable_usd": 0.0,
+    "loss_if_incident_max_usd": 10.281859101757266,
+    "expected_loss_usd": 0.0005422364340263333,
+    "expected_loss_avoidable_usd": 0.0,
+    "avoidable_by_exit": false,
+    "not_avoided_because": "withdrawing from the vault gives back this same asset: exiting does not avoid its depeg",
+    "p_star": null,
+    "rule": "the issued asset loses s of its value",
+    "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX USDC Prime → [deployed_in] Morpho Blue wstETH / USDC (LLTV 86.0%) → [lends] USDC → [issued_by] Circle"
+   }
+  }
+ ],
+ "skipped": [],
+ "shared_dependencies": [
+  {
+   "dependency": "RockawayX (curator)",
+   "type": "issuer",
+   "pockets": 12,
+   "exposed_value_usd": 99230342.68428639
+  },
+  {
+   "dependency": "Morpho",
+   "type": "issuer",
+   "pockets": 12,
+   "exposed_value_usd": 99230342.68428639
+  },
+  {
+   "dependency": "USDC",
+   "type": "asset",
+   "pockets": 9,
+   "exposed_value_usd": 93943463.62897246
+  },
+  {
+   "dependency": "Circle",
+   "type": "issuer",
+   "pockets": 9,
+   "exposed_value_usd": 93943463.62897246
+  },
+  {
+   "dependency": "Pendle Finance",
+   "type": "issuer",
+   "pockets": 4,
+   "exposed_value_usd": 79552712.0315027
+  },
+  {
+   "dependency": "Chainlink",
+   "type": "issuer",
+   "pockets": 10,
+   "exposed_value_usd": 65013181.999552056
+  },
+  {
+   "dependency": "Chainlink USDC / USD",
+   "type": "oracle",
+   "pockets": 6,
+   "exposed_value_usd": 59726292.66237904
+  },
+  {
+   "dependency": "wYLDS",
+   "type": "asset",
+   "pockets": 4,
+   "exposed_value_usd": 46121598.23197158
+  },
+  {
+   "dependency": "Morpho Blue PT-reUSD-10DEC2026 / USDC (LLTV 91.5%)",
+   "type": "lending_market",
+   "pockets": 2,
+   "exposed_value_usd": 44575040.39526968
+  },
+  {
+   "dependency": "Constant feed (Ojo PT Feed Pendle Chainlink-compatible Oracle)",
+   "type": "oracle",
+   "pockets": 2,
+   "exposed_value_usd": 44575040.39526968
+  },
+  {
+   "dependency": "MorphoChainlinkOracleV2 (fixed)",
+   "type": "oracle",
+   "pockets": 2,
+   "exposed_value_usd": 44575040.39526968
+  },
+  {
+   "dependency": "PT-reUSD-10DEC2026",
+   "type": "asset",
+   "pockets": 2,
+   "exposed_value_usd": 44575040.39526968
+  },
+  {
+   "dependency": "reUSD",
+   "type": "asset",
+   "pockets": 2,
+   "exposed_value_usd": 44575040.39526968
+  },
+  {
+   "dependency": "SY-reUSD",
+   "type": "asset",
+   "pockets": 2,
+   "exposed_value_usd": 44575040.39526968
+  },
+  {
+   "dependency": "Pendle pool PLP-reUSD-10DEC2026",
+   "type": "liquidity_venue",
+   "pockets": 2,
+   "exposed_value_usd": 44575040.39526968
+  },
+  {
+   "dependency": "Morpho Blue PST / USDC (LLTV 86.0%)",
+   "type": "lending_market",
+   "pockets": 2,
+   "exposed_value_usd": 38980447.122332126
+  },
+  {
+   "dependency": "Chainlink PST-USDC Exchange Rate (Calculated)",
+   "type": "oracle",
+   "pockets": 2,
+   "exposed_value_usd": 38980447.122332126
+  },
+  {
+   "dependency": "MorphoChainlinkOracleV2 (internal_rate)",
+   "type": "oracle",
+   "pockets": 2,
+   "exposed_value_usd": 38980447.122332126
+  },
+  {
+   "dependency": "PST",
+   "type": "asset",
+   "pockets": 2,
+   "exposed_value_usd": 38980447.122332126
+  },
+  {
+   "dependency": "Morpho Blue strUSD / USDC (LLTV 86.0%)",
+   "type": "lending_market",
+   "pockets": 2,
+   "exposed_value_usd": 32036444.323363177
+  },
+  {
+   "dependency": "Morpho Blue PT-strUSD-26NOV2026 / USDC (LLTV 86.0%)",
+   "type": "lending_market",
+   "pockets": 2,
+   "exposed_value_usd": 32036444.323363177
+  },
+  {
+   "dependency": "Morpho Blue etrUSD / USDC (LLTV 86.0%)",
+   "type": "lending_market",
+   "pockets": 2,
+   "exposed_value_usd": 32036444.323363177
+  },
+  {
+   "dependency": "Pendle linear discount (PT-strUSD-26NOV2026)",
+   "type": "oracle",
+   "pockets": 2,
+   "exposed_value_usd": 32036444.323363177
+  },
+  {
+   "dependency": "RedStone RedStone Price Feed for trUSD_FUNDAMENTAL",
+   "type": "oracle",
+   "pockets": 2,
+   "exposed_value_usd": 32036444.323363177
+  },
+  {
+   "dependency": "RedStone RedStone Price Feed for strUSD_FUNDAMENTAL",
+   "type": "oracle",
+   "pockets": 2,
+   "exposed_value_usd": 32036444.323363177
+  },
+  {
+   "dependency": "RedStone RedStone Price Feed for etrUSD_FUNDAMENTAL/USD",
+   "type": "oracle",
+   "pockets": 2,
+   "exposed_value_usd": 32036444.323363177
+  },
+  {
+   "dependency": "MorphoChainlinkOracleV2 (market)",
+   "type": "oracle",
+   "pockets": 2,
+   "exposed_value_usd": 32036444.323363177
+  },
+  {
+   "dependency": "MorphoChainlinkOracleV2 (market)",
+   "type": "oracle",
+   "pockets": 2,
+   "exposed_value_usd": 32036444.323363177
+  },
+  {
+   "dependency": "MorphoChainlinkOracleV2 (market)",
+   "type": "oracle",
+   "pockets": 2,
+   "exposed_value_usd": 32036444.323363177
+  },
+  {
+   "dependency": "etrUSD",
+   "type": "asset",
+   "pockets": 2,
+   "exposed_value_usd": 32036444.323363177
+  },
+  {
+   "dependency": "PT-strUSD-26NOV2026",
+   "type": "asset",
+   "pockets": 2,
+   "exposed_value_usd": 32036444.323363177
+  },
+  {
+   "dependency": "strUSD",
+   "type": "asset",
+   "pockets": 2,
+   "exposed_value_usd": 32036444.323363177
+  },
+  {
+   "dependency": "SY-strUSD",
+   "type": "asset",
+   "pockets": 2,
+   "exposed_value_usd": 32036444.323363177
+  },
+  {
+   "dependency": "trUSD",
+   "type": "asset",
+   "pockets": 2,
+   "exposed_value_usd": 32036444.323363177
+  },
+  {
+   "dependency": "Pendle pool PLP-strUSD-26NOV2026",
+   "type": "liquidity_venue",
+   "pockets": 2,
+   "exposed_value_usd": 32036444.323363177
+  },
+  {
+   "dependency": "Chainlink PRIME / WYLDS Exchange Rate",
+   "type": "oracle",
+   "pockets": 3,
+   "exposed_value_usd": 19981821.15910291
+  },
+  {
+   "dependency": "PRIME",
+   "type": "asset",
+   "pockets": 3,
+   "exposed_value_usd": 19981821.15910291
+  },
+  {
+   "dependency": "Morpho Blue PRIME / USDC (LLTV 86.0%)",
+   "type": "lending_market",
+   "pockets": 2,
+   "exposed_value_usd": 18435274.681663968
+  },
+  {
+   "dependency": "MorphoChainlinkOracleV2 (market)",
+   "type": "oracle",
+   "pockets": 2,
+   "exposed_value_usd": 18435274.681663968
+  },
+  {
+   "dependency": "Chainlink BTC / USD",
+   "type": "oracle",
+   "pockets": 4,
+   "exposed_value_usd": 6834811.951343037
+  },
+  {
+   "dependency": "cbBTC",
+   "type": "asset",
+   "pockets": 4,
+   "exposed_value_usd": 6834811.951343037
+  },
+  {
+   "dependency": "Chainlink STETH / ETH",
+   "type": "oracle",
+   "pockets": 4,
+   "exposed_value_usd": 5288275.755763199
+  },
+  {
+   "dependency": "Feed wstETH/ETH (Compound)",
+   "type": "oracle",
+   "pockets": 4,
+   "exposed_value_usd": 5288275.755763199
+  },
+  {
+   "dependency": "wstETH",
+   "type": "asset",
+   "pockets": 4,
+   "exposed_value_usd": 5288275.755763199
+  },
+  {
+   "dependency": "Chainlink WBTC / BTC",
+   "type": "oracle",
+   "pockets": 3,
+   "exposed_value_usd": 5288265.473904097
+  },
+  {
+   "dependency": "WBTC",
+   "type": "asset",
+   "pockets": 3,
+   "exposed_value_usd": 5288265.473904097
+  },
+  {
+   "dependency": "Chainlink ETH / USD",
+   "type": "oracle",
+   "pockets": 3,
+   "exposed_value_usd": 5286879.055313921
+  },
+  {
+   "dependency": "Chainlink EUR / USD",
+   "type": "oracle",
+   "pockets": 2,
+   "exposed_value_usd": 5284752.044458802
+  },
+  {
+   "dependency": "Morpho Blue cbBTC / USDC (LLTV 86.0%)",
+   "type": "lending_market",
+   "pockets": 2,
+   "exposed_value_usd": 1550059.9068842356
+  },
+  {
+   "dependency": "MorphoChainlinkOracleV2 (market)",
+   "type": "oracle",
+   "pockets": 2,
+   "exposed_value_usd": 1550059.9068842356
+  },
+  {
+   "dependency": "Morpho Blue wstETH / USDC (LLTV 86.0%)",
+   "type": "lending_market",
+   "pockets": 2,
+   "exposed_value_usd": 3523.7113043973454
+  },
+  {
+   "dependency": "Chainlink USDC / ETH",
+   "type": "oracle",
+   "pockets": 2,
+   "exposed_value_usd": 3523.7113043973454
+  },
+  {
+   "dependency": "MorphoChainlinkOracle (market)",
+   "type": "oracle",
+   "pockets": 2,
+   "exposed_value_usd": 3523.7113043973454
+  }
+ ]
+}

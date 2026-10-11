@@ -28,7 +28,7 @@ from .params import load_params
 from .position import Baseline, lif
 from .replay import run_replays
 from .scenarios import Engine, evaluate_scenario, evaluate_usde_grid, load_scenarios
-from .fmt import pct, prob, usd
+from .fmt import pct, usd
 
 GRAPH = REPO_ROOT / "output" / "graph.json"
 INPUTS = REPO_ROOT / "output" / "risk_inputs.json"
@@ -133,7 +133,7 @@ def build_report(engine: Engine, mc_samples: int | None = None, sens_samples: in
             "lender_loss_usd": headline["outcome"]["lender_loss_usd"],
             "exit_cost_usd": exit_full["total_usd"], "exit_cost_pct_equity": (exit_full["total_usd"] or 0) / eq,
             "sentence": headline["decision"]["sentence"],
-            "three_am_question": (f"Do I believe there is more than a {prob(headline['decision']['p_star'], 1, engine.horizon_days)} chance that "
+            "three_am_question": (f"Do I believe there is more than a {pct(headline['decision']['p_star'], 1)} chance that "
                                   f"\"{headline['title']}\" happens within {engine.horizon_days:g} days?"
                                   if headline["decision"]["p_star"] is not None else None),
         },
@@ -179,7 +179,7 @@ def print_summary(report: dict, elapsed: float) -> None:
           f"liquidatable if the oracle drops by {pct(pos['oracle_drop_to_liquidation'], 2)}")
     print(f"exit     : {usd(h['exit_cost_usd'])} ({pct(h['exit_cost_pct_equity'], 2)} of capital)")
     print(f"alert    : {h['title']} → loss {usd(h['loss_if_incident_usd'])}; "
-          f"p* = {prob(h['p_star'], 1, report['monte_carlo']['horizon_days'])}")
+          f"p* = {pct(h['p_star'], 1)}")
     print(f"verdict  : {h['sentence']}")
     print(f"no alert ({mc['horizon_days']:g} d, {mc['samples']:,} draws): expected loss {usd(mc['expected_loss_usd'])} · "
           f"VaR95 {usd(mc['var95_usd'])} · VaR99 {usd(mc['var99_usd'])} → {report['baseline']['verdict']}")

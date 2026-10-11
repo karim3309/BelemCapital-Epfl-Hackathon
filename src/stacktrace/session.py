@@ -21,7 +21,7 @@ from discovery.cache import DiskCache
 from discovery.config import REPO_ROOT, Config, load_config
 from discovery.ctx import Ctx
 from discovery.http import CachedHttp
-from discovery.rpc import CachedHTTPProvider, check_chain, make_web3, resolve_snapshot_block
+from discovery.rpc import CachedHTTPProvider, check_chain, make_web3, redact, resolve_snapshot_block
 
 LIVE_CACHE_DIR = REPO_ROOT / "data" / "cache_live"
 
@@ -93,6 +93,6 @@ def open_session(block: int | str = "latest") -> Session:
         pinned = resolve_snapshot_block(w3, block, offline=False)
         ts = int(w3.eth.get_block(pinned)["timestamp"])
     except Exception as e:  # an explanatory message rather than an unreadable web3 traceback
-        raise SessionError(f"The RPC ({mask_url(config.rpc_url)}) is not answering correctly: {e}") from e
+        raise SessionError(f"The RPC ({mask_url(config.rpc_url)}) is not answering correctly: {redact(e)}") from e
     ctx = Ctx(w3=w3, block=pinned, http=BlockScopedHttp(cache, pinned), config=config)
     return Session(config=config, w3=w3, cache=cache, chain_id=chain_id, block=pinned, block_timestamp=ts, ctx=ctx)

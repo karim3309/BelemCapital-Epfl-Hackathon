@@ -1,0 +1,557 @@
+{
+ "block": 26167512,
+ "block_timestamp": 1791701255,
+ "chain_id": 1,
+ "pocket": {
+  "id": "morpho_vault_v2:0xd65d6E8dbC3Cd3D12418199E6f4014dB3aaa0097",
+  "label": "Figure USDC Main",
+  "kind": "morpho_vault_v2"
+ },
+ "graph": {
+  "position": {
+   "id": "morpho_vault_v2:0xd65d6E8dbC3Cd3D12418199E6f4014dB3aaa0097:0xd65d6E8dbC3Cd3D12418199E6f4014dB3aaa0097",
+   "value_usd": 11.36
+  },
+  "nodes": [
+   {
+    "id": "morpho_market_755f9545",
+    "type": "lending_market",
+    "label": "Morpho Blue PRIME / USDC (LLTV 86.0%)",
+    "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+    "chain": "ethereum",
+    "meta": {
+     "protocol": "morpho_blue",
+     "market_id": "0x755f954513d31d5f24aaf3d0cdc5e913a28383f8ea8ff85be9ffffa7371fb64d",
+     "market_id_check": "keccak256(abi.encode(MarketParams)) = 0x755f954513d31d5f24aaf3d0cdc5e913a28383f8ea8ff85be9ffffa7371fb64d (identical to the requested ID)",
+     "loan_token": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+     "collateral_token": "0x19ebb35279A16207Ec4ba82799CC64715065F7F6",
+     "oracle": "0x999eFF9cA63D23A60A0Cd19B9F65A0918674119a",
+     "irm": "0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC",
+     "irm_is_official_adaptive_curve": true,
+     "lltv": 0.86,
+     "total_supply_assets": 1614043911413,
+     "total_borrow_assets": 1458751325951,
+     "total_supply_human": 1614043.911413,
+     "total_borrow_human": 1458751.325951,
+     "available_liquidity_human": 155292.585462,
+     "utilization": 0.903787,
+     "totals_include_accrued_interest": true,
+     "accrued_interest_human": 20.39016,
+     "seconds_since_last_update": 8796,
+     "borrow_rate_per_second": 1589121828,
+     "borrow_apy": 0.051392,
+     "borrow_rate_evidence": "Contract.borrowRateView() = 1589121828 @ 0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC #26167512",
+     "fee": 0.0,
+     "last_update": 1791692459,
+     "oracle_price_scale_decimals": 36,
+     "proxy": {
+      "detected": false,
+      "upgradeable": null,
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
+     }
+    }
+   },
+   {
+    "id": "vault_figure_usdc_main",
+    "type": "vault",
+    "label": "Figure USDC Main",
+    "address": "0xd65d6E8dbC3Cd3D12418199E6f4014dB3aaa0097",
+    "chain": "ethereum",
+    "meta": {
+     "vault_version": "Morpho Vault V2",
+     "source_interface": "https://github.com/morpho-org/vault-v2/blob/main/src/interfaces/IVaultV2.sol",
+     "asset": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+     "asset_symbol": "USDC",
+     "asset_decimals": 6,
+     "total_assets": "11362807",
+     "total_assets_human": 11.362807,
+     "idle_assets_human": 0.0,
+     "curator": "0xbBacDCFB9691DFA1066aB29edfcc4A73f6DEf918",
+     "owner": "0xbBacDCFB9691DFA1066aB29edfcc4A73f6DEf918",
+     "liquidity_adapter": "0x38995554b965EcCF9e4DCAf48CC87058D6217550",
+     "adapters": [
+      {
+       "address": "0x38995554b965EcCF9e4DCAf48CC87058D6217550",
+       "kind": "morpho_market_v1_adapter_v2",
+       "parent_vault_ok": true,
+       "force_deallocate_penalty": 0.005,
+       "is_liquidity_adapter": true,
+       "evidence": "Figure USDC Main.adapters(0) = 0x38995554b965EcCF9e4DCAf48CC87058D6217550 @ 0xd65d6E8dbC3Cd3D12418199E6f4014dB3aaa0097 #26167512"
+      }
+     ],
+     "allocations": [
+      {
+       "market_id": "0x755f954513d31d5f24aaf3d0cdc5e913a28383f8ea8ff85be9ffffa7371fb64d",
+       "adapter": "0x38995554b965EcCF9e4DCAf48CC87058D6217550",
+       "supplied": 11.362797,
+       "share_of_vault": 0.999999,
+       "market_utilization": 0.903787,
+       "market_available_liquidity": 155292.585462,
+       "withdrawable_now": 11.362797
+      }
+     ],
+     "holder": "0xd65d6E8dbC3Cd3D12418199E6f4014dB3aaa0097",
+     "holder_shares": "11157739726695401374",
+     "holder_assets_human": 11.362807,
+     "whole_vault": true,
+     "holder_share_of_vault": 1.0,
+     "liquidity_market_id": "0x755f954513d31d5f24aaf3d0cdc5e913a28383f8ea8ff85be9ffffa7371fb64d",
+     "exit_liquidity": {
+      "withdrawable_now_human": 11.362797,
+      "penalty_free_human": 11.362797,
+      "covers_holder_share_penalty_free": 0.999999,
+      "penalty_free_definition": "idle + liquidity of the \"liquidity source\" market (liquidityData): normal withdrawal without penalty",
+      "definition": "idle + Σ min(supplied by the vault, available market liquidity) — what all the depositors together can withdraw now (forceDeallocate, penalty above)",
+      "covers_holder_share": 0.999999
+     },
+     "proxy": {
+      "detected": false,
+      "upgradeable": null,
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
+     }
+    }
+   },
+   {
+    "id": "feed_prime_wylds_exchange_rate",
+    "type": "oracle",
+    "label": "Chainlink PRIME / WYLDS Exchange Rate",
+    "address": "0xf17C0EdcAA28371e9c8012D7699bF40ECF0F58d1",
+    "chain": "ethereum",
+    "meta": {
+     "oracle_kind": "chainlink_aggregator_proxy",
+     "pricing_mode": "internal_rate",
+     "description": "PRIME / WYLDS Exchange Rate",
+     "aggregator": "0x48F9A46BA852B5c22D4153D0534397B59AbfdeF5",
+     "phase_id": 1,
+     "version": 6,
+     "owner": "0x21f73D42Eb58Ba49dDB685dc29D3bF5c0f0373CA",
+     "answer_raw": "1063930274245034671",
+     "decimals": 18,
+     "answer": 1.0639302742450347,
+     "round_id": "18446744073709551787",
+     "updated_at": 1791693815,
+     "age_seconds": 7440,
+     "pricing_basis": "\"Exchange Rate\" feed: on-chain data computed by the issuer, not a market price (https://docs.chain.link/data-feeds/data-sources)",
+     "ens_name": "prime-wylds exchange rate.data.eth",
+     "ens_resolves_to_this_feed": false,
+     "proxy": {
+      "detected": false,
+      "upgradeable": null,
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
+     }
+    }
+   },
+   {
+    "id": "feed_usdc_usd",
+    "type": "oracle",
+    "label": "Chainlink USDC / USD",
+    "address": "0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6",
+    "chain": "ethereum",
+    "meta": {
+     "oracle_kind": "chainlink_aggregator_proxy",
+     "pricing_mode": "market",
+     "description": "USDC / USD",
+     "aggregator": "0x54bCC589d9743E521c64233706FC8cB36D275b07",
+     "phase_id": 4,
+     "version": 6,
+     "owner": "0x21f73D42Eb58Ba49dDB685dc29D3bF5c0f0373CA",
+     "answer_raw": 99988047,
+     "decimals": 8,
+     "answer": 0.99988047,
+     "round_id": "73786976294838206492",
+     "updated_at": 1791639575,
+     "age_seconds": 61680,
+     "ens_name": "usdc-usd.data.eth",
+     "ens_resolves_to_this_feed": true,
+     "priced_asset": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+     "proxy": {
+      "detected": false,
+      "upgradeable": null,
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
+     }
+    }
+   },
+   {
+    "id": "oracle_morpho_v2_999eff",
+    "type": "oracle",
+    "label": "MorphoChainlinkOracleV2 (market)",
+    "address": "0x999eFF9cA63D23A60A0Cd19B9F65A0918674119a",
+    "chain": "ethereum",
+    "meta": {
+     "oracle_kind": "morpho_chainlink_oracle_v2",
+     "pricing_mode": "market",
+     "scale_factor": "100000000000000000000000000",
+     "price_raw": "1064057461033351987563073414165195165",
+     "price": 1.064057461033352,
+     "price_scale": "1e36",
+     "formula": "SCALE_FACTOR × BASE_VAULT × BASE_FEED_1 × BASE_FEED_2 / (QUOTE_VAULT × QUOTE_FEED_1 × QUOTE_FEED_2), empty slot = 1",
+     "price_recomputed_raw": "1064057461033351987563073414165195165",
+     "price_recomputed_matches": true,
+     "components": {
+      "BASE_VAULT": {
+       "address": null,
+       "sample": 1,
+       "role": "base"
+      },
+      "QUOTE_VAULT": {
+       "address": null,
+       "sample": 1,
+       "role": "quote"
+      },
+      "BASE_FEED_1": {
+       "address": "0xf17C0EdcAA28371e9c8012D7699bF40ECF0F58d1",
+       "role": "base",
+       "pricing_mode": "internal_rate",
+       "value": "1063930274245034671"
+      },
+      "BASE_FEED_2": {
+       "address": null,
+       "role": "base"
+      },
+      "QUOTE_FEED_1": {
+       "address": "0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6",
+       "role": "quote",
+       "pricing_mode": "market",
+       "value": 99988047
+      },
+      "QUOTE_FEED_2": {
+       "address": null,
+       "role": "quote"
+      }
+     },
+     "implicit_unit_slots": [
+      "BASE_VAULT",
+      "QUOTE_VAULT",
+      "BASE_FEED_2",
+      "QUOTE_FEED_2"
+     ],
+     "implicit_unit_note": "Each slot listed here counts as 1 in the formula: the matching conversion is FIXED (e.g. no QUOTE_FEED = the lent asset is assumed to be worth 1 unit of the base feeds' currency).",
+     "created_by_official_factory": true,
+     "factory_evidence": "MorphoChainlinkOracleV2Factory.isMorphoChainlinkOracleV2(0x999eFF9cA63D23A60A0Cd19B9F65A0918674119a) = True @ 0x3A7bB36Ee3f3eE32A60e9f2b33c1e5f2E83ad766 #26167512",
+     "proxy": {
+      "detected": false,
+      "upgradeable": null,
+      "note": "no EIP-1167 / EIP-1967 / ZeppelinOS proxy detected — other schemes exist: not proven immutable"
+     }
+    }
+   },
+   {
+    "id": "prime",
+    "type": "asset",
+    "label": "PRIME",
+    "address": "0x19ebb35279A16207Ec4ba82799CC64715065F7F6",
+    "chain": "ethereum",
+    "meta": {
+     "asset_kind": "erc4626_vault",
+     "symbol": "PRIME",
+     "decimals": 6,
+     "total_supply": 425740492825405,
+     "total_supply_human": 425740492.825405,
+     "underlying": "0x6aD038cA6C04e885630851278ca0a856Ad9a66Cc",
+     "share_to_asset_rate": 1.063944,
+     "pricing_mode_of_rate": "internal_rate",
+     "total_assets": 452960980849168,
+     "total_assets_human": 452960980.849168,
+     "proxy": {
+      "detected": true,
+      "standard": "EIP-1967 (upgradeable)",
+      "implementation": "0x881fe0e5e91C54FaBBf0198A1bB2fC6E5747D4C5",
+      "upgradeable": true,
+      "evidence": "eth_getStorageAt(0x19ebb35279A16207Ec4ba82799CC64715065F7F6, slot EIP-1967) = 0x881fe0e5e91C54FaBBf0198A1bB2fC6E5747D4C5 #26167512"
+     }
+    }
+   },
+   {
+    "id": "usdc",
+    "type": "asset",
+    "label": "USDC",
+    "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    "chain": "ethereum",
+    "meta": {
+     "asset_kind": "erc20",
+     "symbol": "USDC",
+     "decimals": 6,
+     "total_supply": "48532314436411673",
+     "total_supply_human": 48532314436.411674,
+     "proxy": {
+      "detected": true,
+      "standard": "ZeppelinOS (legacy) (upgradeable)",
+      "implementation": "0x43506849D7C04F9138D1A2050bbF3A0c054402dd",
+      "upgradeable": true,
+      "evidence": "eth_getStorageAt(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48, slot ZeppelinOS (legacy)) = 0x43506849D7C04F9138D1A2050bbF3A0c054402dd #26167512"
+     }
+    }
+   },
+   {
+    "id": "wylds",
+    "type": "asset",
+    "label": "wYLDS",
+    "address": "0x6aD038cA6C04e885630851278ca0a856Ad9a66Cc",
+    "chain": "ethereum",
+    "meta": {
+     "asset_kind": "erc4626_vault",
+     "symbol": "wYLDS",
+     "decimals": 6,
+     "total_supply": 453995048028657,
+     "total_supply_human": 453995048.028657,
+     "underlying": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+     "share_to_asset_rate": 1.0,
+     "pricing_mode_of_rate": "internal_rate",
+     "total_assets": 1150659,
+     "total_assets_human": 1.150659,
+     "proxy": {
+      "detected": true,
+      "standard": "EIP-1967 (upgradeable)",
+      "implementation": "0x06e0b9155A3cf07F41aC826CCFEE7ef8413A9723",
+      "upgradeable": true,
+      "evidence": "eth_getStorageAt(0x6aD038cA6C04e885630851278ca0a856Ad9a66Cc, slot EIP-1967) = 0x06e0b9155A3cf07F41aC826CCFEE7ef8413A9723 #26167512"
+     }
+    }
+   },
+   {
+    "id": "chainlink",
+    "type": "issuer",
+    "label": "Chainlink",
+    "address": null,
+    "chain": null,
+    "meta": {
+     "evidence_url": "https://docs.chain.link/data-feeds/ens",
+     "as_of": "2026-10-10",
+     "note": "Official Chainlink feeds are registered under the ENS domain data.eth."
+    }
+   },
+   {
+    "id": "circle",
+    "type": "issuer",
+    "label": "Circle",
+    "address": null,
+    "chain": null,
+    "meta": {
+     "evidence_url": "https://developers.circle.com/stablecoins/usdc-contract-addresses",
+     "as_of": "2026-10-10",
+     "note": "Issuer of USDC (Ethereum address listed by Circle)."
+    }
+   },
+   {
+    "id": "curator_rockawayx",
+    "type": "issuer",
+    "label": "RockawayX (curator)",
+    "address": null,
+    "chain": null,
+    "meta": {
+     "role": "vault_curator",
+     "curator_address": "0xbBacDCFB9691DFA1066aB29edfcc4A73f6DEf918",
+     "identity_source": "API Morpho https://api.morpho.org/graphql vaultV2ByAddress(0xd65d6E8dbC3Cd3D12418199E6f4014dB3aaa0097).curators (fetched 2026-10-11T06:49:43+00:00)",
+     "verified_by_morpho": true,
+     "website": "https://rockawayx.com/",
+     "note": "Curator address proven on-chain (curator()); the NAME comes from the Morpho API, which links this address to the entity."
+    }
+   },
+   {
+    "id": "morpho",
+    "type": "issuer",
+    "label": "Morpho",
+    "address": null,
+    "chain": null,
+    "meta": {
+     "evidence_url": "https://docs.morpho.org/developers/contracts/addresses/",
+     "as_of": "2026-10-10",
+     "note": "Morpho Blue protocol (singleton contract listed in the official docs)."
+    }
+   },
+   {
+    "id": "ethereum",
+    "type": "chain",
+    "label": "Ethereum",
+    "address": null,
+    "chain": "ethereum",
+    "meta": {
+     "chain_id": 1,
+     "snapshot_block": 26167512,
+     "snapshot_block_hash": "0x4067a48dfeddb1871b18209f0797273ba4c2dd447a250936a5607dcd4696fbd7",
+     "snapshot_timestamp": 1791701255,
+     "snapshot_time_iso": "2026-10-11T06:47:35+00:00",
+     "note": "Every on-chain read of the graph is made at this block."
+    }
+   }
+  ],
+  "edges": [
+   {
+    "from": "feed_prime_wylds_exchange_rate",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0xf17C0EdcAA28371e9c8012D7699bF40ECF0F58d1) = 9571 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "feed_usdc_usd",
+    "to": "chainlink",
+    "type": "issued_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "ENS usdc-usd.data.eth → 0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26167512; the data.eth domain is the Chainlink feeds' domain (https://docs.chain.link/data-feeds/ens)"
+   },
+   {
+    "from": "feed_usdc_usd",
+    "to": "usdc",
+    "type": "priced_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "Chainlink USDC / USD.description() = \"USDC / USD\" @ 0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6 #26167512 ; USDC.symbol() = \"USDC\" @ 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 #26167512 ; ENS usdc-usd.data.eth → this feed (official Chainlink) — the feed measures the market price of this asset (matched on the symbol)"
+   },
+   {
+    "from": "feed_usdc_usd",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6) = 9571 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "morpho_market_755f9545",
+    "to": "prime",
+    "type": "collateralized_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "Morpho.idToMarketParams(0x755f954513d31d5f24aaf3d0cdc5e913a28383f8ea8ff85be9ffffa7371fb64d) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26167512 → collateralToken = 0x19ebb35279A16207Ec4ba82799CC64715065F7F6"
+   },
+   {
+    "from": "morpho_market_755f9545",
+    "to": "morpho",
+    "type": "issued_by",
+    "weight": 1.0,
+    "source": "curated",
+    "evidence": "Morpho Blue (singleton) = 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb according to https://docs.morpho.org/developers/contracts/addresses/ (as of 2026-10-10)"
+   },
+   {
+    "from": "morpho_market_755f9545",
+    "to": "usdc",
+    "type": "lends",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "Morpho.idToMarketParams(0x755f954513d31d5f24aaf3d0cdc5e913a28383f8ea8ff85be9ffffa7371fb64d) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26167512 → loanToken = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+   },
+   {
+    "from": "morpho_market_755f9545",
+    "to": "oracle_morpho_v2_999eff",
+    "type": "priced_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "Morpho.idToMarketParams(0x755f954513d31d5f24aaf3d0cdc5e913a28383f8ea8ff85be9ffffa7371fb64d) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26167512 → oracle = 0x999eFF9cA63D23A60A0Cd19B9F65A0918674119a"
+   },
+   {
+    "from": "morpho_market_755f9545",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb) = 15623 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "morpho_vault_v2:0xd65d6E8dbC3Cd3D12418199E6f4014dB3aaa0097:0xd65d6E8dbC3Cd3D12418199E6f4014dB3aaa0097",
+    "to": "vault_figure_usdc_main",
+    "type": "deployed_in",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "Figure USDC Main.totalAssets() = 11362807 @ 0xd65d6E8dbC3Cd3D12418199E6f4014dB3aaa0097 #26167512 — whole vault: the position is all its depositors together (curator view)"
+   },
+   {
+    "from": "oracle_morpho_v2_999eff",
+    "to": "feed_prime_wylds_exchange_rate",
+    "type": "priced_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "MorphoChainlinkOracleV2.BASE_FEED_1() = 0xf17C0EdcAA28371e9c8012D7699bF40ECF0F58d1 @ 0x999eFF9cA63D23A60A0Cd19B9F65A0918674119a #26167512; value read = 1063930274245034671"
+   },
+   {
+    "from": "oracle_morpho_v2_999eff",
+    "to": "feed_usdc_usd",
+    "type": "priced_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "MorphoChainlinkOracleV2.QUOTE_FEED_1() = 0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6 @ 0x999eFF9cA63D23A60A0Cd19B9F65A0918674119a #26167512; value read = 99988047"
+   },
+   {
+    "from": "oracle_morpho_v2_999eff",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0x999eFF9cA63D23A60A0Cd19B9F65A0918674119a) = 2598 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "prime",
+    "to": "wylds",
+    "type": "redeemable_into",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "PRIME.asset() = 0x6aD038cA6C04e885630851278ca0a856Ad9a66Cc @ 0x19ebb35279A16207Ec4ba82799CC64715065F7F6 #26167512; convertToAssets(1e6) = 1063944 (internal rate)"
+   },
+   {
+    "from": "prime",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0x19ebb35279A16207Ec4ba82799CC64715065F7F6) = 170 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "usdc",
+    "to": "circle",
+    "type": "issued_by",
+    "weight": 1.0,
+    "source": "curated",
+    "evidence": "USDC (Ethereum) = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 according to https://developers.circle.com/stablecoins/usdc-contract-addresses (as of 2026-10-10)"
+   },
+   {
+    "from": "usdc",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48) = 2186 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "vault_figure_usdc_main",
+    "to": "morpho_market_755f9545",
+    "type": "deployed_in",
+    "weight": 0.9999991199357694,
+    "source": "onchain",
+    "evidence": "Figure USDC Main.adapters(0) = 0x38995554b965EcCF9e4DCAf48CC87058D6217550 @ 0xd65d6E8dbC3Cd3D12418199E6f4014dB3aaa0097 #26167512; VaultV2Adapter.marketIds(0) = 0x755f954513d31d5f24aaf3d0cdc5e913a28383f8ea8ff85be9ffffa7371fb64d @ 0x38995554b965EcCF9e4DCAf48CC87058D6217550 #26167512 ; VaultV2Adapter.expectedSupplyAssets(0x755f954513d31d5f24aaf3d0cdc5e913a28383f8ea8ff85be9ffffa7371fb64d) = 11362797 @ 0x38995554b965EcCF9e4DCAf48CC87058D6217550 #26167512; vault share = 99.9999% (÷ totalAssets 11362807)"
+   },
+   {
+    "from": "vault_figure_usdc_main",
+    "to": "curator_rockawayx",
+    "type": "issued_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "Figure USDC Main.curator() = 0xbBacDCFB9691DFA1066aB29edfcc4A73f6DEf918 @ 0xd65d6E8dbC3Cd3D12418199E6f4014dB3aaa0097 #26167512; identity: API Morpho https://api.morpho.org/graphql vaultV2ByAddress(0xd65d6E8dbC3Cd3D12418199E6f4014dB3aaa0097).curators (fetched 2026-10-11T06:49:43+00:00)"
+   },
+   {
+    "from": "vault_figure_usdc_main",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0xd65d6E8dbC3Cd3D12418199E6f4014dB3aaa0097) = 21808 bytes #26167512; eth_chainId = 1"
+   },
+   {
+    "from": "wylds",
+    "to": "usdc",
+    "type": "redeemable_into",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "wYLDS.asset() = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 @ 0x6aD038cA6C04e885630851278ca0a856Ad9a66Cc #26167512; convertToAssets(1e6) = 1000000 (internal rate)"
+   },
+   {
+    "from": "wylds",
+    "to": "ethereum",
+    "type": "settled_on",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "eth_getCode(0x6aD038cA6C04e885630851278ca0a856Ad9a66Cc) = 170 bytes #26167512; eth_chainId = 1"
+   }
+  ]
+ }
+}

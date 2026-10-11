@@ -66,10 +66,14 @@ The full analysis of a pocket. → examples: [vault](api_examples/risk_vault.jso
 | `decision.verdict` | **`STAY` or `EXIT`** |
 | `decision.exit_fraction` | share of the pocket to exit (0 → 1) |
 | `decision.sentence` | the sentence to show the manager |
+| `decision.avoided_usd` / `decision.exit_cost_usd` | what exiting avoids and what it costs: **draw the two bars from these**, never recompute them in the front |
+| `decision.expected_loss_avoidable_usd` / `_unavoidable_usd` | the expected loss split: what exiting removes, and what stays with the asset you get back (e.g. a depeg of the pocket's own EURCV/USDC). The decision only weighs the avoidable part |
+| `decision.indifferent` | `true` when exiting would save less than `decision_materiality_usd` (params_v2.yaml): the options are equivalent, STAY = no action |
+| `coverage` (vault pockets) | `modelled_share` / `idle_share` / `unmodelled_share` of the vault and `unrecognised_adapters`: how much of the vault the engine actually models |
 | `monte_carlo` | `expected_loss_usd` (expected loss over the horizon), `var95_usd`, `var99_usd`, `var999_usd`, `p_any_loss` |
 | `exit` | `f_max_now` (share that can be exited **now**), `cost_full_usd`, `cost_full_pct`, and the breakdown (DEX quotes, penalty, gas…) |
 | `markets[]` | for each market: `collateral_pricing`, `utilization`, `liquidity`, number of borrowers |
-| `incidents[]` | **sorted by expected loss**: `id`, `title`, `loss_if_incident_usd`, `p_horizon`, `p_star` (exit threshold), `rule` (the calculation rule in plain words), `contagion_path` (text) |
+| `incidents[]` | **sorted by expected loss**: `id`, `title`, `loss_if_incident_usd`, `p_horizon`, `loss_if_incident_avoidable_usd` (the part exiting avoids), `not_avoided_because`, `p_horizon` (our **unconditional** estimate: the only probability that gets a "≈ once every X"), `p_star` (exit threshold, computed on the avoidable loss; show it as a plain %), `rule` (the calculation rule in plain words), `contagion_path` (text) |
 
 ### `POST /holders/{holder}/pockets/{pocket}/incident`
 The **incident mode**: "what should I do if this incident happens?". → [example](api_examples/incident.json)
@@ -83,7 +87,7 @@ The **incident mode**: "what should I do if this incident happens?". → [exampl
 - `p` (0 → 1): the probability estimated **by the manager**. Optional.
 
 The response contains `incident_mode`:
-- `verdict`, `exit_fraction`, `loss_if_incident_usd` / `_pct` and **`p_star`** ("exit if you believe in more than p\*");
+- `verdict`, `exit_fraction`, `loss_if_incident_usd` / `_pct`, `loss_avoidable_usd` + `not_avoided_because`, and **`p_star`** ("exit if you believe in more than p\*"). `p` and `p_star` are probabilities GIVEN the alert: never translate them into "once every X";
 - `sentence`: the sentence to show;
 - `contagion_edges[]`: the graph's edges between the position and the hit node, **to highlight on the graph**.
 
@@ -97,7 +101,7 @@ The whole portfolio. → [example](api_examples/book.json)
 - `skipped[]`: the pockets not supported, with the reason.
 
 ### `GET /validation`
-**Real crises replayed through the risk engine** (validation, not a stress test): the real USDe price paths of
+**Real crises replayed through the risk engine** (a counterfactual on today's position, not a back-test and not a stress test): the real USDe price paths of
 10 October 2025 (Binance at $0.65 for ~40 min, Chainlink never below $0.9929) and of 21 February 2025, run on position A
 with three oracle designs; for each, lowest health factor, liquidated or not, loss, and a one-line takeaway. Read from
 the committed risk report at its frozen block: **needs no RPC**. → [example](api_examples/validation.json)

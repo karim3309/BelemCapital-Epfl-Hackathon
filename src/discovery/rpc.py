@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import itertools
 import logging
+import re
 import time
 from typing import Any
 
@@ -36,6 +37,20 @@ BLOCK_PARAM_INDEX = {
     "eth_getBlockByNumber": 0,
 }
 MOVING_TAGS = {"latest", "pending", "safe", "finalized", "earliest"}
+
+
+_URL_PATH_RE = re.compile(r"(https?://[^/\s'\"]+)/[^\s'\")]*")
+_BARE_PATH_RE = re.compile(r"(\burl:\s*)/[^\s'\")]*", re.IGNORECASE)
+
+
+def redact(text: object) -> str:
+    """Hides the secret part of an RPC URL in any message (the key usually sits in the URL path).
+
+    requests/web3 errors quote the endpoint in two ways: the full URL ("for url: https://host/KEY/") and, on a
+    network failure, only the path ("Max retries exceeded with url: /KEY/"). Both are masked; the host stays.
+    """
+    s = _URL_PATH_RE.sub(r"\1/***", str(text))
+    return _BARE_PATH_RE.sub(r"\1/***", s)
 
 
 class OfflineError(RuntimeError):
@@ -106,7 +121,7 @@ class CachedHTTPProvider(HTTPProvider):
                     raise _Transient(str(err))
                 return response
             except (_Transient, requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
-                log.warning("Transient RPC error (%s), retrying in %.0fs", e, delay)
+                log.warning("Transient RPC error (%s), retrying in %.0fs", redact(e), delay)
             except requests.exceptions.HTTPError as e:
                 status = e.response.status_code if e.response is not None else None
                 if status not in (429, 500, 502, 503, 504) or attempt >= self.max_retries:
@@ -123,7 +138,7 @@ class CachedHTTPProvider(HTTPProvider):
 
     @staticmethod
     def _explain(method, params, error) -> str:
-        msg = str((error or {}).get("message", error))
+        msg = redact((error or {}).get("message", error))      # never print the key of the RPC URL
         hint = ""
         if any(s in msg.lower() for s in ("header not found", "missing trie node", "historical", "archive", "403")):
             hint = (" → this block is too old for this RPC (non-archive node). "

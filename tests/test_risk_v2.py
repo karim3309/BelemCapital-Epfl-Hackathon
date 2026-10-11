@@ -91,3 +91,76 @@ def test_params_without_status_are_refused(tmp_path):
     f.write_text("events: {}\nhorizon_days: {value: 7}\n", encoding="utf-8")
     with pytest.raises(ParamsError):
         load_params(f)
+
+
+# ------------------------------------------------------------------ audit 2026-10-11: avoidable vs unavoidable loss
+def _vault_pocket(markets, asset_id="eurcv"):
+    from stacktrace.risk_engine import VaultPocket
+    return VaultPocket("V", 1000.0, 1000.0, 1.0, 1.0, asset_id, markets, 1.0, 0.0, "vault_v", None, "EURCV")
+
+
+def _g(with_asset=True):
+    from stacktrace.market_data import G
+    nodes = [{"id": "vault_v", "type": "vault", "label": "V", "address": None, "meta": {}}]
+    if with_asset:
+        nodes.append({"id": "eurcv", "type": "asset", "label": "EURCV", "address": "0x" + "1" * 40, "meta": {}})
+    return G({"position": {"id": "p"}, "nodes": nodes, "edges": []})
+
+
+def test_depeg_of_the_pocket_asset_is_not_avoided_by_exiting():
+    from stacktrace.risk_engine import vault_events
+    ev = {e.family: e for e in vault_events(_g(), _vault_pocket([]), P)}
+    depeg, exploit = ev["stable_depeg"], ev["protocol_exploit"]
+    total, avoidable = depeg.split(0.10)
+    assert total == pytest.approx(100.0) and avoidable == 0.0           # you get EURCV back: the depeg stays
+    assert exploit.split(0.10) == (pytest.approx(100.0), pytest.approx(100.0))   # funds out of Morpho: avoided
+
+
+def test_monte_carlo_splits_avoidable_and_unavoidable():
+    from stacktrace.risk_engine import monte_carlo, vault_events
+    events = vault_events(_g(), _vault_pocket([]), P)
+    mc = monte_carlo(events, 1000.0, 365.0, P)
+    assert mc["expected_loss_avoidable_usd"] + mc["expected_loss_unavoidable_usd"] == pytest.approx(mc["expected_loss_usd"])
+    assert mc["expected_loss_unavoidable_usd"] > 0
+
+
+def test_vault_without_known_asset_or_market_does_not_crash():
+    from stacktrace.risk_engine import vault_events
+    ev = vault_events(_g(with_asset=False), _vault_pocket([], asset_id=None), P)
+    depeg = next(e for e in ev if e.family == "stable_depeg")
+    assert depeg.target == "vault_v" and "EURCV" in depeg.title
+
+
+def test_borrow_unwind_keeps_the_equity_in_the_collateral():
+    from stacktrace.risk_engine import borrow_events
+    from stacktrace.market_data import G
+    mk = market([60], [100], mode="internal_rate")
+    mk.collateral_class, mk.collateral_id, mk.node_id = "rwa_or_synthetic", "c", "m"
+    bp = BorrowPocket("b", 40.0, 1.0, mk, collateral_value=100, debt=60, hf=100 * 0.86 / 60)
+    g = G({"position": {"id": "p"}, "nodes": [{"id": "m", "type": "lending_market", "label": "M", "address": None, "meta": {}},
+                                             {"id": "c", "type": "asset", "label": "C", "address": None, "meta": {}}],
+           "edges": []})
+    drop = next(e for e in borrow_events(g, bp, P) if e.family == "rwa_credit_event")
+    total, avoidable = drop.split(0.20)
+    assert total == pytest.approx(20.0)                # 100 × 20 % lost while staying (oracle does not follow)
+    assert avoidable == pytest.approx(20.0 - 40 * 0.20)  # after unwinding, the 40 of equity still lose 20 %
+
+
+def test_usd_feed_is_linked_to_its_asset():
+    from discovery.graph import GraphBuilder, Node
+    from discovery.valuation import link_market_feeds
+    g = GraphBuilder()
+    feed, usde = "0x" + "a" * 40, "0x" + "b" * 40
+    g.add_node(Node(feed, "oracle", "Chainlink USDe / USD", "feed_usde_usd", feed,
+                    meta={"oracle_kind": "chainlink_aggregator_proxy", "description": "USDe / USD"}))
+    g.add_node(Node(usde, "asset", "USDe", "usde", usde, meta={"symbol": "USDe"}))
+    assert link_market_feeds(g, 100) == 1
+    e = g.edges[(feed, usde, "priced_by")]
+    assert e.source == "onchain" and "#100" in e.evidence and "symbol" in e.evidence
+
+
+def test_an_exit_saving_a_few_cents_is_indifferent_not_exit():
+    from stacktrace.analyze import decide
+    m = exit_model(1.0, 0.07)
+    assert decide(m, 0.78, materiality_usd=100) == (0.0, True)       # saves $0.71: no action
+    assert decide(m, 5_000.0, materiality_usd=100)[0] == 1.0          # saves ~$5,000: EXIT

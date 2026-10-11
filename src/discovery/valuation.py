@@ -16,13 +16,42 @@ from __future__ import annotations
 
 import math
 
-from .graph import GraphBuilder, Node
+from .graph import Edge, GraphBuilder, Node
 
 SECONDS_PER_YEAR = 365 * 86400
 
 
 def _assets(g: GraphBuilder) -> dict[str, Node]:
     return {n.address: n for n in g.nodes.values() if n.type == "asset" and n.address}
+
+
+def link_market_feeds(g: GraphBuilder, block: int) -> int:
+    """Draws the edge  feed --priced_by--> asset  for every Chainlink "SYMBOL / USD" feed whose SYMBOL is an asset of
+    the graph (both read on-chain: description() of the feed, symbol() of the token).
+
+    Why: the feed measures the MARKET price of that asset. Without the edge, "who is hit if USDe breaks?"
+    (ancestors of usde) never reaches the oracle that depends on USDe's price, although it is the heart of the
+    depeg story. Matching is done on the symbol, and the evidence says so. Returns the number of edges added.
+    """
+    by_symbol = {n.meta.get("symbol"): n for n in g.nodes.values() if n.type == "asset" and n.address}
+    added = 0
+    for n in list(g.nodes.values()):
+        if n.type != "oracle" or n.meta.get("oracle_kind") != "chainlink_aggregator_proxy" or not n.address:
+            continue
+        desc = n.meta.get("description") or ""
+        base, _, quote = desc.partition("/")
+        asset = by_symbol.get(base.strip())
+        if quote.strip() != "USD" or asset is None:
+            continue
+        n.meta.setdefault("priced_asset", asset.address)
+        ens = (f" ; ENS {n.meta['ens_name']} → this feed (official Chainlink)" if n.meta.get("ens_resolves_to_this_feed")
+               else "")
+        g.add_edge(Edge(n.key, asset.key, "priced_by", "onchain",
+                        f"{n.label}.description() = \"{desc}\" @ {n.address} #{block} ; "
+                        f"{asset.label}.symbol() = \"{asset.meta.get('symbol')}\" @ {asset.address} #{block}{ens} — "
+                        "the feed measures the market price of this asset (matched on the symbol)"))
+        added += 1
+    return added
 
 
 def value_graph(g: GraphBuilder, market_key: str, loan_usd: float, loan_usd_source: str, block_ts: int) -> None:

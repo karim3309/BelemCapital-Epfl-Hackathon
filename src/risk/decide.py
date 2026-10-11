@@ -17,7 +17,7 @@ grows faster than size: we look for the f minimising  C_exit(f) + p × Loss × (
 from __future__ import annotations
 
 from .exit_cost import ExitModel
-from .fmt import pct, prob, usd
+from .fmt import pct, usd
 
 P_GRID = [round(i / 100, 2) for i in range(0, 101)]
 F_STEP = 0.05
@@ -69,12 +69,14 @@ def sentence(verdict: str, f: float, pstar: float | None, p: float, loss_usd: fl
     if exit_usd is None:
         return (f"Full exit IMPOSSIBLE — the pool cannot absorb the sale; \"{title}\" would cost "
                 f"{usd(loss_usd)}. Reduce the size to the maximum absorbable.")
-    ps = prob(pstar, 1, horizon_days) if pstar is not None else "—"
+    # p and p* here are probabilities GIVEN an alert (scenario): no "≈ once every X" (that is for
+    # unconditional frequencies only, see the Monte Carlo of the same report).
+    ps = pct(pstar, 1) if pstar is not None else "—"
     if verdict == "STAY":
         return (f"STAY — exiting costs {usd(exit_usd)}; \"{title}\" would cost {usd(loss_usd)}. "
-                f"Exit only if you believe there is more than a {ps} chance it happens (you estimate {prob(p, 0, horizon_days)}).")
+                f"Exit only if you believe there is more than a {ps} chance it happens (you estimate {pct(p, 0)}).")
     if verdict == "EXIT":
-        return (f"EXIT — you estimate a {prob(p, 0, horizon_days)} chance, above the threshold p* = {ps}: the expected loss "
+        return (f"EXIT — you estimate a {pct(p, 0)} chance, above the threshold p* = {ps}: the expected loss "
                 f"({usd(p * loss_usd)}) exceeds the certain exit cost ({usd(exit_usd)}).")
     return (f"PARTIAL {pct(f, 0)} — beyond {pct(f, 0)}, marginal slippage costs more than the loss avoided; "
-            f"threshold p* (full exit) = {ps}, you estimate {prob(p, 0, horizon_days)}.")
+            f"threshold p* (full exit) = {ps}, you estimate {pct(p, 0)}.")

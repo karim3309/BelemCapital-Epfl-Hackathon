@@ -1,0 +1,206 @@
+{
+ "block": 26167512,
+ "block_timestamp": 1791701255,
+ "chain_id": 1,
+ "pocket": {
+  "id": "morpho_vault_v2:0x8aC91877b93330f52b2979a31a4879506021475c",
+  "kind": "morpho_vault_v2",
+  "label": "Huma USDC Main",
+  "value_usd": 12840670.049463464,
+  "share_of_book": 0.129403,
+  "perspective": "curator"
+ },
+ "graph": {
+  "nodes": 10,
+  "edges": 15,
+  "position_id": "morpho_vault_v2:0x8aC91877b93330f52b2979a31a4879506021475c:0x8aC91877b93330f52b2979a31a4879506021475c"
+ },
+ "markets": [
+  {
+   "label": "Morpho Blue PST / USDC (LLTV 86.0%)",
+   "collateral_pricing": "internal_rate",
+   "collateral_class": "rwa_or_synthetic",
+   "lltv": 0.86,
+   "utilization": 0.9048215843889105,
+   "liquidity": 3618027.348979,
+   "our_supply": 12844676.28632,
+   "borrowers": 13,
+   "borrowers_source": "API Morpho https://api.morpho.org/graphql marketPositions (fetched 2026-10-11T06:48:24+00:00); remaining 214 USDC aggregated at the average LTV 79.9%"
+  }
+ ],
+ "monte_carlo": {
+  "samples": 100000,
+  "horizon_days": 7,
+  "expected_loss_usd": 3422.0723748377154,
+  "expected_loss_avoidable_usd": 2063.498042301685,
+  "expected_loss_unavoidable_usd": 1358.5743325360304,
+  "avoidable_note": "avoidable = what exiting removes; unavoidable = what stays with the asset you get back (e.g. a depeg of the pocket's own asset)",
+  "var95_usd": 0.0,
+  "var99_usd": 0.0,
+  "var999_usd": 879352.292592251,
+  "p_any_loss": 0.00161,
+  "independence_note": "incidents drawn independently (correlations between nodes not modelled)"
+ },
+ "exit": {
+  "f_max_now": 0.281675,
+  "cost_full_usd": 5017.220721563477,
+  "cost_full_pct": 0.00039072888737399787,
+  "withdrawable_now_fraction": 0.281675,
+  "penalty_free_fraction": 0.281675,
+  "force_deallocate_penalty": 0.005,
+  "forgone_yield_rate_over_horizon": 0.0013871441842520547,
+  "supply_apy_weighted": 0.072329661036,
+  "gas": "400000 gas × baseFee 0.06 gwei (block #26167512) × ETH $2,503 (ENS eth-usd.data.eth → 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26167512)",
+  "note": "beyond f_max, the exit depends on borrowers repaying / on rates rising"
+ },
+ "coverage": {
+  "modelled_share": 1.0,
+  "idle_share": 0.0,
+  "unmodelled_share": 0.0,
+  "unrecognised_adapters": []
+ },
+ "decision": {
+  "verdict": "STAY",
+  "exit_fraction": 0.0,
+  "indifferent": false,
+  "expected_loss_avoidable_usd": 2063.498042301685,
+  "expected_loss_unavoidable_usd": 1358.5743325360304,
+  "avoided_usd": 581.2358110653272,
+  "exit_cost_usd": 5017.220721563477,
+  "sentence": "Curator view (whole vault, all depositors): EXIT means pulling the vault's money out of its markets, STAY means keeping the allocation. STAY — exiting (only 28% can be exited now) would avoid $581 of expected loss over the horizon, but would cost $5,017. ($1,359 of expected loss cannot be avoided by exiting: it stays with the asset you get back.) Exit if you put the risk \"PST collateral drop\" above 0.8% (our estimate: 0.10%, i.e. ≈ once every 20 years)."
+ },
+ "incidents": [
+  {
+   "id": "rwa_credit_event:pst",
+   "title": "PST collateral drop",
+   "family": "rwa_credit_event",
+   "target": "pst",
+   "annual_rate": 0.05,
+   "p_horizon": 0.0009584445079596771,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 2248101.4020129144,
+   "loss_if_incident_avoidable_usd": 2248101.4020129144,
+   "loss_if_incident_max_usd": 5076660.452386383,
+   "expected_loss_usd": 2154.680442095728,
+   "expected_loss_avoidable_usd": 2154.680442095728,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 0.007923170612095546,
+   "rule": "sudden shock on a collateral whose oracle does NOT follow the market (internal rate / set price): no timely liquidation → bad debt max(0, D − V·(1−d)·(1−slippage)), borrower by borrower",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] Huma USDC Main → [deployed_in] Morpho Blue PST / USDC (LLTV 86.0%) → [collateralized_by] PST"
+  },
+  {
+   "id": "issuer_failure:circle",
+   "title": "Issuer failure: Circle (USDC)",
+   "family": "issuer_failure",
+   "target": "circle",
+   "annual_rate": 0.005,
+   "p_horizon": 9.588581362041104e-05,
+   "severity_range": [
+    0.1,
+    1.0
+   ],
+   "loss_if_incident_usd": 7062368.527204905,
+   "loss_if_incident_avoidable_usd": 0.0,
+   "loss_if_incident_max_usd": 12840670.049463464,
+   "expected_loss_usd": 677.1809523182263,
+   "expected_loss_avoidable_usd": 0.0,
+   "avoidable_by_exit": false,
+   "not_avoided_because": "withdrawing from the vault gives back this same asset: exiting does not avoid its depeg",
+   "p_star": null,
+   "rule": "the issued asset loses s of its value",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] Huma USDC Main → [deployed_in] Morpho Blue PST / USDC (LLTV 86.0%) → [lends] USDC → [issued_by] Circle"
+  },
+  {
+   "id": "stable_depeg:usdc",
+   "title": "USDC depeg (pocket asset)",
+   "family": "stable_depeg",
+   "target": "usdc",
+   "annual_rate": 0.02,
+   "p_horizon": 0.0003834880934723284,
+   "severity_range": [
+    0.02,
+    0.12
+   ],
+   "loss_if_incident_usd": 898846.9034624425,
+   "loss_if_incident_avoidable_usd": 0.0,
+   "loss_if_incident_max_usd": 1540880.4059356155,
+   "expected_loss_usd": 344.69708533231807,
+   "expected_loss_avoidable_usd": 0.0,
+   "avoidable_by_exit": false,
+   "not_avoided_because": "withdrawing from the vault gives back this same asset: exiting does not avoid its depeg",
+   "p_star": null,
+   "rule": "the pocket is denominated in this asset: loss = value × d",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] Huma USDC Main → [deployed_in] Morpho Blue PST / USDC (LLTV 86.0%) → [lends] USDC"
+  },
+  {
+   "id": "protocol_exploit:morpho",
+   "title": "Morpho Blue protocol exploit",
+   "family": "protocol_exploit",
+   "target": "morpho",
+   "annual_rate": 0.003,
+   "p_horizon": 5.753259151231038e-05,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 3531184.2636024524,
+   "loss_if_incident_avoidable_usd": 3531184.2636024524,
+   "loss_if_incident_max_usd": 6420335.024731732,
+   "expected_loss_usd": 203.15818179253844,
+   "expected_loss_avoidable_usd": 203.15818179253844,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 0.005044225855058591,
+   "rule": "all deposited funds are exposed: loss = value × s",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] Huma USDC Main → [deployed_in] Morpho Blue PST / USDC (LLTV 86.0%) → [issued_by] Morpho"
+  },
+  {
+   "id": "curator_failure:curator_rockawayx",
+   "title": "Curator failure (RockawayX (curator))",
+   "family": "curator_failure",
+   "target": "curator_rockawayx",
+   "annual_rate": 0.005,
+   "p_horizon": 9.588581362041104e-05,
+   "severity_range": [
+    0.0,
+    0.2
+   ],
+   "loss_if_incident_usd": 1284067.0049463464,
+   "loss_if_incident_avoidable_usd": 1284067.0049463464,
+   "loss_if_incident_max_usd": 2568134.009892693,
+   "expected_loss_usd": 123.12380951240479,
+   "expected_loss_avoidable_usd": 123.12380951240479,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 0.013871621101411123,
+   "rule": "bad allocation bounded by the caps: loss = value × s",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] Huma USDC Main → [issued_by] RockawayX (curator)"
+  },
+  {
+   "id": "internal_rate_fault:feed_pst_usdc_exchange_rate_calculated",
+   "title": "Feed Chainlink PST-USDC Exchange Rate (Calculated) skewed (collateral price overstated)",
+   "family": "internal_rate_fault",
+   "target": "feed_pst_usdc_exchange_rate_calculated",
+   "annual_rate": 0.005,
+   "p_horizon": 9.588581362041104e-05,
+   "severity_range": [
+    0.05,
+    0.3
+   ],
+   "loss_if_incident_usd": 37392.176860864405,
+   "loss_if_incident_avoidable_usd": 37392.176860864405,
+   "loss_if_incident_max_usd": 128993.06477794207,
+   "expected_loss_usd": 3.5853793013422908,
+   "expected_loss_avoidable_usd": 3.5853793013422908,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 0.4763587588847255,
+   "rule": "an attacker borrows the available liquidity L against overstated collateral: loss = L·(1 − 1/((1+u)·LLTV)) if (1+u)·LLTV > 1",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] Huma USDC Main → [deployed_in] Morpho Blue PST / USDC (LLTV 86.0%) → [priced_by] MorphoChainlinkOracleV2 (internal_rate) → [priced_by] Chainlink PST-USDC Exchange Rate (Calculated)"
+  }
+ ]
+}

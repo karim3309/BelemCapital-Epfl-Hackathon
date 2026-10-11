@@ -10,7 +10,7 @@ export const SLIDES = [
   { id: 'loss', label: 'How much do I lose?' },
   { id: 'exit', label: 'What does exiting cost?' },
   { id: 'incident', label: 'What if it happens?' },
-  { id: 'validation', label: 'Validated on real crises' },
+  { id: 'validation', label: 'Counterfactual on real crises' },
   { id: 'concentration', label: 'Concentration' },
 ] as const
 

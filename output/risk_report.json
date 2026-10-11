@@ -46,8 +46,8 @@
   "lender_loss_usd": 77722.69544860322,
   "exit_cost_usd": 853.6446875513062,
   "exit_cost_pct_equity": 0.016066184784276964,
-  "sentence": "EXIT — you estimate a 10% (≈ once every 9 weeks) chance, above the threshold p* = 1.6% (≈ once every 14 months): the expected loss ($5,313) exceeds the certain exit cost ($854).",
-  "three_am_question": "Do I believe there is more than a 1.6% (≈ once every 14 months) chance that \"Lasting USDe depeg −30%\" happens within 7 days?"
+  "sentence": "EXIT — you estimate a 10% chance, above the threshold p* = 1.6%: the expected loss ($5,313) exceeds the certain exit cost ($854).",
+  "three_am_question": "Do I believe there is more than a 1.6% chance that \"Lasting USDe depeg −30%\" happens within 7 days?"
  },
  "baseline": {
   "verdict": "STAY",
@@ -1588,7 +1588,7 @@
     "p_default": 0.1,
     "verdict": "EXIT",
     "exit_fraction": 1.0,
-    "sentence": "EXIT — you estimate a 10% (≈ once every 9 weeks) chance, above the threshold p* = 1.6% (≈ once every 14 months): the expected loss ($5,313) exceeds the certain exit cost ($854).",
+    "sentence": "EXIT — you estimate a 10% chance, above the threshold p* = 1.6%: the expected loss ($5,313) exceeds the certain exit cost ($854).",
     "table": [
      {
       "p": 0.0,
@@ -2256,6 +2256,64 @@
        "rule": "\"susde\" can be exchanged for \"usde\": its value follows that of \"usde\""
       }
      ]
+    },
+    {
+     "shocked_node": "usde",
+     "nodes": [
+      "morpho:0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05:0x03BAbEB24619902253FDB0D5675A816879115d98",
+      "morpho_market_5613b170",
+      "oracle_meta_f8b29e",
+      "oracle_morpho_v2_e2f4cf",
+      "feed_usde_usd",
+      "usde"
+     ],
+     "edges": [
+      {
+       "from": "morpho:0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05:0x03BAbEB24619902253FDB0D5675A816879115d98",
+       "to": "morpho_market_5613b170",
+       "type": "deployed_in",
+       "weight": 1.0,
+       "source": "onchain",
+       "evidence": "Morpho.position(0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05,0x03BAbEB24619902253FDB0D5675A816879115d98) = (0,355505047827188788,413030323985266824510019) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26162087",
+       "rule": "funds placed in \"morpho_market_5613b170\" suffer its failure (or its liquidity, for a pool)"
+      },
+      {
+       "from": "morpho_market_5613b170",
+       "to": "oracle_meta_f8b29e",
+       "type": "priced_by",
+       "weight": 1.0,
+       "source": "onchain",
+       "evidence": "Morpho.idToMarketParams(0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26162087 → oracle = 0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08",
+       "rule": "\"morpho_market_5613b170\" takes its price from \"oracle_meta_f8b29e\": the shock only passes if \"oracle_meta_f8b29e\" follows the market"
+      },
+      {
+       "from": "oracle_meta_f8b29e",
+       "to": "oracle_morpho_v2_e2f4cf",
+       "type": "priced_by",
+       "weight": 1.0,
+       "source": "onchain",
+       "evidence": "MetaOracleDeviationTimelock.backupOracle() = 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 @ 0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08 #26162087; switch threshold deviationThreshold() = 7500000000000000",
+       "rule": "\"oracle_meta_f8b29e\" takes its price from \"oracle_morpho_v2_e2f4cf\": the shock only passes if \"oracle_morpho_v2_e2f4cf\" follows the market"
+      },
+      {
+       "from": "oracle_morpho_v2_e2f4cf",
+       "to": "feed_usde_usd",
+       "type": "priced_by",
+       "weight": 1.0,
+       "source": "onchain",
+       "evidence": "MorphoChainlinkOracleV2.BASE_FEED_2() = 0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961 @ 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 #26162087; value read = 99959682",
+       "rule": "\"oracle_morpho_v2_e2f4cf\" takes its price from \"feed_usde_usd\": the shock only passes if \"feed_usde_usd\" follows the market"
+      },
+      {
+       "from": "feed_usde_usd",
+       "to": "usde",
+       "type": "priced_by",
+       "weight": 1.0,
+       "source": "onchain",
+       "evidence": "Chainlink USDe / USD.description() = \"USDe / USD\" @ 0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961 #26162087 ; USDe.symbol() = \"USDe\" @ 0x4c9EDD5852cd905f086C759E8383e09bff1E68B3 #26162087 ; ENS usde-usd.data.eth → this feed (official Chainlink) — the feed measures the market price of this asset (matched on the symbol)",
+       "rule": "\"feed_usde_usd\" takes its price from \"usde\": the shock only passes if \"usde\" follows the market"
+      }
+     ]
     }
    ],
    "params_used": [
@@ -2516,7 +2574,7 @@
     "p_default": 0.1,
     "verdict": "EXIT",
     "exit_fraction": 1.0,
-    "sentence": "EXIT — you estimate a 10% (≈ once every 9 weeks) chance, above the threshold p* = 2.3% (≈ once every 10 months): the expected loss ($3,756) exceeds the certain exit cost ($854).",
+    "sentence": "EXIT — you estimate a 10% chance, above the threshold p* = 2.3%: the expected loss ($3,756) exceeds the certain exit cost ($854).",
     "table": [
      {
       "p": 0.0,
@@ -3182,6 +3240,64 @@
        "source": "onchain",
        "evidence": "sUSDe.asset() = 0x4c9EDD5852cd905f086C759E8383e09bff1E68B3 @ 0x9D39A5DE30e57443BfF2A8307A4256c8797A3497 #26162087; convertToAssets(1e18) = 1252349742063015437 (internal rate)",
        "rule": "\"susde\" can be exchanged for \"usde\": its value follows that of \"usde\""
+      }
+     ]
+    },
+    {
+     "shocked_node": "usde",
+     "nodes": [
+      "morpho:0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05:0x03BAbEB24619902253FDB0D5675A816879115d98",
+      "morpho_market_5613b170",
+      "oracle_meta_f8b29e",
+      "oracle_morpho_v2_e2f4cf",
+      "feed_usde_usd",
+      "usde"
+     ],
+     "edges": [
+      {
+       "from": "morpho:0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05:0x03BAbEB24619902253FDB0D5675A816879115d98",
+       "to": "morpho_market_5613b170",
+       "type": "deployed_in",
+       "weight": 1.0,
+       "source": "onchain",
+       "evidence": "Morpho.position(0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05,0x03BAbEB24619902253FDB0D5675A816879115d98) = (0,355505047827188788,413030323985266824510019) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26162087",
+       "rule": "funds placed in \"morpho_market_5613b170\" suffer its failure (or its liquidity, for a pool)"
+      },
+      {
+       "from": "morpho_market_5613b170",
+       "to": "oracle_meta_f8b29e",
+       "type": "priced_by",
+       "weight": 1.0,
+       "source": "onchain",
+       "evidence": "Morpho.idToMarketParams(0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26162087 → oracle = 0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08",
+       "rule": "\"morpho_market_5613b170\" takes its price from \"oracle_meta_f8b29e\": the shock only passes if \"oracle_meta_f8b29e\" follows the market"
+      },
+      {
+       "from": "oracle_meta_f8b29e",
+       "to": "oracle_morpho_v2_e2f4cf",
+       "type": "priced_by",
+       "weight": 1.0,
+       "source": "onchain",
+       "evidence": "MetaOracleDeviationTimelock.backupOracle() = 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 @ 0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08 #26162087; switch threshold deviationThreshold() = 7500000000000000",
+       "rule": "\"oracle_meta_f8b29e\" takes its price from \"oracle_morpho_v2_e2f4cf\": the shock only passes if \"oracle_morpho_v2_e2f4cf\" follows the market"
+      },
+      {
+       "from": "oracle_morpho_v2_e2f4cf",
+       "to": "feed_usde_usd",
+       "type": "priced_by",
+       "weight": 1.0,
+       "source": "onchain",
+       "evidence": "MorphoChainlinkOracleV2.BASE_FEED_2() = 0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961 @ 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 #26162087; value read = 99959682",
+       "rule": "\"oracle_morpho_v2_e2f4cf\" takes its price from \"feed_usde_usd\": the shock only passes if \"feed_usde_usd\" follows the market"
+      },
+      {
+       "from": "feed_usde_usd",
+       "to": "usde",
+       "type": "priced_by",
+       "weight": 1.0,
+       "source": "onchain",
+       "evidence": "Chainlink USDe / USD.description() = \"USDe / USD\" @ 0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961 #26162087 ; USDe.symbol() = \"USDe\" @ 0x4c9EDD5852cd905f086C759E8383e09bff1E68B3 #26162087 ; ENS usde-usd.data.eth → this feed (official Chainlink) — the feed measures the market price of this asset (matched on the symbol)",
+       "rule": "\"feed_usde_usd\" takes its price from \"usde\": the shock only passes if \"usde\" follows the market"
       }
      ]
     }
@@ -4101,6 +4217,64 @@
        "rule": "\"susde\" can be exchanged for \"usde\": its value follows that of \"usde\""
       }
      ]
+    },
+    {
+     "shocked_node": "usde",
+     "nodes": [
+      "morpho:0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05:0x03BAbEB24619902253FDB0D5675A816879115d98",
+      "morpho_market_5613b170",
+      "oracle_meta_f8b29e",
+      "oracle_morpho_v2_e2f4cf",
+      "feed_usde_usd",
+      "usde"
+     ],
+     "edges": [
+      {
+       "from": "morpho:0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05:0x03BAbEB24619902253FDB0D5675A816879115d98",
+       "to": "morpho_market_5613b170",
+       "type": "deployed_in",
+       "weight": 1.0,
+       "source": "onchain",
+       "evidence": "Morpho.position(0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05,0x03BAbEB24619902253FDB0D5675A816879115d98) = (0,355505047827188788,413030323985266824510019) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26162087",
+       "rule": "funds placed in \"morpho_market_5613b170\" suffer its failure (or its liquidity, for a pool)"
+      },
+      {
+       "from": "morpho_market_5613b170",
+       "to": "oracle_meta_f8b29e",
+       "type": "priced_by",
+       "weight": 1.0,
+       "source": "onchain",
+       "evidence": "Morpho.idToMarketParams(0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26162087 → oracle = 0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08",
+       "rule": "\"morpho_market_5613b170\" takes its price from \"oracle_meta_f8b29e\": the shock only passes if \"oracle_meta_f8b29e\" follows the market"
+      },
+      {
+       "from": "oracle_meta_f8b29e",
+       "to": "oracle_morpho_v2_e2f4cf",
+       "type": "priced_by",
+       "weight": 1.0,
+       "source": "onchain",
+       "evidence": "MetaOracleDeviationTimelock.backupOracle() = 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 @ 0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08 #26162087; switch threshold deviationThreshold() = 7500000000000000",
+       "rule": "\"oracle_meta_f8b29e\" takes its price from \"oracle_morpho_v2_e2f4cf\": the shock only passes if \"oracle_morpho_v2_e2f4cf\" follows the market"
+      },
+      {
+       "from": "oracle_morpho_v2_e2f4cf",
+       "to": "feed_usde_usd",
+       "type": "priced_by",
+       "weight": 1.0,
+       "source": "onchain",
+       "evidence": "MorphoChainlinkOracleV2.BASE_FEED_2() = 0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961 @ 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 #26162087; value read = 99959682",
+       "rule": "\"oracle_morpho_v2_e2f4cf\" takes its price from \"feed_usde_usd\": the shock only passes if \"feed_usde_usd\" follows the market"
+      },
+      {
+       "from": "feed_usde_usd",
+       "to": "usde",
+       "type": "priced_by",
+       "weight": 1.0,
+       "source": "onchain",
+       "evidence": "Chainlink USDe / USD.description() = \"USDe / USD\" @ 0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961 #26162087 ; USDe.symbol() = \"USDe\" @ 0x4c9EDD5852cd905f086C759E8383e09bff1E68B3 #26162087 ; ENS usde-usd.data.eth → this feed (official Chainlink) — the feed measures the market price of this asset (matched on the symbol)",
+       "rule": "\"feed_usde_usd\" takes its price from \"usde\": the shock only passes if \"usde\" follows the market"
+      }
+     ]
     }
    ],
    "params_used": [
@@ -4358,7 +4532,7 @@
     "p_default": 0.05,
     "verdict": "EXIT",
     "exit_fraction": 1.0,
-    "sentence": "EXIT — you estimate a 5% (≈ once every 4 months) chance, above the threshold p* = 2.9% (≈ once every 8 months): the expected loss ($1,450) exceeds the certain exit cost ($854).",
+    "sentence": "EXIT — you estimate a 5% chance, above the threshold p* = 2.9%: the expected loss ($1,450) exceeds the certain exit cost ($854).",
     "table": [
      {
       "p": 0.0,
@@ -5392,7 +5566,7 @@
     "p_default": 0.02,
     "verdict": "PARTIAL",
     "exit_fraction": 0.75,
-    "sentence": "PARTIAL 75% — beyond 75%, marginal slippage costs more than the loss avoided; threshold p* (full exit) = 1.6% (≈ once every 14 months), you estimate 2% (≈ once every 11 months).",
+    "sentence": "PARTIAL 75% — beyond 75%, marginal slippage costs more than the loss avoided; threshold p* (full exit) = 1.6%, you estimate 2%.",
     "table": [
      {
       "p": 0.0,
@@ -6697,7 +6871,7 @@
     "p_default": 0.02,
     "verdict": "PARTIAL",
     "exit_fraction": 0.75,
-    "sentence": "PARTIAL 75% — beyond 75%, marginal slippage costs more than the loss avoided; threshold p* (full exit) = 1.6% (≈ once every 14 months), you estimate 2% (≈ once every 11 months).",
+    "sentence": "PARTIAL 75% — beyond 75%, marginal slippage costs more than the loss avoided; threshold p* (full exit) = 1.6%, you estimate 2%.",
     "table": [
      {
       "p": 0.0,
@@ -7712,7 +7886,7 @@
     "p_default": 0.02,
     "verdict": "PARTIAL",
     "exit_fraction": 0.7,
-    "sentence": "PARTIAL 70% — beyond 70%, marginal slippage costs more than the loss avoided; threshold p* (full exit) = 1.7% (≈ once every 14 months), you estimate 2% (≈ once every 11 months).",
+    "sentence": "PARTIAL 70% — beyond 70%, marginal slippage costs more than the loss avoided; threshold p* (full exit) = 1.7%, you estimate 2%.",
     "table": [
      {
       "p": 0.0,
@@ -8615,7 +8789,7 @@
     "p_default": 0.02,
     "verdict": "PARTIAL",
     "exit_fraction": 0.45,
-    "sentence": "PARTIAL 45% — beyond 45%, marginal slippage costs more than the loss avoided; threshold p* (full exit) = 2.1% (≈ once every 11 months), you estimate 2% (≈ once every 11 months).",
+    "sentence": "PARTIAL 45% — beyond 45%, marginal slippage costs more than the loss avoided; threshold p* (full exit) = 2.1%, you estimate 2%.",
     "table": [
      {
       "p": 0.0,
@@ -9281,6 +9455,64 @@
        "source": "onchain",
        "evidence": "sUSDe.asset() = 0x4c9EDD5852cd905f086C759E8383e09bff1E68B3 @ 0x9D39A5DE30e57443BfF2A8307A4256c8797A3497 #26162087; convertToAssets(1e18) = 1252349742063015437 (internal rate)",
        "rule": "\"susde\" can be exchanged for \"usde\": its value follows that of \"usde\""
+      }
+     ]
+    },
+    {
+     "shocked_node": "usde",
+     "nodes": [
+      "morpho:0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05:0x03BAbEB24619902253FDB0D5675A816879115d98",
+      "morpho_market_5613b170",
+      "oracle_meta_f8b29e",
+      "oracle_morpho_v2_e2f4cf",
+      "feed_usde_usd",
+      "usde"
+     ],
+     "edges": [
+      {
+       "from": "morpho:0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05:0x03BAbEB24619902253FDB0D5675A816879115d98",
+       "to": "morpho_market_5613b170",
+       "type": "deployed_in",
+       "weight": 1.0,
+       "source": "onchain",
+       "evidence": "Morpho.position(0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05,0x03BAbEB24619902253FDB0D5675A816879115d98) = (0,355505047827188788,413030323985266824510019) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26162087",
+       "rule": "funds placed in \"morpho_market_5613b170\" suffer its failure (or its liquidity, for a pool)"
+      },
+      {
+       "from": "morpho_market_5613b170",
+       "to": "oracle_meta_f8b29e",
+       "type": "priced_by",
+       "weight": 1.0,
+       "source": "onchain",
+       "evidence": "Morpho.idToMarketParams(0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26162087 → oracle = 0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08",
+       "rule": "\"morpho_market_5613b170\" takes its price from \"oracle_meta_f8b29e\": the shock only passes if \"oracle_meta_f8b29e\" follows the market"
+      },
+      {
+       "from": "oracle_meta_f8b29e",
+       "to": "oracle_morpho_v2_e2f4cf",
+       "type": "priced_by",
+       "weight": 1.0,
+       "source": "onchain",
+       "evidence": "MetaOracleDeviationTimelock.backupOracle() = 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 @ 0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08 #26162087; switch threshold deviationThreshold() = 7500000000000000",
+       "rule": "\"oracle_meta_f8b29e\" takes its price from \"oracle_morpho_v2_e2f4cf\": the shock only passes if \"oracle_morpho_v2_e2f4cf\" follows the market"
+      },
+      {
+       "from": "oracle_morpho_v2_e2f4cf",
+       "to": "feed_usde_usd",
+       "type": "priced_by",
+       "weight": 1.0,
+       "source": "onchain",
+       "evidence": "MorphoChainlinkOracleV2.BASE_FEED_2() = 0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961 @ 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 #26162087; value read = 99959682",
+       "rule": "\"oracle_morpho_v2_e2f4cf\" takes its price from \"feed_usde_usd\": the shock only passes if \"feed_usde_usd\" follows the market"
+      },
+      {
+       "from": "feed_usde_usd",
+       "to": "usde",
+       "type": "priced_by",
+       "weight": 1.0,
+       "source": "onchain",
+       "evidence": "Chainlink USDe / USD.description() = \"USDe / USD\" @ 0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961 #26162087 ; USDe.symbol() = \"USDe\" @ 0x4c9EDD5852cd905f086C759E8383e09bff1E68B3 #26162087 ; ENS usde-usd.data.eth → this feed (official Chainlink) — the feed measures the market price of this asset (matched on the symbol)",
+       "rule": "\"feed_usde_usd\" takes its price from \"usde\": the shock only passes if \"usde\" follows the market"
       }
      ]
     },
@@ -12172,7 +12404,7 @@
     "p_default": 0.01,
     "verdict": "PARTIAL",
     "exit_fraction": 0.15,
-    "sentence": "PARTIAL 15% — beyond 15%, marginal slippage costs more than the loss avoided; threshold p* (full exit) = 1.6% (≈ once every 14 months), you estimate 1% (≈ once every 23 months).",
+    "sentence": "PARTIAL 15% — beyond 15%, marginal slippage costs more than the loss avoided; threshold p* (full exit) = 1.6%, you estimate 1%.",
     "table": [
      {
       "p": 0.0,
@@ -13097,7 +13329,7 @@
     "p_default": 0.005,
     "verdict": "STAY",
     "exit_fraction": 0.0,
-    "sentence": "STAY — exiting costs $854; \"Morpho exploit: collateral stolen\" would cost $53,133. Exit only if you believe there is more than a 1.6% (≈ once every 14 months) chance it happens (you estimate 0% (≈ once every 4 years)).",
+    "sentence": "STAY — exiting costs $854; \"Morpho exploit: collateral stolen\" would cost $53,133. Exit only if you believe there is more than a 1.6% chance it happens (you estimate 0%).",
     "table": [
      {
       "p": 0.0,
@@ -14649,6 +14881,64 @@
        "rule": "\"susde\" can be exchanged for \"usde\": its value follows that of \"usde\""
       }
      ]
+    },
+    {
+     "shocked_node": "usde",
+     "nodes": [
+      "morpho:0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05:0x03BAbEB24619902253FDB0D5675A816879115d98",
+      "morpho_market_5613b170",
+      "oracle_meta_f8b29e",
+      "oracle_morpho_v2_e2f4cf",
+      "feed_usde_usd",
+      "usde"
+     ],
+     "edges": [
+      {
+       "from": "morpho:0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05:0x03BAbEB24619902253FDB0D5675A816879115d98",
+       "to": "morpho_market_5613b170",
+       "type": "deployed_in",
+       "weight": 1.0,
+       "source": "onchain",
+       "evidence": "Morpho.position(0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05,0x03BAbEB24619902253FDB0D5675A816879115d98) = (0,355505047827188788,413030323985266824510019) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26162087",
+       "rule": "funds placed in \"morpho_market_5613b170\" suffer its failure (or its liquidity, for a pool)"
+      },
+      {
+       "from": "morpho_market_5613b170",
+       "to": "oracle_meta_f8b29e",
+       "type": "priced_by",
+       "weight": 1.0,
+       "source": "onchain",
+       "evidence": "Morpho.idToMarketParams(0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26162087 → oracle = 0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08",
+       "rule": "\"morpho_market_5613b170\" takes its price from \"oracle_meta_f8b29e\": the shock only passes if \"oracle_meta_f8b29e\" follows the market"
+      },
+      {
+       "from": "oracle_meta_f8b29e",
+       "to": "oracle_morpho_v2_e2f4cf",
+       "type": "priced_by",
+       "weight": 1.0,
+       "source": "onchain",
+       "evidence": "MetaOracleDeviationTimelock.backupOracle() = 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 @ 0xF8b29e7E9c00CE531434775f7923CC9fbCa01b08 #26162087; switch threshold deviationThreshold() = 7500000000000000",
+       "rule": "\"oracle_meta_f8b29e\" takes its price from \"oracle_morpho_v2_e2f4cf\": the shock only passes if \"oracle_morpho_v2_e2f4cf\" follows the market"
+      },
+      {
+       "from": "oracle_morpho_v2_e2f4cf",
+       "to": "feed_usde_usd",
+       "type": "priced_by",
+       "weight": 1.0,
+       "source": "onchain",
+       "evidence": "MorphoChainlinkOracleV2.BASE_FEED_2() = 0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961 @ 0xE2f4CFE07aECd7fd8Fb0D293a22CDe7D08175465 #26162087; value read = 99959682",
+       "rule": "\"oracle_morpho_v2_e2f4cf\" takes its price from \"feed_usde_usd\": the shock only passes if \"feed_usde_usd\" follows the market"
+      },
+      {
+       "from": "feed_usde_usd",
+       "to": "usde",
+       "type": "priced_by",
+       "weight": 1.0,
+       "source": "onchain",
+       "evidence": "Chainlink USDe / USD.description() = \"USDe / USD\" @ 0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961 #26162087 ; USDe.symbol() = \"USDe\" @ 0x4c9EDD5852cd905f086C759E8383e09bff1E68B3 #26162087 ; ENS usde-usd.data.eth → this feed (official Chainlink) — the feed measures the market price of this asset (matched on the symbol)",
+       "rule": "\"feed_usde_usd\" takes its price from \"usde\": the shock only passes if \"usde\" follows the market"
+      }
+     ]
     }
    ],
    "params_used": [
@@ -15503,7 +15793,7 @@
   {
    "id": "R-OCT2025",
    "title": "10 October 2025: USDe at $0.65 on Binance",
-   "story": "Crash of 10 October 2025: on the Binance order book, USDe falls to $0.65 for about forty minutes, while on-chain it stays close to $1. Binance valued this collateral with ITS own price: positions were liquidated there. What would position A have lived through?",
+   "story": "Crash of 10 October 2025: on the Binance spot order book, USDe briefly falls to $0.65 and recovers within about forty minutes, while on decentralised venues it stays close to $1 (source below). Counterfactual: if TODAY's position A (its size, health factor and oracle) had faced this price path, what would have happened? (Position A's PT may not even have existed on that date.)",
    "available": true,
    "feed": "feed_usde_usd",
    "window": {

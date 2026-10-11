@@ -1,0 +1,228 @@
+{
+ "block": 26167512,
+ "block_timestamp": 1791701255,
+ "chain_id": 1,
+ "pocket": {
+  "id": "morpho_vault_v2:0x64C18DCC4Ccb3b8D27877a4aeBB4C3126CB39cB9",
+  "kind": "morpho_vault_v2",
+  "label": "RockawayX wETH",
+  "value_usd": 2127.010855118539,
+  "share_of_book": 2.1e-05,
+  "perspective": "curator"
+ },
+ "graph": {
+  "nodes": 12,
+  "edges": 20,
+  "position_id": "morpho_vault_v2:0x64C18DCC4Ccb3b8D27877a4aeBB4C3126CB39cB9:0x64C18DCC4Ccb3b8D27877a4aeBB4C3126CB39cB9"
+ },
+ "markets": [
+  {
+   "label": "Morpho Blue ETH+ / WETH (LLTV 94.5%)",
+   "collateral_pricing": "unknown",
+   "collateral_class": "rwa_or_synthetic",
+   "lltv": 0.945,
+   "utilization": 0.9898799607560668,
+   "liquidity": 0.008627054624629968,
+   "our_supply": 0.8500565542533288,
+   "borrowers": 6,
+   "borrowers_source": "API Morpho https://api.morpho.org/graphql marketPositions (fetched 2026-10-11T06:49:42+00:00); remaining 0 WETH aggregated at the average LTV 69.7%"
+  }
+ ],
+ "monte_carlo": {
+  "samples": 100000,
+  "horizon_days": 7,
+  "expected_loss_usd": 0.27729311443391697,
+  "expected_loss_avoidable_usd": 0.20352414158694482,
+  "expected_loss_unavoidable_usd": 0.07376897284697213,
+  "avoidable_note": "avoidable = what exiting removes; unavoidable = what stays with the asset you get back (e.g. a depeg of the pocket's own asset)",
+  "var95_usd": 0.0,
+  "var99_usd": 0.0,
+  "var999_usd": 77.40848976123935,
+  "p_any_loss": 0.00167,
+  "independence_note": "incidents drawn independently (correlations between nodes not modelled)"
+ },
+ "exit": {
+  "f_max_now": 0.010149,
+  "cost_full_usd": 0.10900766240662592,
+  "cost_full_pct": 5.124922712279759e-05,
+  "withdrawable_now_fraction": 0.010149,
+  "penalty_free_fraction": 0.0,
+  "force_deallocate_penalty": 0,
+  "forgone_yield_rate_over_horizon": 0.002046209424,
+  "supply_apy_weighted": 0.10669520568,
+  "gas": "400000 gas × baseFee 0.06 gwei (block #26167512) × ETH $2,503 (ENS eth-usd.data.eth → 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26167512)",
+  "note": "beyond f_max, the exit depends on borrowers repaying / on rates rising"
+ },
+ "coverage": {
+  "modelled_share": 1.0,
+  "idle_share": 0.0,
+  "unmodelled_share": 0.0,
+  "unrecognised_adapters": []
+ },
+ "decision": {
+  "verdict": "STAY",
+  "exit_fraction": 0.0,
+  "indifferent": false,
+  "expected_loss_avoidable_usd": 0.20352414158694482,
+  "expected_loss_unavoidable_usd": 0.07376897284697213,
+  "avoided_usd": 0.002065566512965903,
+  "exit_cost_usd": 0.10900766240662592,
+  "sentence": "Curator view (whole vault, all depositors): EXIT means pulling the vault's money out of its markets, STAY means keeping the allocation. STAY — exiting (only 1% can be exited now) would avoid $0 of expected loss over the horizon, but would cost $0. Exit if you put the risk \"ETH+ collateral drop\" above 4.4% (our estimate: 0.10%, i.e. ≈ once every 20 years)."
+ },
+ "incidents": [
+  {
+   "id": "rwa_credit_event:eth",
+   "title": "ETH+ collateral drop",
+   "family": "rwa_credit_event",
+   "target": "eth",
+   "annual_rate": 0.05,
+   "p_horizon": 0.0009584445079596771,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 242.62625783311034,
+   "loss_if_incident_avoidable_usd": 242.62625783311034,
+   "loss_if_incident_max_usd": 748.6321289840037,
+   "expected_loss_usd": 0.23254380430695318,
+   "expected_loss_avoidable_usd": 0.23254380430695318,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 0.04426861902306054,
+   "rule": "sudden shock on a collateral whose oracle does NOT follow the market (internal rate / set price): no timely liquidation → bad debt max(0, D − V·(1−d)·(1−slippage)), borrower by borrower",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX wETH → [deployed_in] Morpho Blue ETH+ / WETH (LLTV 94.5%) → [collateralized_by] ETH+"
+  },
+  {
+   "id": "stable_depeg:weth",
+   "title": "WETH depeg (pocket asset)",
+   "family": "stable_depeg",
+   "target": "weth",
+   "annual_rate": 0.02,
+   "p_horizon": 0.0003834880934723284,
+   "severity_range": [
+    0.02,
+    0.12
+   ],
+   "loss_if_incident_usd": 148.89075985829774,
+   "loss_if_incident_avoidable_usd": 0.0,
+   "loss_if_incident_max_usd": 255.24130261422468,
+   "expected_loss_usd": 0.05709783363370488,
+   "expected_loss_avoidable_usd": 0.0,
+   "avoidable_by_exit": false,
+   "not_avoided_because": "withdrawing from the vault gives back this same asset: exiting does not avoid its depeg",
+   "p_star": null,
+   "rule": "the pocket is denominated in this asset: loss = value × d",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX wETH → [deployed_in] Morpho Blue ETH+ / WETH (LLTV 94.5%) → [lends] WETH"
+  },
+  {
+   "id": "protocol_exploit:morpho",
+   "title": "Morpho Blue protocol exploit",
+   "family": "protocol_exploit",
+   "target": "morpho",
+   "annual_rate": 0.003,
+   "p_horizon": 5.753259151231038e-05,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 584.9279851575983,
+   "loss_if_incident_avoidable_usd": 584.9279851575983,
+   "loss_if_incident_max_usd": 1063.5054275592695,
+   "expected_loss_usd": 0.03365242283419086,
+   "expected_loss_avoidable_usd": 0.03365242283419086,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 0.018362481614058734,
+   "rule": "all deposited funds are exposed: loss = value × s",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX wETH → [deployed_in] Morpho Blue ETH+ / WETH (LLTV 94.5%) → [issued_by] Morpho"
+  },
+  {
+   "id": "curator_failure:curator_rockawayx",
+   "title": "Curator failure (RockawayX (curator))",
+   "family": "curator_failure",
+   "target": "curator_rockawayx",
+   "annual_rate": 0.005,
+   "p_horizon": 9.588581362041104e-05,
+   "severity_range": [
+    0.0,
+    0.2
+   ],
+   "loss_if_incident_usd": 212.70108551185396,
+   "loss_if_incident_avoidable_usd": 212.70108551185396,
+   "loss_if_incident_max_usd": 425.4021710237078,
+   "expected_loss_usd": 0.02039501664224874,
+   "expected_loss_avoidable_usd": 0.02039501664224874,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 0.05049682443866151,
+   "rule": "bad allocation bounded by the caps: loss = value × s",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX wETH → [issued_by] RockawayX (curator)"
+  },
+  {
+   "id": "oracle_fault:feed_wrapper_f87d2f",
+   "title": "Feed Adapter (ETH+/USD exchange rate adapter) skewed (collateral price overstated)",
+   "family": "oracle_fault",
+   "target": "feed_wrapper_f87d2f",
+   "annual_rate": 0.005,
+   "p_horizon": 9.588581362041104e-05,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 3.4656164412585775,
+   "loss_if_incident_avoidable_usd": 3.4656164412585775,
+   "loss_if_incident_max_usd": 6.339942443481427,
+   "expected_loss_usd": 0.00033230345216635215,
+   "expected_loss_avoidable_usd": 0.00033230345216635215,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 1.0,
+   "rule": "an attacker borrows the available liquidity L against overstated collateral: loss = L·(1 − 1/((1+u)·LLTV)) if (1+u)·LLTV > 1",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX wETH → [deployed_in] Morpho Blue ETH+ / WETH (LLTV 94.5%) → [priced_by] MorphoChainlinkOracleV2 (unknown) → [priced_by] Adapter (ETH+/USD exchange rate adapter)"
+  },
+  {
+   "id": "oracle_fault:oracle_rtoken_3f11c4",
+   "title": "Feed Reserve RTokenAsset (basket price) skewed (collateral price overstated)",
+   "family": "oracle_fault",
+   "target": "oracle_rtoken_3f11c4",
+   "annual_rate": 0.005,
+   "p_horizon": 9.588581362041104e-05,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 3.4656164412585775,
+   "loss_if_incident_avoidable_usd": 3.4656164412585775,
+   "loss_if_incident_max_usd": 6.339942443481427,
+   "expected_loss_usd": 0.00033230345216635215,
+   "expected_loss_avoidable_usd": 0.00033230345216635215,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 1.0,
+   "rule": "an attacker borrows the available liquidity L against overstated collateral: loss = L·(1 − 1/((1+u)·LLTV)) if (1+u)·LLTV > 1",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX wETH → [deployed_in] Morpho Blue ETH+ / WETH (LLTV 94.5%) → [priced_by] MorphoChainlinkOracleV2 (unknown) → [priced_by] Adapter (ETH+/USD exchange rate adapter) → [priced_by] Reserve RTokenAsset (basket price)"
+  },
+  {
+   "id": "oracle_fault:feed_eth_usd",
+   "title": "Feed Chainlink ETH / USD skewed (collateral price overstated)",
+   "family": "oracle_fault",
+   "target": "feed_eth_usd",
+   "annual_rate": 0.005,
+   "p_horizon": 9.588581362041104e-05,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 3.4656164412585775,
+   "loss_if_incident_avoidable_usd": 3.4656164412585775,
+   "loss_if_incident_max_usd": 6.339942443481427,
+   "expected_loss_usd": 0.00033230345216635215,
+   "expected_loss_avoidable_usd": 0.00033230345216635215,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 1.0,
+   "rule": "an attacker borrows the available liquidity L against overstated collateral: loss = L·(1 − 1/((1+u)·LLTV)) if (1+u)·LLTV > 1",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX wETH → [deployed_in] Morpho Blue ETH+ / WETH (LLTV 94.5%) → [priced_by] MorphoChainlinkOracleV2 (unknown) → [priced_by] Chainlink ETH / USD"
+  }
+ ]
+}

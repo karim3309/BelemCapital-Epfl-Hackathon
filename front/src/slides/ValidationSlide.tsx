@@ -106,7 +106,8 @@ function ReplayCard({ r }: { r: Replay }) {
   )
 }
 
-/** Slide 7: the engine replayed on crises that really happened. Everything shown is computed by Python. */
+/** Slide 7: counterfactual — TODAY's position put through real past price paths (not a back-test).
+ * Everything shown is computed by Python. */
 export default function ValidationSlide() {
   const v = useValidation()
   const data = v.data
@@ -114,8 +115,8 @@ export default function ValidationSlide() {
   return (
     <Slide
       id="validation"
-      eyebrow="Validation · real crises"
-      title="Would the model have got it right?"
+      eyebrow="Counterfactual · real price paths"
+      title="Would today's position survive past crises?"
       aside={
         data ? (
           <p className="text-body font-normal text-neutral1 md:max-w-[380px] md:text-right">

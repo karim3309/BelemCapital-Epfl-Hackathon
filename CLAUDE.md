@@ -113,7 +113,7 @@ cd front && npm install && npm run dev      # front → http://localhost:5173
 - Part 1 (discovery): position A, 28 nodes, 45 edges, valid contract, replayable offline.
 - Parts 2 and 3 (impact + decision): 15 scenarios, price × duration grid, Monte Carlo, replay of 10/10/2025, p* and partial exit.
 - Backend v2 (`src/stacktrace/`): any real holder → pockets, graphs, STAY / EXIT, HTTP API. Curator view: `vault:0x…` (whole vault) and `book:<key>` (curator book of `config.yaml`, e.g. `book:rockawayx`); `python -m stacktrace.record <holder>` → `docs/api_examples/recordings/` for the offline demo.
-- Front: `front/` (slide deck on top of the v2 API), including the "validated on real crises" slide.
+- Front: `front/` (slide deck on top of the v2 API), including the counterfactual slide (today's position through real past crises).
 - 142 tests (+2 network tests skipped offline); CI runs them on every push (`.github/workflows/ci.yml`).
 
 Read in this order: `docs/BEGINNER_GUIDE.md`, `docs/POSITION_A.md`, `docs/PARTS_2_3.md`, `docs/DEMO.md`. To verify: `docs/VERIFY.md`. Open findings, next steps and audit history: `docs/AUDIT.md`. Index of all docs: `docs/README.md`.

@@ -8,7 +8,7 @@ import Slide from '../components/Slide'
 import { Failure, Pending, Unrecorded } from '../components/States'
 import VerdictWord from '../components/VerdictWord'
 import { C, verdictColor } from '../lib/colors'
-import { DEFAULT_HORIZON_DAYS, pct, pctAuto, pctFreq, usd } from '../lib/format'
+import { pct, pctAuto, usd } from '../lib/format'
 import { pathFromEdges, pathTo } from '../lib/graph'
 import { useDebounced } from '../lib/useDebounced'
 import { usePocketView, useSelection } from '../state/selection'
@@ -46,7 +46,6 @@ export default function IncidentSlide() {
     incidents.find((i) => i.id === incidentId) ?? (v.risk?.incidents.find((i) => i.id === incidentId) || incidents[0]) ?? null
 
   const [p, setP] = useState(0.01)
-  const days = v.risk?.monte_carlo.horizon_days ?? DEFAULT_HORIZON_DAYS
   const [severity, setSeverity] = useState<number | undefined>(undefined)
   // Settings to apply once a requested incident switch has happened (the recorded example).
   const pendingRef = useRef<{ id: string; p: number; severity: number } | null>(null)
@@ -110,7 +109,7 @@ export default function IncidentSlide() {
           >
             <span className="block text-body font-normal text-chalk">{i.title}</span>
             <span className="block text-caption font-normal tabular text-neutral1">
-              {usd(i.loss_if_incident_usd)} · threshold {i.p_star === null ? '—' : i.p_star >= 1 ? 'never' : pctFreq(i.p_star, days)}
+              {usd(i.loss_if_incident_usd)} · threshold {i.p_star === null ? '—' : i.p_star >= 1 ? 'never' : pctAuto(i.p_star)}
             </span>
           </button>
         </li>
@@ -165,7 +164,7 @@ export default function IncidentSlide() {
                 ? `“${incident.title}”: no exit possible right now.`
                 : pStar >= 1
                   ? `Even if certain, “${incident.title}” would cost less than exiting.`
-                  : `Do you believe the risk “${incident.title}” is above ${pctFreq(pStar, days)}?`}
+                  : `Do you believe the risk “${incident.title}” is above ${pctAuto(pStar)}?`}
             </p>
 
             <div className="mt-6">
@@ -173,7 +172,7 @@ export default function IncidentSlide() {
                 <label htmlFor="belief" className="text-body font-normal text-neutral1">
                   Your estimate, over the horizon
                 </label>
-                <span className="text-sub font-semibold tabular text-chalk">{pctFreq(p, days)}</span>
+                <span className="text-sub font-semibold tabular text-chalk">{pctAuto(p)}</span>
               </div>
               <input
                 id="belief"

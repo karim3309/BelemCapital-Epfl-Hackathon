@@ -1,0 +1,371 @@
+{
+ "block": 26167512,
+ "block_timestamp": 1791701255,
+ "chain_id": 1,
+ "pocket": {
+  "id": "morpho_vault_v2:0x3BD9AdAE6643dDcddD02746b8B60075E56DF9478",
+  "kind": "morpho_vault_v2",
+  "label": "RockawayX Tori Ecosystem",
+  "value_usd": 13601181.000962164,
+  "share_of_book": 0.137067,
+  "perspective": "curator"
+ },
+ "graph": {
+  "nodes": 31,
+  "edges": 73,
+  "position_id": "morpho_vault_v2:0x3BD9AdAE6643dDcddD02746b8B60075E56DF9478:0x3BD9AdAE6643dDcddD02746b8B60075E56DF9478"
+ },
+ "markets": [
+  {
+   "label": "Morpho Blue strUSD / USDC (LLTV 86.0%)",
+   "collateral_pricing": "internal_rate",
+   "collateral_class": "rwa_or_synthetic",
+   "lltv": 0.86,
+   "utilization": 0.8687401855441329,
+   "liquidity": 1897019.605198,
+   "our_supply": 9396844.5031,
+   "borrowers": 60,
+   "borrowers_source": "API Morpho https://api.morpho.org/graphql marketPositions (fetched 2026-10-11T06:49:00+00:00); remaining 71 USDC aggregated at the average LTV 74.2%"
+  },
+  {
+   "label": "Morpho Blue PT-trUSD-26NOV2026 / USDC (LLTV 94.5%)",
+   "collateral_pricing": "fixed",
+   "collateral_class": "pendle_pt",
+   "lltv": 0.945,
+   "utilization": 0.9049277462211567,
+   "liquidity": 191348.105367,
+   "our_supply": 1968567.214493,
+   "borrowers": 39,
+   "borrowers_source": "API Morpho https://api.morpho.org/graphql marketPositions (fetched 2026-10-11T06:49:09+00:00); remaining 14 USDC aggregated at the average LTV 85.6%"
+  },
+  {
+   "label": "Morpho Blue PT-strUSD-26NOV2026 / USDC (LLTV 86.0%)",
+   "collateral_pricing": "fixed",
+   "collateral_class": "pendle_pt",
+   "lltv": 0.86,
+   "utilization": 0.8709449156120942,
+   "liquidity": 99458.520034,
+   "our_supply": 489008.570127,
+   "borrowers": 40,
+   "borrowers_source": "API Morpho https://api.morpho.org/graphql marketPositions (fetched 2026-10-11T06:49:01+00:00); remaining 4 USDC aggregated at the average LTV 74.6%"
+  },
+  {
+   "label": "Morpho Blue etrUSD / USDC (LLTV 86.0%)",
+   "collateral_pricing": "internal_rate",
+   "collateral_class": "rwa_or_synthetic",
+   "lltv": 0.86,
+   "utilization": 0.9003997984800515,
+   "liquidity": 186185.633194,
+   "our_supply": 1751004.226424,
+   "borrowers": 13,
+   "borrowers_source": "API Morpho https://api.morpho.org/graphql marketPositions (fetched 2026-10-11T06:49:01+00:00); remaining 9 USDC aggregated at the average LTV 40.5%"
+  }
+ ],
+ "monte_carlo": {
+  "samples": 100000,
+  "horizon_days": 7,
+  "expected_loss_usd": 2881.824031387884,
+  "expected_loss_avoidable_usd": 2044.4489338114374,
+  "expected_loss_unavoidable_usd": 837.3750975764464,
+  "avoidable_note": "avoidable = what exiting removes; unavoidable = what stays with the asset you get back (e.g. a depeg of the pocket's own asset)",
+  "var95_usd": 0.0,
+  "var99_usd": 0.0,
+  "var999_usd": 677950.4466120608,
+  "p_any_loss": 0.0043,
+  "independence_note": "incidents drawn independently (correlations between nodes not modelled)"
+ },
+ "exit": {
+  "f_max_now": 0.17449,
+  "cost_full_usd": 7820.110717421314,
+  "cost_full_pct": 0.0005749582125896354,
+  "withdrawable_now_fraction": 0.17449,
+  "penalty_free_fraction": 0.139431,
+  "force_deallocate_penalty": 0.01,
+  "forgone_yield_rate_over_horizon": 0.001285824091038887,
+  "supply_apy_weighted": 0.06704654188988482,
+  "gas": "400000 gas × baseFee 0.06 gwei (block #26167512) × ETH $2,503 (ENS eth-usd.data.eth → 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26167512)",
+  "note": "beyond f_max, the exit depends on borrowers repaying / on rates rising"
+ },
+ "coverage": {
+  "modelled_share": 1.0,
+  "idle_share": 0.0,
+  "unmodelled_share": 0.0,
+  "unrecognised_adapters": []
+ },
+ "decision": {
+  "verdict": "STAY",
+  "exit_fraction": 0.0,
+  "indifferent": false,
+  "expected_loss_avoidable_usd": 2044.4489338114374,
+  "expected_loss_unavoidable_usd": 837.3750975764464,
+  "avoided_usd": 356.7358944607577,
+  "exit_cost_usd": 7820.110717421314,
+  "sentence": "Curator view (whole vault, all depositors): EXIT means pulling the vault's money out of its markets, STAY means keeping the allocation. STAY — exiting (only 17% can be exited now) would avoid $357 of expected loss over the horizon, but would cost $7,820. ($837 of expected loss cannot be avoided by exiting: it stays with the asset you get back.) Exit if you put the risk \"strUSD collateral drop\" above 3.2% (our estimate: 0.10%, i.e. ≈ once every 20 years)."
+ },
+ "incidents": [
+  {
+   "id": "rwa_credit_event:strusd",
+   "title": "strUSD collateral drop",
+   "family": "rwa_credit_event",
+   "target": "strusd",
+   "annual_rate": 0.05,
+   "p_horizon": 0.0009584445079596771,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 1384380.113526171,
+   "loss_if_incident_avoidable_usd": 1384380.113526171,
+   "loss_if_incident_max_usd": 3377554.587695245,
+   "expected_loss_usd": 1326.851516737753,
+   "expected_loss_avoidable_usd": 1326.851516737753,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 0.032373302631640156,
+   "rule": "sudden shock on a collateral whose oracle does NOT follow the market (internal rate / set price): no timely liquidation → bad debt max(0, D − V·(1−d)·(1−slippage)), borrower by borrower",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX Tori Ecosystem → [deployed_in] Morpho Blue strUSD / USDC (LLTV 86.0%) → [collateralized_by] strUSD"
+  },
+  {
+   "id": "issuer_failure:circle",
+   "title": "Issuer failure: Circle (USDC)",
+   "family": "issuer_failure",
+   "target": "circle",
+   "annual_rate": 0.005,
+   "p_horizon": 9.588581362041104e-05,
+   "severity_range": [
+    0.1,
+    1.0
+   ],
+   "loss_if_incident_usd": 7480649.55052919,
+   "loss_if_incident_avoidable_usd": 0.0,
+   "loss_if_incident_max_usd": 13601181.000962164,
+   "expected_loss_usd": 717.2881685616536,
+   "expected_loss_avoidable_usd": 0.0,
+   "avoidable_by_exit": false,
+   "not_avoided_because": "withdrawing from the vault gives back this same asset: exiting does not avoid its depeg",
+   "p_star": null,
+   "rule": "the issued asset loses s of its value",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX Tori Ecosystem → [deployed_in] Morpho Blue strUSD / USDC (LLTV 86.0%) → [lends] USDC → [issued_by] Circle"
+  },
+  {
+   "id": "stable_depeg:usdc",
+   "title": "USDC depeg (pocket asset)",
+   "family": "stable_depeg",
+   "target": "usdc",
+   "annual_rate": 0.02,
+   "p_horizon": 0.0003834880934723284,
+   "severity_range": [
+    0.02,
+    0.12
+   ],
+   "loss_if_incident_usd": 952082.6700673515,
+   "loss_if_incident_avoidable_usd": 0.0,
+   "loss_if_incident_max_usd": 1632141.7201154598,
+   "expected_loss_usd": 365.1123679721725,
+   "expected_loss_avoidable_usd": 0.0,
+   "avoidable_by_exit": false,
+   "not_avoided_because": "withdrawing from the vault gives back this same asset: exiting does not avoid its depeg",
+   "p_star": null,
+   "rule": "the pocket is denominated in this asset: loss = value × d",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX Tori Ecosystem → [deployed_in] Morpho Blue strUSD / USDC (LLTV 86.0%) → [lends] USDC"
+  },
+  {
+   "id": "rwa_credit_event:pt_trusd_26nov2026",
+   "title": "PT-trUSD-26NOV2026 collateral drop",
+   "family": "rwa_credit_event",
+   "target": "pt_trusd_26nov2026",
+   "annual_rate": 0.05,
+   "p_horizon": 0.0009584445079596771,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 362324.62618728925,
+   "loss_if_incident_avoidable_usd": 362324.62618728925,
+   "loss_if_incident_max_usd": 784394.7686718368,
+   "expected_loss_usd": 347.2680480677504,
+   "expected_loss_avoidable_usd": 347.2680480677504,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 0.12369282442657031,
+   "rule": "sudden shock on a collateral whose oracle does NOT follow the market (internal rate / set price): no timely liquidation → bad debt max(0, D − V·(1−d)·(1−slippage)), borrower by borrower",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX Tori Ecosystem → [deployed_in] Morpho Blue PT-trUSD-26NOV2026 / USDC (LLTV 94.5%) → [collateralized_by] PT-trUSD-26NOV2026"
+  },
+  {
+   "id": "rwa_credit_event:etrusd",
+   "title": "etrUSD collateral drop",
+   "family": "rwa_credit_event",
+   "target": "etrusd",
+   "annual_rate": 0.05,
+   "p_horizon": 0.0009584445079596771,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 292050.315458038,
+   "loss_if_incident_avoidable_usd": 292050.315458038,
+   "loss_if_incident_max_usd": 679142.0574117743,
+   "expected_loss_usd": 279.9140208986477,
+   "expected_loss_avoidable_usd": 279.9140208986477,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 0.15345628475736547,
+   "rule": "sudden shock on a collateral whose oracle does NOT follow the market (internal rate / set price): no timely liquidation → bad debt max(0, D − V·(1−d)·(1−slippage)), borrower by borrower",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX Tori Ecosystem → [deployed_in] Morpho Blue etrUSD / USDC (LLTV 86.0%) → [collateralized_by] etrUSD"
+  },
+  {
+   "id": "protocol_exploit:morpho",
+   "title": "Morpho Blue protocol exploit",
+   "family": "protocol_exploit",
+   "target": "morpho",
+   "annual_rate": 0.003,
+   "p_horizon": 5.753259151231038e-05,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 3740324.775264595,
+   "loss_if_incident_avoidable_usd": 3740324.775264595,
+   "loss_if_incident_max_usd": 6800590.500481082,
+   "expected_loss_usd": 215.1905774186721,
+   "expected_loss_avoidable_usd": 215.1905774186721,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 0.011982102909562628,
+   "rule": "all deposited funds are exposed: loss = value × s",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX Tori Ecosystem → [deployed_in] Morpho Blue strUSD / USDC (LLTV 86.0%) → [issued_by] Morpho"
+  },
+  {
+   "id": "curator_failure:curator_rockawayx",
+   "title": "Curator failure (RockawayX (curator))",
+   "family": "curator_failure",
+   "target": "curator_rockawayx",
+   "annual_rate": 0.005,
+   "p_horizon": 9.588581362041104e-05,
+   "severity_range": [
+    0.0,
+    0.2
+   ],
+   "loss_if_incident_usd": 1360118.1000962167,
+   "loss_if_incident_avoidable_usd": 1360118.1000962167,
+   "loss_if_incident_max_usd": 2720236.200192433,
+   "expected_loss_usd": 130.4160306475734,
+   "expected_loss_avoidable_usd": 130.4160306475734,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 0.032950783001297224,
+   "rule": "bad allocation bounded by the caps: loss = value × s",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX Tori Ecosystem → [issued_by] RockawayX (curator)"
+  },
+  {
+   "id": "rwa_credit_event:pt_strusd_26nov2026",
+   "title": "PT-strUSD-26NOV2026 collateral drop",
+   "family": "rwa_credit_event",
+   "target": "pt_strusd_26nov2026",
+   "annual_rate": 0.05,
+   "p_horizon": 0.0009584445079596771,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 49718.176206691045,
+   "loss_if_incident_avoidable_usd": 49718.176206691045,
+   "loss_if_incident_max_usd": 150325.02857518263,
+   "expected_loss_usd": 47.65211293107452,
+   "expected_loss_avoidable_usd": 47.65211293107452,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 0.9014199592939947,
+   "rule": "sudden shock on a collateral whose oracle does NOT follow the market (internal rate / set price): no timely liquidation → bad debt max(0, D − V·(1−d)·(1−slippage)), borrower by borrower",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX Tori Ecosystem → [deployed_in] Morpho Blue PT-strUSD-26NOV2026 / USDC (LLTV 86.0%) → [collateralized_by] PT-strUSD-26NOV2026"
+  },
+  {
+   "id": "oracle_fault:feed_usdc_usd",
+   "title": "Feed Chainlink USDC / USD skewed (collateral price overstated)",
+   "family": "oracle_fault",
+   "target": "feed_usdc_usd",
+   "annual_rate": 0.005,
+   "p_horizon": 9.588581362041104e-05,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 165218.81018194847,
+   "loss_if_incident_avoidable_usd": 165218.81018194847,
+   "loss_if_incident_max_usd": 385679.12211261084,
+   "expected_loss_usd": 15.842140039692381,
+   "expected_loss_avoidable_usd": 15.842140039692381,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 0.2712581958619123,
+   "rule": "an attacker borrows the available liquidity L against overstated collateral: loss = L·(1 − 1/((1+u)·LLTV)) if (1+u)·LLTV > 1",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX Tori Ecosystem → [deployed_in] Morpho Blue strUSD / USDC (LLTV 86.0%) → [priced_by] MorphoChainlinkOracleV2 (market) → [priced_by] Chainlink USDC / USD"
+  },
+  {
+   "id": "internal_rate_fault:feed_redstone_7fda57",
+   "title": "Feed RedStone RedStone Price Feed for strUSD_FUNDAMENTAL skewed (collateral price overstated)",
+   "family": "internal_rate_fault",
+   "target": "feed_redstone_7fda57",
+   "annual_rate": 0.005,
+   "p_horizon": 9.588581362041104e-05,
+   "severity_range": [
+    0.05,
+    0.3
+   ],
+   "loss_if_incident_usd": 37725.32074899507,
+   "loss_if_incident_avoidable_usd": 37725.32074899507,
+   "loss_if_incident_max_usd": 130142.32258397776,
+   "expected_loss_usd": 3.617323074108367,
+   "expected_loss_avoidable_usd": 3.617323074108367,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 1.0,
+   "rule": "an attacker borrows the available liquidity L against overstated collateral: loss = L·(1 − 1/((1+u)·LLTV)) if (1+u)·LLTV > 1",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX Tori Ecosystem → [deployed_in] Morpho Blue strUSD / USDC (LLTV 86.0%) → [priced_by] MorphoChainlinkOracleV2 (market) → [priced_by] RedStone RedStone Price Feed for strUSD_FUNDAMENTAL"
+  },
+  {
+   "id": "internal_rate_fault:feed_redstone_33c6f7",
+   "title": "Feed RedStone RedStone Price Feed for trUSD_FUNDAMENTAL skewed (collateral price overstated)",
+   "family": "internal_rate_fault",
+   "target": "feed_redstone_33c6f7",
+   "annual_rate": 0.005,
+   "p_horizon": 9.588581362041104e-05,
+   "severity_range": [
+    0.05,
+    0.3
+   ],
+   "loss_if_incident_usd": 19900.218491323478,
+   "loss_if_incident_avoidable_usd": 19900.218491323478,
+   "loss_if_incident_max_usd": 41458.83413839909,
+   "expected_loss_usd": 1.9081486412645003,
+   "expected_loss_avoidable_usd": 1.9081486412645003,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 1.0,
+   "rule": "an attacker borrows the available liquidity L against overstated collateral: loss = L·(1 − 1/((1+u)·LLTV)) if (1+u)·LLTV > 1",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX Tori Ecosystem → [deployed_in] Morpho Blue PT-trUSD-26NOV2026 / USDC (LLTV 94.5%) → [priced_by] MorphoChainlinkOracleV2 (market) → [priced_by] RedStone RedStone Price Feed for trUSD_FUNDAMENTAL"
+  },
+  {
+   "id": "internal_rate_fault:feed_redstone_835cff",
+   "title": "Feed RedStone RedStone Price Feed for etrUSD_FUNDAMENTAL/USD skewed (collateral price overstated)",
+   "family": "internal_rate_fault",
+   "target": "feed_redstone_835cff",
+   "annual_rate": 0.005,
+   "p_horizon": 9.588581362041104e-05,
+   "severity_range": [
+    0.05,
+    0.3
+   ],
+   "loss_if_incident_usd": 5334.165990318762,
+   "loss_if_incident_avoidable_usd": 5334.165990318762,
+   "loss_if_incident_max_usd": 18401.45391068781,
+   "expected_loss_usd": 0.51147084596804,
+   "expected_loss_avoidable_usd": 0.51147084596804,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 1.0,
+   "rule": "an attacker borrows the available liquidity L against overstated collateral: loss = L·(1 − 1/((1+u)·LLTV)) if (1+u)·LLTV > 1",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX Tori Ecosystem → [deployed_in] Morpho Blue etrUSD / USDC (LLTV 86.0%) → [priced_by] MorphoChainlinkOracleV2 (market) → [priced_by] RedStone RedStone Price Feed for etrUSD_FUNDAMENTAL/USD"
+  }
+ ]
+}

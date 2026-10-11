@@ -1,0 +1,415 @@
+{
+ "block": 26167512,
+ "block_timestamp": 1791701255,
+ "chain_id": 1,
+ "pocket": {
+  "id": "morpho_vault_v2:0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec",
+  "kind": "morpho_vault_v2",
+  "label": "Belem RWA EURCV",
+  "value_usd": 5273555.472656275,
+  "share_of_book": 0.053145,
+  "perspective": "curator"
+ },
+ "graph": {
+  "nodes": 25,
+  "edges": 59,
+  "position_id": "morpho_vault_v2:0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec:0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec"
+ },
+ "markets": [
+  {
+   "label": "Morpho Blue wstETH / EURCV (LLTV 86.0%)",
+   "collateral_pricing": "market",
+   "collateral_class": "volatile",
+   "lltv": 0.86,
+   "utilization": 0.8847944455403598,
+   "liquidity": 204790.3230574315,
+   "our_supply": 123033.2936267741,
+   "borrowers": 40,
+   "borrowers_source": "API Morpho https://api.morpho.org/graphql marketPositions (fetched 2026-10-11T06:49:22+00:00); remaining 2 EURCV aggregated at the average LTV 35.5%"
+  },
+  {
+   "label": "Morpho Blue cbBTC / EURCV (LLTV 86.0%)",
+   "collateral_pricing": "market",
+   "collateral_class": "volatile",
+   "lltv": 0.86,
+   "utilization": 0.8995198851253838,
+   "liquidity": 1338832.0663015016,
+   "our_supply": 31007.446444943416,
+   "borrowers": 40,
+   "borrowers_source": "API Morpho https://api.morpho.org/graphql marketPositions (fetched 2026-10-11T06:49:22+00:00)"
+  },
+  {
+   "label": "Morpho Blue mGLOeuro / EURCV (LLTV 77.0%)",
+   "collateral_pricing": "fixed",
+   "collateral_class": "rwa_or_synthetic",
+   "lltv": 0.77,
+   "utilization": 0.9091640741509385,
+   "liquidity": 367584.50416786096,
+   "our_supply": 4046684.3792594373,
+   "borrowers": 3,
+   "borrowers_source": "API Morpho https://api.morpho.org/graphql marketPositions (fetched 2026-10-11T06:49:23+00:00); remaining 10 EURCV aggregated at the average LTV 70.0%"
+  },
+  {
+   "label": "Morpho Blue WBTC / EURCV (LLTV 86.0%)",
+   "collateral_pricing": "market",
+   "collateral_class": "volatile",
+   "lltv": 0.86,
+   "utilization": 0.8809511268245291,
+   "liquidity": 556003.9592702241,
+   "our_supply": 510093.47508216824,
+   "borrowers": 55,
+   "borrowers_source": "API Morpho https://api.morpho.org/graphql marketPositions (fetched 2026-10-11T06:49:24+00:00); remaining 6 EURCV aggregated at the average LTV 46.5%"
+  }
+ ],
+ "monte_carlo": {
+  "samples": 100000,
+  "horizon_days": 7,
+  "expected_loss_usd": 699.871484472586,
+  "expected_loss_avoidable_usd": 565.9251789939511,
+  "expected_loss_unavoidable_usd": 133.946305478635,
+  "avoidable_note": "avoidable = what exiting removes; unavoidable = what stays with the asset you get back (e.g. a depeg of the pocket's own asset)",
+  "var95_usd": 0.0,
+  "var99_usd": 0.0,
+  "var999_usd": 19496.97633191793,
+  "p_any_loss": 0.00134,
+  "independence_note": "incidents drawn independently (correlations between nodes not modelled)"
+ },
+ "exit": {
+  "f_max_now": 0.21901,
+  "cost_full_usd": 632.1288913177605,
+  "cost_full_pct": 0.00011986768596545338,
+  "withdrawable_now_fraction": 0.21901,
+  "penalty_free_fraction": 0.07803,
+  "force_deallocate_penalty": 0,
+  "forgone_yield_rate_over_horizon": 0.0005472599032018318,
+  "supply_apy_weighted": 0.028535694952666946,
+  "gas": "400000 gas × baseFee 0.06 gwei (block #26167512) × ETH $2,503 (ENS eth-usd.data.eth → 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26167512)",
+  "note": "beyond f_max, the exit depends on borrowers repaying / on rates rising"
+ },
+ "coverage": {
+  "modelled_share": 0.999999,
+  "idle_share": 0.0,
+  "unmodelled_share": 1e-06,
+  "unrecognised_adapters": []
+ },
+ "decision": {
+  "verdict": "STAY",
+  "exit_fraction": 0.0,
+  "indifferent": false,
+  "expected_loss_avoidable_usd": 565.9251789939511,
+  "expected_loss_unavoidable_usd": 133.946305478635,
+  "avoided_usd": 123.94327345146525,
+  "exit_cost_usd": 632.1288913177605,
+  "sentence": "Curator view (whole vault, all depositors): EXIT means pulling the vault's money out of its markets, STAY means keeping the allocation. STAY — exiting (only 22% can be exited now) would avoid $124 of expected loss over the horizon, but would cost $632. ($134 of expected loss cannot be avoided by exiting: it stays with the asset you get back.) Exit if you put the risk \"mGLOeuro collateral drop\" above 0.6% (our estimate: 0.10%, i.e. ≈ once every 20 years)."
+ },
+ "incidents": [
+  {
+   "id": "rwa_credit_event:mgloeuro",
+   "title": "mGLOeuro collateral drop",
+   "family": "rwa_credit_event",
+   "target": "mgloeuro",
+   "annual_rate": 0.05,
+   "p_horizon": 0.0009584445079596771,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 460090.75954323146,
+   "loss_if_incident_avoidable_usd": 460090.75954323146,
+   "loss_if_incident_max_usd": 1469738.0683475018,
+   "expected_loss_usd": 440.9714616472066,
+   "expected_loss_avoidable_usd": 440.9714616472066,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 0.006273330727104504,
+   "rule": "sudden shock on a collateral whose oracle does NOT follow the market (internal rate / set price): no timely liquidation → bad debt max(0, D − V·(1−d)·(1−slippage)), borrower by borrower",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] Belem RWA EURCV → [deployed_in] Morpho Blue mGLOeuro / EURCV (LLTV 77.0%) → [collateralized_by] mGLOeuro"
+  },
+  {
+   "id": "stable_depeg:eurcv",
+   "title": "EURCV depeg (pocket asset)",
+   "family": "stable_depeg",
+   "target": "eurcv",
+   "annual_rate": 0.02,
+   "p_horizon": 0.0003834880934723284,
+   "severity_range": [
+    0.02,
+    0.12
+   ],
+   "loss_if_incident_usd": 369148.8830859393,
+   "loss_if_incident_avoidable_usd": 0.0,
+   "loss_if_incident_max_usd": 632826.656718753,
+   "expected_loss_usd": 141.5642013820663,
+   "expected_loss_avoidable_usd": 0.0,
+   "avoidable_by_exit": false,
+   "not_avoided_because": "withdrawing from the vault gives back this same asset: exiting does not avoid its depeg",
+   "p_star": null,
+   "rule": "the pocket is denominated in this asset: loss = value × d",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] Belem RWA EURCV → [deployed_in] Morpho Blue wstETH / EURCV (LLTV 86.0%) → [lends] EURCV"
+  },
+  {
+   "id": "protocol_exploit:morpho",
+   "title": "Morpho Blue protocol exploit",
+   "family": "protocol_exploit",
+   "target": "morpho",
+   "annual_rate": 0.003,
+   "p_horizon": 5.753259151231038e-05,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 1450227.7549804759,
+   "loss_if_incident_avoidable_usd": 1450227.7549804759,
+   "loss_if_incident_max_usd": 2636777.7363281376,
+   "expected_loss_usd": 83.43536102710667,
+   "expected_loss_avoidable_usd": 83.43536102710667,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 0.001990240146202595,
+   "rule": "all deposited funds are exposed: loss = value × s",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] Belem RWA EURCV → [deployed_in] Morpho Blue wstETH / EURCV (LLTV 86.0%) → [issued_by] Morpho"
+  },
+  {
+   "id": "curator_failure:curator_rockawayx",
+   "title": "Curator failure (RockawayX (curator))",
+   "family": "curator_failure",
+   "target": "curator_rockawayx",
+   "annual_rate": 0.005,
+   "p_horizon": 9.588581362041104e-05,
+   "severity_range": [
+    0.0,
+    0.2
+   ],
+   "loss_if_incident_usd": 527355.5472656275,
+   "loss_if_incident_avoidable_usd": 527355.5472656275,
+   "loss_if_incident_max_usd": 1054711.094531255,
+   "expected_loss_usd": 50.565915716801825,
+   "expected_loss_avoidable_usd": 50.565915716801825,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 0.005473160402057137,
+   "rule": "bad allocation bounded by the caps: loss = value × s",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] Belem RWA EURCV → [issued_by] RockawayX (curator)"
+  },
+  {
+   "id": "oracle_fault:feed_eur_usd",
+   "title": "Feed Chainlink EUR / USD skewed (collateral price overstated)",
+   "family": "oracle_fault",
+   "target": "feed_eur_usd",
+   "annual_rate": 0.005,
+   "p_horizon": 9.588581362041104e-05,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 8023.665788145913,
+   "loss_if_incident_avoidable_usd": 8023.665788145913,
+   "loss_if_incident_max_usd": 19633.50047887483,
+   "expected_loss_usd": 0.7693557223146275,
+   "expected_loss_avoidable_usd": 0.7693557223146275,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 0.3597235447373192,
+   "rule": "an attacker borrows the available liquidity L against overstated collateral: loss = L·(1 − 1/((1+u)·LLTV)) if (1+u)·LLTV > 1",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] Belem RWA EURCV → [deployed_in] Morpho Blue wstETH / EURCV (LLTV 86.0%) → [priced_by] MorphoChainlinkOracleV2 (market) → [priced_by] Chainlink EUR / USD"
+  },
+  {
+   "id": "oracle_fault:feed_btc_usd",
+   "title": "Feed Chainlink BTC / USD skewed (collateral price overstated)",
+   "family": "oracle_fault",
+   "target": "feed_btc_usd",
+   "annual_rate": 0.005,
+   "p_horizon": 9.588581362041104e-05,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 6565.904843344231,
+   "loss_if_incident_avoidable_usd": 6565.904843344231,
+   "loss_if_incident_max_usd": 16066.433883188207,
+   "expected_loss_usd": 0.6295771280582592,
+   "expected_loss_avoidable_usd": 0.6295771280582592,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 0.43958929773787514,
+   "rule": "an attacker borrows the available liquidity L against overstated collateral: loss = L·(1 − 1/((1+u)·LLTV)) if (1+u)·LLTV > 1",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] Belem RWA EURCV → [deployed_in] Morpho Blue cbBTC / EURCV (LLTV 86.0%) → [priced_by] MorphoChainlinkOracleV2 (market) → [priced_by] Chainlink BTC / USD"
+  },
+  {
+   "id": "oracle_fault:feed_wbtc_btc",
+   "title": "Feed Chainlink WBTC / BTC skewed (collateral price overstated)",
+   "family": "oracle_fault",
+   "target": "feed_wbtc_btc",
+   "annual_rate": 0.005,
+   "p_horizon": 9.588581362041104e-05,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 6245.472484233499,
+   "loss_if_incident_avoidable_usd": 6245.472484233499,
+   "loss_if_incident_max_usd": 15282.352262373177,
+   "expected_loss_usd": 0.5988522105946188,
+   "expected_loss_avoidable_usd": 0.5988522105946188,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 0.46214301742354674,
+   "rule": "an attacker borrows the available liquidity L against overstated collateral: loss = L·(1 − 1/((1+u)·LLTV)) if (1+u)·LLTV > 1",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] Belem RWA EURCV → [deployed_in] Morpho Blue WBTC / EURCV (LLTV 86.0%) → [priced_by] MorphoChainlinkOracleV2 (market) → [priced_by] Chainlink WBTC / BTC"
+  },
+  {
+   "id": "oracle_fault:feed_wsteth_4f67e4",
+   "title": "Feed Feed wstETH/ETH (Compound) skewed (collateral price overstated)",
+   "family": "oracle_fault",
+   "target": "feed_wsteth_4f67e4",
+   "annual_rate": 0.005,
+   "p_horizon": 9.588581362041104e-05,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 1457.7609448016817,
+   "loss_if_incident_avoidable_usd": 1457.7609448016817,
+   "loss_if_incident_max_usd": 3567.066595686619,
+   "expected_loss_usd": 0.13977859425636835,
+   "expected_loss_avoidable_usd": 0.13977859425636835,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 1.0,
+   "rule": "an attacker borrows the available liquidity L against overstated collateral: loss = L·(1 − 1/((1+u)·LLTV)) if (1+u)·LLTV > 1",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] Belem RWA EURCV → [deployed_in] Morpho Blue wstETH / EURCV (LLTV 86.0%) → [priced_by] MorphoChainlinkOracleV2 (market) → [priced_by] Feed wstETH/ETH (Compound)"
+  },
+  {
+   "id": "oracle_fault:feed_steth_eth",
+   "title": "Feed Chainlink STETH / ETH skewed (collateral price overstated)",
+   "family": "oracle_fault",
+   "target": "feed_steth_eth",
+   "annual_rate": 0.005,
+   "p_horizon": 9.588581362041104e-05,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 1457.7609448016817,
+   "loss_if_incident_avoidable_usd": 1457.7609448016817,
+   "loss_if_incident_max_usd": 3567.066595686619,
+   "expected_loss_usd": 0.13977859425636835,
+   "expected_loss_avoidable_usd": 0.13977859425636835,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 1.0,
+   "rule": "an attacker borrows the available liquidity L against overstated collateral: loss = L·(1 − 1/((1+u)·LLTV)) if (1+u)·LLTV > 1",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] Belem RWA EURCV → [deployed_in] Morpho Blue wstETH / EURCV (LLTV 86.0%) → [priced_by] MorphoChainlinkOracleV2 (market) → [priced_by] Feed wstETH/ETH (Compound) → [priced_by] Chainlink STETH / ETH"
+  },
+  {
+   "id": "oracle_fault:feed_eth_usd",
+   "title": "Feed Chainlink ETH / USD skewed (collateral price overstated)",
+   "family": "oracle_fault",
+   "target": "feed_eth_usd",
+   "annual_rate": 0.005,
+   "p_horizon": 9.588581362041104e-05,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 1457.7609448016817,
+   "loss_if_incident_avoidable_usd": 1457.7609448016817,
+   "loss_if_incident_max_usd": 3567.066595686619,
+   "expected_loss_usd": 0.13977859425636835,
+   "expected_loss_avoidable_usd": 0.13977859425636835,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 1.0,
+   "rule": "an attacker borrows the available liquidity L against overstated collateral: loss = L·(1 − 1/((1+u)·LLTV)) if (1+u)·LLTV > 1",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] Belem RWA EURCV → [deployed_in] Morpho Blue wstETH / EURCV (LLTV 86.0%) → [priced_by] MorphoChainlinkOracleV2 (market) → [priced_by] Chainlink ETH / USD"
+  },
+  {
+   "id": "volatile_crash:wsteth",
+   "title": "wstETH collateral drop",
+   "family": "volatile_crash",
+   "target": "wsteth",
+   "annual_rate": 0.5,
+   "p_horizon": 0.009543212841304327,
+   "severity_range": [
+    0.15,
+    0.4
+   ],
+   "loss_if_incident_usd": 0.0,
+   "loss_if_incident_avoidable_usd": 0.0,
+   "loss_if_incident_max_usd": 0.0,
+   "expected_loss_usd": 0.0,
+   "expected_loss_avoidable_usd": 0.0,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": null,
+   "rule": "gradual drop of a market-priced collateral: borrowers are liquidated in time (HF = 1), the lender loses nothing — unless a sudden shock",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] Belem RWA EURCV → [deployed_in] Morpho Blue wstETH / EURCV (LLTV 86.0%) → [collateralized_by] wstETH"
+  },
+  {
+   "id": "volatile_crash:cbbtc",
+   "title": "cbBTC collateral drop",
+   "family": "volatile_crash",
+   "target": "cbbtc",
+   "annual_rate": 0.5,
+   "p_horizon": 0.009543212841304327,
+   "severity_range": [
+    0.15,
+    0.4
+   ],
+   "loss_if_incident_usd": 0.0,
+   "loss_if_incident_avoidable_usd": 0.0,
+   "loss_if_incident_max_usd": 0.0,
+   "expected_loss_usd": 0.0,
+   "expected_loss_avoidable_usd": 0.0,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": null,
+   "rule": "gradual drop of a market-priced collateral: borrowers are liquidated in time (HF = 1), the lender loses nothing — unless a sudden shock",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] Belem RWA EURCV → [deployed_in] Morpho Blue cbBTC / EURCV (LLTV 86.0%) → [collateralized_by] cbBTC"
+  },
+  {
+   "id": "volatile_crash:wbtc",
+   "title": "WBTC collateral drop",
+   "family": "volatile_crash",
+   "target": "wbtc",
+   "annual_rate": 0.5,
+   "p_horizon": 0.009543212841304327,
+   "severity_range": [
+    0.15,
+    0.4
+   ],
+   "loss_if_incident_usd": 0.0,
+   "loss_if_incident_avoidable_usd": 0.0,
+   "loss_if_incident_max_usd": 0.0,
+   "expected_loss_usd": 0.0,
+   "expected_loss_avoidable_usd": 0.0,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": null,
+   "rule": "gradual drop of a market-priced collateral: borrowers are liquidated in time (HF = 1), the lender loses nothing — unless a sudden shock",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] Belem RWA EURCV → [deployed_in] Morpho Blue WBTC / EURCV (LLTV 86.0%) → [collateralized_by] WBTC"
+  },
+  {
+   "id": "admin_feed_compromise:feed_midas_8b7b16",
+   "title": "Feed Midas feed (admin-set price) mGLOeuro/EUR skewed (collateral price overstated)",
+   "family": "admin_feed_compromise",
+   "target": "feed_midas_8b7b16",
+   "annual_rate": 0.02,
+   "p_horizon": 0.0003834880934723284,
+   "severity_range": [
+    0.10000000000000009,
+    0.10000000000000009
+   ],
+   "loss_if_incident_usd": 0.0,
+   "loss_if_incident_avoidable_usd": 0.0,
+   "loss_if_incident_max_usd": 0.0,
+   "expected_loss_usd": 0.0,
+   "expected_loss_avoidable_usd": 0.0,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": null,
+   "rule": "an attacker borrows the available liquidity L against overstated collateral: loss = L·(1 − 1/((1+u)·LLTV)) if (1+u)·LLTV > 1",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] Belem RWA EURCV → [deployed_in] Morpho Blue mGLOeuro / EURCV (LLTV 77.0%) → [priced_by] MorphoChainlinkOracleV2 (fixed) → [priced_by] Midas feed (admin-set price) mGLOeuro/EUR"
+  }
+ ]
+}

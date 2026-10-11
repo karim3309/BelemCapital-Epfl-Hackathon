@@ -184,6 +184,12 @@ export interface Decision {
   verdict: Verdict
   exit_fraction: number
   sentence: string
+  /** What exiting avoids (avoidable expected loss × exited share) and what it costs — computed by the backend. */
+  avoided_usd?: number
+  exit_cost_usd?: number
+  /** Expected loss split: the part exiting avoids, and the part that stays with the asset you get back. */
+  expected_loss_avoidable_usd?: number
+  expected_loss_unavoidable_usd?: number
 }
 
 export interface RiskResponse extends BlockMeta {

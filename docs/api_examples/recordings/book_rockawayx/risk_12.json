@@ -1,0 +1,250 @@
+{
+ "block": 26167512,
+ "block_timestamp": 1791701255,
+ "chain_id": 1,
+ "pocket": {
+  "id": "morpho_vault_v2:0x5f829B1B473cBA86838E1B7BB7E144DbDE228e21",
+  "kind": "morpho_vault_v2",
+  "label": "RockawayX USDC Prime",
+  "value_usd": 10.281859101757266,
+  "share_of_book": 0.0,
+  "perspective": "curator"
+ },
+ "graph": {
+  "nodes": 13,
+  "edges": 22,
+  "position_id": "morpho_vault_v2:0x5f829B1B473cBA86838E1B7BB7E144DbDE228e21:0x5f829B1B473cBA86838E1B7BB7E144DbDE228e21"
+ },
+ "markets": [
+  {
+   "label": "Morpho Blue wstETH / USDC (LLTV 86.0%)",
+   "collateral_pricing": "market",
+   "collateral_class": "volatile",
+   "lltv": 0.86,
+   "utilization": 0.9017385664782844,
+   "liquidity": 3201990.307847,
+   "our_supply": 10.285065,
+   "borrowers": 300,
+   "borrowers_source": "API Morpho https://api.morpho.org/graphql marketPositions (fetched 2026-10-11T06:49:39+00:00)"
+  }
+ ],
+ "monte_carlo": {
+  "samples": 100000,
+  "horizon_days": 7,
+  "expected_loss_usd": 0.0009775809946067512,
+  "expected_loss_avoidable_usd": 0.0003062016795040806,
+  "expected_loss_unavoidable_usd": 0.0006713793151026707,
+  "avoidable_note": "avoidable = what exiting removes; unavoidable = what stays with the asset you get back (e.g. a depeg of the pocket's own asset)",
+  "var95_usd": 0.0,
+  "var99_usd": 0.0,
+  "var999_usd": 0.0,
+  "p_any_loss": 0.0009,
+  "independence_note": "incidents drawn independently (correlations between nodes not modelled)"
+ },
+ "exit": {
+  "f_max_now": 1.0,
+  "cost_full_usd": 0.07383346648307668,
+  "cost_full_pct": 0.007180945172693316,
+  "withdrawable_now_fraction": 1.0,
+  "penalty_free_fraction": 1.0,
+  "force_deallocate_penalty": 0,
+  "forgone_yield_rate_over_horizon": 0.0008750747012958904,
+  "supply_apy_weighted": 0.045628895138999995,
+  "gas": "400000 gas × baseFee 0.06 gwei (block #26167512) × ETH $2,503 (ENS eth-usd.data.eth → 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419 (Registry 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e → resolver 0x122eb74f9d0F1a5ed587F43D120C1c2BbDb9360B) #26167512)",
+  "note": "beyond f_max, the exit depends on borrowers repaying / on rates rising"
+ },
+ "coverage": {
+  "modelled_share": 1.0,
+  "idle_share": 0.0,
+  "unmodelled_share": 0.0,
+  "unrecognised_adapters": []
+ },
+ "decision": {
+  "verdict": "STAY",
+  "exit_fraction": 0.0,
+  "indifferent": false,
+  "expected_loss_avoidable_usd": 0.0003062016795040806,
+  "expected_loss_unavoidable_usd": 0.0006713793151026707,
+  "avoided_usd": 0.0003062016795040806,
+  "exit_cost_usd": 0.07383346648307668,
+  "sentence": "Curator view (whole vault, all depositors): EXIT means pulling the vault's money out of its markets, STAY means keeping the allocation. STAY — exiting would avoid $0 of expected loss over the horizon, but would cost $0. Exit if you put the risk \"Morpho Blue protocol exploit\" above 2.6% (our estimate: 0.01%, i.e. ≈ once every 333 years)."
+ },
+ "incidents": [
+  {
+   "id": "issuer_failure:circle",
+   "title": "Issuer failure: Circle (USDC)",
+   "family": "issuer_failure",
+   "target": "circle",
+   "annual_rate": 0.005,
+   "p_horizon": 9.588581362041104e-05,
+   "severity_range": [
+    0.1,
+    1.0
+   ],
+   "loss_if_incident_usd": 5.655022505966497,
+   "loss_if_incident_avoidable_usd": 0.0,
+   "loss_if_incident_max_usd": 10.281859101757266,
+   "expected_loss_usd": 0.0005422364340263333,
+   "expected_loss_avoidable_usd": 0.0,
+   "avoidable_by_exit": false,
+   "not_avoided_because": "withdrawing from the vault gives back this same asset: exiting does not avoid its depeg",
+   "p_star": null,
+   "rule": "the issued asset loses s of its value",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX USDC Prime → [deployed_in] Morpho Blue wstETH / USDC (LLTV 86.0%) → [lends] USDC → [issued_by] Circle"
+  },
+  {
+   "id": "stable_depeg:usdc",
+   "title": "USDC depeg (pocket asset)",
+   "family": "stable_depeg",
+   "target": "usdc",
+   "annual_rate": 0.02,
+   "p_horizon": 0.0003834880934723284,
+   "severity_range": [
+    0.02,
+    0.12
+   ],
+   "loss_if_incident_usd": 0.7197301371230087,
+   "loss_if_incident_avoidable_usd": 0.0,
+   "loss_if_incident_max_usd": 1.233823092210872,
+   "expected_loss_usd": 0.0002760079380998801,
+   "expected_loss_avoidable_usd": 0.0,
+   "avoidable_by_exit": false,
+   "not_avoided_because": "withdrawing from the vault gives back this same asset: exiting does not avoid its depeg",
+   "p_star": null,
+   "rule": "the pocket is denominated in this asset: loss = value × d",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX USDC Prime → [deployed_in] Morpho Blue wstETH / USDC (LLTV 86.0%) → [lends] USDC"
+  },
+  {
+   "id": "protocol_exploit:morpho",
+   "title": "Morpho Blue protocol exploit",
+   "family": "protocol_exploit",
+   "target": "morpho",
+   "annual_rate": 0.003,
+   "p_horizon": 5.753259151231038e-05,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 2.8275112529832485,
+   "loss_if_incident_avoidable_usd": 2.8275112529832485,
+   "loss_if_incident_max_usd": 5.140929550878633,
+   "expected_loss_usd": 0.00016267404991434614,
+   "expected_loss_avoidable_usd": 0.00016267404991434614,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 0.026112527900702967,
+   "rule": "all deposited funds are exposed: loss = value × s",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX USDC Prime → [deployed_in] Morpho Blue wstETH / USDC (LLTV 86.0%) → [issued_by] Morpho"
+  },
+  {
+   "id": "curator_failure:curator_rockawayx",
+   "title": "Curator failure (RockawayX (curator))",
+   "family": "curator_failure",
+   "target": "curator_rockawayx",
+   "annual_rate": 0.005,
+   "p_horizon": 9.588581362041104e-05,
+   "severity_range": [
+    0.0,
+    0.2
+   ],
+   "loss_if_incident_usd": 1.0281859101757267,
+   "loss_if_incident_avoidable_usd": 1.0281859101757267,
+   "loss_if_incident_max_usd": 2.0563718203514534,
+   "expected_loss_usd": 9.858844255024242e-05,
+   "expected_loss_avoidable_usd": 9.858844255024242e-05,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 0.07180945172693316,
+   "rule": "bad allocation bounded by the caps: loss = value × s",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX USDC Prime → [issued_by] RockawayX (curator)"
+  },
+  {
+   "id": "oracle_fault:feed_wsteth_4f67e4",
+   "title": "Feed Feed wstETH/ETH (Compound) skewed (collateral price overstated)",
+   "family": "oracle_fault",
+   "target": "feed_wsteth_4f67e4",
+   "annual_rate": 0.005,
+   "p_horizon": 9.588581362041104e-05,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 0.09281924687673684,
+   "loss_if_incident_avoidable_usd": 0.09281924687673684,
+   "loss_if_incident_max_usd": 0.22712395756756976,
+   "expected_loss_usd": 8.900049006409709e-06,
+   "expected_loss_avoidable_usd": 8.900049006409709e-06,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 0.7954542723356384,
+   "rule": "an attacker borrows the available liquidity L against overstated collateral: loss = L·(1 − 1/((1+u)·LLTV)) if (1+u)·LLTV > 1",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX USDC Prime → [deployed_in] Morpho Blue wstETH / USDC (LLTV 86.0%) → [priced_by] MorphoChainlinkOracle (market) → [priced_by] Feed wstETH/ETH (Compound)"
+  },
+  {
+   "id": "oracle_fault:feed_steth_eth",
+   "title": "Feed Chainlink STETH / ETH skewed (collateral price overstated)",
+   "family": "oracle_fault",
+   "target": "feed_steth_eth",
+   "annual_rate": 0.005,
+   "p_horizon": 9.588581362041104e-05,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 0.09281924687673684,
+   "loss_if_incident_avoidable_usd": 0.09281924687673684,
+   "loss_if_incident_max_usd": 0.22712395756756976,
+   "expected_loss_usd": 8.900049006409709e-06,
+   "expected_loss_avoidable_usd": 8.900049006409709e-06,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 0.7954542723356384,
+   "rule": "an attacker borrows the available liquidity L against overstated collateral: loss = L·(1 − 1/((1+u)·LLTV)) if (1+u)·LLTV > 1",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX USDC Prime → [deployed_in] Morpho Blue wstETH / USDC (LLTV 86.0%) → [priced_by] MorphoChainlinkOracle (market) → [priced_by] Feed wstETH/ETH (Compound) → [priced_by] Chainlink STETH / ETH"
+  },
+  {
+   "id": "oracle_fault:feed_usdc_eth",
+   "title": "Feed Chainlink USDC / ETH skewed (collateral price overstated)",
+   "family": "oracle_fault",
+   "target": "feed_usdc_eth",
+   "annual_rate": 0.005,
+   "p_horizon": 9.588581362041104e-05,
+   "severity_range": [
+    0.05,
+    0.5
+   ],
+   "loss_if_incident_usd": 0.09281924687673684,
+   "loss_if_incident_avoidable_usd": 0.09281924687673684,
+   "loss_if_incident_max_usd": 0.22712395756756976,
+   "expected_loss_usd": 8.900049006409709e-06,
+   "expected_loss_avoidable_usd": 8.900049006409709e-06,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": 0.7954542723356384,
+   "rule": "an attacker borrows the available liquidity L against overstated collateral: loss = L·(1 − 1/((1+u)·LLTV)) if (1+u)·LLTV > 1",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX USDC Prime → [deployed_in] Morpho Blue wstETH / USDC (LLTV 86.0%) → [priced_by] MorphoChainlinkOracle (market) → [priced_by] Chainlink USDC / ETH"
+  },
+  {
+   "id": "volatile_crash:wsteth",
+   "title": "wstETH collateral drop",
+   "family": "volatile_crash",
+   "target": "wsteth",
+   "annual_rate": 0.5,
+   "p_horizon": 0.009543212841304327,
+   "severity_range": [
+    0.15,
+    0.4
+   ],
+   "loss_if_incident_usd": 0.0,
+   "loss_if_incident_avoidable_usd": 0.0,
+   "loss_if_incident_max_usd": 0.0,
+   "expected_loss_usd": 0.0,
+   "expected_loss_avoidable_usd": 0.0,
+   "avoidable_by_exit": true,
+   "not_avoided_because": null,
+   "p_star": null,
+   "rule": "gradual drop of a market-priced collateral: borrowers are liquidated in time (HF = 1), the lender loses nothing — unless a sudden shock",
+   "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX USDC Prime → [deployed_in] Morpho Blue wstETH / USDC (LLTV 86.0%) → [collateralized_by] wstETH"
+  }
+ ]
+}

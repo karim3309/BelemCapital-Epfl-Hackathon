@@ -74,7 +74,6 @@ function IncidentRow({
             {incident.p_star === null ? '—' : incident.p_star >= 1 ? 'never' : pctAuto(incident.p_star)}
           </span>
           threshold p*
-          {incident.p_star !== null && every(incident.p_star) && <span className="block">{every(incident.p_star)}</span>}
         </span>
       </button>
       <AnimatePresence initial={false}>

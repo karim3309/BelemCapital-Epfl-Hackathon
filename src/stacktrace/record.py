@@ -22,6 +22,7 @@ from fastapi.testclient import TestClient
 from discovery.config import REPO_ROOT
 from discovery.console import utf8_console
 
+from . import api as api_module
 from .api import app
 from .portfolio import file_slug
 
@@ -34,6 +35,9 @@ def _save(folder, name: str, data: dict) -> None:
 
 
 def record(holder: str) -> int:
+    # ONE block for the whole recording: a book takes minutes, and with the API's 2-minute renewal the risk_n /
+    # graph_n files would come from other blocks than pockets.json (and the pocket numbers could shift).
+    api_module.SESSION_TTL_S = None
     client = TestClient(app)
     t0 = time.time()
     r = client.get(f"/holders/{holder}/pockets")
@@ -43,6 +47,8 @@ def record(holder: str) -> int:
     pockets = r.json()
     folder = RECORDINGS / file_slug(pockets["holder"])
     folder.mkdir(parents=True, exist_ok=True)
+    for old in folder.glob("*.json"):                # a fresh recording: no file left over from another block
+        old.unlink()
     _save(folder, "pockets.json", pockets)
     print(f"block #{pockets['block']} · {len(pockets['holdings'])} pocket(s) · {len(pockets['ignored'])} left out")
     for i in pockets["ignored"]:
@@ -76,6 +82,10 @@ def record(holder: str) -> int:
                     incident_done = True
         print(f"✓ pocket {n}: {h['label']} ({time.time() - t0:.0f} s)")
 
+    blocks = {json.loads(f.read_text(encoding="utf-8")).get("block") for f in folder.glob("*.json")}
+    blocks.discard(None)
+    if len(blocks) > 1:
+        print(f"⚠ the recording mixes blocks {sorted(blocks)}: record again")
     shown = folder.relative_to(REPO_ROOT) if folder.is_relative_to(REPO_ROOT) else folder
     print(f"\n→ {shown}  — commit it: the front replays it offline.")
     return 0

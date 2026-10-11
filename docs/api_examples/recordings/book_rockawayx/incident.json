@@ -1,0 +1,66 @@
+{
+ "block": 26167512,
+ "block_timestamp": 1791701255,
+ "chain_id": 1,
+ "pocket": {
+  "id": "morpho_vault_v2:0xc207d3f66537D7F66456808379A0E560cF20Da36",
+  "kind": "morpho_vault_v2",
+  "label": "RockawayX Confidential RWA USDC",
+  "value_usd": 26139777.07286866,
+  "share_of_book": 0.263425,
+  "perspective": "curator"
+ },
+ "baseline_decision": {
+  "verdict": "STAY",
+  "exit_fraction": 0.0,
+  "indifferent": false,
+  "expected_loss_avoidable_usd": 4203.118374118397,
+  "expected_loss_unavoidable_usd": 1978.5337909593743,
+  "avoided_usd": 1179.6556091168177,
+  "exit_cost_usd": 47276.305410936504,
+  "sentence": "Curator view (whole vault, all depositors): EXIT means pulling the vault's money out of its markets, STAY means keeping the allocation. STAY — exiting (only 28% can be exited now) would avoid $1,180 of expected loss over the horizon, but would cost $47,276. ($1,979 of expected loss cannot be avoided by exiting: it stays with the asset you get back.) Exit if you put the risk \"PST collateral drop\" above 4.4% (our estimate: 0.10%, i.e. ≈ once every 20 years)."
+ },
+ "incident_mode": {
+  "incident": "rwa_credit_event:pst",
+  "title": "PST collateral drop",
+  "severity": 0.275,
+  "loss_if_incident_usd": 3709259.6044467003,
+  "loss_if_incident_pct": 0.1419009654943333,
+  "loss_avoidable_usd": 3709259.6044467003,
+  "not_avoided_because": null,
+  "p_used": 0.2,
+  "p_source": "manager",
+  "p_star": 0.045412214865187775,
+  "verdict": "EXIT",
+  "exit_fraction": 0.2807,
+  "rule": "sudden shock on a collateral whose oracle does NOT follow the market (internal rate / set price): no timely liquidation → bad debt max(0, D − V·(1−d)·(1−slippage)), borrower by borrower",
+  "contagion_path": "morpho_vault_v2:0x… → [deployed_in] RockawayX Confidential RWA USDC → [deployed_in] Morpho Blue PST / USDC (LLTV 86.0%) → [collateralized_by] PST",
+  "contagion_edges": [
+   {
+    "from": "morpho_vault_v2:0xc207d3f66537D7F66456808379A0E560cF20Da36:0xc207d3f66537D7F66456808379A0E560cF20Da36",
+    "to": "vault_rockawayx_confidential_rwa_usdc",
+    "type": "deployed_in",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "RockawayX Confidential RWA USDC.totalAssets() = 26147932577054 @ 0xc207d3f66537D7F66456808379A0E560cF20Da36 #26167512 — whole vault: the position is all its depositors together (curator view)"
+   },
+   {
+    "from": "vault_rockawayx_confidential_rwa_usdc",
+    "to": "morpho_market_002278ea",
+    "type": "deployed_in",
+    "weight": 0.8370633630461957,
+    "source": "onchain",
+    "evidence": "RockawayX Confidential RWA USDC.adapters(0) = 0xEDee08b242d4CD94127ceC8a4c334cD2d0cA3f65 @ 0xc207d3f66537D7F66456808379A0E560cF20Da36 #26167512; VaultV2Adapter.marketIds(0) = 0x002278ea242ec722813b4fe3c8eeaa07dbc331c731cc0b4248a1bf0771f933ea @ 0xEDee08b242d4CD94127ceC8a4c334cD2d0cA3f65 #26167512 ; VaultV2Adapter.expectedSupplyAssets(0x002278ea242ec722813b4fe3c8eeaa07dbc331c731cc0b4248a1bf0771f933ea) = 21887476379654 @ 0xEDee08b242d4CD94127ceC8a4c334cD2d0cA3f65 #26167512; vault share = 83.7063% (÷ totalAssets 26147932577054)"
+   },
+   {
+    "from": "morpho_market_002278ea",
+    "to": "pst",
+    "type": "collateralized_by",
+    "weight": 1.0,
+    "source": "onchain",
+    "evidence": "Morpho.idToMarketParams(0x002278ea242ec722813b4fe3c8eeaa07dbc331c731cc0b4248a1bf0771f933ea) @ 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb #26167512 → collateralToken = 0x22aE3D9a738471f405169Af055d31c687087d4c7"
+   }
+  ],
+  "sentence": "EXIT 28% — if \"PST collateral drop\" (severity 28%) happens, the pocket loses $3,709,260 (14.2%). Exiting now costs $47,276 and only covers 28% of the pocket. Threshold: exit if you believe there is more than a 4.5% chance it happens."
+ }
+}

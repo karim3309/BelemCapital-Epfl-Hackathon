@@ -1,0 +1,364 @@
+{
+ "block": 26167512,
+ "block_timestamp": 1791701255,
+ "chain_id": 1,
+ "holder": "book:rockawayx",
+ "chain": "ethereum",
+ "block_time": 1791701255,
+ "located_by": "curator book \"RockawayX-curated Morpho vaults (Ethereum)\" of config.yaml (source: Vaults of the RockawayX Dune dashboard shared by Belem (https://dune.com/rockawayxvault/rockawayx-dashboard). Addresses located by the Morpho API (userByAddress of 0x4F87De7d21aeF48090958f7342E1F69Dff790545) and proven on-chain (name(), balanceOf) at block #26162868 — see docs/api_examples/pockets.json. The curator is re-read on-chain (curator()) at every analysis.)",
+ "total_value_usd": 99230342.68,
+ "holdings": [
+  {
+   "id": "morpho_vault_v2:0xc207d3f66537D7F66456808379A0E560cF20Da36",
+   "kind": "morpho_vault_v2",
+   "label": "RockawayX Confidential RWA USDC",
+   "protocol": "morpho",
+   "chain": "ethereum",
+   "address": "0xc207d3f66537D7F66456808379A0E560cF20Da36",
+   "market_id": null,
+   "asset_symbol": "USDC",
+   "asset_address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+   "amount": 26147932.577054,
+   "price_usd": 0.9996881013762251,
+   "value_usd": 26139777.07286866,
+   "price_source": "api: vaultV2ByAddress asset.priceUsd (https://api.morpho.org/graphql, fetched 2026-10-11T06:48:06+00:00)",
+   "evidence": [
+    "RockawayX Confidential RWA USDC.totalAssets() = 26147932577054 @ 0xc207d3f66537D7F66456808379A0E560cF20Da36 #26167512",
+    "RockawayX Confidential RWA USDC.asset() = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 @ 0xc207d3f66537D7F66456808379A0E560cF20Da36 #26167512"
+   ],
+   "api_amount": null,
+   "api_gap": null,
+   "details": {
+    "whole_vault": true,
+    "decimals": 6,
+    "total_assets_raw": "26147932577054",
+    "perspective": "curator: the pocket is the whole vault, i.e. all its depositors"
+   },
+   "share_of_book": 0.263425,
+   "index": 1
+  },
+  {
+   "id": "morpho_vault_v2:0x2cA22cb25558fa2018ecb1CE4eD8AF92Ee7ea423",
+   "kind": "morpho_vault_v2",
+   "label": "RockawayX f(x) Protocol Ecosystem USDC",
+   "protocol": "morpho",
+   "chain": "ethereum",
+   "address": "0x2cA22cb25558fa2018ecb1CE4eD8AF92Ee7ea423",
+   "market_id": null,
+   "asset_symbol": "USDC",
+   "asset_address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+   "amount": 21383160.013451,
+   "price_usd": 0.9996881013762251,
+   "value_usd": 21376490.635270845,
+   "price_source": "api: vaultV2ByAddress asset.priceUsd (https://api.morpho.org/graphql, fetched 2026-10-11T06:48:05+00:00)",
+   "evidence": [
+    "RockawayX f(x) Protocol Ecosystem USDC.totalAssets() = 21383160013451 @ 0x2cA22cb25558fa2018ecb1CE4eD8AF92Ee7ea423 #26167512",
+    "RockawayX f(x) Protocol Ecosystem USDC.asset() = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 @ 0x2cA22cb25558fa2018ecb1CE4eD8AF92Ee7ea423 #26167512"
+   ],
+   "api_amount": null,
+   "api_gap": null,
+   "details": {
+    "whole_vault": true,
+    "decimals": 6,
+    "total_assets_raw": "21383160013451",
+    "perspective": "curator: the pocket is the whole vault, i.e. all its depositors"
+   },
+   "share_of_book": 0.215423,
+   "index": 2
+  },
+  {
+   "id": "morpho_vault_v2:0xE0181090c22579B6A217f1522cbf8c9f1F0C1965",
+   "kind": "morpho_vault_v2",
+   "label": "RockawayX USDC Yield",
+   "protocol": "morpho",
+   "chain": "ethereum",
+   "address": "0xE0181090c22579B6A217f1522cbf8c9f1F0C1965",
+   "market_id": null,
+   "asset_symbol": "USDC",
+   "asset_address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+   "amount": 18441015.049616,
+   "price_usd": 0.9996881013762251,
+   "value_usd": 18435263.322401013,
+   "price_source": "api: vaultV2ByAddress asset.priceUsd (https://api.morpho.org/graphql, fetched 2026-10-11T06:48:05+00:00)",
+   "evidence": [
+    "RockawayX USDC Yield.totalAssets() = 18441015049616 @ 0xE0181090c22579B6A217f1522cbf8c9f1F0C1965 #26167512",
+    "RockawayX USDC Yield.asset() = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 @ 0xE0181090c22579B6A217f1522cbf8c9f1F0C1965 #26167512"
+   ],
+   "api_amount": null,
+   "api_gap": null,
+   "details": {
+    "whole_vault": true,
+    "decimals": 6,
+    "total_assets_raw": "18441015049616",
+    "perspective": "curator: the pocket is the whole vault, i.e. all its depositors"
+   },
+   "share_of_book": 0.185783,
+   "index": 3
+  },
+  {
+   "id": "morpho_vault_v2:0x3BD9AdAE6643dDcddD02746b8B60075E56DF9478",
+   "kind": "morpho_vault_v2",
+   "label": "RockawayX Tori Ecosystem",
+   "protocol": "morpho",
+   "chain": "ethereum",
+   "address": "0x3BD9AdAE6643dDcddD02746b8B60075E56DF9478",
+   "market_id": null,
+   "asset_symbol": "USDC",
+   "asset_address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+   "amount": 13605424.514144,
+   "price_usd": 0.9996881013762251,
+   "value_usd": 13601181.000962164,
+   "price_source": "api: vaultV2ByAddress asset.priceUsd (https://api.morpho.org/graphql, fetched 2026-10-11T06:48:06+00:00)",
+   "evidence": [
+    "RockawayX Tori Ecosystem.totalAssets() = 13605424514144 @ 0x3BD9AdAE6643dDcddD02746b8B60075E56DF9478 #26167512",
+    "RockawayX Tori Ecosystem.asset() = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 @ 0x3BD9AdAE6643dDcddD02746b8B60075E56DF9478 #26167512"
+   ],
+   "api_amount": null,
+   "api_gap": null,
+   "details": {
+    "whole_vault": true,
+    "decimals": 6,
+    "total_assets_raw": "13605424514144",
+    "perspective": "curator: the pocket is the whole vault, i.e. all its depositors"
+   },
+   "share_of_book": 0.137067,
+   "index": 4
+  },
+  {
+   "id": "morpho_vault_v2:0x8aC91877b93330f52b2979a31a4879506021475c",
+   "kind": "morpho_vault_v2",
+   "label": "Huma USDC Main",
+   "protocol": "morpho",
+   "chain": "ethereum",
+   "address": "0x8aC91877b93330f52b2979a31a4879506021475c",
+   "market_id": null,
+   "asset_symbol": "USDC",
+   "asset_address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+   "amount": 12844676.28632,
+   "price_usd": 0.9996881013762251,
+   "value_usd": 12840670.049463464,
+   "price_source": "api: vaultV2ByAddress asset.priceUsd (https://api.morpho.org/graphql, fetched 2026-10-11T06:48:06+00:00)",
+   "evidence": [
+    "Huma USDC Main.totalAssets() = 12844676286320 @ 0x8aC91877b93330f52b2979a31a4879506021475c #26167512",
+    "Huma USDC Main.asset() = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 @ 0x8aC91877b93330f52b2979a31a4879506021475c #26167512"
+   ],
+   "api_amount": null,
+   "api_gap": null,
+   "details": {
+    "whole_vault": true,
+    "decimals": 6,
+    "total_assets_raw": "12844676286320",
+    "perspective": "curator: the pocket is the whole vault, i.e. all its depositors"
+   },
+   "share_of_book": 0.129403,
+   "index": 5
+  },
+  {
+   "id": "morpho_vault_v2:0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec",
+   "kind": "morpho_vault_v2",
+   "label": "Belem RWA EURCV",
+   "protocol": "morpho",
+   "chain": "ethereum",
+   "address": "0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec",
+   "market_id": null,
+   "asset_symbol": "EURCV",
+   "asset_address": "0x5F7827FDeb7c20b443265Fc2F40845B715385Ff2",
+   "amount": 4710821.598400388,
+   "price_usd": 1.1194555689493675,
+   "value_usd": 5273555.472656275,
+   "price_source": "api: vaultV2ByAddress asset.priceUsd (https://api.morpho.org/graphql, fetched 2026-10-11T06:48:05+00:00)",
+   "evidence": [
+    "Belem RWA EURCV.totalAssets() = 4710821598400388271603096 @ 0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec #26167512",
+    "Belem RWA EURCV.asset() = 0x5F7827FDeb7c20b443265Fc2F40845B715385Ff2 @ 0xD6d4b804014EF27836dBe9f8f6Bf6c71251548Ec #26167512"
+   ],
+   "api_amount": null,
+   "api_gap": null,
+   "details": {
+    "whole_vault": true,
+    "decimals": 18,
+    "total_assets_raw": "4710821598400388271603096",
+    "perspective": "curator: the pocket is the whole vault, i.e. all its depositors"
+   },
+   "share_of_book": 0.053145,
+   "index": 6
+  },
+  {
+   "id": "morpho_vault_v2:0x93e0F9d502eEfce8D34924ab3478C7EA0CBC5a2E",
+   "kind": "morpho_vault_v2",
+   "label": "RockawayX NUVA Ecosystem",
+   "protocol": "morpho",
+   "chain": "ethereum",
+   "address": "0x93e0F9d502eEfce8D34924ab3478C7EA0CBC5a2E",
+   "market_id": null,
+   "asset_symbol": "USDC",
+   "asset_address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+   "amount": 1547028.993653,
+   "price_usd": 0.9996881013762251,
+   "value_usd": 1546546.47743894,
+   "price_source": "api: vaultV2ByAddress asset.priceUsd (https://api.morpho.org/graphql, fetched 2026-10-11T06:48:06+00:00)",
+   "evidence": [
+    "RockawayX NUVA Ecosystem.totalAssets() = 1547028993653 @ 0x93e0F9d502eEfce8D34924ab3478C7EA0CBC5a2E #26167512",
+    "RockawayX NUVA Ecosystem.asset() = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 @ 0x93e0F9d502eEfce8D34924ab3478C7EA0CBC5a2E #26167512"
+   ],
+   "api_amount": null,
+   "api_gap": null,
+   "details": {
+    "whole_vault": true,
+    "decimals": 6,
+    "total_assets_raw": "1547028993653",
+    "perspective": "curator: the pocket is the whole vault, i.e. all its depositors"
+   },
+   "share_of_book": 0.015585,
+   "index": 7
+  },
+  {
+   "id": "morpho_vault_v2:0x9C57E02bC31e7e463f439353D97bd8f42F5a7F9c",
+   "kind": "morpho_vault_v2",
+   "label": "RockawayX EUROP",
+   "protocol": "morpho",
+   "chain": "ethereum",
+   "address": "0x9C57E02bC31e7e463f439353D97bd8f42F5a7F9c",
+   "market_id": null,
+   "asset_symbol": "EUROP",
+   "asset_address": "0x888883b5F5D21fb10Dfeb70e8f9722B9FB0E5E51",
+   "amount": 10011.03809,
+   "price_usd": 1.1184226552599816,
+   "value_usd": 11196.571802526614,
+   "price_source": "api: vaultV2ByAddress asset.priceUsd (https://api.morpho.org/graphql, fetched 2026-10-11T06:48:07+00:00)",
+   "evidence": [
+    "RockawayX EUROP.totalAssets() = 10011038090 @ 0x9C57E02bC31e7e463f439353D97bd8f42F5a7F9c #26167512",
+    "RockawayX EUROP.asset() = 0x888883b5F5D21fb10Dfeb70e8f9722B9FB0E5E51 @ 0x9C57E02bC31e7e463f439353D97bd8f42F5a7F9c #26167512"
+   ],
+   "api_amount": null,
+   "api_gap": null,
+   "details": {
+    "whole_vault": true,
+    "decimals": 6,
+    "total_assets_raw": "10011038090",
+    "perspective": "curator: the pocket is the whole vault, i.e. all its depositors"
+   },
+   "share_of_book": 0.000113,
+   "index": 8
+  },
+  {
+   "id": "morpho_vault_v2:0xe99A27169c2aA26a8f2757949d09Fa3f9A8f0B3B",
+   "kind": "morpho_vault_v2",
+   "label": "RockawayX Midas USDC Prime",
+   "protocol": "morpho",
+   "chain": "ethereum",
+   "address": "0xe99A27169c2aA26a8f2757949d09Fa3f9A8f0B3B",
+   "market_id": null,
+   "asset_symbol": "USDC",
+   "asset_address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+   "amount": 3514.525621,
+   "price_usd": 0.9996881013762251,
+   "value_usd": 3513.4294452955883,
+   "price_source": "api: vaultV2ByAddress asset.priceUsd (https://api.morpho.org/graphql, fetched 2026-10-11T06:48:07+00:00)",
+   "evidence": [
+    "RockawayX Midas USDC Prime.totalAssets() = 3514525621 @ 0xe99A27169c2aA26a8f2757949d09Fa3f9A8f0B3B #26167512",
+    "RockawayX Midas USDC Prime.asset() = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 @ 0xe99A27169c2aA26a8f2757949d09Fa3f9A8f0B3B #26167512"
+   ],
+   "api_amount": null,
+   "api_gap": null,
+   "details": {
+    "whole_vault": true,
+    "decimals": 6,
+    "total_assets_raw": "3514525621",
+    "perspective": "curator: the pocket is the whole vault, i.e. all its depositors"
+   },
+   "share_of_book": 3.5e-05,
+   "index": 9
+  },
+  {
+   "id": "morpho_vault_v2:0x64C18DCC4Ccb3b8D27877a4aeBB4C3126CB39cB9",
+   "kind": "morpho_vault_v2",
+   "label": "RockawayX wETH",
+   "protocol": "morpho",
+   "chain": "ethereum",
+   "address": "0x64C18DCC4Ccb3b8D27877a4aeBB4C3126CB39cB9",
+   "market_id": null,
+   "asset_symbol": "WETH",
+   "asset_address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+   "amount": 0.8500565542533288,
+   "price_usd": 2502.199229540509,
+   "value_usd": 2127.010855118539,
+   "price_source": "api: vaultV2ByAddress asset.priceUsd (https://api.morpho.org/graphql, fetched 2026-10-11T06:48:08+00:00)",
+   "evidence": [
+    "RockawayX wETH.totalAssets() = 850056554253328875 @ 0x64C18DCC4Ccb3b8D27877a4aeBB4C3126CB39cB9 #26167512",
+    "RockawayX wETH.asset() = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2 @ 0x64C18DCC4Ccb3b8D27877a4aeBB4C3126CB39cB9 #26167512"
+   ],
+   "api_amount": null,
+   "api_gap": null,
+   "details": {
+    "whole_vault": true,
+    "decimals": 18,
+    "total_assets_raw": "850056554253328875",
+    "perspective": "curator: the pocket is the whole vault, i.e. all its depositors"
+   },
+   "share_of_book": 2.1e-05,
+   "index": 10
+  },
+  {
+   "id": "morpho_vault_v2:0xd65d6E8dbC3Cd3D12418199E6f4014dB3aaa0097",
+   "kind": "morpho_vault_v2",
+   "label": "Figure USDC Main",
+   "protocol": "morpho",
+   "chain": "ethereum",
+   "address": "0xd65d6E8dbC3Cd3D12418199E6f4014dB3aaa0097",
+   "market_id": null,
+   "asset_symbol": "USDC",
+   "asset_address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+   "amount": 11.362807,
+   "price_usd": 0.9996881013762251,
+   "value_usd": 11.359262956134481,
+   "price_source": "api: vaultV2ByAddress asset.priceUsd (https://api.morpho.org/graphql, fetched 2026-10-11T06:48:08+00:00)",
+   "evidence": [
+    "Figure USDC Main.totalAssets() = 11362807 @ 0xd65d6E8dbC3Cd3D12418199E6f4014dB3aaa0097 #26167512",
+    "Figure USDC Main.asset() = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 @ 0xd65d6E8dbC3Cd3D12418199E6f4014dB3aaa0097 #26167512"
+   ],
+   "api_amount": null,
+   "api_gap": null,
+   "details": {
+    "whole_vault": true,
+    "decimals": 6,
+    "total_assets_raw": "11362807",
+    "perspective": "curator: the pocket is the whole vault, i.e. all its depositors"
+   },
+   "share_of_book": 0.0,
+   "index": 11
+  },
+  {
+   "id": "morpho_vault_v2:0x5f829B1B473cBA86838E1B7BB7E144DbDE228e21",
+   "kind": "morpho_vault_v2",
+   "label": "RockawayX USDC Prime",
+   "protocol": "morpho",
+   "chain": "ethereum",
+   "address": "0x5f829B1B473cBA86838E1B7BB7E144DbDE228e21",
+   "market_id": null,
+   "asset_symbol": "USDC",
+   "asset_address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+   "amount": 10.285067,
+   "price_usd": 0.9996881013762251,
+   "value_usd": 10.281859101757266,
+   "price_source": "api: vaultV2ByAddress asset.priceUsd (https://api.morpho.org/graphql, fetched 2026-10-11T06:48:08+00:00)",
+   "evidence": [
+    "RockawayX USDC Prime.totalAssets() = 10285067 @ 0x5f829B1B473cBA86838E1B7BB7E144DbDE228e21 #26167512",
+    "RockawayX USDC Prime.asset() = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 @ 0x5f829B1B473cBA86838E1B7BB7E144DbDE228e21 #26167512"
+   ],
+   "api_amount": null,
+   "api_gap": null,
+   "details": {
+    "whole_vault": true,
+    "decimals": 6,
+    "total_assets_raw": "10285067",
+    "perspective": "curator: the pocket is the whole vault, i.e. all its depositors"
+   },
+   "share_of_book": 0.0,
+   "index": 12
+  }
+ ],
+ "ignored": [],
+ "notes": [
+  "Vaults listed by curator book \"RockawayX-curated Morpho vaults (Ethereum)\" of config.yaml (source: Vaults of the RockawayX Dune dashboard shared by Belem (https://dune.com/rockawayxvault/rockawayx-dashboard). Addresses located by the Morpho API (userByAddress of 0x4F87De7d21aeF48090958f7342E1F69Dff790545) and proven on-chain (name(), balanceOf) at block #26162868 — see docs/api_examples/pockets.json. The curator is re-read on-chain (curator()) at every analysis.); amounts PROVEN on-chain (totalAssets) at block #26167512."
+ ]
+}

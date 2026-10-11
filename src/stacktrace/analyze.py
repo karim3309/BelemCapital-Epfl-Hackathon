@@ -47,8 +47,18 @@ def best_fraction(exit_m: ExitModel, loss_usd: float) -> tuple[float, float]:
     return best
 
 
+def decide(exit_m: ExitModel, loss_usd: float, materiality_usd: float = 0.0) -> tuple[float, bool]:
+    """(fraction to exit, indifferent?). An exit is kept only if it SAVES more than `materiality_usd`
+    (expected loss avoided − exit cost); below that the options are equivalent and we stay (no action)."""
+    f, j = best_fraction(exit_m, loss_usd)
+    if f > 0 and (loss_usd - j) < materiality_usd:
+        return 0.0, True
+    return f, False
+
+
 def p_star(exit_m: ExitModel, lgi_usd: float) -> float | None:
-    """Probability above which exiting (f_max) costs less than staying."""
+    """Probability above which exiting (f_max) costs less than staying. `lgi_usd` must be the AVOIDABLE loss:
+    a loss that stays with you after exiting (e.g. a depeg of the asset you get back) is no reason to exit."""
     f = exit_m.f_max
     if f <= 0 or lgi_usd <= 0:
         return None
@@ -63,12 +73,6 @@ def pct(x: float | None, d: int = 1) -> str:
     return "—" if x is None else f"{x * 100:.{d}f}%"
 
 
-def prob(x: float | None, d: int, days: float) -> str:
-    """Probability over the horizon + telling frequency: "0.10% (≈ once every 20 years)"."""
-    freq = every(x, days)
-    return pct(x, d) + (f" ({freq})" if freq else "")
-
-
 def ie(x: float | None, days: float) -> str:
     """Frequency to slip INTO a parenthesis: ", i.e. ≈ once every 20 years"."""
     freq = every(x, days)
@@ -76,15 +80,20 @@ def ie(x: float | None, days: float) -> str:
 
 
 def verdict_sentence(v: str, f: float, f_max: float, el: float, exit_cost: float, top: dict | None,
-                     days: float = 7.0) -> str:
-    """Compares what the exit AVOIDS (expected loss × exitable share) with what it COSTS."""
+                     days: float = 7.0, unavoidable: float = 0.0) -> str:
+    """Compares what the exit AVOIDS (avoidable expected loss × exitable share) with what it COSTS.
+    `el` is the AVOIDABLE expected loss; `unavoidable` the part that stays with the asset you get back.
+    The frequency "≈ once every X" is only attached to OUR unconditional estimate, never to p* (a threshold the
+    manager compares with HIS probability, which may be conditional on an alert)."""
+    keep = (f" ({usd(unavoidable)} of expected loss cannot be avoided by exiting: it stays with the asset you get "
+            f"back.)" if unavoidable >= 1 else "")
     if v == "STAY":
         avoided = el * f_max
         scope = "" if f_max >= 0.999 else f" (only {pct(f_max, 0)} can be exited now)"
         s = (f"STAY — exiting{scope} would avoid {usd(avoided)} of expected loss over the horizon, "
-             f"but would cost {usd(exit_cost)}.")
+             f"but would cost {usd(exit_cost)}.{keep}")
         if top and top.get("p_star") is not None and top["p_star"] < 1:
-            s += (f" Exit if you put the risk \"{top['title']}\" above {prob(top['p_star'], 1, days)} "
+            s += (f" Exit if you put the risk \"{top['title']}\" above {pct(top['p_star'], 1)} "
                   f"(our estimate: {pct(top['p_horizon'], 2)}{ie(top['p_horizon'], days)}).")
         elif top and top.get("p_star") is not None:
             s += f" Even if certain, \"{top['title']}\" would cost less than exiting: staying is always better."
@@ -93,7 +102,7 @@ def verdict_sentence(v: str, f: float, f_max: float, el: float, exit_cost: float
         return s
     part = "" if f >= 0.999 else f" {pct(f, 0)} of the pocket (maximum exitable now: {pct(f_max, 0)})"
     return (f"EXIT{part} — the expected loss avoided ({usd(el * f)}) exceeds the exit cost ({usd(exit_cost)})"
-            + (f"; main risk: \"{top['title']}\"." if top else "."))
+            + (f"; main risk: \"{top['title']}\"." if top else ".") + keep)
 
 
 CURATOR_VIEW = ("Curator view (whole vault, all depositors): EXIT means pulling the vault's money out of its "
@@ -122,9 +131,21 @@ def analyze_pocket(s, h: Holding, holder: str, p, days: float, incident: str | N
         for mk in markets:
             mk.our_supply = alloc.get(mk.market_id, {}).get("supplied", 0.0)
         curator = next((n["id"] for n in graph["nodes"] if n["meta"].get("role") == "vault_curator"), None)
+        # The asset node exists only if a known market lends it: an all-idle vault or an unrecognised adapter
+        # (e.g. a V2 vault deploying into a MetaMorpho V1) has none → the pocket's asset is then named, not a node.
         pocket = VaultPocket(h.label, h.value_usd or 0, h.amount, unit_usd, vm["holder_share_of_vault"],
-                             g.by_address[vm["asset"]], markets, vm["exit_liquidity"]["covers_holder_share"] or 0.0,
-                             max((a["force_deallocate_penalty"] or 0) for a in vm["adapters"]), vnode["id"], curator)
+                             g.by_address.get(vm["asset"]), markets,
+                             vm["exit_liquidity"]["covers_holder_share"] or 0.0,
+                             max((a["force_deallocate_penalty"] or 0 for a in vm["adapters"]), default=0.0),
+                             vnode["id"], curator, vm.get("asset_symbol") or h.asset_symbol or "?")
+        total_h = vm.get("total_assets_human") or 0.0
+        placed_h = sum(a["supplied"] for a in vm["allocations"])
+        idle_h = vm.get("idle_assets_human") or 0.0
+        coverage = {"modelled_share": round(placed_h / total_h, 6) if total_h else None,
+                    "idle_share": round(idle_h / total_h, 6) if total_h else None,
+                    "unmodelled_share": round(max(total_h - placed_h - idle_h, 0) / total_h, 6) if total_h else None,
+                    "unrecognised_adapters": [a["address"] for a in vm["adapters"]
+                                              if a.get("kind") in ("unknown", "parent_mismatch")]}
         events = vault_events(g, pocket, p)
         placed = sum(m.our_supply for m in markets)
         apy = sum(m.our_supply * (m.supply_apy or 0) for m in markets) / placed if placed else None
@@ -132,6 +153,7 @@ def analyze_pocket(s, h: Holding, holder: str, p, days: float, incident: str | N
                             vm["exit_liquidity"].get("covers_holder_share_penalty_free") or 0.0)
         cap = pocket.value_usd
     else:
+        coverage = None
         mk = markets[0]
         pos = g.nodes[mk.node_id]["meta"]["position"]
         bp = BorrowPocket(h.label, h.value_usd or 0, unit_usd, mk, pos["collateral_value_in_loan_token"],
@@ -144,20 +166,27 @@ def analyze_pocket(s, h: Holding, holder: str, p, days: float, incident: str | N
     for e in events:
         e.tabulate()
     mc = monte_carlo(events, cap, days, p)
-    el = mc["expected_loss_usd"]
+    el = mc["expected_loss_avoidable_usd"]           # the decision only weighs what exiting can avoid
+    el_kept = mc["expected_loss_unavoidable_usd"]
     rows = []
     for e in events:
         ph = e.p_horizon(days)
         rows.append({"id": e.id, "title": e.title, "family": e.family, "target": e.target,
                      "annual_rate": e.annual_rate * e.weight, "p_horizon": ph,
                      "severity_range": [e.sev_lo, e.sev_hi], "loss_if_incident_usd": e.lgi_usd,
+                     "loss_if_incident_avoidable_usd": e.lgi_avoidable_usd,
                      "loss_if_incident_max_usd": float(e.losses.max()), "expected_loss_usd": ph * e.lgi_usd,
-                     "p_star": p_star(exit_m, e.lgi_usd), "rule": e.rule, "contagion_path": path_text(g, e.target)})
+                     "expected_loss_avoidable_usd": ph * e.lgi_avoidable_usd,
+                     "avoidable_by_exit": e.lgi_avoidable_usd >= 0.999 * e.lgi_usd if e.lgi_usd > 0 else True,
+                     "not_avoided_because": e.residual_why or None,
+                     "p_star": p_star(exit_m, e.lgi_avoidable_usd), "rule": e.rule,
+                     "contagion_path": path_text(g, e.target)})
     rows.sort(key=lambda r: -r["expected_loss_usd"])
 
-    f, _ = best_fraction(exit_m, el)
+    f, indifferent = decide(exit_m, el, p.get("decision_materiality_usd", 0.0))
     verdict = "EXIT" if f > 0 else "STAY"
-    top = next((r for r in rows if r["loss_if_incident_usd"] > 0), None)
+    top = next((r for r in sorted(rows, key=lambda r: -r["expected_loss_avoidable_usd"])
+                if r["loss_if_incident_avoidable_usd"] > 0), None)
     report = {
         "pocket": {"id": h.id, "kind": h.kind, "label": h.label, "value_usd": h.value_usd, "share_of_book": h.share_of_book,
                    "perspective": "curator" if h.details.get("whole_vault") else "holder"},
@@ -169,10 +198,19 @@ def analyze_pocket(s, h: Holding, holder: str, p, days: float, incident: str | N
         "monte_carlo": mc,
         "exit": {"f_max_now": exit_m.f_max, "cost_full_usd": exit_m.cost(max(exit_m.f_max, 1e-9)),
                  "cost_full_pct": exit_m.cost(max(exit_m.f_max, 1e-9)) / (h.value_usd or 1), **exit_m.detail},
-        "decision": {"verdict": verdict, "exit_fraction": f,
+        "coverage": coverage,
+        "decision": {"verdict": verdict, "exit_fraction": f, "indifferent": indifferent,
+                     "expected_loss_avoidable_usd": el, "expected_loss_unavoidable_usd": el_kept,
+                     "avoided_usd": el * (f if f > 0 else exit_m.f_max),
+                     "exit_cost_usd": exit_m.cost(f if f > 0 else max(exit_m.f_max, 1e-9)),
                      "sentence": (CURATOR_VIEW if h.details.get("whole_vault") else "")
                      + verdict_sentence(verdict, f, exit_m.f_max, el,
-                                        exit_m.cost(f if f > 0 else max(exit_m.f_max, 1e-9)), top, days)},
+                                        exit_m.cost(f if f > 0 else max(exit_m.f_max, 1e-9)), top, days, el_kept)
+                     + (f" ⚠ Only {pct(coverage['modelled_share'], 0)} of the vault sits in markets the engine "
+                        f"recognises: the rest is not modelled." if coverage and coverage["modelled_share"] is not None
+                        and coverage["unmodelled_share"] and coverage["unmodelled_share"] > 0.01 else "")
+                     + (f" (Exiting would save less than {usd(p.get('decision_materiality_usd', 0.0))}: the two options are "
+                        "equivalent, no action needed.)" if indifferent else "")},
         "incidents": rows,
     }
 
@@ -195,14 +233,15 @@ def incident_decision(report: dict, p, incident: str, severity: float | None = N
     if ev is None:
         raise UnknownIncident(incident)
     sev = severity if severity is not None else (ev.sev_lo + ev.sev_hi) / 2
-    lgi = max(0.0, ev.loss_fn(sev))
+    lgi, lgi_av = ev.split(sev)                      # total loss, and the part that exiting avoids
     pi = p_incident if p_incident is not None else p["incident_p_default"]
-    fi, _ = best_fraction(exit_m, pi * lgi)
-    ps = p_star(exit_m, lgi)
+    fi, _ = decide(exit_m, pi * lgi_av, p.get("decision_materiality_usd", 0.0))
+    ps = p_star(exit_m, lgi_av)
     vi = "EXIT" if fi > 0 else "STAY"
     return {
         "incident": ev.id, "title": ev.title, "severity": sev, "loss_if_incident_usd": lgi,
-        "loss_if_incident_pct": lgi / (h.value_usd or 1), "p_used": pi,
+        "loss_if_incident_pct": lgi / (h.value_usd or 1), "loss_avoidable_usd": lgi_av,
+        "not_avoided_because": (ev.residual_why or None) if lgi_av < lgi - 0.5 else None, "p_used": pi,
         "p_source": "manager" if p_incident is not None else "default hypothesis (params_v2.yaml)",
         "p_star": ps, "verdict": vi, "exit_fraction": fi, "rule": ev.rule, "contagion_path": path_text(g, ev.target),
         "contagion_edges": g.path_to(ev.target),
@@ -210,8 +249,10 @@ def incident_decision(report: dict, p, incident: str, severity: float | None = N
                      f"the pocket loses {usd(lgi)} ({pct(lgi / (h.value_usd or 1))}). Exiting now costs "
                      f"{usd(exit_m.cost(max(exit_m.f_max, 1e-9)))}"
                      + (f" and only covers {pct(exit_m.f_max, 0)} of the pocket" if exit_m.f_max < 0.999 else "")
-                     + (f". Threshold: exit if you believe there is more than a {prob(ps, 1, report['monte_carlo']['horizon_days'])} "
-                        "chance." if ps is not None
+                     + (f". Exiting avoids only {usd(lgi_av)} of it: {ev.residual_why}" if lgi_av < lgi - 0.5 else "")
+                     + (f". Threshold: exit if you believe there is more than a {pct(ps, 1)} chance it happens."
+                        if ps is not None and lgi_av > 0
+                        else ". Exiting would not avoid this loss: no reason to pay for it." if lgi_av <= 0
                         else ". Exit impossible right now (no liquidity).")),
     }
 
