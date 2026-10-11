@@ -76,6 +76,17 @@ export function useBook(holder: string, pocketId: string | null) {
   })
 }
 
+/** Real incidents replayed (frozen block): no dependency on the selected holder or pocket. */
+export function useValidation() {
+  const { source, base } = useKeyBase()
+  return useQuery({
+    queryKey: [...base, 'validation'],
+    queryFn: ({ signal }) => source.validation(signal),
+    staleTime: Infinity,
+    retry,
+  })
+}
+
 export function useIncident(holder: string, pocketId: string | null, req: IncidentRequest | null) {
   const { source, base } = useKeyBase()
   const risk = useRisk(holder, pocketId)

@@ -11,6 +11,7 @@ Routes (detailed contract + examples: docs/API.md):
     POST /holders/{holder}/pockets/{pocket}/incident     incident mode {incident, severity?, p?} → decision
     GET  /holders/{holder}/book                          the whole portfolio + shared dependencies
     GET  /books                                          curator books of config.yaml (use holder = book:<key>)
+    GET  /validation                                     real incidents replayed through the engine (offline, frozen block)
 
 `{holder}` = an address (0x…), OR "vault:0x…" (one whole vault, curator view), OR "book:<key>" (every vault of a
 curator book listed in config.yaml → curator_books).
@@ -150,6 +151,17 @@ def books() -> dict:
         out.append({"holder": f"{BOOK_PREFIX}{key}", "label": b.get("label", key), "vaults": len(vaults),
                     "source": " ".join(str(b.get("source", "")).split())})
     return {"books": out}
+
+
+@app.get("/validation")
+def validation() -> dict:
+    """Real crises replayed through the risk engine (src/risk/validation.py). Read from the committed risk report at
+    its frozen block: no RPC, so it answers even when the chain is unreachable."""
+    from risk.validation import load
+    try:
+        return _json(load())
+    except FileNotFoundError as e:
+        raise HTTPException(503, detail=f"risk report missing ({e.filename}): run `python -m risk.run`") from e
 
 
 @app.get("/holders/{holder}/pockets")

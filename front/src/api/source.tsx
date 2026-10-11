@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { api, normaliseBaseUrl } from './client'
-import { bundleFor, recordedGraph, recordedIncident, recordedRisk } from './recorded'
+import { bundleFor, recordedGraph, recordedIncident, recordedRisk, recordedValidation } from './recorded'
 import type {
   BookResponse,
   GraphResponse,
@@ -9,6 +9,7 @@ import type {
   IncidentResponse,
   PocketsResponse,
   RiskResponse,
+  ValidationResponse,
 } from './types'
 
 export type SourceMode = 'live' | 'recorded'
@@ -26,6 +27,7 @@ export interface DataSource {
   risk(holder: string, pocket: string, signal?: AbortSignal): Promise<RiskResponse | null>
   graph(holder: string, pocket: string, signal?: AbortSignal): Promise<GraphResponse | null>
   incident(holder: string, pocket: string, req: IncidentRequest, signal?: AbortSignal): Promise<IncidentResponse | null>
+  validation(signal?: AbortSignal): Promise<ValidationResponse | null>
 }
 
 function liveSource(apiUrl: string): DataSource {
@@ -37,6 +39,8 @@ function liveSource(apiUrl: string): DataSource {
     risk: (h, p, s) => api.risk(apiUrl, h, p, s),
     graph: (h, p, s) => api.graph(apiUrl, h, p, s),
     incident: (h, p, r, s) => api.incident(apiUrl, h, p, r, s),
+    // An API started before this route existed answers 404: fall back on the committed recording (same data).
+    validation: (s) => api.validation(apiUrl, s).catch((e) => (s?.aborted ? Promise.reject(e) : recordedValidation)),
   }
 }
 
@@ -49,6 +53,7 @@ function recordedSource(apiUrl: string): DataSource {
     risk: (h, p) => Promise.resolve(recordedRisk(h, p)),
     graph: (h, p) => Promise.resolve(recordedGraph(h, p)),
     incident: (h, p, r) => Promise.resolve(recordedIncident(h, p, r)),
+    validation: () => Promise.resolve(recordedValidation),
   }
 }
 

@@ -15,6 +15,8 @@ import { usePocketView, useSelection } from '../state/selection'
 
 // Belief slider on a log scale: 0.01% to 100%, where incident probabilities actually live.
 const LOG_MIN = -4
+/** Upper end of the severity slider when the calibrated range stops lower (e.g. a fiat stablecoin: 2-12 %). */
+const EXPLORE_MAX_SEVERITY = 0.5
 const toSlider = (p: number) => ((Math.log10(Math.max(p, 1e-4)) - LOG_MIN) / -LOG_MIN) * 1000
 const fromSlider = (s: number) => 10 ** (LOG_MIN + (-LOG_MIN * s) / 1000)
 
@@ -64,6 +66,8 @@ export default function IncidentSlide() {
     setSeverity(source.mode === 'live' ? (incident.severity_range[0] + incident.severity_range[1]) / 2 : undefined)
   }, [incident?.id, source.mode]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Exploration goes beyond the calibrated range (stress tests on past crises), up to 50 %, never below it.
+  const sevMax = incident ? Math.max(incident.severity_range[1], EXPLORE_MAX_SEVERITY) : EXPLORE_MAX_SEVERITY
   const req: IncidentRequest | null = incident ? { incident: incident.id, p, ...(severity !== undefined ? { severity } : {}) } : null
   const settledReq = useDebounced(req, source.mode === 'live' ? 250 : 0)
   const query = useIncident(holder, pocketId, settledReq)
@@ -199,18 +203,21 @@ export default function IncidentSlide() {
                 <input
                   id="severity"
                   type="range"
-                  min={incident.severity_range[0]}
-                  max={incident.severity_range[1]}
-                  step={(incident.severity_range[1] - incident.severity_range[0]) / 100}
+                  min={0}
+                  max={sevMax}
+                  step={sevMax / 200}
                   value={severity}
                   onChange={(e) => setSeverity(Number(e.target.value))}
-                  style={
-                    {
-                      '--fill': `${((severity - incident.severity_range[0]) / (incident.severity_range[1] - incident.severity_range[0])) * 100}%`,
-                    } as CSSProperties
-                  }
+                  style={{ '--fill': `${(severity / sevMax) * 100}%` } as CSSProperties}
                   className="slider mt-3"
                 />
+                <p className="mt-2 text-caption font-normal text-neutral1">
+                  Calibrated range {pct(incident.severity_range[0], 0)}–{pct(incident.severity_range[1], 0)} (hypothesis,
+                  used by the Monte Carlo).{' '}
+                  {severity > incident.severity_range[1] + 1e-9
+                    ? 'You are beyond it: stress test, not the calibrated case.'
+                    : `Up to ${pct(sevMax, 0)} to stress-test past crises.`}
+                </p>
               </div>
             )}
 

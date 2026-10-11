@@ -12,7 +12,9 @@ import type {
   IncidentResponse,
   PocketsResponse,
   RiskResponse,
+  ValidationResponse,
 } from './types'
+import validationRecording from '../../../docs/api_examples/validation.json'
 
 /** What the deck opens on: the RockawayX curator book (config.yaml → curator_books.rockawayx). */
 export const DEFAULT_HOLDER = 'book:rockawayx'
@@ -56,6 +58,9 @@ function recordingBundles(): Bundle[] {
 }
 
 const same = (a: string, b: string) => a.toLowerCase() === b.toLowerCase()
+
+/** Real incidents replayed by the engine (python -m risk.validation): frozen block, same for every holder. */
+export const recordedValidation = validationRecording as ValidationResponse
 
 /** Every recorded holder (one folder each under docs/api_examples/recordings/). */
 export const bundles: Bundle[] = recordingBundles()

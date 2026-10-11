@@ -262,3 +262,40 @@ export interface BookResponse extends BlockMeta {
 export interface ApiErrorBody {
   detail: string | { error: string; pockets?: { index: number; id: string; label: string }[]; incidents?: string[] }
 }
+
+/* ----------------------------------------------------------------- GET /validation (real incidents replayed) */
+
+export interface ReplayDesign {
+  design: string
+  min_hf: number
+  liquidated: boolean
+  borrower_loss_usd: number | null
+  why: string
+}
+
+export interface Replay {
+  id: string
+  title: string
+  available: boolean
+  story?: string
+  window?: { start: string; end: string }
+  onchain?: { feed: string; min_price: number; min_time: string; path: { t: number; price: number }[]; evidence: string }
+  offchain?: { evidence_url: string; as_of: string; says: string } | null
+  meta_oracle?: {
+    threshold: number
+    max_deviation: number
+    longest_above_threshold_minutes: number
+    needed_minutes: number
+    challenge_possible: boolean
+    switched: boolean
+  }
+  designs?: ReplayDesign[]
+  takeaway?: string
+}
+
+export interface ValidationResponse {
+  snapshot: { block: number; timestamp: number; time_iso: string }
+  position: { id: string; label: string; health_factor: number; equity_usd: number; oracle_drop_to_liquidation: number }
+  method: string
+  replays: Replay[]
+}

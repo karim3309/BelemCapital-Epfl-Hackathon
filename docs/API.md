@@ -96,6 +96,13 @@ The whole portfolio. → [example](api_examples/book.json)
 - `shared_dependencies[]`: **the dependencies shared by several pockets**, i.e. the hidden concentration (for example Chainlink ETH/USD in 4 pockets);
 - `skipped[]`: the pockets not supported, with the reason.
 
+### `GET /validation`
+**Real crises replayed through the risk engine** (validation, not a stress test): the real USDe price paths of
+10 October 2025 (Binance at $0.65 for ~40 min, Chainlink never below $0.9929) and of 21 February 2025, run on position A
+with three oracle designs; for each, lowest health factor, liquidated or not, loss, and a one-line takeaway. Read from
+the committed risk report at its frozen block: **needs no RPC**. → [example](api_examples/validation.json)
+(`python -m risk.validation` rewrites it; a test checks that it is up to date.)
+
 ## Recording for the offline demo
 `PYTHONPATH=src python -m stacktrace.record <holder>` calls every route above for one holder (pockets, book, risk and
 graph of every pocket, one incident example at p = 20%) and writes the answers into

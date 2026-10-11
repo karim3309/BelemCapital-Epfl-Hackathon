@@ -7,6 +7,7 @@ import type {
   IncidentResponse,
   PocketsResponse,
   RiskResponse,
+  ValidationResponse,
 } from './types'
 
 /** An HTTP error from the API, with FastAPI's `detail` kept intact. */
@@ -39,6 +40,7 @@ const TIMEOUT_MS = {
   graph: 180_000,
   incident: 90_000,
   book: 360_000,
+  validation: 20_000,
 } as const
 
 function withTimeout(ms: number, outer?: AbortSignal): AbortSignal {
@@ -124,4 +126,6 @@ export const api = {
     ),
   book: (base: string, holder: string, signal?: AbortSignal) =>
     request<BookResponse>(base, `${holderPath(holder)}/book`, TIMEOUT_MS.book, {}, signal),
+  validation: (base: string, signal?: AbortSignal) =>
+    request<ValidationResponse>(base, '/validation', TIMEOUT_MS.validation, {}, signal),
 }

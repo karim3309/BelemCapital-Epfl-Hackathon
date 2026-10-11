@@ -8,6 +8,7 @@ import ExitSlide from './slides/ExitSlide'
 import GraphSlide from './slides/GraphSlide'
 import IncidentSlide from './slides/IncidentSlide'
 import LossSlide from './slides/LossSlide'
+import ValidationSlide from './slides/ValidationSlide'
 import VerdictSlide from './slides/VerdictSlide'
 import { SLIDES, useSelection } from './state/selection'
 
@@ -51,6 +52,7 @@ export default function App() {
         <LossSlide />
         <ExitSlide />
         <IncidentSlide />
+        <ValidationSlide />
         <ConcentrationSlide />
       </main>
     </>

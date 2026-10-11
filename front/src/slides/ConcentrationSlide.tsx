@@ -16,7 +16,7 @@ const TYPE_TONE: Record<string, string> = {
   asset: C.chalk,
 }
 
-/** Slide 7: what the pockets share. A dependency in many pockets is one failure hitting many lines. */
+/** Slide 8: what the pockets share. A dependency in many pockets is one failure hitting many lines. */
 export default function ConcentrationSlide() {
   const { holder, pocketId } = useSelection()
   const { source } = useSource()

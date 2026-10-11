@@ -1,0 +1,168 @@
+{
+ "snapshot": {
+  "block": 26162087,
+  "timestamp": 1791635939,
+  "time_iso": "2026-10-10T12:38:59+00:00"
+ },
+ "position": {
+  "id": "morpho:0x5613b170ded221c588b6e9637b910f49e5508680ceede207f44aa72e5c46cb05:0x03BAbEB24619902253FDB0D5675A816879115d98",
+  "label": "PT-sUSDe collateral on Morpho Blue, USDC borrowed (position A)",
+  "health_factor": 1.0498827340388301,
+  "equity_usd": 53133.00568948506,
+  "oracle_drop_to_liquidation": 0.047512672055225136
+ },
+ "method": "Real price paths replayed through the same engine as the stress scenarios. On-chain path: every round of the Chainlink USDe/USD feed, read at the frozen block. Off-chain price (exchange order book): curated, with its source and date.",
+ "replays": [
+  {
+   "id": "R-OCT2025",
+   "title": "10 October 2025: USDe at $0.65 on Binance",
+   "story": "Crash of 10 October 2025: on the Binance order book, USDe falls to $0.65 for about forty minutes, while on-chain it stays close to $1. Binance valued this collateral with ITS own price: positions were liquidated there. What would position A have lived through?",
+   "available": true,
+   "window": {
+    "start": "2025-10-10T00:00:00+00:00",
+    "end": "2025-10-12T00:00:00+00:00"
+   },
+   "onchain": {
+    "feed": "feed_usde_usd",
+    "min_price": 0.99293808,
+    "min_time": "2025-10-10T23:04:11Z",
+    "path": [
+     {
+      "t": 1760054400,
+      "price": 1.00024884
+     },
+     {
+      "t": 1760072759,
+      "price": 1.00021067
+     },
+     {
+      "t": 1760137451,
+      "price": 0.99293808
+     },
+     {
+      "t": 1760137535,
+      "price": 0.99865662
+     },
+     {
+      "t": 1760220347,
+      "price": 1.00006811
+     }
+    ],
+    "evidence": "ChainlinkFeed.getRoundData(phase<<64|round) for 960 rounds @ 0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961 #26162087"
+   },
+   "offchain": {
+    "evidence_url": "https://www.21shares.com/it-eu/insights/why-did-ethenas-stablecoin-remain-stable-onchain-but-depegged-on-binance",
+    "as_of": "2026-10-10",
+    "says": "USDe \"briefly plunging to $0.65\" on Binance spot, recovered \"within about 40 minutes\"; closer to $1 on decentralised venues (Curve)."
+   },
+   "meta_oracle": {
+    "threshold": 0.0075,
+    "max_deviation": 0.007086943714779192,
+    "longest_above_threshold_minutes": 0.0,
+    "needed_minutes": 960.0,
+    "challenge_possible": false,
+    "switched": false
+   },
+   "designs": [
+    {
+     "design": "Real meta-oracle (fixed primary + Chainlink fallback)",
+     "min_hf": 1.0498827340388301,
+     "liquidated": false,
+     "borrower_loss_usd": 0.0,
+     "why": "max deviation 0.71% vs threshold 0.75%; above the threshold for 0.0 min (960 min needed to switch) → no switch, fixed price"
+    },
+    {
+     "design": "Market oracle on Chainlink USDe/USD",
+     "min_hf": 1.042209202823636,
+     "liquidated": false,
+     "borrower_loss_usd": 0.0,
+     "why": "Chainlink went down to $0.9929 (2025-10-10T23:04:11 UTC)"
+    },
+    {
+     "design": "Market oracle on the Binance (spot order book) price",
+     "min_hf": 0.6822540050386258,
+     "liquidated": true,
+     "borrower_loss_usd": 53133.00568948506,
+     "why": "Binance (spot order book) at $0.65 for ~40 min (curated source); on-chain the PT was still worth ~1: the liquidator buys the collateral back at a discount"
+    }
+   ],
+   "takeaway": "Same real crisis, opposite outcomes: 2 oracle design(s) hold, but Market oracle on the Binance (spot order book) price: liquidated, $53,133 lost. The source of the oracle decides who gets liquidated."
+  },
+  {
+   "id": "R-FEB2025",
+   "title": "21 February 2025: the worst deviation ever seen by the Chainlink USDe/USD feed",
+   "story": "The day the Chainlink USDe/USD feed recorded its all-time low ($0.977), for a few minutes. Replayed on position A: would the oracle have switched? would we have been liquidated?",
+   "available": true,
+   "window": {
+    "start": "2025-02-21T00:00:00+00:00",
+    "end": "2025-02-22T00:00:00+00:00"
+   },
+   "onchain": {
+    "feed": "feed_usde_usd",
+    "min_price": 0.97721024,
+    "min_time": "2025-02-21T15:45:11Z",
+    "path": [
+     {
+      "t": 1740096000,
+      "price": 0.99947433
+     },
+     {
+      "t": 1740129755,
+      "price": 0.99991843
+     },
+     {
+      "t": 1740151943,
+      "price": 0.99484071
+     },
+     {
+      "t": 1740152447,
+      "price": 0.98240092
+     },
+     {
+      "t": 1740152711,
+      "price": 0.97721024
+     },
+     {
+      "t": 1740152867,
+      "price": 0.9826089
+     },
+     {
+      "t": 1740152891,
+      "price": 0.99189441
+     },
+     {
+      "t": 1740154751,
+      "price": 0.99748951
+     }
+    ],
+    "evidence": "ChainlinkFeed.getRoundData(phase<<64|round) for 960 rounds @ 0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961 #26162087"
+   },
+   "offchain": null,
+   "meta_oracle": {
+    "threshold": 0.0075,
+    "max_deviation": 0.023052439785057954,
+    "longest_above_threshold_minutes": 38.4,
+    "needed_minutes": 960.0,
+    "challenge_possible": true,
+    "switched": false
+   },
+   "designs": [
+    {
+     "design": "Real meta-oracle (fixed primary + Chainlink fallback)",
+     "min_hf": 1.0498827340388301,
+     "liquidated": false,
+     "borrower_loss_usd": 0.0,
+     "why": "max deviation 2.31% vs threshold 0.75%; above the threshold for 38.4 min (960 min needed to switch) → no switch, fixed price"
+    },
+    {
+     "design": "Market oracle on Chainlink USDe/USD",
+     "min_hf": 1.0264957565262747,
+     "liquidated": false,
+     "borrower_loss_usd": 0.0,
+     "why": "Chainlink went down to $0.9772 (2025-02-21T15:45:11 UTC)"
+    }
+   ],
+   "takeaway": "No oracle design is liquidated: the real shock stayed below what the position can absorb (lowest health factor 1.026, liquidation below 1)."
+  }
+ ]
+}
