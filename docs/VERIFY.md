@@ -65,7 +65,7 @@ They were all called successfully at the pinned block. Those marked ⚖ were als
 | ☐ | PendleMarket + factory | `readTokens`, `factory`, `expiry`, `totalSupply`, `_storage` ⚖, `isValidMarket` | **`_storage()`: field order** cross-checked against the Pendle API (exact PT/SY reserves, identical implied rate); to be confirmed in the `PendleMarketV3` code |
 | ☐ | sUSDe (ERC-4626) | `asset`, `convertToAssets`, `totalAssets`, `cooldownDuration`, `owner` | Etherscan |
 | ☐ | ENS | `resolver(bytes32)`, `addr(bytes32)` | ENS docs |
-| ☐ | **Not verified**: Pendle TWAP feed | `market()`, `twapDuration()` (probes) | **absent from position A**: find a Morpho market that uses it and confirm (see `NEXT_STEPS.md`) |
+| ☐ | **Not verified**: Pendle TWAP feed | `market()`, `twapDuration()` (probes) | **absent from position A**: find a Morpho market that uses it and confirm (see `AUDIT.md`) |
 
 ## C bis. Risk engine (parts 2-3)
 | ☐ | Item | Value / function | Source | How to verify |

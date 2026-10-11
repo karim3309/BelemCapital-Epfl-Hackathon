@@ -635,7 +635,7 @@ Once this guide is clear to you, read in this order:
 1. [`POSITION_A.md`](POSITION_A.md): the same story with all the real numbers;
 2. [`CONTRACT.md`](CONTRACT.md): the exact format of the file delivered to the other teams;
 3. [`VERIFY.md`](VERIFY.md): what **you** must check yourselves;
-4. [`NEXT_STEPS.md`](NEXT_STEPS.md): the rest of the work.
+4. [`AUDIT.md`](AUDIT.md): what is solid, what is missing, and what comes next.
 
 And to **see** the graph in the terminal:
 ```bash

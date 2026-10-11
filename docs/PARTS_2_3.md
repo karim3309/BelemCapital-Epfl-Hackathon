@@ -1,7 +1,7 @@
 # Parts 2 and 3: what the brief asks for, what we did, where it is
 
-Sources: the Belem brief (`docs/BelemCapital_EPFL-Hackathon_DeFi-Risk-Dependency-Challenge_EN_v1.pdf`) and the
-team's framing note (`docs/Belem DeFi Risk — Cadrage & Guideline.pdf`).
+Sources: the Belem brief ([`brief/challenge-brief.pdf`](brief/challenge-brief.pdf)) and the
+team's framing note ([`brief/framing-note.pdf`](brief/framing-note.pdf)).
 The brief's grading scheme: **Discovery 30%** (part 1, already done) · **Impact estimation 30%** (part 2) ·
 **Decision usefulness 25%** (part 3) · **Demo on real data 15%**.
 
@@ -42,5 +42,5 @@ The brief's grading scheme: **Discovery 30%** (part 1, already done) · **Impact
 
 ## What is NOT done (and why)
 - **xUSD / deUSD replay (November 2025)**: we would need to find an exposed vault and its allocations from before the crisis (historical blocks, hence an archive RPC). The framing note's plan B was done instead.
-- **Position B (curated Morpho vault) and the "10-pocket book" view**: framing note bonus, not started (see `NEXT_STEPS.md`).
+- **Position B (curated Morpho vault) and the "10-pocket book" view**: done in backend v2 (`vault:0x…`, `book:rockawayx`), see [`BACKEND_V2.md`](BACKEND_V2.md). The v1 engine above stays on position A.
 - **Exploit probabilities calibrated on DeFiLlama**: paid dataset. Possible alternatives: rekt.news or a sourced manual export.

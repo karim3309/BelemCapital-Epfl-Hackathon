@@ -85,4 +85,6 @@ why the decision rests on p\*. At 3 a.m., Léa has only one question: do I belie
 
 ## Plan B if something breaks
 - Blank page → check that `npm run dev` is running, reload; force `http://localhost:5173/?source=recorded`.
+  ⚠ Recorded mode only works for a holder recorded beforehand: `PYTHONPATH=src python -m stacktrace.record book:rockawayx`
+  (with an RPC), then commit `docs/api_examples/recordings/`. Do it the day before the demo.
 - Nothing works anymore → in a terminal: `PYTHONPATH=src python -m risk.run` (risk sheet for position A, offline).

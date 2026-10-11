@@ -92,7 +92,7 @@ PYTHONPATH=src python -m discovery.validate output/graph.json
 Refreshing the data: `snapshot_block: latest` in `config.yaml` + `ETH_RPC_URL` in `.env`, run `build_graph` online, then copy the printed block number into `config.yaml` (an old block requires an archive RPC).
 
 # Risk engine (parts 2 and 3) and front
-Reference: the brief and the framing note in `docs/*.pdf`; summary in `docs/PARTS_2_3.md`.
+Reference: the brief and the framing note in `docs/brief/*.pdf`; summary in `docs/PARTS_2_3.md`.
 1. **The engine only reads** `output/graph.json` + `output/risk_inputs.json` + `risk/*.yaml`. The engine's only on-chain reads are in `src/risk/collect.py`, at the SAME block as the graph (`python -m risk.refresh` does both in one go).
 2. **No number without a status** in `risk/params.yaml`: `source` (https URL + `as_of`), `source: onchain` (+ `field`), or `hypothesis: true` (+ `why`). The loader rejects it otherwise. A numeric hypothesis carries a `range` (tested for sensitivity).
 3. **One rule per edge type** (`src/risk/propagate.py::RULES`), written in plain English. No "magic score": dollars, percentages, and the threshold p* = C_exit / loss.
@@ -109,11 +109,11 @@ PYTHONPATH=src python -m stacktrace.warmup book:rockawayx   # demo: precompute e
 cd front && npm install && npm run dev      # front → http://localhost:5173
 ```
 
-# Where we are (2026-10-10, block #26162087)
+# Where we are (2026-10-11, block #26162087)
 - Part 1 (discovery): position A, 28 nodes, 45 edges, valid contract, replayable offline.
 - Parts 2 and 3 (impact + decision): 15 scenarios, price × duration grid, Monte Carlo, replay of 10/10/2025, p* and partial exit.
 - Backend v2 (`src/stacktrace/`): any real holder → pockets, graphs, STAY / EXIT, HTTP API. Curator view: `vault:0x…` (whole vault) and `book:<key>` (curator book of `config.yaml`, e.g. `book:rockawayx`); `python -m stacktrace.record <holder>` → `docs/api_examples/recordings/` for the offline demo.
-- Front: `front/` (slide deck on top of the v2 API).
-- 139 tests.
+- Front: `front/` (slide deck on top of the v2 API), including the "validated on real crises" slide.
+- 142 tests (+2 network tests skipped offline); CI runs them on every push (`.github/workflows/ci.yml`).
 
-Read in this order: `docs/BEGINNER_GUIDE.md`, `docs/POSITION_A.md`, `docs/PARTS_2_3.md`, `docs/DEMO.md`. To verify: `docs/VERIFY.md`. Next steps: `docs/NEXT_STEPS.md`. Audits: `docs/AUDIT.md`.
+Read in this order: `docs/BEGINNER_GUIDE.md`, `docs/POSITION_A.md`, `docs/PARTS_2_3.md`, `docs/DEMO.md`. To verify: `docs/VERIFY.md`. Open findings, next steps and audit history: `docs/AUDIT.md`. Index of all docs: `docs/README.md`.
